@@ -1,0 +1,46 @@
+{% load staticfiles %}
+<header class="headroom headroom--top">
+    <a id="menu_toggle" class="" data-qa="menu_toggle_hamburger">
+        <span class="menu_icon"></span>
+        <span class="menu_label">Menu</span>
+        <span class="vert_divider"></span>
+    </a>
+    <h1 id="header_team_name" class="inline_block" data-qa="header_team_name">
+        <a href="#home">
+            <i class="ts_icon ts_icon_home"></i>
+            blackmambasoft
+        </a>
+    </h1>
+    <div class="header_nav">
+        <div class="header_btns float_right">
+            <a id="team_switcher" data-qa="team_switcher">
+                <i class="ts_icon ts_icon_th_large ts_icon_inherit"></i>
+                <span class="block label">Teams</span>
+            </a>
+            <a href="#help" id="help_link" data-qa="help_link">
+                <i class="ts_icon ts_icon_life_ring ts_icon_inherit"></i>
+                <span class="block label">Help</span>
+            </a>
+            <a href="#messages" data-qa="launch">
+                <img src="{% static 'images/ios-64.png' %}"
+                     srcset="{% static 'images/ios-32.png' %} 1x, {% static 'images/ios-64.png' %} 2x">
+                <span class="block label">Launch</span>
+            </a>
+        </div>
+        <ul id="header_team_nav">
+            <li class="active">
+                <a href="#home" target="#blackmambasoft.slack.com">
+                    <i class="ts_icon small ts_icon_check_circle_o active_icon s"></i>
+                    <i class="team_icon small default">B</i>
+                    <span class="switcher_label team_name">blackmambasoft</span>
+                </a>
+            </li>
+            <li id="add_team_option">
+                <a href="#signin" target="_top">
+                    <i class="ts_icon ts_icon_plus team_icon small"></i>
+                    <span class="switcher_label">Sign in to another team...</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</header>

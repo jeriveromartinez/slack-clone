@@ -1,0 +1,34 @@
+@font-face{font-family:appleLogo;src:local("Lucida Grande");unicode-range:U+F8FF}
+.tiny{font-size:.7rem}
+.small{font-size:.9rem}
+.no_pointer_events{pointer-events:none}
+.incoming_call_window_body{background-color:transparent;width:240px;height:100%;-webkit-app-region:drag;font-family:Slack-Lato,appleLogo,sans-serif}
+.incoming_call_window_body.no_border{zoom:reset;line-height:16px}
+#incoming_call{top:30%;text-align:center;width:240px;margin-left:0;background-color:rgba(28,28,28,.95);color:#fff;overflow:hidden;border-radius:5px}
+.no_border #incoming_call{border-radius:0}
+#incoming_call #incoming_call_window .title{font-size:12px;padding:12px 0 10px}
+#incoming_call #incoming_call_window .avatar_holder{height:240px;overflow:hidden;display:-webkit-box;display:-webkit-flex;display:-moz-flex;display:-ms-flexbox;display:flex;-ms-flex-align:center;-webkit-align-items:center;-webkit-box-align:center;-moz-align-items:center;align-items:center;-ms-flex-pack:center;-webkit-box-pack:center;-webkit-justify-content:center;-moz-justify-content:center;justify-content:center}
+#incoming_call #incoming_call_window .avatar_holder .member_image{border-radius:0;width:240px;height:240px;border-bottom:1px solid rgba(255,255,255,.1)}
+#incoming_call #incoming_call_window .avatar_holder .member_image.ra,#incoming_call #incoming_call_window .avatar_holder .member_image.ura{width:192px;height:192px;transform:scale(1.25,1.25)}
+#incoming_call #incoming_call_window .name_label_holder{font-size:18px;font-weight:700;padding:19px 0 3px;margin:0 13px;display:block;text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+#incoming_call #incoming_call_window .type_label_holder{padding-bottom:10px}
+#incoming_call #incoming_call_window .type_label_holder .type_label{font-size:13px;opacity:.6}
+#incoming_call #incoming_call_window .type_label_holder .type_label.type_label_fade{position:absolute;left:0;right:0;width:240px;animation:6.25s linear infinite incoming_window_label_slide_and_fade}
+#incoming_call #incoming_call_window .type_label_holder .type_label.type_label_fade.type_label_fade_delay{opacity:0;animation-delay:-3.125s}
+#incoming_call #incoming_call_window .button_holder{padding-bottom:24px}
+#incoming_call #incoming_call_window .button_holder a{border-radius:40px;width:45px;height:45px;display:inline-block;color:#fff;padding-top:13px;-webkit-app-region:no-drag;box-shadow:0 1px 1px 0 rgba(0,0,0,.2)}
+#incoming_call #incoming_call_window .button_holder a::before{font-size:25px}
+#incoming_call #incoming_call_window .button_holder a:not(:last-child){margin-right:16px}
+#incoming_call #incoming_call_window .button_holder a.accept{background-color:#53b987}
+#incoming_call #incoming_call_window .button_holder a.accept:hover{background-color:#63d19b}
+#incoming_call #incoming_call_window .button_holder a.accept:active{background-color:#3da472}
+#incoming_call #incoming_call_window .button_holder a.reject{background-color:#eb4d5c}
+#incoming_call #incoming_call_window .button_holder a.reject::before{position:relative;top:2px}
+#incoming_call #incoming_call_window .button_holder a.reject:hover{background-color:#ff5f6e}
+#incoming_call #incoming_call_window .button_holder a.reject:active{background-color:#de3f4e}
+@keyframes incoming_window_label_slide_and_fade{0%,35%{opacity:.6}
+45%{opacity:0;margin-top:0}
+51%{margin-top:-5px}
+90%{opacity:0;margin-top:-5px}
+100%{opacity:.6;margin-top:0}
+}

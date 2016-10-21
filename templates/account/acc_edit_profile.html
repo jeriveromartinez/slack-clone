@@ -1,0 +1,206 @@
+{% extends 'site_template/template.html' %}
+{% load staticfiles %}
+{% block styles %}
+    <link href="{% static 'css/client/rollup-client_core.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/client/rollup-client_primary.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/client/rollup-client_general.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/client/rollup-client_secondary.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block body_style %}feature_channel_name_menu light_theme{% endblock %}
+{% block js %}
+    {{ block.super }}
+{% endblock %}
+{% block header %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block container %}
+    <div id="fs_modal" class="fs_modal_header fs_modal_footer active">
+
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn" href="{% url 'account:profile' %}">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+        <div id="fs_modal_header"><h3>Edit your profile</h3></div>
+
+        <form method="post" accept-encoding="UTF-8">
+            {% csrf_token %}
+            <div class="contents_container">
+
+                <div class="contents">
+                    <div id="edit_member_profile_container">
+                        <div class="hidden_file_input">
+                            <input accept="image/*;capture=camera" type="file">
+                        </div>
+
+                        <section id="edit_member_profile_loading" class="hidden">
+                            <div class="loading_hash_animation">
+                                <img src="{{ request.user. }}"
+                                     alt="Loading"
+                                     srcset="{% static 'images/loading_hash_animation.gif' %} 1x, {% static 'images/loading_hash_animation.gif' %} 2x">
+                                <br>loading...
+                            </div>
+                        </section>
+
+                        <section id="edit_member_profile_list"
+                                 class="display_flex flex_direction_column very_large_bottom_margin">
+                            <div class="edit_profile_drop_overlay hidden"></div>
+                            <div class="clearfix display_flex flex_wrap position_relative">
+                                <p class="col span_2_of_3">
+                                    {{ form.first_name.label }}
+                                    {{ form.first_name }}
+                                </p>
+                                <div id="edit_member_profile_photo_container" class="col">
+                                    <label for="first_name">Profile photo</label>
+                                    <div class="member_image_wrapper" data-action="edit_member_profile_photo_menu">
+                                        <ts-icon class="upload_camera_icon ts_icon_camera">
+                                        <span class=" member_preview_link member_image thumb_192"
+                                              style="background-image: url({% static 'images/ava_0021-512.png' %})"></span>
+                                        </ts-icon>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix">
+                                <p class="col span_2_of_3">
+                                    {{ form.last_name.label }}
+                                    {{ form.last_name }}
+                                </p>
+                            </div>
+
+                            <div class="clearfix">
+                                <p class="col span_2_of_3">
+                                    {{ form.email.label }}
+                                    {{ form.email }}
+                                </p>
+                            </div>
+
+                            {% comment %}<div class="clearfix">
+                            <p class="col span_2_of_3">
+                                <label for="phone">Phone number</label>
+                                <input class="no_bottom_margin" name="phone" placeholder="(123) 555-5555"
+                                       data-validation="maxlength=98" type="text">
+                                <span class="input_note">Enter a phone number.</span>
+                            </p>
+                        </div>
+
+                        <div class="clearfix">
+                            <p class="col span_1_of_1 no_padding">
+                                <label for="Xf2KQBN45Q">Skype</label>
+                                <input class="no_bottom_margin" name="Xf2KQBN45Q" placeholder="Skype" data-qa="Skype"
+                                       data-validation="maxlength=256" type="text">
+                                <span class="input_note">This will be displayed on your profile.</span>
+                            </p>
+                        </div>{% endcomment %}
+                        </section>
+
+
+                        <section id="edit_member_profile_photo_upload"
+                                 class="display_flex flex_direction_column very_large_bottom_margin align_center hidden">
+                            <div class="edit_member_profile_photo__modal_container">
+                                <div id="edit_member_profile_progress_circle" class="photo_well align_center"></div>
+
+                                <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
+                                    <button id="edit_member_profile_cancel_photo_upload_btn"
+                                            class="col btn btn_large btn_outline"
+                                            data-action="edit_member_profile_cancel_photo">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="edit_member_profile_photo_crop"
+                                 class="display_flex flex_direction_column very_large_bottom_margin align_items_center hidden">
+                            <div class="edit_member_profile_photo__crop_container edit_member_profile_photo__modal_container">
+                                <img id="edit_member_profile_photo">
+                                <div id="edit_member_profile_photo_preview"></div>
+                                <input name="cropbox" id="cropbox" value="" type="hidden">
+                            </div>
+
+                            <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap full_width">
+                                <button id="edit_member_profile_cancel_photo_crop_btn"
+                                        class="col btn btn_large btn_outline"
+                                        data-action="edit_member_profile_cancel_photo">Cancel
+                                </button>
+                                <button id="edit_member_profile_confirm_photo_crop_btn" type="submit"
+                                        class="col btn btn_large ladda-button" data-style="expand-right"
+                                        data-action="edit_member_profile_confirm_photo_crop">Save Profile Photo
+                                </button>
+                            </div>
+                        </section>
+
+                        <section id="edit_member_profile_photo_delete" class="hidden">
+                            <div class="edit_member_profile_photo__modal_container">
+                                <p class="small center_and_narrow">Are you sure you want to remove your photo?<br>We'll
+                                    replace it with a default Slack avatar.</p>
+
+                                <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
+                                    <button id="edit_member_profile_cancel_photo_delete_btn"
+                                            class="col btn btn_large btn_outline"
+                                            data-action="edit_member_profile_cancel_photo">Cancel
+                                    </button>
+                                    <button id="edit_member_profile_confirm_photo_delete_btn" type="submit"
+                                            class="col btn btn_large btn_danger ladda-button" data-style="expand-right"
+                                            data-action="edit_member_profile_confirm_photo_delete">Yes, Remove Photo
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="edit_member_profile_photo_format_error" class="hidden">
+                            <div class="edit_member_profile_photo__modal_container">
+                                <p class="small photo_well align_center"><span class="emoji emoji-sizer"
+                                                                               style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f633.png)"></span><br><strong>Profile
+                                    photos must be<br>GIFs, JPGs or PNGs.</strong></p>
+
+                                <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
+                                    <button id="edit_member_profile_cancel_photo_format_error_btn"
+                                            class="col btn btn_large btn_outline"
+                                            data-action="edit_member_profile_cancel_photo">Cancel
+                                    </button>
+                                    <button id="edit_member_profile_retry_photo_format_error_btn" type="submit"
+                                            class="col btn btn_large btn_info ladda-button" data-style="expand-right"
+                                            data-action="edit_member_profile_photo_menu">Try a different image
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section id="edit_member_profile_photo_oversize_error" class="hidden">
+                            <div class="edit_member_profile_photo__modal_container">
+                                <p class="small photo_well align_center"><span class="emoji emoji-sizer"
+                                                                               style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f61f.png)"></span><br><strong>That's
+                                    a very nice photo, but<br>it's a bit too big. Try one<br>that's smaller than
+                                    4000px<br>tall
+                                    by 4000px wide.</strong></p>
+
+                                <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
+                                    <button id="edit_member_profile_cancel_photo_oversize_error_btn"
+                                            class="col btn btn_large btn_outline"
+                                            data-action="edit_member_profile_cancel_photo">Cancel
+                                    </button>
+                                    <button id="edit_member_profile_retry_photo_oversize_error_btn" type="submit"
+                                            class="col btn btn_large btn_info ladda-button" data-style="expand-right"
+                                            data-action="edit_member_profile_photo_menu">Try a different image
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+
+            <div id="fs_modal_footer">
+                <button class="btn btn_outline dialog_cancel ">Cancel</button>
+                <button class="btn left_margin dialog_go edit_member_profile_confirm_edit_btn ladda-button "><span
+                        class="ladda-label">Save Changes</span><span class="ladda-spinner"></span></button>
+            </div>
+        </form>
+
+
+    </div>
+{% endblock %}
+{% block footer %}{% endblock %}

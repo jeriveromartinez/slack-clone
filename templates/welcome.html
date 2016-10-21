@@ -1,0 +1,348 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>Slack: Be less busy</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/welcome.css' %}">
+    <link id="favicon" rel="shortcut icon" href="{% static 'images/favicon-32.png' %}" sizes="16x16 32x32 48x48"
+          type="image/png">
+    <link rel="icon" href="{% static 'images/app-256.png' %}" sizes="256x256" type="image/png">
+    {% comment %}<link rel="apple-touch-icon-precomposed" sizes="152x152" href="https://a.slack-edge.com/66f9/img/icons/ios-152.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://a.slack-edge.com/66f9/img/icons/ios-144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://a.slack-edge.com/66f9/img/icons/ios-120.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://a.slack-edge.com/66f9/img/icons/ios-114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://a.slack-edge.com/0180/img/icons/ios-72.png">
+    <link rel="apple-touch-icon-precomposed" href="https://a.slack-edge.com/66f9/img/icons/ios-57.png">{% endcomment %}
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage"
+          content="{% static 'images/app-256.png' %}{% comment %}app-144.png{% endcomment %}">
+
+</head>
+<body class="story marsandbeyond start_animation">
+{% comment %}<nav class="top no_sticky" data-no-scroll="1">
+
+
+    <a href="index.html" class="logo" data-qa="logo" data-clog-event="WEBSITE_CLICK"
+       data-clog-params="click_target=nav_logo" aria-label="Slack homepage" indepth="true"></a>
+    <ul>
+        <li><a href="is_001.html" data-qa="product" data-clog-event="WEBSITE_CLICK"
+               data-clog-params="click_target=nav_product" indepth="true">Product</a></li>
+        <li><a href="pricing_009.html" data-qa="pricing" data-clog-event="WEBSITE_CLICK"
+               data-clog-params="click_target=nav_pricing" indepth="true">Pricing</a></li>
+        <li><a href="https://get.slack.help/hc/en-us" data-qa="support" data-clog-event="WEBSITE_CLICK"
+               data-clog-params="click_target=nav_support">Support</a></li>
+
+        <li class="mobile_btn download_slack"><a href="https://slack.com/downloads" data-qa="download_slack"
+                                                 data-clog-event="WEBSITE_CLICK"
+                                                 data-clog-params="click_target=nav_download">Download Slack</a></li>
+        <li>
+            <a class="has_icon" href="#"
+               data-qa="team_name">
+                <ts-icon class="team_icon small default">B</ts-icon>
+                <span class="team_name">blackmambasoft</span>
+            </a>
+        </li>
+        <li><a class="btn_sticky signup_dropdown_btn" id="ellipsis_menu" data-clog-event="WEBSITE_CLICK"
+               data-clog-params="click_target=nav_ellipsis_menu_btn">
+            <ts-icon class="ts_icon ts_icon_ellipsis"></ts-icon>
+        </a></li>
+        <li class="mobile_btn mobile_menu_btn">
+            <a href="#" class="btn_sticky">Menu</a>
+        </li>
+    </ul>
+
+    <div class="menu hide_on_mobile" id="signup_dropdown">
+        <div id="menu_items_scroller">
+            <ul id="menu_items">
+
+
+                <li id="add_team_option"><a href="#/signin" class="opt_nav_signin">
+                    <ts-icon class="ts_icon small team_icon ts_icon_plus default neutral_white subtle_silver_bg">
+                    </ts-icon>
+                    <span class="switcher_label">Sign in to another team...</span></a></li>
+                <li class="divider"></li>
+                <li id="create_team_option"><a href="#/create" class="opt_nav_create">
+                    <ts-icon
+                            class="ts_icon small team_icon ts_icon_slack_pillow default neutral_white subtle_silver_bg"></ts-icon>
+                    <span class="switcher_label">Create a new team...</span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>{% endcomment %}
+
+<nav class="mobile_menu tiered_signup" aria-hidden="true">
+    <div class="mobile_menu_wrapper">
+        <div class="mobile_menu_header">
+            <a href="index.html" class="logo" indepth="true"></a>
+            <a href="#" class="close" aria-label="close">
+                <ts-icon class="ts_icon ts_icon_times"></ts-icon>
+            </a>
+        </div>
+        <ul>
+            <li><a href="is_001.html" indepth="true">Product</a></li>
+            <li><a href="pricing_009.html" indepth="true">Pricing</a></li>
+            <li><a href="#/get.slack.help/hc/en-us">Support</a></li>
+            <li><a href="#/slack.com/downloads">Download <span class="optional_desktop_nav_message">the Slack app</span></a>
+            </li>
+        </ul>
+
+        <ul class="mobile_menu_footer">
+            <li><a href="#/blackmambasoft.slack.com/" target="#/blackmambasoft.slack.com/">
+                <ts-icon class="team_icon float_none small default">B</ts-icon>
+                <span class="switcher_label">blackmambasoft</span>
+            </a></li>
+
+            <li><a href="#/signin" class="opt_nav_signin">
+                <ts-icon class="ts_icon small float_none team_icon ts_icon_plus default signup_icon"></ts-icon>
+                <span class="switcher_label">Sign in to another team</span></a></li>
+
+            <li><a href="#/create" class="ga_track_signup opt_nav_create cta_track">
+                <ts-icon class="ts_icon small float_none team_icon ts_icon_slack_pillow default signup_icon"></ts-icon>
+                <span class="switcher_label">Create a new team</span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="cover signup_c marsandbeyond no_padding ">
+    <div id="story" class="marsandbeyond signup signup_a signup_c top top_story_header ">
+        <div class="mini_gradient"></div>
+        <div class="cta_ad">
+            <h1 class="cta_story_header">
+                <div class="hide_from_all">
+                    <img class="underline_path underline_robots_image"
+                         src="{% static 'images/underlines_robots.png' %}">
+                    <img class="underline_path underline_mars_image" src="{% static 'images/underlines_mars.png' %}">
+
+
+                </div>
+                <span class="cta_story_header_first">A messaging app for teams <span
+                        class="typed-cursor typed_remove hidden hide">|</span></span> <span class="typewriter">
+				<span class="">
+					<span class="cta_story_header_second">who put <span class="callout_copy"> <span
+                            class="underline_robots">robots<svg class="underline_path underline_robots_path"
+                                                                width="186px" height="22px" viewBox="-4 0 186 22"
+                                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M0,4.8768025 C8.69922932,4.8768025 121.382104,2 168.792189,2 C216.202275,2 26.3856446,8.23981271 16.7336426,15.4152269 C9.77598573,19.2017481 98.4125824,15.4152269 139.865845,15.4152269"
+                          id="underlines-robots" transform="rotate(1)"></path>
+				</svg></span> on <span class="underline_mars">Mars<svg class="underline_path underline_mars_path"
+                                                                       width="152px" height="30px" viewBox="-4 4 152 30"
+                                                                       version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                                       xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M14.2599771,5.60973053 C31.9753286,5.60973053 134.923583,2 142.842807,2 C150.76203,2 7.82087541,13.5432583 0.293497417,17.1726873 C-7.23388058,20.8021162 132.46385,10.108351 139.760731,14.1834561 C147.057611,18.2585612 60.8022892,26.0074166 60.8022892,26.0074166"
+                          id="underlines-mars" transform="rotate(2)"></path>
+				</svg></span> </span> </span> <i class="exclamation_points exclamation_point_1"> <span
+                        class="exclamation_point_1_dot"> </span> </i> <i class="exclamation_points exclamation_point_2"> <span
+                        class="exclamation_point_2_dot"> </span> </i>
+				</span>
+			</span><span class="typed-cursor hide">|</span>
+                <div class="typewriter_copy offscreen">
+				<span class="">
+					<span class="cta_story_header_second">w^75h^75o put <span class="callout_copy"> <span
+                            class="underline_robots">robots^300<svg class="underline_path underline_robots_path"
+                                                                    width="186px" height="22px" viewBox="-4 0 186 22"
+                                                                    version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                                    xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M0,4.8768025 C8.69922932,4.8768025 121.382104,2 168.792189,2 C216.202275,2 26.3856446,8.23981271 16.7336426,15.4152269 C9.77598573,19.2017481 98.4125824,15.4152269 139.865845,15.4152269"
+                          id="underlines-robots" transform="rotate(1)"></path>
+				</svg></span> on^300 <span class="underline_mars">Mars<svg class="underline_path underline_mars_path"
+                                                                           width="152px" height="30px"
+                                                                           viewBox="-4 4 152 30" version="1.1"
+                                                                           xmlns="http://www.w3.org/2000/svg"
+                                                                           xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M14.2599771,5.60973053 C31.9753286,5.60973053 134.923583,2 142.842807,2 C150.76203,2 7.82087541,13.5432583 0.293497417,17.1726873 C-7.23388058,20.8021162 132.46385,10.108351 139.760731,14.1834561 C147.057611,18.2585612 60.8022892,26.0074166 60.8022892,26.0074166"
+                          id="underlines-mars" transform="rotate(2)"></path>
+				</svg></span> </span> </span> <i class="exclamation_points exclamation_point_1">
+                    <span class="exclamation_point_1_dot"> </span> </i>
+                    <i class="exclamation_points exclamation_point_2">
+                        <span class="exclamation_point_2_dot"> </span> </i>
+				</span>
+                </div>
+                <div class="typewriter_copy_mobile">
+				<span class="no_wrap">
+					<span class="cta_story_header_second">who put <span class="callout_copy"> <span
+                            class="underline_robots">robots<svg class="underline_path underline_robots_path"
+                                                                width="186px" height="22px" viewBox="-4 0 186 22"
+                                                                version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M0,4.8768025 C8.69922932,4.8768025 121.382104,2 168.792189,2 C216.202275,2 26.3856446,8.23981271 16.7336426,15.4152269 C9.77598573,19.2017481 98.4125824,15.4152269 139.865845,15.4152269"
+                          id="underlines-robots" transform="rotate(1)"></path>
+				</svg></span> on <span class="underline_mars">Mars
+                        <svg class="underline_path underline_mars_path"
+                             width="152px" height="30px" viewBox="-4 4 152 30"
+                             version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+					<path d="M14.2599771,5.60973053 C31.9753286,5.60973053 134.923583,2 142.842807,2 C150.76203,2 7.82087541,13.5432583 0.293497417,17.1726873 C-7.23388058,20.8021162 132.46385,10.108351 139.760731,14.1834561 C147.057611,18.2585612 60.8022892,26.0074166 60.8022892,26.0074166"
+                          id="underlines-mars" transform="rotate(2)"></path>
+				</svg></span> </span> </span> <i class="exclamation_points exclamation_point_1"> <span
+                        class="exclamation_point_1_dot"> </span> </i> <i class="exclamation_points exclamation_point_2"> <span
+                        class="exclamation_point_2_dot"> </span> </i>
+				</span>
+                </div>
+
+            </h1>
+            <div class="cta_container">
+                <div class="cta_subheader">The team behind the <strong>Mars Curiosity Rover</strong> is one of tens of
+                    thousands of teams around the world using <strong>Slack</strong> to make their working lives
+                    simpler, more pleasant, and more productive.
+                </div>
+                <div class="cta">
+                    <!--screen-->
+                    <form action="#/create" method="post" class="cta_form align_middle" novalidate="">
+                        <span class="cta_input_email_wrapper">
+                            <input name="email" spellcheck="false" id="inline_input" placeholder="Email address"
+                                   class="input_email input_inline small_right_margin" type="email">
+                        </span>
+                        <button type="submit" class="btn align_top ga_track_signup">
+                            Create New Team
+                        </button>
+                    </form>
+
+                    <span class="cta_footer">Your team already uses Slack?
+                        <a href="{% url 'login' %}" class="opt_cta_signin">Sign in</a> or
+                        <a href="{% url 'find_team' %}" class="opt_cta_find">find your team</a>.</span>
+                </div>
+            </div>
+        </div>
+        <div id="story_location">
+            <strong><a href="http://mars.nasa.gov/msl" target="_top">Curiosity Rover</a></strong><br>
+            <a href="https://www.google.com/mars/#lat=-4.565473&amp;lon=-222.448435&amp;zoom=4&amp;q=curiosity">
+                <ts-icon class="ts_icon_location_pin ts_icon_inherit" aria-hidden="true"></ts-icon>
+                Mars, the Milky Way</a></div>
+    </div>
+
+    <div class="marsandbeyond signup signup_a signup_c top top_story_header_mobile">
+        <div class="cta">=
+            <form action="#/create" method="post" class="cta_form align_middle" novalidate="">
+                <span class="cta_input_email_wrapper">
+                    <input name="email" spellcheck="false" id="inline_input" placeholder="Email address"
+                           class="input_email input_inline small_right_margin" type="email">
+                </span>
+                <button type="submit" class="btn align_top ga_track_signup">
+                    Create New Team
+                </button>
+            </form>
+
+            <span class="cta_footer">Your team already uses Slack?<br>
+                <a href="{% url 'login' %}" class="opt_cta_signin">Sign in</a> or
+                <a href="{% url 'find_team' %}" class="opt_cta_find">find your team</a>.</span>
+        </div>
+        <div class="cta_subheader">The team behind the <strong>Mars Curiosity Rover</strong> is one of tens of thousands
+            of teams around the world using <strong>Slack</strong> to make their working lives simpler, more pleasant,
+            and more productive.
+        </div>
+    </div>
+
+    <footer class="footer_dark">
+        {% comment %}<section class="links">
+            <div class="grid">
+                <div class="col span_1_of_4 nav_col">
+                    <ul>
+                        <li class="cat_1">Using Slack</li>
+                        <li><a href="is_001.html" data-qa="product_footer" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_product" indepth="true">Product</a></li>
+                        <li><a href="pricing_009.html" data-qa="pricing_footer" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_pricing" indepth="true">Pricing</a></li>
+                        <li><a href="https://get.slack.help/hc/en-us" data-qa="support_footer"
+                               data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_support">Support</a></li>
+                        <li><a href="guides.html" data-qa="getting_started" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_getting_started" indepth="true">Slack Guides</a>
+                        </li>
+                        <li><a href="videoguides.html" data-qa="video_guides" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_video_guides" indepth="true">Video Guides</a></li>
+                        <li><a href="apps.html" data-qa="app_directory" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_app_directory" indepth="true">App Directory</a>
+                        </li>
+                        <li><a href="default.html" data-qa="api" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_api" indepth="true">API</a></li>
+                    </ul>
+                </div>
+                <div class="col span_1_of_4 nav_col">
+                    <ul>
+                        <li class="cat_2">Slack
+                            <ts-icon class="ts_icon_heart"></ts-icon>
+                        </li>
+                        <li><a href="jobs_001.html" data-qa="jobs" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_jobs" indepth="true">Jobs</a></li>
+                        <li><a href="customers_001.html" data-qa="customers" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_customers" indepth="true">Customers</a></li>
+                        <li><a href="developers_001.html" data-qa="developers" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_developers" indepth="true">Developers</a></li>
+                        <li><a href="events_002.html" data-qa="events" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_events" indepth="true">Events</a></li>
+                        <li><a href="default_001.html" data-qa="blog_footer" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_blog" indepth="true">Blog</a></li>
+                        <li><a href="varietypack_027.html" data-qa="podcast" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_podcast" indepth="true">Podcast</a></li>
+                        <li><a href="https://slack-shop.myshopify.com/" data-qa="slack_shop"
+                               data-clog-event="WEBSITE_CLICK" data-clog-params="click_target=footer_slack_shop">Slack
+                            Shop</a></li>
+                    </ul>
+                </div>
+                <div class="col span_1_of_4 nav_col">
+                    <ul>
+                        <li class="cat_3">Legal</li>
+                        <li><a href="https://slack.com/privacy-policy" data-qa="privacy" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_privacy">Privacy</a></li>
+                        <li><a href="https://slack.com/security" data-qa="security" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_security">Security</a></li>
+                        <li><a href="https://slack.com/terms-of-service" data-qa="tos" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_tos">Terms of Service</a></li>
+                        <li><a href="https://slack.com/policies" data-qa="policies" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_policies">Policies</a></li>
+                    </ul>
+                </div>
+                <div class="col span_1_of_4 nav_col">
+                    <ul>
+                        <li class="cat_4">Handy Links</li>
+                        <li><a href="https://slack.com/downloads" data-qa="downloads" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_downloads">Download desktop app</a></li>
+                        <li><a href="https://slack.com/downloads" data-qa="downloads_mobile"
+                               data-clog-event="WEBSITE_CLICK" data-clog-params="click_target=footer_downloads_mobile">Download
+                            mobile app</a></li>
+                        <li><a href="https://slack.com/brand-guidelines" data-qa="brand_guidelines"
+                               data-clog-event="WEBSITE_CLICK" data-clog-params="click_target=footer_brand_guidelines">Brand
+                            Guidelines</a></li>
+                        <li><a href="http://slackatwork.com/" data-qa="slack_at_work" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_slack_at_work">Slack at Work</a></li>
+                        <li><a href="https://status.slack.com/" data-qa="status" data-clog-event="WEBSITE_CLICK"
+                               data-clog-params="click_target=footer_status">Status</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>{% endcomment %}
+
+        {% comment %}<div class="footnote">
+            <section>
+                <a href="index.html" aria-label="Slack homepage" data-clog-event="WEBSITE_CLICK"
+                   data-clog-params="click_target=footer_slack_icon" indepth="true">
+                    <ts-icon class="ts_icon_slack_pillow" aria-hidden="true"></ts-icon>
+                </a>
+                <ul>
+                    <li>
+                        <a href="https://slack.com/help/contact" data-qa="contact_us" data-clog-event="WEBSITE_CLICK"
+                           data-clog-params="click_target=footer_contact_us">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/SlackHQ" data-qa="slack_twitter" data-clog-event="WEBSITE_CLICK"
+                           data-clog-params="click_target=footer_slack_twitter" aria-label="Slack on Twitter">
+                            <ts-icon class="ts_icon_twitter" aria-hidden="true"></ts-icon>
+                        </a>
+                    </li>
+                    <li class="yt">
+                        <a href="https://www.youtube.com/channel/UCY3YECgeBcLCzIrFLP4gblw" data-qa="slack_youtube"
+                           data-clog-event="WEBSITE_CLICK" data-clog-params="click_target=footer_slack_youtube"
+                           aria-label="Slack on YouTube">
+                            <ts-icon class="ts_icon_youtube" aria-hidden="true"></ts-icon>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </div>{% endcomment %}
+    </footer>
+    <div class="gradient"></div>
+</div>
+</body>
+</html>

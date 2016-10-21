@@ -1,0 +1,79 @@
+{% load staticfiles %}
+<div id="menu" class="menu slack_menu team_menu fade in hidden" style="top: 55px; left: 10px; opacity: 1;">
+    <div class="popover_mask"></div>
+    <div class="menu_content">
+        <div id="menu_header" class="hidden"></div>
+        <div id="monkey_scroll_wrapper_for_menu_items_scroller" class="monkey_scroll_wrapper ">
+            <div class="monkey_scroll_bar  hidden" style="margin-left: 258px;">
+                <div class="monkey_scroll_handle " style="left: -3px;">
+                    <div class="monkey_scroll_handle_inner "></div>
+                </div>
+            </div>
+            <div class="monkey_scroll_hider" style="width: 100%;">
+                <div id="menu_items_scroller" class="monkey_scroller" style="max-height: 569px; width: 270px;">
+                    <div class="menu_body">
+
+                        <section class="slack_menu_you slack_menu_section" aria-label="you">
+                            <h2 class="slack_menu_header">
+                                <a href="#/team/jeriverom"
+                                   class="member_preview_link member_image thumb_36"
+                                   style="background-image:
+                                           url({{ MEDIA_URL }}{{ request.user.profile.image }}),
+                                           url({% static 'images/default_avatar.jpg' %})"></a>
+
+                                <span class="current_user_name slack_menu_header_primary overflow_ellipsis">{{ request.user.username }}</span>
+                                <span class="current_name slack_menu_header_secondary overflow_ellipsis">@{{ request.user.username }}</span>
+                            </h2>
+
+                            <ul class="menu_list">
+                                <li id="member_account_item">
+                                    <a href="{% url 'account:profile' %}" tabindex="0">Profile &amp; account</a>
+                                </li>
+                                <li id="member_prefs_item"><a href="{% url 'account:settings' %}">Preferences</a></li>
+                                {% comment %}<li id="member_presence">
+                                    <a>
+                                        <span class="menu_item_label">[Away] Set yourself to <strong>active</strong></span>
+                                    </a>
+                                </li>
+                                <li id="team_help"><a href="#/help">Help &amp; feedback</a></li>{% endcomment %}
+                            </ul>
+                        </section>
+
+                        <section class="slack_menu_current_team slack_menu_section" aria-label="current team">
+                            <h2 class="slack_menu_header">
+                                <ts-icon
+                                        class="team_icon small default">{{ request.user.profile.company.name|make_list|first|upper }}</ts-icon>
+                                <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.profile.company.name }}</span>
+                                <span class="current_team_name slack_menu_header_secondary overflow_ellipsis">slack.com/{{ request.user.profile.company.name }}</span>
+                            </h2>
+                            <ul class="menu_list">
+                                <li id="team_invitations"><a href="#/admin/invites">Invite people</a></li>
+                                {% comment %}<li id="team_services"><a href="#/apps">Apps &amp; integrations</a></li>
+                                <li id="team_customize" role="menuitem"><a href="#/customize">Customize Slack</a></li>
+                                <li id="team_statistics" role="menuitem"><a href="#/stats">Statistics</a></li>{% endcomment %}
+                                <li id="logout" class="logout_url">
+                                    <a href="{% url 'logout' %}">Sign out of
+                                        <strong>{{ request.user.profile.company.name }}</strong></a>
+                                </li>
+                            </ul>
+                        </section>
+                        {% comment %}<section class="slack_menu_your_teams slack_menu_section" aria-label="other team accounts">
+                            <ul class="menu_list">
+                                <li id="add_team"><a href="{% url 'login' %}"> Sign in to another team …</a></li>
+                            </ul>
+                        </section>{% endcomment %}
+                        {% comment %}<section class="slack_menu_download slack_menu_section" aria-label="download apps">
+                            <ul class="menu_list">
+                                <li id="team_apps">
+                                    <a href="#/downloads" class="download_link bold">Download the Slack app…</a>
+                                </li>
+                            </ul>
+                        </section>{% endcomment %}
+                    </div>
+                    <ul id="menu_items" role="menu" no-bootstrap="1" class="hidden"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="menu_footer"></div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+{% extends 'account/settigns_template.html' %}
+{% load staticfiles tz %}
+{% block settings %}
+    <section class="tab_pane selected clearfix" data-tab="profile">
+        <div id="member_preview_web_container">
+            <div class="member_details clearfix display_flex flex_direction_column align_items_center">
+                <span class=" member_preview_link member_image thumb_512"
+                      style="background-image: url({% static 'images/ava_0021-512.png' %}), url({% static 'images/ava_0022-48.png' %})"
+                ></span>
+                <div class="member_name_and_presence lato">
+                    <span class="member_name">{{ request.user.name }}</span>
+                    <span class="presence away" title="away">
+                        <i class="ts_icon ts_icon_presence presence_icon"></i>
+                    </span>
+                </div>
+                <div class="member_action_bar">
+                    <a href="{% url 'account:profile_edit' %}" class="btn btn_outline">Edit Profile</a>
+                    <a href="#/account/settings" class="btn btn_outline">Account Settings</a>
+                </div>
+                <hr class="member_details_divider">
+                <table class="member_data_table lato">
+                    <tbody>
+                    <tr>
+                        <td><span class="small_right_padding old_petunia_grey"
+                                  title="Username">{{ request.user.username }}</span></td>
+                        <td><span title="@jeriverom">@{{ request.user.username }}</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="small_right_padding old_petunia_grey" title="Timezone">Timezone</span></td>
+                        <td class="member_preview_timezone"><span class="timezone_label">
+                            <span class="timezone_value">{% now "P" %}</span> local time</span>
+                            (<a
+                                    href="{% url 'account:settings' %}" target="_self">change</a>)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="small_right_padding old_petunia_grey" title="Email">Email</span></td>
+                        <td><a href="mailto:{{ request.user.email }}"
+                               title="Email {{ request.user.username }}">{{ request.user.email }}</a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <div class="clear_both"></div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

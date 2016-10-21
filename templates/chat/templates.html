@@ -1,0 +1,35 @@
+{% extends 'site_template/base.html' %}
+
+{% load staticfiles %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_core.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_primary.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_secondary.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/incoming_call.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/main.css' %}">
+{% endblock %}
+
+{% block body_style %}feature_channel_name_menu light_theme{% endblock %}
+
+{% block id_container %}client-ui{% endblock %}
+{% block class_container %}container-fluid sidebar_theme_default flex_pane_showing{% endblock %}
+
+{% block container %}
+    <script>
+        var userlogged = '{{ request.user.username }}',
+                companyuser = '{{ request.user.profile.company.slug }}';
+    </script>
+    {% include 'chat/header.html' %}
+    {% include 'chat/body.html' %}
+    {% include 'chat/view_right.html' %}
+    {% include 'chat/menu.html' %}
+    {% include 'chat/menu_right.html' %}
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/chat.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,423 @@
+{% load staticfiles %}
+<div id="client_body">
+    <div id="col_messages">
+        <div class="row-fluid">
+            <div id="col_channels_bg" style="z-index: 0;"></div>
+            <div id="col_channels_overlay" class="onboarding_overlay hidden">
+                <div class="overlay_mock_text forty_percent_width"></div>
+                <div class="overlay_mock_text fifty_percent_width"></div>
+                <div class="overlay_mock_text thirty_five_percent_width"></div>
+            </div>
+            <div id="col_channels" class="channels_list_holder no_unread_msgs_badges default_sort">
+                <div id="monkey_scroll_wrapper_for_channels_scroller" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar  hidden" style="margin-left: 203.5px;">
+                        <div class="monkey_scroll_handle " style="left: -3px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider " style="width: 199px;">
+                        <div id="monkey_scroll_wrapper_for_channels_scroller" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 182.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider " style="width: 200px;">
+                                <div id="channels_scroller" class="show_which_channel_is_active monkey_scroller"
+                                     style="height: 544px; visibility: visible; width: 220px;">
+                                    <ul id="all-unreads-list">
+                                        <li data-action="show_unread_view"
+                                            class="channels_nav_unread show_in_list_even_though_no_unreads unread_link all_unreads hidden">
+                                            <a class="overflow_ellipsis channel_name">
+                                                <ts-icon class="ts_icon_list"></ts-icon>
+                                                All unreads
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <div id="channels" role="navigation" class="section_holder" aria-label="Channels">
+                                        <button class="new_channel_btn ts_icon ts_icon_plus_circle channels_list_new_btn btn_unstyle"
+                                                title="Create new Channel"></button>
+                                        <h2 id="channels_header" class="hoverable">
+                                            <button class="channel_list_header_label btn_unstyle">
+                                                Channels
+                                                <span class="header_count">
+                                                    (<span id="channel_header_count">2</span>)
+                                                </span>
+                                            </button>
+                                        </h2>
+
+                                        <ul id="channel-list" aria-label="channels"></ul>
+                                        <div class="clear_both"></div>
+                                    </div>
+                                    <div id="direct_messages" role="navigation" class="section_holder no_bottom_margin"
+                                         aria-label="Direct Messages">
+                                        <button class="new_dm_btn ts_icon ts_icon_plus_circle channels_list_new_btn btn_unstyle"
+                                                title="New Message"></button>
+
+                                        <h2 id="direct_messages_header" class="hoverable" title="Open a Direct Message">
+                                            Direct Messages <span class="header_count">(<span
+                                                id="dm_header_count">3</span>)</span></h2>
+                                        <ul id="im-list">
+                                            <li class="member cursor_pointer">
+                                                <div class="hotness_icon hidden" id="hotness_D2KQ7LXTR"><span
+                                                        class="emoji-outer emoji-sizer"
+                                                        style="background: url({% static 'images/sheet_apple_64_indexed_256colors.png' %}) 57.5% 65%;background-size:4100%"></span>
+                                                </div>
+                                                <a href="#/team/slackbot" class="im_name nuc">
+                                                    <span class="unread_highlights hidden">0</span>
+                                                    <span class="typing_indicator"></span>
+                                                    <span class="overflow_ellipsis">
+                                                            <i class="ts_icon ts_icon_heart slackbot_icon"></i>
+                                                            slackbot
+                                                    </span>
+                                                </a>
+                                                <button class="ts_icon ts_icon_times_circle im_close btn_unstyle"></button>
+                                            </li>
+                                        </ul>
+                                        <div class="clear_both"></div>
+                                    </div>
+
+                                    <button id="channel_list_invites_link"
+                                            class="channel_list_add_link btn_unstyle dim">
+                                        <i class="ts_icon ts_icon_plus_small float_left"></i> Invite people
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="col_channels_footer">
+                    <div id="invites_widget"></div>
+
+                    <div id="quick_switcher_btn"><i class="ts_icon ts_icon_filter"></i>
+                        <span id="quick_switcher_label"
+                              class="quick_switcher_label_windows_alignment">Quick Switcher</span>
+                        <span id="quick_switcher_shortcut">Ctrl+K</span></div>
+                </div>
+            </div>
+
+            {% comment %}<div id="messages_container" role="main" class="has_top_messages_banner">
+
+                <div id="unread_msgs_scroller_div" class="loading"></div>
+
+                <div id="monkey_scroll_wrapper_for_archive_msgs_scroller_div" class="monkey_scroll_wrapper  hidden">
+                    <div class="monkey_scroll_bar" style="margin-left: 4.5px; height: 0px;">
+                        <div class="monkey_scroll_handle  hidden" style="left: -3px; top: 0px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider  scrolling" style="width: 0px;">
+                        <div id="monkey_scroll_wrapper_for_archive_msgs_scroller_div" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar" style="margin-left: 4.5px; height: 0px;">
+                                <div class="monkey_scroll_handle  hidden" style="left: -3px; top: 0px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider  scrolling" style="width: 0px;">
+                                <div id="archive_msgs_scroller_div" class="hidden monkey_scroller" style="">
+                                    <div id="archives_top_div" class="msgs_holder hidden mini italic" style=""></div>
+                                    <div id="archives_msgs_div" class="msgs_holder"></div>
+                                    <div id="archives_bottom_div" class="msgs_holder hidden mini italic"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="monkey_scroll_wrapper_for_msgs_scroller_div" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar" style="margin-left: 735.5px; height: 532px;">
+                        <div class="monkey_scroll_handle hidden" style="left: -3px; height: 532px; top: 0px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider  scrolling" style="width: 736px;">
+                        <div id="monkey_scroll_wrapper_for_msgs_scroller_div" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar" style="margin-left: 723.5px; height: 587px;">
+                                <div class="monkey_scroll_handle hidden" style="left: -3px; height: 587px; top: 0px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider  scrolling" style="width: 724px;">
+                                <div id="msgs_scroller_div" style="height: 593px; width: 736px;"
+                                     class="monkey_scroller">
+
+                                    <div id="end_div" class="relative mini help" style="height: 478px;">
+                                        <div id="end_display_onboarding" class="hidden onboarding">
+                                            <div id="onboarding_header">
+                                                <div id="onboarding_fade_out_mask" class="hidden"></div>
+                                                <span id="onboarding_welcome_text" class="lato_light">Welcome!</span>
+                                                <span id="onboarding_welcome_message" class="align_center lato_bold">Slack is a messaging app for teams.</span>
+                                                <div id="onboarding_video"
+                                                     class="display_flex align_items_center justify_content_center align_center hidden"
+                                                     style="background: url({% static 'images/newxp_video_preview_2x.png' %}) 50% 50% no-repeat;background-size:contain; width:398px; height:224px; margin-top:15px;">
+                                                    <button id="onboarding_video_play"
+                                                            class="tour_btn btn pill_btn btn_large btn_info ts_icon ts_icon_play"
+                                                            style="box-shadow:0 5px 10px 5px rgba(0,0,0,.24);">Watch the
+                                                        Tour
+                                                    </button>
+                                                </div>
+                                                <div id="in_skip_messaging" class="align_center hidden">Got the hang of
+                                                    Slack already? <a class="skip_tutorial_link">Skip the tutorial.</a>
+                                                </div>
+                                                <div id="unskip_messaging" class="align_center hidden">I changed my
+                                                    mind. <a class="take_tutorial_link">Take the tutorial.</a></div>
+                                            </div>
+                                            <div id="onboarding_footer">
+                                                <div id="explore_btn_container" class="align_center">
+                                                    <a class="btn">Explore Slack</a>
+                                                </div>
+                                                <div id="pre_skip_messaging" class="align_center">Not your first Slack
+                                                    team? <a class="skip_tutorial_link">Skip the tutorial.</a></div>
+                                            </div>
+                                        </div>
+                                        <div id="end_display_div" class="relative">
+                                            <div id="end_display_padder" style="height: 230px;"></div>
+                                            <div id="end_display_meta" class="">
+                                                <div id="channel_meta" class="">
+                                                    <h1 class="small_bottom_margin channel_meta_name"><a
+                                                            href="#/archives/announcements"
+                                                            target="#/archives/announcements" class="channel_link"
+                                                            data-channel-id="C2KPUV3P0"><span class="normal">#</span>announcements</a>
+                                                    </h1>
+                                                    <p class="small_bottom_margin">
+                                                        <span id="channel_creator_name" class=""><a
+                                                                href="#/team/vbuilvicente"
+                                                                target="#/team/vbuilvicente"
+                                                                class="message_sender member member_preview_link color_U2KQ0HRD3 color_9f69e7 "
+                                                                data-member-id="U2KQ0HRD3">vbuilvicente</a></span>
+                                                        created this channel
+                                                        <span class="channel_meta_shared_info dusty_springfield_grey hidden"></span>
+                                                        <span id="channel_create_date">today</span>.
+                                                        <span class="not_limited_copy">This is the very beginning of the </span>
+                                                        <span class="is_limited_copy hidden">This is the </span>
+                                                        <span class="channel_meta_name"><a
+                                                                href="#/archives/announcements"
+                                                                target="#/archives/announcements" class="channel_link"
+                                                                data-channel-id="C2KPUV3P0"><span
+                                                                class="normal">#</span>announcements</a></span> channel.
+											<span id="channel_meta_purpose_container">
+												Purpose: <span id="channel_meta_purpose" class="italic no_jumbomoji">This channel is for team-wide communication and announcements. All team members are in this channel.</span> (<a
+                                                    class="end_action_purpose">edit</a>)											</span>
+                                                    </p>
+                                                    <ul class="end_display_actions">
+                                                        <li class="hidden"><a class="end_action_purpose"><i
+                                                                class="ts_icon ts_icon_pencil ts_icon_inherit"></i> Set
+                                                            a purpose</a></li>
+                                                        <li><a class="end_action_integration"
+                                                               href="https://blackmambasoft.slack.com/apps/new?channel=C2KPUV3P0"
+                                                               target="new"><i
+                                                                class="ts_icon ts_icon_plus ts_icon_inherit"></i>
+                                                            Add an app or custom integration
+                                                        </a></li>
+                                                        <li><a class="end_action_invite"><i
+                                                                class="ts_icon ts_icon_user ts_icon_inherit"></i> Invite
+                                                            others to this channel</a></li>
+                                                        <li class="hidden"><span
+                                                                class="end_action_slack_invite havana_blue"
+                                                                data-clog-click="true"
+                                                                data-clog-event="INVITEMODAL_ACTION"
+                                                                data-clog-params="action=open_modal,trigger=click_general_channel_invite_btn"></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div id="group_meta" class="hidden">
+                                                    <h1 class="small_bottom_margin group_meta_name"></h1>
+                                                    <p class="small_bottom_margin">
+                                                        <span id="group_creator_name"></span> created this private
+                                                        channel
+                                                        <span class="group_meta_shared_info dusty_springfield_grey hidden"></span>
+                                                        <span id="group_create_date"></span>.
+                                                        <span class="not_limited_copy">This is the very beginning of the </span>
+                                                        <span class="is_limited_copy hidden">This is the </span>
+                                                        <span class="group_meta_name bold"></span> private channel.
+											<span id="group_meta_purpose_container">
+												Purpose: <span id="group_meta_purpose"
+                                                               class="no_jumbomoji italic"></span> (<a
+                                                    class="end_action_purpose">edit</a>)											</span>
+											<span id="group_meta_archived_parent">
+												It was created from the now archived private channel <a
+                                                    id="group_meta_archived_parent_link" href="" target="_blank"></a>.
+											</span>
+                                                        <span class="show_when_ce_enabled hidden">While messages here are generally private to the people within this private channel, messages sent on or after <span
+                                                                class="js_compliance_export_start"></span> may be accessible to your Team Owners via <a
+                                                                href="#/slack.zendesk.com/hc/en-us/articles/203950296-FAQs-about-Slack-s-policy-update#complianceexport">Compliance Exports</a>. See <a
+                                                                href="#/account/team">Your Team Settings</a> to learn more.</span>
+                                                    </p>
+                                                    <ul class="end_display_actions">
+                                                        <li class="hidden"><a class="end_action_purpose"><i
+                                                                class="ts_icon ts_icon_pencil ts_icon_inherit"></i> Set
+                                                            a purpose</a></li>
+                                                        <li><a class="end_action_integration"
+                                                               href="#/apps/new?channel=C2KPUV3P0"
+                                                               target="new"><i
+                                                                class="ts_icon ts_icon_plus ts_icon_inherit"></i>
+                                                            Add an app or custom integration
+                                                        </a></li>
+                                                        <li><a class="end_action_invite"><i
+                                                                class="ts_icon ts_icon_user ts_icon_inherit"></i> Invite
+                                                            others to this private channel</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div id="slackbot_meta" class="hidden"><h1>Hi, Slackbot here!</h1>
+                                                    <div class="cursor_pointer flex_none float_left small_left_margin very_small_top_margin">
+                                                        <span class=" member_preview_link member_image thumb_48"
+                                                              data-member-id="USLACKBOT" data-thumb-size="48"
+                                                              style="background-image: url({% static 'images/service_48.png' %})"
+                                                              aria-hidden="true"></span>
+
+                                                    </div>
+
+                                                    <p class="icon_offset">You can ask me simple questions about how
+                                                        Slack works, or just type a few keywords. For example: <strong>Can
+                                                            I edit a message I've posted?</strong> Or simply: <strong>edit
+                                                            message</strong>.</p>
+                                                    <div class="clear_both"></div>
+                                                    <p class="icon_offset">I'm only a bot, but I'll do my best to
+                                                        answer! If I don't understand, I'll search the <a
+                                                                href="https://get.slack.help/hc/en-us">Help Center</a>.
+                                                    </p>
+                                                </div>
+                                                <div id="im_meta" class="hidden">
+                                                    This is Direct Message display
+                                                </div>
+
+                                                <div class="is_limited_div is_limited_copy hidden mini">
+                                                    <i class="ts_icon ts_icon_comment_o "></i> Your team has more
+                                                    than 10,000 messages in its archive, so although there are older
+                                                    messages than are shown below, you can't see them. <a
+                                                        href="#/pricing" target="_blank"
+                                                        class="bold">Find out more about upgrading your team.</a>
+                                                </div>
+                                            </div>
+                                            <div id="end_display_status" class="hidden" aria-live="polite"
+                                                 aria-atomic="true">Retrieving history...
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="msgs_div" class="msgs_holder">
+                                        <div class="day_container">
+                                            <div class="day_divider" id="day_divider_1475690690_871069">
+                                                <i class="copy_only"><br>----- </i>
+                                                <div class="day_divider_label" aria-label="Today">Today</div>
+                                                <i class="copy_only"> October 5th, 2016 -----</i></div>
+                                            <div class="day_msgs" data-date="October 5th, 2016"
+                                                 data-ts="1475690690.871069">
+                                                <ts-message id="msg_1475690690_871069"
+                                                            class="dirty_hover_container message feature_fix_files  joined automated first">
+                                                    <div class="action_hover_container " data-show_rxn_action="true"
+                                                         data-show_reply_action="" data-show_jump_action=""
+                                                         data-show_comment_action=""
+                                                         data-abs_permalink="#/archives/announcements/p1475690690871069">
+                                                    </div>
+
+
+                                                    <div class="message_gutter">
+                                                        <div class="message_icon">
+                                                            <a href="#/team/vbuilvicente"
+                                                               target="#/team/vbuilvicente"
+                                                               class=" member_preview_link member_image thumb_36"
+                                                               style="background-image: url({% static 'images/ava_0022-48.png' %})"
+                                                               aria-hidden="true"></a>
+
+                                                        </div>
+                                                        <a href="#/archives/announcements/p1475690690871069"
+                                                           target="new_1475717148618"
+                                                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                                                class="copy_only">[</i>2:04 PM<i class="copy_only">]</i><span
+                                                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                                                class="subtle_silver">Today&nbsp;at&nbsp;2:04:50&nbsp;PM</span></span></span></a>
+                                                        <span class="message_star_holder"><button
+                                                                data-msg-id="1475690690.871069" data-c-id="C2KPUV3P0"
+                                                                class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle"><span
+                                                                class="ts_tip_tip"
+                                                                data-tip-toggle-auto="Unstar this message">Star this message</span></button></span>
+                                                    </div>
+
+                                                    <div class="message_content ">
+                                                        <a href="#/team/vbuilvicente"
+                                                           target="#/team/vbuilvicente"
+                                                           class="message_sender member member_preview_link color_U2KQ0HRD3 color_9f69e7 "
+                                                           data-member-id="U2KQ0HRD3">vbuilvicente</a>
+                                                        <a href="#/archives/announcements/p1475690690871069"
+                                                           target="new_1475717148618"
+                                                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                                                class="copy_only">[</i>2:04 PM<i class="copy_only">]</i><span
+                                                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                                                class="subtle_silver">Today&nbsp;at&nbsp;2:04:50&nbsp;PM</span></span></span></a>
+
+                                                        <span class="message_star_holder"><button
+                                                                data-msg-id="1475690690.871069" data-c-id="C2KPUV3P0"
+                                                                class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle"><span
+                                                                class="ts_tip_tip"
+                                                                data-tip-toggle-auto="Unstar this message">Star this message</span></button></span>
+
+
+                                                        <span class="message_body">joined #announcements. Also, <a
+                                                                href="#/team/jeriverom"
+                                                                target="#/team/jeriverom" data-member-name="jeriverom"
+                                                                data-stringify-text="@U2KQ35L2Z"
+                                                                class="internal_member_link">@jeriverom</a> joined.</span>
+
+
+                                                        <div class="rxn_panel rxns_key_message-1475690690_871069-C2KPUV3P0"></div>
+
+
+                                                        <i class="copy_only"><br></i>
+
+
+		<span id="msg_1475690690_871069_label" class="message_aria_label hidden">
+			<strong>vbuilvicente</strong>.
+			joined #announcements. Also, <a href="#/team/jeriverom"
+                                            target="#/team/jeriverom" data-member-name="jeriverom"
+                                            data-stringify-text="@U2KQ35L2Z" class="internal_member_link">@jeriverom</a> joined..
+			 replies
+			two oh-four PM.
+		</span>
+
+                                                    </div>
+
+                                                </ts-message>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="msgs_overlay_div" class="hidden" style="opacity: 0;"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messages_unread_status" class="messages_banner no_pointer_events no_opacity flex_pane_showing">
+                    <ts-icon class="new_msgs_arrow ts_icon_arrow_up"></ts-icon>
+                    <span class="actual new_msgs_jump_link">Jump</span>
+                    <span id="new_msg_info" class="overflow_ellipsis">&nbsp;</span>
+                    <a class="clear_unread_messages ts_tip ts_tip_bottom ts_tip_right" title="">
+                        <span class="ts_tip_tip">Mark as read (esc)</span>
+                        <span class="clear_unread_messages_text">Mark as read</span> <i
+                            class="ts_icon ts_icon_times_small float_right"></i>
+                    </a>
+                </div>
+
+                <div id="file_progress" class="messages_banner hidden flex_pane_showing">
+                    <div class="progress_bar">
+                        <span class="progress_bar_progress_thin progress_bar_progress_striped"></span>
+                    </div>
+                    <div id="progress_text"></div>
+                </div>
+
+                <div id="connection_div" class="messages_banner flex_pane_showing">Reconnecting in 18 seconds... <a>
+                    Retry now?</a></div>
+
+                <div id="archives_return" class="messages_banner messages_banner_bottom hidden flex_pane_showing"
+                     style="top: 568px;">
+                    <span id="archives_info" class="overflow_ellipsis">Viewing archives from <span
+                            id="archives_return_date" class=""></span></span>
+                    <a class="cancel_archives hidden">Jump to recent messages <i
+                            class="ts_icon ts_icon_arrow_down float_right"></i></a>
+                </div>
+            </div>{% endcomment %}
+
+        </div>
+    </div>
+</div>

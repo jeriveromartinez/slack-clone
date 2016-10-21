@@ -1,0 +1,286 @@
+{% extends 'account/settigns_template.html' %}
+{% block settings %}
+    <section class="tab_pane selected clearfix" data-tab="settings">
+        <div id="change_username" class="accordion_section">
+            <a id="expand-username" class="accordion_expand btn btn_outline">expand</a>
+            <h4 id="h-username"><a>Username</a></h4>
+            <div id="accordion-username" class="accordion_subsection top_margin" style="display: none;">
+                <div class="username_input_container">
+                    <input name="username" class="username_input input_inline small_right_margin"
+                           placeholder="username" value="jeriverom" autocapitalize="off" autocorrect="off"
+                           type="text">
+                    <button id="button-username" type="submit" class="btn btn_large align_top ladda-button">
+                        <span class="ladda-label">Save</span>
+                    </button>
+                    <label for="username"></label>
+                    <p class="small_top_margin small_bottom_margin input_note">Usernames
+                        must be all lowercase. They cannot be longer than 21 characters and can
+                        only contain letters, numbers, periods, hyphens, and underscores. <span class="input_note">Most people choose to use their first name, last name, nickname, or some combination of those with initials.</span>
+                    </p>
+                </div>
+                <p class="input_note"><strong>Note that you cannot change your username more than twice per
+                    hour.</strong> Choose wisely.</p>
+            </div>
+        </div>
+
+        <div id="change_password" class="accordion_section">
+            <a id="expand-password" class="accordion_expand btn btn_outline ">expand</a>
+            <h4 id="h-password"><a>Password</a></h4>
+            <div id="accordion-password" class="accordion_subsection top_margin" style="display: none;">
+                <input name="change_password" value="1" type="hidden">
+                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
+                <p class="small_bottom_margin">
+                    <label for="old_password">Current Password</label>
+                    <input id="old_password" name="old_password" value="" type="password">
+                </p>
+                <p class="large_bottom_margin">
+                    <label for="password">New Password</label>
+                    <input id="password" name="password" value="" type="password"></p>
+                <div style="position: relative; width: 100%; margin: 5px 0px 1rem;">
+                    <div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div>
+                    <div style="height: 4px; background-color: rgb(200, 24, 24); width: 0px; position: absolute; left: 0px;"
+                         id="password-strength-meter"></div>
+                    <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div>
+                    <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div>
+                    <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 75%;"></div>
+                    <div style="float: right; margin-top: 6px; line-height: 16px; font-size: 11px;"
+                         id="password-strength-label">&nbsp;</div>
+                </div>
+                <p>
+                    <button id="button-password" type="submit" class="btn ladda-button" data-style="expand-right"><span
+                            class="ladda-label">Save Password</span></button>
+                </p>
+                <div class="clear_both"></div>
+                <input name="reset_password" value="1" type="hidden">
+                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
+                <p>
+                    <span class="small_right_margin">Can't remember your current password?</span>
+                    <button type="submit" class="btn btn_small btn_outline">Reset your password by email</button>
+                </p>
+            </div>
+        </div>
+
+        {% comment %}<div id="change_two_factor" class="accordion_section">
+            <a class="accordion_expand btn btn_outline ">expand</a>
+            <h4><a>Two-Factor Authentication</a></h4>
+            <p>Two-Factor authentication is <strong>inactive</strong> for your account.</p>
+            <div class="accordion_subsection top_margin" style="display: none;">
+                <p>Protect your Slack account with an extra layer of security
+                    by requiring access to your phone. Once configured, you'll be required
+                    to enter <strong>both your password and an authentication code from your mobile phone</strong> in
+                    order to sign into your Slack account.</p>
+                <p>Learn more at our <a href="#/slack.zendesk.com/hc/en-us/articles/204509068" target="_blank">two-factor
+                    authentication help page</a></p>
+                <a href="#/blackmambasoft.slack.com/account/settings/2fa_choose" id="enable_2fa_btn"
+                   class="btn btn_outline small_bottom_margin">Setup Two-Factor
+                    Authentication</a>
+                <p class="small subtle_silver"><strong>Note:</strong> Activating two-factor authentication will <a
+                        href="#sign_out_sessions">sign you out of all other sessions</a>.</p>
+            </div>
+        </div>{% endcomment %}
+
+        <div id="change_email" class="accordion_section">
+            <a id="expand-email" class="accordion_expand btn btn_outline">expand</a>
+            <h4 id="h-email"><a>Email Address</a></h4>
+            <p class="no_bottom_margin">
+                Your email address is <strong>jeriveromartinez@gmail.com</strong>
+            </p>
+            <div id="accordion-email" class="accordion_subsection" style="display: none;">
+                <input name="change_email" value="1" type="hidden">
+                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
+                <p class="small_bottom_margin">
+                    <label for="email_password">Current Password</label>
+                    <input id="email_password" name="email_password" type="password">
+                </p>
+                <p class="small_bottom_margin">
+                    <label for="new_email">New Email Address</label>
+                    <input id="new_email" name="new_email" type="email">
+                </p>
+                <p>
+                    <button id="button-email" type="submit" class="btn" data-style="expand-right"><span
+                            class="ladda-label">Update Email</span>
+                    </button>
+                </p>
+                <div class="clear_both"></div>
+            </div>
+        </div>
+
+        <div id="change_timezone" class="accordion_section">
+            <a id="expand-timezone" class="accordion_expand btn btn_outline ">expand</a>
+            <h4 id="h-timezone"><a>Time Zone</a></h4>
+            <p class="small_bottom_margin">
+                Slack uses your time zone to send summary and notification emails, for times in your activity feeds,
+                and for reminders.
+                Your time zone is currently set to: <b id="timezone">(UTC-05:00) Havana</b>.
+            </p>
+            <div id="accordion-timezone" class="accordion_subsection" style="display: none;">
+                <p class="no_bottom_margin">
+                    <label class="select small">
+                        <select id="tz" name="tz" class="small">
+                            <option value="Pacific/Midway">(UTC-11:00) Midway Island, American Samoa</option>
+                            <option value="America/Adak">(UTC-10:00) Aleutian Islands</option>
+                            <option value="Pacific/Honolulu">(UTC-10:00) Hawaii</option>
+                            <option value="Pacific/Marquesas">(UTC-09:30) Marquesas Islands</option>
+                            <option value="America/Anchorage">(UTC-09:00) Alaska</option>
+                            <option value="America/Tijuana">(UTC-08:00) Baja California</option>
+                            <option value="America/Los_Angeles">(UTC-08:00) Pacific Time (US and Canada)</option>
+                            <option value="America/Phoenix">(UTC-07:00) Arizona</option>
+                            <option value="America/Chihuahua">(UTC-07:00) Chihuahua, La Paz, Mazatlan</option>
+                            <option value="America/Denver">(UTC-07:00) Mountain Time (US and Canada)</option>
+                            <option value="America/Belize">(UTC-06:00) Central America</option>
+                            <option value="America/Chicago">(UTC-06:00) Central Time (US and Canada)</option>
+                            <option value="Pacific/Easter">(UTC-06:00) Easter Island</option>
+                            <option value="America/Mexico_City">(UTC-06:00) Guadalajara, Mexico City, Monterrey
+                            </option>
+                            <option value="America/Regina">(UTC-06:00) Saskatchewan</option>
+                            <option value="America/Bogota">(UTC-05:00) Bogota, Lima, Quito</option>
+                            <option value="America/Cancun">(UTC-05:00) Chetumal</option>
+                            <option value="America/New_York">(UTC-05:00) Eastern Time (US and Canada)</option>
+                            <option value="America/Port-au-Prince">(UTC-05:00) Haiti</option>
+                            <option value="America/Havana" selected="selected">(UTC-05:00) Havana</option>
+                            <option value="America/Indiana/Indianapolis">(UTC-05:00) Indiana (East)</option>
+                            <option value="America/Asuncion">(UTC-04:00) Asuncion</option>
+                            <option value="America/Halifax">(UTC-04:00) Atlantic Time (Canada)</option>
+                            <option value="America/Caracas">(UTC-04:00) Caracas</option>
+                            <option value="America/Cuiaba">(UTC-04:00) Cuiaba</option>
+                            <option value="America/Manaus">(UTC-04:00) Georgetown, La Paz, Manaus, San Juan</option>
+                            <option value="America/Santiago">(UTC-04:00) Santiago</option>
+                            <option value="America/Grand_Turk">(UTC-04:00) Turks and Caicos</option>
+                            <option value="America/St_Johns">(UTC-03:30) Newfoundland</option>
+                            <option value="America/Fortaleza">(UTC-03:00) Araguaina</option>
+                            <option value="America/Sao_Paulo">(UTC-03:00) Brasilia</option>
+                            <option value="America/Cayenne">(UTC-03:00) Cayenne, Fortaleza</option>
+                            <option value="America/Buenos_Aires">(UTC-03:00) City of Buenos Aires</option>
+                            <option value="America/Godthab">(UTC-03:00) Greenland</option>
+                            <option value="America/Montevideo">(UTC-03:00) Montevideo</option>
+                            <option value="America/Miquelon">(UTC-03:00) Saint Pierre and Miquelon</option>
+                            <option value="America/Bahia">(UTC-03:00) Salvador</option>
+                            <option value="Atlantic/Azores">(UTC-01:00) Azores</option>
+                            <option value="Atlantic/Cape_Verde">(UTC-01:00) Cabo Verde Islands</option>
+                            <option value="Africa/Casablanca">(UTC) Casablanca</option>
+                            <option value="Europe/London">(UTC) Dublin, Edinburgh, Lisbon, London</option>
+                            <option value="Africa/Monrovia">(UTC) Monrovia, Reykjavik</option>
+                            <option value="Europe/Amsterdam">(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm,
+                                Vienna
+                            </option>
+                            <option value="Europe/Belgrade">(UTC+01:00) Belgrade, Bratislava, Budapest, Ljubljana,
+                                Prague
+                            </option>
+                            <option value="Europe/Brussels">(UTC+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                            <option value="Europe/Warsaw">(UTC+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+                            <option value="Africa/Algiers">(UTC+01:00) West Central Africa</option>
+                            <option value="Africa/Windhoek">(UTC+01:00) Windhoek</option>
+                            <option value="Asia/Amman">(UTC+02:00) Amman</option>
+                            <option value="Europe/Athens">(UTC+02:00) Athens, Bucharest</option>
+                            <option value="Asia/Beirut">(UTC+02:00) Beirut</option>
+                            <option value="Africa/Cairo">(UTC+02:00) Cairo</option>
+                            <option value="Asia/Damascus">(UTC+02:00) Damascus</option>
+                            <option value="Asia/Gaza">(UTC+02:00) Gaza, Hebron</option>
+                            <option value="Africa/Harare">(UTC+02:00) Harare, Pretoria</option>
+                            <option value="Europe/Helsinki">(UTC+02:00) Helsinki, Kiev, Riga, Sofia, Tallinn,
+                                Vilnius
+                            </option>
+                            <option value="Asia/Istanbul">(UTC+02:00) Istanbul</option>
+                            <option value="Asia/Jerusalem">(UTC+02:00) Jerusalem</option>
+                            <option value="Europe/Kaliningrad">(UTC+02:00) Kaliningrad</option>
+                            <option value="Africa/Tripoli">(UTC+02:00) Tripoli</option>
+                            <option value="Asia/Baghdad">(UTC+03:00) Baghdad</option>
+                            <option value="Asia/Kuwait">(UTC+03:00) Kuwait, Riyadh</option>
+                            <option value="Europe/Minsk">(UTC+03:00) Minsk</option>
+                            <option value="Europe/Moscow">(UTC+03:00) Moscow, St. Petersburg, Volgograd</option>
+                            <option value="Africa/Nairobi">(UTC+03:00) Nairobi</option>
+                            <option value="Asia/Tehran">(UTC+03:30) Tehran</option>
+                            <option value="Asia/Muscat">(UTC+04:00) Abu Dhabi, Muscat</option>
+                            <option value="Europe/Astrakhan">(UTC+04:00) Astrakhan, Ulyanovsk</option>
+                            <option value="Asia/Baku">(UTC+04:00) Baku</option>
+                            <option value="Europe/Samara">(UTC+04:00) Izhevsk, Samara</option>
+                            <option value="Indian/Mauritius">(UTC+04:00) Port Louis</option>
+                            <option value="Asia/Tbilisi">(UTC+04:00) Tbilisi</option>
+                            <option value="Asia/Yerevan">(UTC+04:00) Yerevan</option>
+                            <option value="Asia/Kabul">(UTC+04:30) Kabul</option>
+                            <option value="Asia/Tashkent">(UTC+05:00) Tashkent, Ashgabat</option>
+                            <option value="Asia/Yekaterinburg">(UTC+05:00) Ekaterinburg</option>
+                            <option value="Asia/Karachi">(UTC+05:00) Islamabad, Karachi</option>
+                            <option value="Asia/Kolkata">(UTC+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                            <option value="Asia/Colombo">(UTC+05:30) Sri Jayawardenepura</option>
+                            <option value="Asia/Katmandu">(UTC+05:45) Kathmandu</option>
+                            <option value="Asia/Almaty">(UTC+06:00) Astana</option>
+                            <option value="Asia/Dhaka">(UTC+06:00) Dhaka</option>
+                            <option value="Asia/Novosibirsk">(UTC+06:00) Novosibirsk</option>
+                            <option value="Asia/Rangoon">(UTC+06:30) Yangon (Rangoon)</option>
+                            <option value="Asia/Bangkok">(UTC+07:00) Bangkok, Hanoi, Jakarta</option>
+                            <option value="Asia/Barnaul">(UTC+07:00) Barnaul, Gorno-Altaysk</option>
+                            <option value="Asia/Hovd">(UTC+07:00) Hovd</option>
+                            <option value="Asia/Krasnoyarsk">(UTC+07:00) Krasnoyarsk</option>
+                            <option value="Asia/Tomsk">(UTC+07:00) Tomsk</option>
+                            <option value="Asia/Chongqing">(UTC+08:00) Beijing, Chongqing, Hong Kong SAR, Urumqi
+                            </option>
+                            <option value="Asia/Irkutsk">(UTC+08:00) Irkutsk</option>
+                            <option value="Asia/Kuala_Lumpur">(UTC+08:00) Kuala Lumpur, Singapore</option>
+                            <option value="Australia/Perth">(UTC+08:00) Perth</option>
+                            <option value="Asia/Taipei">(UTC+08:00) Taipei</option>
+                            <option value="Asia/Ulaanbaatar">(UTC+08:00) Ulaanbaatar</option>
+                            <option value="Asia/Pyongyang">(UTC+08:30) Pyongyang</option>
+                            <option value="Australia/Eucla">(UTC+08:45) Eucla</option>
+                            <option value="Asia/Chita">(UTC+09:00) Chita</option>
+                            <option value="Asia/Tokyo">(UTC+09:00) Osaka, Sapporo, Tokyo</option>
+                            <option value="Asia/Seoul">(UTC+09:00) Seoul</option>
+                            <option value="Asia/Yakutsk">(UTC+09:00) Yakutsk</option>
+                            <option value="Australia/Adelaide">(UTC+09:30) Adelaide</option>
+                            <option value="Australia/Darwin">(UTC+09:30) Darwin</option>
+                            <option value="Australia/Brisbane">(UTC+10:00) Brisbane</option>
+                            <option value="Australia/Canberra">(UTC+10:00) Canberra, Melbourne, Sydney</option>
+                            <option value="Pacific/Guam">(UTC+10:00) Guam, Port Moresby</option>
+                            <option value="Australia/Hobart">(UTC+10:00) Hobart</option>
+                            <option value="Asia/Vladivostok">(UTC+10:00) Vladivostok</option>
+                            <option value="Australia/Lord_Howe">(UTC+10:30) Lord Howe Island</option>
+                            <option value="Pacific/Bougainville">(UTC+11:00) Bougainville Island</option>
+                            <option value="Asia/Srednekolymsk">(UTC+11:00) Chokirdakh</option>
+                            <option value="Asia/Magadan">(UTC+11:00) Magadan</option>
+                            <option value="Pacific/Norfolk">(UTC+11:00) Norfolk Island</option>
+                            <option value="Asia/Sakhalin">(UTC+11:00) Sakhalin</option>
+                            <option value="Pacific/Guadalcanal">(UTC+11:00) Solomon Islands, New Caledonia</option>
+                            <option value="Asia/Anadyr">(UTC+12:00) Anadyr, Petropavlovsk-Kamchatsky</option>
+                            <option value="Pacific/Auckland">(UTC+12:00) Auckland, Wellington</option>
+                            <option value="Pacific/Fiji">(UTC+12:00) Fiji Islands</option>
+                            <option value="Pacific/Chatham">(UTC+12:45) Chatham Islands</option>
+                            <option value="Pacific/Tongatapu">(UTC+13:00) Nuku'alofa</option>
+                            <option value="Pacific/Apia">(UTC+13:00) Samoa</option>
+                            <option value="Pacific/Kiritimati">(UTC+14:00) Kiritimati Island</option>
+                        </select>
+                    </label>
+                </p>
+                <p>
+                    <button id="button-timezone" type="submit" class="btn ladda-button" data-style="expand-right"><span
+                            class="ladda-label">Save Time Zone</span></button>
+                </p>
+            </div>
+        </div>
+        <div id="sign_out_sessions" class="large_top_margin">
+            <h4>Sign out all other sessions</h4>
+            <div class="col span_4_of_6">
+                <p>Lost your phone? Left yourself logged in on a public computer? Need
+                    a way to sign out everywhere except your current browser? This is for
+                    you.</p>
+            </div>
+            <div class="col span_2_of_6 no_right_padding">
+                <p><a href="#/blackmambasoft.slack.com/account/reset" class="btn btn_warning full_width"><i
+                        class="ts_icon ts_icon_sign_out"></i> Sign out all other sessions</a></p>
+            </div>
+        </div>
+        <hr class="clear_both">
+        <h4>Deactivate account</h4>
+        <div class="col span_4_of_6">
+            <p>If you no longer need your account on the <strong>blackmambasoft</strong> team, you can deactivate your
+                account. Any other Slack teams you belong to will not be affected.</p>
+            <p class="subtle_silver">
+                <strong>Note:</strong> Don't deactivate your account if you just want to <a class="bold" href="#email">
+                change your email address</a> or <a class="bold" href="#username"> change your username</a>.
+            </p>
+        </div>
+        <div class="col span_2_of_6 no_right_padding">
+            <p><a href="#/blackmambasoft.slack.com/account/deactivate"
+                  class="btn btn_danger btn_outline full_width">Deactivate your account</a></p>
+        </div>
+    </section>
+{% endblock %}

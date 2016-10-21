@@ -1,0 +1,303 @@
+<header id="client_header">
+    {% comment %}<div id="active_channel_name_overlay" class="onboarding_overlay"></div>{% endcomment %}
+    <div id="team_menu">
+        <button class="notifications_menu_btn ts_icon ts_icon_bell_o ts_tip ts_tip_bottom ts_tip_float btn_unstyle"
+                aria-label="Notifications Menu">
+            <span class="notifications_menu_tip ts_tip_tip">Notifications</span>
+        </button>
+        <div class="team_name_container top_margin">
+            <button class="ts_icon ts_icon_chevron_down team_name_caret btn_unstyle"></button>
+            <span id="team_name" class="overflow_ellipsis">{{ request.user.profile.company.name }}</span>
+        </div>
+        <div id="team_menu_overlay" class="onboarding_overlay hidden">
+            <div class="overlay_mock_text seventy_percent_width"></div>
+        </div>
+        <div id="presence_container" class="no_wrap ts_tip ts_tip_bottom ts_tip_left">
+            <i id="presence" class="ts_icon ts_icon_presence connecting"></i>
+            <span class="ts_tip_tip">connecting...</span>
+        </div>
+        <span id="team_header_user_name" class="current_user_name overflow_ellipsis">{{ request.user.username }}</span>
+    </div>
+    <div class="channel_header_refactor channel_header">
+        <div class="messages_header">
+            <div class="channel_title">
+                <h2 id="channel_name_container" class="channel_name_container">
+			<span id="channel_name" class="channel_name" data-qa="channel_name">
+					<span id="channel_title">{% comment %}#announcements{% endcomment %}nombre canal</span>
+</span>
+                    <div class="channel_actions_container">
+                        <a id="mute_container" class="mute_container ts_tip ts_tip_bottom"></a>
+                        <div id="star_container" class="star_container">
+                            <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_channel ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                <span class="ts_tip_tip"
+                                      data-tip-toggle-auto="Unstar this channel">Star this channel</span>
+                            </button>
+                        </div>
+                    </div>
+                </h2>
+
+                <!-- channel members -->
+                <div id="channel_header_info">
+                    <span id="channel_members_toggle_count"
+                          class="blue_hover ts_tip ts_tip_bottom ts_tip_leftish"></span>
+                    <span class="topic_divider">|</span>
+                    <span id="topic_inline_edit" class="channel_topic inline_edit inline_edit_editable">
+				<span class="inline_edit_inner">
+					<span id="channel_topic_text" class="inline_edit_input no_jumbomoji">Company-wide announcements and work-based matters</span>
+				</span>
+			</span>
+                </div>
+            </div>
+
+            <div class="channel_title_info">
+                <!-- calls button -->
+                <div id="channel_calls_container" class="channel_calls_container">
+                    <button class="channel_header_icon channel_calls_button video_call hidden btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
+		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
+			Only paid teams can start calls from channels.
+		</span></span>
+                        <ts-icon class="call_icon call_window_offline ts_icon_video_camera"
+                                 aria-hidden="true"></ts-icon>
+                    </button>
+                    <button class="channel_header_icon channel_calls_button voice_call btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
+		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
+			Only paid teams can start calls from channels.
+		</span></span>
+                        <ts-icon class="call_icon call_window_offline ts_icon_phone" aria-hidden="true"></ts-icon>
+                    </button>
+                </div>
+                <button id="channel_actions_toggle"
+                        class="btn_unstyle blue_hover channel_actions_toggle channel_header_icon ts_tip ts_tip_bottom">
+                    <span class="ts_tip_tip">Channel Settings</span>
+                    <ts-icon class="ts_icon_cog_o" aria-hidden="true"></ts-icon>
+                </button>
+                <button id="details_toggle"
+                        class="channel_header_icon btn_unstyle blue_hover channel_details_toggle ts_tip ts_tip_bottom">
+                    <span class="ts_tip_tip">Hide Channel Details</span>
+                    <ts-icon class="ts_icon_side_panel" aria-hidden="true"></ts-icon>
+                </button>
+                <div class="divider_bar"></div>
+            </div>
+        </div>
+        <div class="flex_header">
+            <div id="search_container">
+                <form role="search" method="get" action="/search" id="header_search_form"
+                      class="search_form no_bottom_margin">
+                    <i class="ts_icon ts_icon_search icon_search"></i>
+                    <div class="highlighter_wrapper">
+                        <input id="search_terms" class="search_input search_input_highlighted"
+                               placeholder="Search" autocomplete="off" maxlength="250" type="text">
+                        <div class="highlighter_underlay"><span class="ghost_text">&nbsp;&nbsp;</span></div>
+                    </div>
+                    <a id="search_clear" class="search_clear_icon">
+                        <ts-icon class="ts_icon_times_circle"></ts-icon>
+                    </a>
+                    <div id="search_autocomplete_popover"
+                         class="popover_menu popover_search_menu showing_header hidden"><span class="arrow"></span>
+                        <span class="arrow_shadow"></span>
+                        <div id="autocomplete_menu" class="content search_menu">
+                            <div class="autocomplete_calendar hidden">
+                                <div class="pickmeup pmu-view-days" style="position: relative; display: inline-block;">
+                                    <div class="pmu-instance">
+                                        <nav>
+                                            <div class="pmu-prev pmu-button" style="visibility: visible;">◀</div>
+                                            <div class="pmu-month pmu-button">October 2016</div>
+                                            <div class="pmu-next pmu-button" style="visibility: hidden;">▶</div>
+                                        </nav>
+                                        <nav class="pmu-day-of-week">
+                                            <div>Su</div>
+                                            <div>Mo</div>
+                                            <div>Tu</div>
+                                            <div>We</div>
+                                            <div>Th</div>
+                                            <div>Fr</div>
+                                            <div>Sa</div>
+                                        </nav>
+                                        <div class="pmu-years">
+                                            <div class=" pmu-button">2010</div>
+                                            <div class=" pmu-button">2011</div>
+                                            <div class=" pmu-button">2012</div>
+                                            <div class=" pmu-button">2013</div>
+                                            <div class=" pmu-button">2014</div>
+                                            <div class=" pmu-button">2015</div>
+                                            <div class="pmu-selected pmu-button">2016</div>
+                                            <div class="pmu-disabled pmu-button">2017</div>
+                                            <div class="pmu-disabled pmu-button">2018</div>
+                                            <div class="pmu-disabled pmu-button">2019</div>
+                                            <div class="pmu-disabled pmu-button">2020</div>
+                                            <div class="pmu-disabled pmu-button">2021</div>
+                                        </div>
+                                        <div class="pmu-months">
+                                            <div class=" pmu-button">Jan</div>
+                                            <div class=" pmu-button">Feb</div>
+                                            <div class=" pmu-button">Mar</div>
+                                            <div class=" pmu-button">Apr</div>
+                                            <div class=" pmu-button">May</div>
+                                            <div class=" pmu-button">Jun</div>
+                                            <div class=" pmu-button">Jul</div>
+                                            <div class=" pmu-button">Aug</div>
+                                            <div class=" pmu-button">Sep</div>
+                                            <div class="pmu-selected pmu-button">Oct</div>
+                                            <div class="pmu-disabled pmu-button">Nov</div>
+                                            <div class="pmu-disabled pmu-button">Dec</div>
+                                        </div>
+                                        <div class="pmu-days">
+                                            <div class="pmu-not-in-month pmu-sunday pmu-button">25</div>
+                                            <div class="pmu-not-in-month pmu-button">26</div>
+                                            <div class="pmu-not-in-month pmu-button">27</div>
+                                            <div class="pmu-not-in-month pmu-button">28</div>
+                                            <div class="pmu-not-in-month pmu-button">29</div>
+                                            <div class="pmu-not-in-month pmu-button">30</div>
+                                            <div class="pmu-saturday pmu-button">1</div>
+                                            <div class="pmu-sunday pmu-button">2</div>
+                                            <div class=" pmu-button">3</div>
+                                            <div class=" pmu-button">4</div>
+                                            <div class=" pmu-button">5</div>
+                                            <div class=" pmu-button">6</div>
+                                            <div class=" pmu-button">7</div>
+                                            <div class="pmu-saturday pmu-button">8</div>
+                                            <div class="pmu-sunday pmu-button">9</div>
+                                            <div class=" pmu-button">10</div>
+                                            <div class=" pmu-button">11</div>
+                                            <div class=" pmu-button">12</div>
+                                            <div class=" pmu-button">13</div>
+                                            <div class="pmu-selected pmu-today pmu-button"><span
+                                                    class="pmu-today-border">14</span></div>
+                                            <div class="pmu-saturday pmu-disabled pmu-button">15</div>
+                                            <div class="pmu-sunday pmu-disabled pmu-button">16</div>
+                                            <div class="pmu-disabled pmu-button">17</div>
+                                            <div class="pmu-disabled pmu-button">18</div>
+                                            <div class="pmu-disabled pmu-button">19</div>
+                                            <div class="pmu-disabled pmu-button">20</div>
+                                            <div class="pmu-disabled pmu-button">21</div>
+                                            <div class="pmu-saturday pmu-disabled pmu-button">22</div>
+                                            <div class="pmu-sunday pmu-disabled pmu-button">23</div>
+                                            <div class="pmu-disabled pmu-button">24</div>
+                                            <div class="pmu-disabled pmu-button">25</div>
+                                            <div class="pmu-disabled pmu-button">26</div>
+                                            <div class="pmu-disabled pmu-button">27</div>
+                                            <div class="pmu-disabled pmu-button">28</div>
+                                            <div class="pmu-saturday pmu-disabled pmu-button">29</div>
+                                            <div class="pmu-sunday pmu-disabled pmu-button">30</div>
+                                            <div class="pmu-disabled pmu-button">31</div>
+                                            <div class="pmu-not-in-month pmu-disabled pmu-button">1</div>
+                                            <div class="pmu-not-in-month pmu-disabled pmu-button">2</div>
+                                            <div class="pmu-not-in-month pmu-disabled pmu-button">3</div>
+                                            <div class="pmu-not-in-month pmu-disabled pmu-button">4</div>
+                                            <div class="pmu-not-in-month pmu-saturday pmu-disabled pmu-button">5</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="" class="monkey_scroll_wrapper ">
+                                <div class="monkey_scroll_bar" style="margin-left: 340.5px; height: 227px;">
+                                    <div class="monkey_scroll_handle "
+                                         style="left: -3px; height: 197.354px; top: 30px;">
+                                        <div class="monkey_scroll_handle_inner "></div>
+                                    </div>
+                                </div>
+                                <div class="monkey_scroll_hider scrolling" style="width: 336px; margin-right: 17px;">
+                                    <div class="autocomplete_menu_scrollable monkey_scroller" style="width: 353px;">
+                                        <div style="max-height: 232.8px;">
+                                            {% comment %}<header>
+                                                <span class="header_label">Narrow your search</span>
+                                                <a class="learn_more_link ts_icon ts_icon_info_circle ts_icon_inherit ts_tip ts_tip_left"
+                                                   href="https://get.slack.help/hc/en-us/articles/202528808-Searching-in-Slack"
+                                                   target="new_1476475885635">
+                                                    <span class="ts_tip_tip">Learn more</span>
+                                                </a>
+                                            </header>{% endcomment %}
+
+
+                                            <ol class="conversation_modifiers results modifiers"
+                                                aria-label="conversation modifier">
+                                                <li data-replacement="from:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>from: </strong>
+                                                        <span class="muted_text">username</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                                <li data-replacement="in:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>in: </strong>
+                                                        <span class="muted_text">channel or direct message</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                                <li data-replacement="has:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>has: </strong>
+                                                        <span class="muted_text">star, link, or reaction</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                            </ol>
+
+                                            <ol class="time_modifiers results modifiers" aria-label="time modifier">
+                                                <li data-replacement="after:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>after: </strong>
+                                                        <span class="muted_text">date</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                                <li data-replacement="before:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>before: </strong>
+                                                        <span class="muted_text">date</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                                <li data-replacement="on:">
+                                                    <button class="result_item_btn btn_unstyle" type="button">
+                                                        <strong>on: </strong>
+                                                        <span class="muted_text">date, month or year</span>
+                                                        <ts-icon
+                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                                aria-hidden="true"></ts-icon>
+                                                    </button>
+                                                </li>
+                                            </ol>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button id="recent_mentions_toggle"
+                    class="channel_header_icon btn_unstyle ts_tip ts_tip_bottom ts_tip_rightish">
+                <span class="ts_tip_tip not_feature_message_replies_simple">Show Mentions &amp; Reactions</span>
+                <ts-icon class="ts_icon_mentions" aria-hidden="true"></ts-icon>
+            </button>
+            <button id="stars_toggle" class="channel_header_icon btn_unstyle ts_tip ts_tip_bottom ts_tip_rightish">
+                <span class="ts_tip_tip">Show Starred Items</span>
+                <ts-icon class="ts_icon_star_o" aria-hidden="true"></ts-icon>
+            </button>
+            <button id="flex_menu_toggle"
+                    class="channel_header_icon blue_hover btn_unstyle ts_tip ts_tip_bottom ts_tip_right">
+                <span class="ts_tip_tip">More Items</span>
+                <div id="whats_new_burst" class="all_read"></div>
+                <ts-icon class="ts_icon_vertical_ellipsis" aria-hidden="true"></ts-icon>
+                <span class="help_icon_icon" id="help_icon_circle_count">0</span>
+                <div class="flex_menu_download_circle"></div>
+            </button>
+            <div id="rxn_toast_div" class="hidden ts_tip ts_tip_bottom"></div>
+            <div id="rxn_toast_div" class="hidden ts_tip ts_tip_bottom"></div>
+        </div>
+    </div>
+</header>

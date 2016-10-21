@@ -1,0 +1,38 @@
+{% extends 'account/settigns_template.html' %}
+{% block settings %}
+    <section class="tab_pane selected" data-tab="logs">
+        <p>
+            Security starts with knowledge. This page lists details about access to your account.
+            If you notice a problem, you can <a href="https://blackmambasoft.slack.com/account/reset">sign out of all
+            sessions</a> except for your current one.
+        </p>
+        <hr>
+        <div class="col span_2_of_6"><p class="bold">Wednesday, October 5th</p></div>
+        <div class="col span_4_of_6">
+            <p class="log_entry"> 9:25pm with the&nbsp;
+                <abbr title="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0"
+                      style="cursor: help;">
+                    <i class="ts_icon ts_icon_laptop"></i>
+                    Slack Web App
+                </abbr>
+                <br>
+                <span class="small subtle_silver">
+					IP: 200.55.140.181 (Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 11 additional logins from this device, with the most recent at 9:28pm.
+                </span>
+            </p>
+            <p class="log_entry">
+                2:09pm with the&nbsp;
+                <abbr title="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/52.0.2743.116 Chrome/52.0.2743.116 Safari/537.36"
+                      style="cursor: help;">
+                    <i class="ts_icon ts_icon_laptop"></i>
+                    Slack Web App
+                </abbr>
+                <br>
+				<span class="small subtle_silver">
+                    IP: 200.55.140.181 (Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 2 additional logins from this device, with the most recent at 2:09pm.
+                </span>
+            </p>
+        </div>
+        <hr class="clear_both">
+    </section>
+{% endblock %}

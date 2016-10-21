@@ -1,0 +1,1261 @@
+{% load staticfiles %}
+<div id="col_flex" style="top: 62px;">
+    <div id="flex_contents" role="complementary" class="tab_panels tab_container" style="opacity: 1;">
+
+        <div class="panel" id="stars_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">Starred Items
+                <a class="close_flexpane" title="Close Flexpane">
+                    <i class="ts_icon ts_icon_times"></i>
+                </a>
+            </div>
+            <div id="monkey_scroll_wrapper_for_stars_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar hidden" style="margin-left: 4.5px; height: 516px;">
+                    <div class="monkey_scroll_handle " style="left: -3px; height: 70px; top: 0px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_stars_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="stars_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="height: 522.2px; width: 0px;">
+                                <div class="selectable_flex_pane_padder">
+                                    <div id="member_stars_list"></div>
+                                    <div id="member_stars_explanation" class="help">
+                                        <p>You haven't starred any messages or files yet. Maybe now's the
+                                            time to start? You can add a star to messages, files, snippets, posts,
+                                            comments ... pretty much anything in Slack.</p>
+                                        <p>Starring makes things easier to find: they'll show up right here in this
+                                            list.</p>
+                                    </div>
+                                    <div id="member_stars_more" class="flexpane_load_more" style="visibility: hidden;">
+                                        <button id="member_stars_more_btn"
+                                                class="btn btn_outline ladda-button flexpane_load_more_btn">
+                                            <span class="ladda-label">Load more...</span>
+                                        </button>
+                                    </div>
+                                    <div id="member_stars_error" class="flexpane_load_error hidden">
+                                        <p class="flexpane_load_error_msg">We're having trouble loading your Starred
+                                            Items.</p>
+                                        <button id="member_stars_error_btn"
+                                                class="btn btn_outline ladda-button flexpane_load_more_btn">
+                                            <span class="ladda-label">Try again?</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="mentions_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">
+                Mentions &amp; Reactions <span id="mentions_spinner"></span>
+                <a class="close_flexpane" title="Close Flexpane">
+                    <i class="ts_icon ts_icon_times"></i>
+                </a>
+            </div>
+            <div id="mentions_options" class="subheading "><p>
+            <span id="mentions_filter_menu_label"
+                  class="filter_menu_label cursor_pointer display_flex align_items_baseline">
+                <span class="mentions_filter_menu_target tiny_right_margin bold">Include:</span>
+                <span class="flex_one mentions_filter_menu_target tiny_left_margin search_filter_text">mentions, reactions, and User Group mentions <i
+                        class="ts_icon ts_icon_chevron_down bold arrow_down tiny_left_margin"></i></span>
+            </span>
+            </p></div>
+            <div id="monkey_scroll_wrapper_for_mentions_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar hidden" style="margin-left: 4.5px; height: 381px;">
+                    <div class="monkey_scroll_handle " style="left: -3px; height: 70px; top: 0px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_mentions_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="mentions_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="height: 386.8px; width: 0px;">
+                                <div class="selectable_flex_pane_padder">
+                                    <div id="member_mentions"></div>
+                                    <div id="member_mentions_explanation" class="help">
+                                        <p>You don't have any mentions yet. When someone mentions you by
+                                            name or uses one of your highlight words, that message will appear here.</p>
+                                    </div>
+                                    <div id="member_mentions_more" class="flexpane_load_more"
+                                         style="visibility: hidden;">
+                                        <button id="member_mentions_more_btn" class="btn btn_outline ladda-button">
+                                            <span class="ladda-label">Load more...</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="files_tab" style="height: 615px;">
+            <div id="file_list_container">
+                <div class="heading" tabindex="-1">
+                    <a id="file_list_clear_filter" class="menu_icon hidden">
+                        <i class="ts_icon ts_icon_times_circle"></i>
+                    </a>
+                    <a id="file_list_heading" class="menu_heading"><span class="heading_label">All File Types</span>
+                        <i class="ts_icon ts_icon_caret_down"></i>
+                    </a>
+                    <a class="close_flexpane" title="Close Flexpane">
+                        <i class="ts_icon ts_icon_times"></i>
+                    </a>
+                </div>
+                <div class="toolbar_container">
+                    <div class="toolbar clearfix">
+                        <ul id="file_list_toggle" class="flexpane_tab_bar">
+                            <li id="file_list_toggle_all" class="active"><a>Everyone</a></li>
+                            <li id="file_list_toggle_user">
+                                <i id="file_list_toggle_users" class="ts_icon ts_icon_caret_down"></i>
+                                <a>Just You</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="monkey_scroll_wrapper_for_file_list_scroller" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar hidden" style="margin-left: 4.5px; height: 494px;">
+                        <div class="monkey_scroll_handle " style="left: -3px; height: 444.245px; top: 0px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider" style="width: 100%;">
+                        <div id="monkey_scroll_wrapper_for_file_list_scroller" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider" style="width: 100%;">
+                                <div id="file_list_scroller" class="flex_content_scroller monkey_scroller"
+                                     style="height: 500.1px; width: 0px;">
+                                    <div id="file_list" class="feature_fast_files_flexpane not_scrolling"
+                                         data-list="all"></div>
+                                    <div id="file_list_block" class="help">
+                                        <div class="subsection" data-filter="all">
+                                            <p>Files live in channels, but you can search and sort them here.</p>
+                                            <p>To add a file, click the
+                                                <ts-icon
+                                                        class="ts_icon_plus_square_o ts_icon_inherit ts_icon_align_bottom"></ts-icon>
+                                                in any channel.
+                                            </p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="posts">
+                                            <p>Posts are useful for sharing longer documents with your team:
+                                                information that's longer than a chat message or that needs to be
+                                                formatted. Posts have the same commenting and sharing functionality as
+                                                other files.</p>
+                                            <p>If you'd like, you can <a
+                                                    href="#/files/create/post"
+                                                    target="new">create a new post</a>.</p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="spaces">
+                                            <p>Posts are useful for sharing longer documents with your team:
+                                                information that's longer than a chat message or that needs to be
+                                                formatted. Posts have the same commenting and sharing functionality as
+                                                other files.</p>
+                                            <p>If you'd like, you can <a
+                                                    href="#/files/create/space"
+                                                    target="new">create a new post</a>.</p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="snippets">
+                                            <p>Snippets are useful for pasting code or large blocks of text
+                                                into Slack. Snippets can be shared into channels so your teammates can
+                                                add comments.</p>
+                                            <p>Like other files, all content in a snippet is indexed and
+                                                searchable. Snippet content will appear in the Files tab of search
+                                                results.</p>
+                                            <p>If you'd like, you can <a>create
+                                                a new Snippet</a>.</p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="images">
+                                            <p>All sorts of image files can be uploaded to Slack. When you share an
+                                                image file, it can be previewed inline in chat.</p>
+                                            <p>If you'd like, you can <a>upload a new
+                                                image</a>.</p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="pdfs">
+                                            <p>PDFs uploaded to Slack are indexed and searchable. PDF content will
+                                                appear in the Files tab of search results.</p>
+                                            <p>If you'd like, you can <a>upload a new
+                                                PDF document</a>.</p>
+                                        </div>
+                                        <div class="subsection hidden" data-filter="gdocs">
+                                            <p>Slack provides built-in support for Google Docs. Just paste in a link to
+                                                a Google Doc and follow the prompts to set it up.</p>
+                                            <p>When you add a Google Doc, Slack will index it for search and
+                                                keep it up to date automatically so any changes you make in Google Docs
+                                                will be reflected here.</p>
+                                        </div>
+                                        <a href="#/files" id="file_listing_bottom_button"
+                                           class="top_margin btn full_width">
+                                            Open Files Archive
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="file_preview_container" class="{% comment %}hidden{% endcomment %}">
+                <div class="heading">
+                    <a onclick="return false;" id="back_from_file_preview"><i
+                            class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Files</a>
+                    <a class="close_flexpane" title="Close Flexpane">
+                        <i class="ts_icon ts_icon_times"></i>
+                    </a>
+                </div>
+                <div id="monkey_scroll_wrapper_for_file_preview_scroller" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                        <div class="monkey_scroll_handle " style="left: -3px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider" style="width: 100%;">
+                        <div id="monkey_scroll_wrapper_for_file_preview_scroller" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider" style="width: 100%;">
+                                <div id="file_preview_scroller" class="flex_content_scroller monkey_scroller"
+                                     style="height: 668px; width: 0px;">
+                                    <div id="file_preview_head_section"></div>
+                                    <div id="file_preview_comments_section"></div>
+                                    <form action="" id="file_comment_form" class="comment_form" method="post">
+                                        <a href="#/team/jeriverom"
+                                           class="member_preview_link" target="new">
+                                            <span class="member_image thumb_36"
+                                                  style="background-image: url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                                  data-thumb-size="36"></span>
+                                        </a>
+
+                                        <textarea id="file_comment"
+                                                  class="small comment_input small_bottom_margin autogrow-short"
+                                                  name="comment" autocorrect="off" autocomplete="off" spellcheck="true"
+                                                  style="overflow: hidden; height: 38px;" wrap="virtual"></textarea>
+                                        <span class="mini float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
+                                        <button id="file_comment_submit_btn" type="submit"
+                                                class="btn  btn_small float_right  ladda-button"
+                                                data-style="expand-right"><span class="ladda-label">Add Comment</span>
+                                        </button>
+                                    </form>
+
+                                    <form id="file_edit_comment_form" class="edit_comment_form hidden" method="post">
+                                        <textarea id="file_edit_comment" class="small comment_input small_bottom_margin"
+                                                  name="comment" autocorrect="off" autocomplete="off" spellcheck="true"
+                                                  wrap="virtual"></textarea><br>
+                                        <span class="mini float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
+                                        <input class="save btn  btn_small float_right " value="Save" type="submit">
+                                        <button class="cancel btn btn_small btn_outline float_right small_right_margin ">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel {% comment %}active{% endcomment %}" id="team_tab" style="height: 615px;">
+            <div id="team_list_container" class="hidden">
+                <div class="heading" tabindex="-1">
+                    Team Directory
+                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                    <a id="team_list_admin_link" href="#/admin"
+                       class="ts_tip ts_tip_bottom float_right right_margin hidden">
+                        <span class="ts_tip_tip">Manage team<br>members</span>
+                        <ts-icon class="ts_icon_cog_o"></ts-icon>
+                    </a>
+                </div>
+                <div class="team_tabs_container clearfix no_bottom_border">
+                    <div id="team_tabs">
+                        <ul class="flexpane_tab_bar small_top_margin lato no_bottom_margin bottom_border two_tabs">
+                            <li id="active_members_tab" class="tab bold active" href="#active_members"><a
+                                    href="#active_members" data-name="active_members" data-action="search">Members <span
+                                    id="active_members_count" class="normal">(<span
+                                    id="active_members_count_value">2</span>)</span></a></li>
+                        </ul>
+                        <div class="flexpane_tab_toolbar">
+                            <div id="search" class="tab_action bottom_border">
+                                <div id="team_filter" class="position_relative small_margin"
+                                     data-list-items-id="#team_list_scroller">
+                                    <i class="icon_search ts_icon ts_icon_search"></i>
+                                    <a class="ts_icon ts_icon_times_circle icon_close hidden"></a>
+                                    <input class="member_filter no_margin small" name="team_filter"
+                                           placeholder="Search team directory" type="text">
+                                </div>
+                            </div>
+                            <div id="user_group_edit" class="tab_action bottom_border hidden">
+                                <a class="tab_action_button lato_bold hidden" data-action="admin_user_groups_modal"><i
+                                        class="ts_icon ts_icon_cog_o"></i> Edit User Groups</a>
+                                <a class="tab_action_button lato_bold hidden" data-action="admin_user_groups_modal_new"><i
+                                        class="ts_icon ts_icon_plus_circle"></i> Create a User Group</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="monkey_scroll_wrapper_for_team_list_scroller" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                        <div class="monkey_scroll_handle " style="left: -3px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider" style="width: 100%;">
+                        <div id="monkey_scroll_wrapper_for_team_list_scroller" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider" style="width: 100%;">
+                                <div id="team_list_scroller" class="flex_content_scroller monkey_scroller"
+                                     style="height: 668px; width: 0px;">
+                                    <div id="team_list_members_wrapper">
+                                        <div id="team_list_members">
+                                            <div id="team_list">
+                                                <div class="tab_panels no_bottom_margin">
+                                                    <div class="panel selected active" id="active_members"
+                                                         data-tab="active">
+                                                        <div id="active_members_list">
+                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                                                <div class="member_details member_item_inset ">
+                                                                    <a href="#/team/jeriverom"
+                                                                       target="/team/jeriverom"
+                                                                       class="lazy member_preview_link member_image thumb_72"
+                                                                       style="background-color: #f6f6f6;"
+                                                                       aria-hidden="true"></a>
+                                                                    <div class="member_name_and_title">
+                                                                        <div>
+                                                                            <a href="#/team/jeriverom"
+                                                                               class="bold member_preview_link member_name no_bottom_margin">Julio
+                                                                                Rivero</a>
+                                                                        </div>
+                                                                        <div>
+                                                                            @jeriverom
+                                                                            <span class="presence away" title="away">
+                                                                                <i class="ts_icon ts_icon_presence presence_icon"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                                                <div class="member_details member_item_inset ">
+                                                                    <a href="#/team/vbuilvicente"
+                                                                       target="/team/vbuilvicente"
+                                                                       class="lazy member_preview_link member_image thumb_72"
+                                                                       style="background-color: #f6f6f6;"
+                                                                       aria-hidden="true"></a>
+
+
+                                                                    <div class="member_name_and_title">
+                                                                        <div>
+                                                                            <a href="#/team/vbuilvicente"
+                                                                               class="bold member_preview_link member_name no_bottom_margin">Victor
+                                                                                Manuel
+                                                                                Buil Vicente</a>
+                                                                        </div>
+                                                                        <div>
+                                                                            @vbuilvicente
+                                                                            <span class="presence away" title="away">
+                                                                                <i aria-hidden="true"
+                                                                                   class="ts_icon ts_icon_presence presence_icon"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="bot_header large_top_margin no_bottom_margin subtle_silver">
+                                                                <i class="ts_icon ts_icon_bolt small_right_margin ts_icon_inherit float_left"></i>
+                                                                Bots</h5>
+                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                                                <div class="member_details member_item_inset ">
+                                                                    <a href="#/team/slackbot"
+                                                                       class="lazy member_preview_link member_image thumb_72"
+                                                                       data-thumb-size="72"
+                                                                       style="background-color: #f6f6f6;"></a>
+
+
+                                                                    <div class="member_name_and_title">
+                                                                        <div>
+                                                                            <a href="#/team/slackbot"
+                                                                               class="bold member_preview_link member_name no_bottom_margin">slackbot</a>
+                                                                        </div>
+                                                                        <div>
+                                                                            @slackbot
+                                                                            <span data-member-presence="USLACKBOT"
+                                                                                  class="presence active"
+                                                                                  title="active">
+                                                                                <i aria-hidden="true"
+                                                                                   class="ts_icon ts_icon_heart presence_icon"></i></span>
+
+                                                                            <span class="mini timezone_label"><span
+                                                                                    class="timezone_value">6:27 PM</span> local time</span>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div id="active_no_results" class="no_results hidden"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="team_block" class="help">
+
+                                        <p id="team_block_admin_invite_few" class="hidden">There aren't many people
+                                            here: you should <a href="#/admin/invites"
+                                                                target="_blank">invite some</a>!</p>
+
+                                        <p id="team_block_admin_invite_many" class="hidden">Is everyone on your team
+                                            already on Slack? If not, <a
+                                                    href="https://blackmambasoft.slack.com/admin/invites"
+                                                    target="_blank">send them an invite!</a></p>
+
+                                        <p id="team_block_description" class="">The team list is an easy
+                                            way to find contact details, start direct message conversations and view
+                                            individual team members' activity feeds.</p>
+
+                                        <p id="team_block_email_on" class="hidden">Anyone with an <span
+                                                id="team_block_email_domains"></span> email address will be able to join
+                                            automatically if you send them a link to <a
+                                                    href="https://company.slack.com/">https://company.slack.com</a>.
+                                        </p>
+
+                                        <p id="team_block_admin_email_off" class="hidden">To make it easier, you can <a
+                                                href="#/admin/settings#signup_mode"
+                                                target="_blank">change your settings</a> to allow anyone with a work
+                                            email address (at a domain of your choice) to sign up by themselves by
+                                            visiting <strong>https://company.slack.com</strong>.</p>
+
+                                        <div id="team_block_fill_prompt" class="">
+                                            <i class="ts_icon ts_icon_user callout"
+                                               style="float: left; margin: 0 1rem 1rem 0;"></i>
+                                            <p>To make it easier for your colleagues, we suggest you <a
+                                                    href="https://company.slack.com/account/profile"
+                                                    target="_blank">add some details to your profile</a> (such as your
+                                                phone number, Skype name and your role on the team).</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="member_preview_container">
+                <div class="heading">
+                    <a onclick="return false;" id="back_from_member_preview"><i
+                            class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
+                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                </div>
+                <div id="monkey_scroll_wrapper_for_member_preview_scroller" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar  hidden" style="margin-left: 379.5px;">
+                        <div class="monkey_scroll_handle " style="left: -3px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider" style="width: 100%;">
+                        <div id="monkey_scroll_wrapper_for_member_preview_scroller" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 379.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider" style="width: 100%;">
+                                <div id="member_preview_scroller" class="flex_content_scroller monkey_scroller"
+                                     style="height: 544.6px; width: 392px;">
+                                    <div class="member_details clearfix display_flex flex_direction_column align_items_center cropped_preview">
+
+                                        <span class=" member_preview_link member_image thumb_512"
+                                              style="background-image:url('{{ MEDIA_URL }}{{ request.user.profile.image }}'),
+                                                      url({% static 'images/ava_0022-48.png' %})"></span>
+
+
+                                        <div class="member_name_and_presence lato">
+                                            <a href="#/team/jeriverom"
+                                               class="member_name">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+                                            <span class="presence away" title="away">
+                                                <i class="ts_icon ts_icon_presence presence_icon"></i></span>
+                                        </div>
+
+
+                                        <div class="member_action_bar">
+                                            <a href="{% url 'account:profile_edit' %}" class="btn btn_outline">Edit
+                                                Profile</a>
+                                            <a href="{% url 'account:settings' %}" class="btn btn_outline">Account
+                                                Settings</a>
+
+                                            <a class="member_preview_menu_target btn btn_outline"><i
+                                                    class="ts_icon ts_icon_chevron_large_down"></i></a>
+
+                                        </div>
+                                        <hr class="member_details_divider">
+                                        <table class="member_data_table lato">
+                                            <tbody>
+                                            <tr>
+                                                <td><span class="small_right_padding old_petunia_grey" title="Username">Username</span>
+                                                </td>
+                                                <td><span title="@jeriverom">@{{ request.user.username }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="small_right_padding old_petunia_grey" title="Timezone">Timezone</span>
+                                                </td>
+                                                <td class="member_preview_timezone"><span class="timezone_label">
+                                                    <span class="timezone_value">{% now 'P' %}</span> local time</span>
+                                                    (<a href="#/account/settings">change</a>)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="small_right_padding old_petunia_grey" title="Email">Email</span>
+                                                </td>
+                                                <td><a href="mailto:{{ request.user.email }}"
+                                                       title="Email {{ request.user.username }}">{{ request.user.email }}</a>
+                                                </td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <div class="clear_both"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="user_group_preview_container" class="hidden">
+                <div class="heading">
+                    <a onclick="return false;" id="back_from_user_group_preview"><i
+                            class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
+                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                </div>
+                <div id="user_group_preview_scroller"></div>
+            </div>
+        </div>
+
+        <div class="panel" id="search_tab" style="height: 615px;">
+            <div id="search_results_container">
+                <div class="heading" tabindex="-1">
+                    <div id="search_heading" class="inline_block">Search Results</div>
+                    <a class="close_flexpane small_left_margin" title="Close Flexpane"><i
+                            class="ts_icon ts_icon_times"></i></a>
+                    <div class="search_sort_container very_small_right_margin">
+                        <a id="search_sort_timestamp" class="search_segmented_control left active">Recent</a>
+                        <a id="search_sort_score" class="search_segmented_control right">Relevant</a>
+                    </div>
+                </div>
+                <div id="search_tabs" class="lato" style="display: none;">
+                    <div id="search_filters" class="messages">
+                        <a id="filter_messages">Messages ()</a>
+                        <a id="filter_files">Files ()</a>
+                    </div>
+
+                </div>
+                <div id="search_options" class="subheading"></div>
+                <div id="monkey_scroll_wrapper_for_search_results" class="monkey_scroll_wrapper ">
+                    <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                        <div class="monkey_scroll_handle " style="left: -3px;">
+                            <div class="monkey_scroll_handle_inner "></div>
+                        </div>
+                    </div>
+                    <div class="monkey_scroll_hider" style="width: 100%;">
+                        <div id="monkey_scroll_wrapper_for_search_results" class="monkey_scroll_wrapper ">
+                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                                <div class="monkey_scroll_handle " style="left: -3px;">
+                                    <div class="monkey_scroll_handle_inner "></div>
+                                </div>
+                            </div>
+                            <div class="monkey_scroll_hider" style="width: 100%;">
+                                <div id="search_results" class="flex_content_scroller monkey_scroller"
+                                     style="width: 0px;">
+                                    <div id="search_results_team"></div>
+                                    <div id="search_results_items"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" id="details_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">
+                <span id="details_tab_header">About <span class="channel_name"><ts-icon
+                        class="ts_icon_channel"></ts-icon><strong>announcements</strong></span></span>
+                <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+            </div>
+            <div id="monkey_scroll_wrapper_for_channel_page_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                    <div class="monkey_scroll_handle " style="left: -3px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_channel_page_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="channel_page_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="height: 530.6px; width: 0px;">
+
+                                <div class="selectable_flex_pane_padder no_top_margin">
+
+                                    <div class="conversation_details"></div>
+
+                                    <div class="channel_page_about channel_page_section " data-section-name="about">
+
+                                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                                            <i class="ts_icon ts_icon_info channel_page_blue small_right_margin"></i>
+                                            <a id="channel_page_title" title="Click to expand or collapse"
+                                               class="flex_one">Channel Details</a>
+
+                                            <div class="disclosure_triangle inline_block left_margin">
+                                                <i class="ts_icon ts_icon_caret_right"></i>
+                                                <i class="ts_icon ts_icon_caret_down"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="section_content channel_purpose">
+                                            <div class="channel_purpose_section">
+                                                <div class="bold subtle_silver purpose_label mini">Purpose</div>
+                                                <div class="bold subtle_silver edit_purpose_label hidden mini tiny_bottom_margin">
+                                                    Set a new purpose
+                                                </div>
+
+                                                <div class="channel_purpose_text no_jumbomoji">
+                                                    This channel is for team-wide communication and announcements. All
+                                                    team members are in this channel.
+                                                    <a class="edit_purpose mini">edit</a>
+                                                </div>
+
+                                                <textarea type="text" id="channel_purpose_input" class="hidden small"
+                                                          maxlength="250" tabindex="1">This channel is for team-wide communication and announcements. All team members are in this channel.</textarea>
+
+                                                <button class="hidden btn btn_outline btn_small purpose_cancel tiny_right_margin"
+                                                        tabindex="3">Cancel
+                                                </button>
+                                                <button class="hidden btn btn_small purpose_done" tabindex="2">Done
+                                                </button>
+                                            </div>
+
+                                            <div class="creator italic subtle_silver top_margin">
+                                                <a class="creator_link subtle_silver"> Created by vbuilvicente
+                                                    today </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="channel_page_pinned_items channel_page_section "
+                                         data-section-name="pinned_items">
+
+                                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                                            <i class="ts_icon ts_icon_thumb_tack pin_orange small_right_margin"></i>
+                                            <a title="Click to expand or collapse" class="flex_one"
+                                               id="pinned_items_title">Pinned Items</a>
+
+                                            <div class="disclosure_triangle inline_block left_margin">
+                                                <i class="ts_icon ts_icon_caret_right"></i>
+                                                <i class="ts_icon ts_icon_caret_down"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="section_content pinned_items"></div>
+
+                                    </div>
+
+                                    <div class="channel_page_members channel_page_section " data-section-name="members">
+                                        <div class="channel_page_member_tabs section_header"></div>
+                                        <div class="channel_page_member_lists section_content"></div>
+                                    </div>
+
+                                    <div class="channel_page_shared_files channel_page_section "
+                                         data-section-name="shared_files">
+
+                                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                                            <i class="ts_icon ts_icon_all_files mustard_yellow small_right_margin"></i>
+                                            <a title="Click to expand or collapse" class="flex_one"
+                                               id="channel_files_title">Shared Files</a>
+
+                                            <div class="disclosure_triangle inline-block left_margin">
+                                                <i class="ts_icon ts_icon_caret_right"></i>
+                                                <i class="ts_icon ts_icon_caret_down"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="section_content bottom_margin"></div>
+
+                                    </div>
+
+                                    <div class="channel_page_notif_prefs channel_page_section "
+                                         data-section-name="notif_prefs">
+
+                                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                                            <span class="channel_page_notif_prefs_mute_state"><i
+                                                    class="ts_icon ts_icon_bell_o moscow_red small_right_margin"></i></span>
+                                            <a id="channel_notif_prefs_title" title="Click to expand or collapse"
+                                               class="flex_one">Notification Preferences</a>
+
+                                            <div class="disclosure_triangle inline_block left_margin">
+                                                <i class="ts_icon ts_icon_caret_right"></i>
+                                                <i class="ts_icon ts_icon_caret_down"></i>
+                                            </div>
+                                        </div>
+
+                                        <div class="section_content"></div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="channel_page_scroller" class="flex_content_scroller">
+
+                <div class="selectable_flex_pane_padder no_top_margin">
+
+                    <div class="conversation_details"></div>
+
+                    <div class="channel_page_about channel_page_section " data-section-name="about">
+
+                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                            <i class="ts_icon ts_icon_info channel_page_blue small_right_margin"></i>
+                            <a id="channel_page_title" title="Click to expand or collapse" class="flex_one"></a>
+
+                            <div class="disclosure_triangle inline_block left_margin">
+                                <i class="ts_icon ts_icon_caret_right"></i>
+                                <i class="ts_icon ts_icon_caret_down"></i>
+                            </div>
+                        </div>
+
+                        <div class="section_content channel_purpose"></div>
+
+                    </div>
+
+                    <div class="channel_page_pinned_items channel_page_section " data-section-name="pinned_items">
+
+                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                            <i class="ts_icon ts_icon_thumb_tack pin_orange small_right_margin"></i>
+                            <a title="Click to expand or collapse" class="flex_one" id="pinned_items_title"></a>
+
+                            <div class="disclosure_triangle inline_block left_margin">
+                                <i class="ts_icon ts_icon_caret_right"></i>
+                                <i class="ts_icon ts_icon_caret_down"></i>
+                            </div>
+                        </div>
+
+                        <div class="section_content pinned_items"></div>
+
+                    </div>
+
+                    <div class="channel_page_members channel_page_section " data-section-name="members">
+                        <div class="channel_page_member_tabs section_header"></div>
+                        <div class="channel_page_member_lists section_content"></div>
+                    </div>
+
+                    <div class="channel_page_shared_files channel_page_section " data-section-name="shared_files">
+
+                        <div class="section_header no_bottom_margin display_flex align_items_center">
+                            <i class="ts_icon ts_icon_all_files mustard_yellow small_right_margin"></i>
+                            <a title="Click to expand or collapse" class="flex_one" id="channel_files_title">Shared
+                                Files</a>
+
+                            <div class="disclosure_triangle inline-block left_margin">
+                                <i class="ts_icon ts_icon_caret_right"></i>
+                                <i class="ts_icon ts_icon_caret_down"></i>
+                            </div>
+                        </div>
+
+                        <div class="section_content bottom_margin"></div>
+
+                    </div>
+
+                    <div class="channel_page_notif_prefs channel_page_section " data-section-name="notif_prefs">
+
+                        <div class="section_header no_bottom_margin display_flex align_items_center">
+					<span class="channel_page_notif_prefs_mute_state">
+						<i class="ts_icon ts_icon_bell_o moscow_red small_right_margin"></i>
+					</span>
+                            <a id="channel_notif_prefs_title" title="Click to expand or collapse" class="flex_one">Notification
+                                Preferences</a>
+
+                            <div class="disclosure_triangle inline_block left_margin">
+                                <i class="ts_icon ts_icon_caret_right"></i>
+                                <i class="ts_icon ts_icon_caret_down"></i>
+                            </div>
+                        </div>
+
+                        <div class="section_content"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel" id="downloads_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">
+                <span id="downloads_tab_header">Downloads</span>
+                <a class="close_flexpane left_margin" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                <a id="downloads_tab_clear" class="float_right right_padding">Clear all</a>
+            </div>
+            <div id="downloads_empty">
+                <img src="{% static 'images/downloads_empty.png' %}"
+                     srcset="{% static 'images/downloads_empty.png' %} 1x, {% static 'images/downloads_empty.png' %} 2x">
+                <p>You can download files by clicking the <i class="ts_icon ts_icon_cloud_download"></i> button.</p>
+            </div>
+            <div id="monkey_scroll_wrapper_for_downloads_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                    <div class="monkey_scroll_handle " style="left: -3px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_downloads_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="downloads_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="width: 0px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="downloads_shift_hint">Hold <span class="key">Shift</span> to open the file.</div>
+        </div>
+
+        <div class="panel" id="whats_new_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">
+                <span id="whats_new_tab_header">What's New</span>
+                <a class="close_flexpane left_margin" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                <div class="flex_heading_controls">
+                    <label class="checkbox" for="what_new_read_cb"><input id="what_new_read_cb" checked="checked"
+                                                                          type="checkbox"> Notify me about
+                        updates</label>
+                </div>
+            </div>
+            <div id="monkey_scroll_wrapper_for_whats_new_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                    <div class="monkey_scroll_handle " style="left: -3px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_whats_new_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="whats_new_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="width: 0px;">
+                                <div id="whats_new_updates" class="lato normal_margin">
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1473854401">
+                                        <h5 class="subtle_silver capitalize">September 14, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slackhq.com/a-new-way-to-catch-up-in-slack-148857029091#.e4jzwiqzn"
+                                               target="new" class="indifferent_grey whats_new_content">Get all caught
+                                                up</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Meet All Unreads — a
+                                            new way to catch up on a myriad of Slack conversations in one, simple
+                                            sweep. With all your unread messages in one spot, you can quickly scan
+                                            what’s new, review what you need to, and clear the rest. With just a
+                                            scroll and a click, you’re all caught up!<span class="para_break"><i
+                                                    class="copy_only"><br></i></span>Don't see it in your sidebar? Head
+                                            to <b data-format-symbol="*">﻿⁠⁠⁠Preferences &gt; Advanced &gt; Channel List
+                                                &gt; Turn on All Unreads.</b>﻿⁠⁠⁠</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slackhq.com/a-new-way-to-catch-up-in-slack-148857029091#.e4jzwiqzn"
+                                                class="whats_new_more" target="new">Learn more on our blog<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1466531318">
+                                        <h5 class="subtle_silver capitalize">June 21, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slackhq.com/get-more-done-with-message-buttons-5fa5b283a59"
+                                               target="new" class="indifferent_grey whats_new_content">Do more of your
+                                                work from Slack</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">We've built a new
+                                            way to interact with the apps you use in Slack. Message buttons: little
+                                            bonny buttons services can add to your apps. You can click to accept
+                                            invites, approve things, and hold proper polls, all within Slack. A
+                                            dozen apps with buttons are live today, with many more to come.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slackhq.com/get-more-done-with-message-buttons-5fa5b283a59"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1465214400">
+                                        <h5 class="subtle_silver capitalize">June 6, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slackhq.com/calls-come-to-slack-ad333ce98acf#.o7s7dwh6u"
+                                               target="new" class="indifferent_grey whats_new_content">Calls: Out of
+                                                beta and open to all</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">You can now jump on a
+                                            call whenever you feel the need to talk out loud, directly within
+                                            Slack. &nbsp;Call anyone on your team simply by clicking the telephone
+                                            icon in the message menu, or clicking “Call” from their user profile.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slackhq.com/calls-come-to-slack-ad333ce98acf#.o7s7dwh6u"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1463590800">
+                                        <h5 class="subtle_silver capitalize">May 18, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slackhq.com/learning-to-share-in-slack-d6e4fcff01b8"
+                                               target="new" class="indifferent_grey whats_new_content">As a wise person
+                                                on this team once said…</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Sharing messages.
+                                            The perfect way to loop people in, restart a discussion in a better
+                                            channel, or revisit an old conversation. Hover over any message and
+                                            click the “Share message…” icon to share a message, add context and get
+                                            everyone up to speed.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slackhq.com/learning-to-share-in-slack-d6e4fcff01b8"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1461348113">
+                                        <h5 class="subtle_silver capitalize">April 22, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">A better way to navigate your message history</span>
+                                        </h3>
+                                        <p class="small_bottom_margin whats_new_content">Hop back to any date in your
+                                            message history with the handy new <b data-format-symbol="*">﻿⁠⁠⁠Jump to
+                                                date</b>﻿⁠⁠⁠ feature. You can find it in the settings menu for channels
+                                            and direct messages. Huzzah! <span class="emoji-outer emoji-sizer"
+                                                                               style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:32.5% 42.5%;background-size:4100%"
+                                                                               title="rabbit">:rabbit:</span></p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1461326400">
+                                        <h5 class="subtle_silver capitalize">April 22, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slack-files.com/T024BE7LD-F116W8W2H-2b7cb856c1"
+                                               target="new" class="indifferent_grey whats_new_content">Ringing in Calls
+                                                for Android (beta)</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">What a glorious day:
+                                            Now you can accept and join a call from your Android device (tho’ not
+                                            start one, but soon!). Since you’re part of the beta for Calls on
+                                            desktop, we thought you might want to try this out. Just make sure to
+                                            update your mobile app to the latest version, please.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slack-files.com/T024BE7LD-F116W8W2H-2b7cb856c1"
+                                                class="whats_new_more" target="new">See the Known Issues list for Calls
+                                            on Android<i
+                                                    class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1460660400">
+                                        <h5 class="subtle_silver capitalize">April 14, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slackhq.com/getting-things-done-with-reminders-9bdb7686b57a"
+                                               target="new" class="indifferent_grey whats_new_content">A friendly
+                                                reminder about reminders</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Perhaps you use <b
+                                                data-format-symbol="*">﻿⁠⁠⁠/remind</b>﻿⁠⁠⁠
+                                            to set reminders for yourself, other teammates, or even entire
+                                            channels. As of today, you can also set reminders for any message in
+                                            Slack, to remind yourself to come back to it. (We set a reminder to
+                                            remind ourselves to tell you that. It worked!)</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slackhq.com/getting-things-done-with-reminders-9bdb7686b57a"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1460046764">
+                                        <h5 class="subtle_silver capitalize">April 7, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slack-files.com/T024BE7LD-F0XUU5RGU-b4fec434f8"
+                                               target="new" class="indifferent_grey whats_new_content">Say Hello to
+                                                Calls for iOS</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">We just released
+                                            Calls for iOS devices. Since you already use Calls, you get instant
+                                            access when you update to Slack for iOS 2.90. But there may be some
+                                            issues. If you want to see whether we know about one before you report
+                                            it, we've created a handy list for you.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slack-files.com/T024BE7LD-F0XUU5RGU-b4fec434f8"
+                                                class="whats_new_more" target="new">See the Known Issues list for Calls
+                                            on iOS<i
+                                                    class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1458164614">
+                                        <h5 class="subtle_silver capitalize">March 16, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">JUMBOMOJI</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">Ever feel regular-sized emoji
+                                            aren't enough to express your inner <span class="emoji-outer emoji-sizer"
+                                                                                      style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:65% 55%;background-size:4100%"
+                                                                                      title="joy">:joy:</span>?
+                                            Us too. So we made JUMBOMOJI. Now, messages containing emoji only (up
+                                            to 23 at a time) are displayed jumbo-sized. Regular terms and conditions
+                                            may apply. If emoji have those. We feel like they probably don't. <span
+                                                    class="emoji-outer emoji-sizer"
+                                                    style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:30% 85%;background-size:4100%"
+                                                    title="elephant">:elephant:</span></p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1453245140">
+                                        <h5 class="subtle_silver capitalize">January 19, 2016</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">A faster, smarter Quick Switcher</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">The Quick Switcher
+                                            just got much much quicker, and smarter to boot. It now remembers the
+                                            conversations you switch to most frequently and recently, and gets
+                                            better the more you use it. If it’s not fixed in your muscle memory yet,
+                                            now’s the perfect time to start: press cmd+k on Mac or ctrl+k on
+                                            Windows and Linux to give it a try.</p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1450462640">
+                                        <h5 class="subtle_silver capitalize">December 18, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">Allow others to edit your Posts</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">Have a Post you want
+                                            to work on with other people? Now, you can! Just check “Let others edit
+                                            this Post” when sharing your Post, or, after sharing, use the toggle in
+                                            the ellipsis menu. Done editing? Click “Done Editing” and let the next
+                                            person take over.</p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1450367764">
+                                        <h5 class="subtle_silver capitalize">December 17, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="http://slackhq.com/post/135387122640/do-not-disturb" target="new"
+                                               class="indifferent_grey whats_new_content">Introducing Do Not Disturb</a>
+                                        </h3>
+                                        <p class="small_bottom_margin whats_new_content">Need time to
+                                            yourself? Want to send someone a message after hours without bothering
+                                            them? Go ahead! With Do Not Disturb, you can snooze notifications
+                                            (including sounds) on any device for up to 24 hours. <span
+                                                    class="emoji-outer emoji-sizer"
+                                                    style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:50% 40%;background-size:4100%"
+                                                    title="zzz">:zzz:</span></p>
+                                        <p class="no_bottom_margin"><a
+                                                href="http://slackhq.com/post/135387122640/do-not-disturb"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1450313139">
+                                        <h5 class="subtle_silver capitalize">December 16, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">A bigger, better image viewer</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">Our cramped image
+                                            previews have been replaced with a new full-size view which includes
+                                            zoom capability. View images as they are meant to be viewed: bigly.</p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1450288800">
+                                        <h5 class="subtle_silver capitalize">December 16, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="http://slackhq.com/post/134878632730/launch-platform" target="new"
+                                               class="indifferent_grey whats_new_content">Find New Apps for Your
+                                                Team</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">We’ve launched
+                                            Slack’s App Directory with over 150 apps in categories from design to
+                                            customer support to productivity. Find the products you already use
+                                            every day and connect them to your Slack team for an instant lift in
+                                            team productivity and mirth.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="http://slackhq.com/post/134878632730/launch-platform"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1447376659">
+                                        <h5 class="subtle_silver capitalize">November 12, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">Do More with Messages</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">We’ve done away with
+                                            that (nearly invisible) gear icon to bring you a new, more visible,
+                                            more robust message actions menu. Hover over a message to quickly and
+                                            instantly: add a reaction, edit your message, mark a message as unread,
+                                            or copy the link to a message so you can reference it later.</p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1446494106">
+                                        <h5 class="subtle_silver capitalize">November 2, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">Turn off this red dot thing</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">For those who don’t
+                                            need or want to see what’s new in this What’s New section, you can now
+                                            untick the checkbox above, and this latest red dot will be the last
+                                            you’ll ever see. <span class="emoji-outer emoji-sizer"
+                                                                   style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:35% 95%;background-size:4100%"
+                                                                   title="wave">:wave:</span></p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1446248015">
+                                        <h5 class="subtle_silver capitalize">October 30, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="http://slackhq.com/post/132116511325/customprofiles" target="new"
+                                               class="indifferent_grey whats_new_content">Customizable, Bigger, Better
+                                                Profiles</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Which department
+                                            does Mo work in? Who does Shabnam report to? What’s Bill’s favorite
+                                            emoji? Now available to admins and owners on paid plans, Custom Profiles
+                                            lets you set up a profile unique to your team and how you work. We’ve
+                                            also made the profile a little more <span class="emoji-outer emoji-sizer"
+                                                                                      style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:7.5% 97.5%;background-size:4100%"
+                                                                                      title="sparkles">:sparkles:</span>
+                                            for everyone.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="http://slackhq.com/post/132116511325/customprofiles"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1446152418">
+                                        <h5 class="subtle_silver capitalize">October 29, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="http://slackhq.com/post/132108708810/usergroups" target="new"
+                                               class="indifferent_grey whats_new_content">User Groups and Default
+                                                Channels</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Want to get the
+                                            attention of some people without bugging anyone else? Now available for
+                                            teams on paid plans, User Groups allow you to create <b
+                                                    data-format-symbol="*">﻿⁠⁠⁠@windows-users</b>﻿⁠⁠⁠ or <b
+                                                    data-format-symbol="*">﻿⁠⁠⁠@trekkies</b>﻿⁠⁠⁠ or <b
+                                                    data-format-symbol="*">﻿⁠⁠⁠@interns</b>﻿⁠⁠⁠ (or anything you like!)
+                                            AND to add anyone joining that group to a designated set of channels.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="http://slackhq.com/post/132108708810/usergroups"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1446033601">
+                                        <h5 class="subtle_silver capitalize">October 28, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">What’s New</span></h3>
+                                        <p class="small_bottom_margin whats_new_content">We added a <b
+                                                data-format-symbol="*">﻿⁠⁠⁠What’s New</b>﻿⁠⁠⁠ section with a natty red
+                                            badge, for more expediently and efficiently letting you know what’s new.
+                                            You’re looking at it. <span class="emoji-outer emoji-sizer"
+                                                                        style="background: url(https://a.slack-edge.com/f360/img/emoji_2016_06_08/sheet_apple_64_indexed_256colors.png);background-position:70% 10%;background-size:4100%"
+                                                                        title="slightly_smiling_face">:slightly_smiling_face:</span>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1446033600">
+                                        <h5 class="subtle_silver capitalize">October 28, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <span class="whats_new_content">Preference for Channel List Display</span>
+                                        </h3>
+                                        <p class="small_bottom_margin whats_new_content">Don’t want your public and
+                                            private channels mixed? They don’t have to be. In your user preferences,
+                                            choose <b data-format-symbol="*">﻿⁠⁠⁠List public and private channels
+                                                separately</b>﻿⁠⁠⁠ in <b data-format-symbol="*">﻿⁠⁠⁠Advanced Options</b>﻿⁠⁠⁠
+                                            to keep them separated.</p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1445929200">
+                                        <h5 class="subtle_silver capitalize">October 27, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="http://slackhq.com/post/131956541795/groupmessages" target="new"
+                                               class="indifferent_grey whats_new_content">Group Messages</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Pull up to 8 people into a
+                                            private conversation without needing to create a channel for it. Use <b
+                                                    data-format-symbol="*">﻿⁠⁠⁠cmd+shift+k</b>﻿⁠⁠⁠ on the Mac App, <b
+                                                    data-format-symbol="*">﻿⁠⁠⁠ctrl+shift+k</b>﻿⁠⁠⁠ on Windows/Linux, or
+                                            click the <b data-format-symbol="*">﻿⁠⁠⁠+</b>﻿⁠⁠⁠ next to the Direct Message
+                                            header to bring up the DM screen and create or view DMs and Group Messages.
+                                        </p>
+                                        <p class="no_bottom_margin"><a
+                                                href="http://slackhq.com/post/131956541795/groupmessages"
+                                                class="whats_new_more" target="new">Read the blog post<i
+                                                class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                    <div class="bottom_border bottom_margin bottom_padding"
+                                         data-whats-new-id="1445410800">
+                                        <h5 class="subtle_silver capitalize">October 21, 2015</h5>
+                                        <h3 class="no_bottom_margin">
+                                            <a href="https://slack.zendesk.com/hc/en-us/articles/212221668-Team-wide-two-factor-authentication"
+                                               target="new" class="indifferent_grey whats_new_content">Mandatory
+                                                Two-Factor Authentication and Backup Codes</a></h3>
+                                        <p class="small_bottom_margin whats_new_content">Need to make sure
+                                            everyone on your team is safe and secure? Teams on paid plans can now
+                                            turn on Mandatory Two-Factor Authentication. Because you should always
+                                            trust your team to be themselves.</p>
+                                        <p class="no_bottom_margin"><a
+                                                href="https://slack.zendesk.com/hc/en-us/articles/212221668-Team-wide-two-factor-authentication"
+                                                class="whats_new_more" target="new">Learn about two-factor
+                                            authentication<i
+                                                    class="ts_icon ts_icon_chevron_medium_right ts_icon_inherit align_bottom"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

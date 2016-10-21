@@ -1,0 +1,25 @@
+{% extends 'site_template/template.html' %}
+{% load staticfiles %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/site/settings.js' %}"></script>
+{% endblock %}
+{% block main_container %}
+    {% url 'account:settings' as account_settings %}
+    {% url 'account:logs' as account_logs %}
+    {% url 'account:profile' as account_profile %}
+    <h1><i class="ts_icon ts_icon_user seafoam_green"></i> Account</h1>
+    <div class="tab_set on_neutral_grey">
+        <a href="{% url 'account:settings' %}"
+           {% if request.get_full_path == account_settings %}class="selected"{% endif %}>Settings</a>
+        <a href="#/account/notifications">Notifications</a>
+        <a href="{% url 'account:profile' %}"
+           {% if request.get_full_path == account_profile %}class="selected"{% endif %}>Profile</a>
+        <a href="#/account/team" class="secondary">Team Settings</a>
+        <a href="{% url 'account:logs' %}"
+           class="secondary {% if request.get_full_path == account_logs %}selected{% endif %}">Access Logs</a>
+        <i class="tab_caret ts_icon ts_icon_caret_down"></i>
+        <i class="tab_caret ts_icon ts_icon_caret_up"></i>
+    </div>
+    {% block settings %}{% endblock %}
+{% endblock %}

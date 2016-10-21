@@ -1,0 +1,28 @@
+{% extends 'site_template/base.html' %}
+{% load staticfiles %}
+{% block title %}Welcome{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/guides.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/footer.css' %}">
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/main.js' %}"></script>
+{% endblock %}
+{% block header %}
+    {% include 'site_template/header.html' %}
+{% endblock %}
+{% block navbar %}
+    {% include 'site_template/navBar.html' %}
+{% endblock %}
+{% block container %}
+    <div id="page_contents">
+        {% block main_container %}test{% endblock %}
+    </div>
+    <div id="overlay"></div>
+{% endblock %}
+{% block footer %}
+    {% include 'site_template/footer.html' %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'site_template/template.html' %}
+{% block header %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block main_container %}
+    <form action="/signin" method="post" accept-encoding="UTF-8"
+          class="card align_center span_4_of_6 col float_none margin_auto large_bottom_margin no_left_padding no_right_padding large_bottom_padding">
+        <h1>Sign in to your team</h1>
+
+        <div class="col span_4_of_6 float_none margin_auto no_right_padding">
+            <p>Enter your team's <strong>company name</strong>.</p>
+
+            <p class=" no_bottom_margin">
+                <input name="domain" id="domain" class="input_inline align_right small_right_margin"
+                       placeholder="Team name" autocomplete="off" autocorrect="off"
+                       autocapitalize="off" spellcheck="false" type="text">
+            </p>
+
+            <p class="large_bottom_margin">
+                <button type="submit" id="submit_team_domain" class="btn btn_large btn_info ladda-button"
+                        style="width: 250px;"><span class="ladda-label">Continue <i
+                        class="ts_icon ts_icon_arrow_large_right small_left_margin"></i></span><span
+                        class="ladda-spinner"></span><span class="ladda-spinner"></span></button>
+            </p>
+        </div>
+    </form>
+{% endblock %}

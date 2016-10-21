@@ -1,0 +1,104 @@
+/**
+ * Created by julio on 14/10/16.
+ */
+var panel = null, channels = '', activeChannel = 'public', users = new Array(),
+    apiUrl = window.location.protocol + '//' + window.location.host + '/api/';
+
+$(document).ready(function () {
+
+    $(function () {
+        get_chanel();
+        get_users();
+    });
+
+    $('#team_menu').on('click', function () {
+        $('#menu').removeClass('hidden');
+    });
+
+    $('.popover_mask').on('click', function () {
+        $('#menu').addClass('hidden');
+        $('#menu.flex_menu').addClass('hidden');
+    });
+
+    $('.channel_header_icon').on('click', function () {
+        $('.channel_header_icon.active').removeClass('active');
+
+        $(this).addClass('active');
+
+        //aqui lo demas
+        var obj = this.id;//.replace().split('_');//.slice(1, -1);
+        if (obj.indexOf('_toggle') !== -1) {
+            obj = obj.replace('_toggle', '');
+
+            if (obj != 'flex_menu') {
+                var arr = (obj.split('_').length > 1) ? obj.split('_')[1] : obj.split('_')[0];
+                $('.panel.active').removeClass('active');
+                $('#' + arr + '_tab').addClass('active');
+            } else {
+                $('#menu.flex_menu').removeClass('hidden');
+            }
+        }
+    });
+
+    $('input#search_terms').on('focus', function () {
+        $('#search_autocomplete_popover').removeClass('hidden');
+        $('#client-ui').addClass('search_focused');
+    });
+
+    $('input#search_terms').focusout(function () {
+        $('#search_autocomplete_popover').addClass('hidden');
+        $('#client-ui').removeClass('search_focused');
+    });
+
+    $('#list_team').on('click', function () {
+        $('.panel.active').removeClass('active');
+        $('#team_tab').addClass('active');
+        $('#menu.flex_menu').addClass('hidden');
+    });
+
+    $('.close_flexpane').on('click', function () {
+        $(this).closest('div[class^="panel active"]').each(function () {
+            $(this).removeClass('active');
+        });
+        $('.channel_header_icon.active').removeClass('active');
+    });
+
+    var request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
+        $.ajax({
+            type: typeRequest,
+            url: urlSend,
+            data: dataSend,
+            dataType: dataType,
+            success: doneFunction,
+            error: errorFunction
+        });
+    };
+
+    var get_chanel = function () {
+        var exc = function (response) {
+            var list = $('#channel-list');
+            $('#channel_header_count').html(response.length);
+            response.forEach(function (item) {
+                list.append(item_channel_list(item.name));
+            });
+        };
+
+        var urlapi = apiUrl + companyuser + '/room/';
+        request(urlapi, 'GET', null, null, exc, null);
+    };
+
+    var get_users = function () {
+        var exc = function (response) {
+            var list = $('#im-list');
+            $('#dm_header_count').html(response.length + 1);
+            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (0/' + response.length + ' online)</span>');
+            response.forEach(function (item) {
+                list.append(item_user_list(item.user.username));
+            });
+        };
+
+        var urlapi = apiUrl + companyuser + '/users/';
+        request(urlapi, 'GET', null, null, exc, null);
+    }
+
+});
