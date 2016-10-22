@@ -480,3 +480,26 @@ li.member.cursor_pointer {
 #presence_container {
     display: none; /*TODO utilizar para cargar*/
 }
+
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 7px;
+    border: 5px solid #fff;
+    background: #d9d9de;
+    position: absolute;
+    left: -3px;
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D9D9DE;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fff;
+}

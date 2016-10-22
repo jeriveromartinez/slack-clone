@@ -2,7 +2,9 @@
  * Created by julio on 14/10/16.
  */
 var panel = null, channels = '', activeChannel = 'public', users = new Array(),
-    apiUrl = window.location.protocol + '//' + window.location.host + '/api/';
+    apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
+    hostUrl = window.location.protocol + '//' + window.location.host;
+window.users_logged = 0;
 
 $(document).ready(function () {
 
@@ -76,7 +78,7 @@ $(document).ready(function () {
 
     var get_chanel = function () {
         var exc = function (response) {
-            var list = $('#channel-list');
+            var list = $('#channel-list').html('');
             $('#channel_header_count').html(response.length);
             response.forEach(function (item) {
                 list.append(item_channel_list(item.name));
@@ -89,16 +91,35 @@ $(document).ready(function () {
 
     var get_users = function () {
         var exc = function (response) {
-            var list = $('#im-list');
+            var list = $('#im-list').html('');
             $('#dm_header_count').html(response.length + 1);
-            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (0/' + response.length + ' online)</span>');
+            $('span#active_members_count_value').html(response.length);
+            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
             response.forEach(function (item) {
                 list.append(item_user_list(item.user.username));
             });
         };
 
         var urlapi = apiUrl + companyuser + '/users/';
+        $.when(users_online()).done(function () {
+            request(urlapi, 'GET', null, null, exc, null);
+        });
+    };
+
+    var users_online = function () {
+        var exc = function (response) {
+            $('#active_members_count_value').html(response.length);
+            var list = $('#active_members_list').html('');
+
+            response.forEach(function (item) {
+                list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image))
+            });
+
+            window.users_logged = response.length;
+        };
+
+        var urlapi = apiUrl + companyuser + '/users-logged/';
         request(urlapi, 'GET', null, null, exc, null);
-    }
+    };
 
 });

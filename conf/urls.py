@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^api/', include('plataforma.urls', namespace='api')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
 
-
     # url(r'^proto/', include('proto.urls', namespace="proto")),
     # url(r'^conceptboard/', include('conceptboard.urls', namespace="conceptboard")),
     # url(r'^sharedocs/', include('sharedocs.urls', namespace="sharedocs")),

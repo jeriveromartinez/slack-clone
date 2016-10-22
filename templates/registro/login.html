@@ -1,37 +1,37 @@
 {% extends 'site_template/base.html' %}
 {% block title %}Login{% endblock %}
 {% block container %}
-        <div class="span_4_of_6 col float_none margin_auto no_right_padding">
-            <p id="error_unknown" class="alert alert_error" style="{% if not message %}display: none;{% endif %}">
-                <i class="ts_icon ts_icon_warning"></i> Hmmm... something went wrong. Please try again.</p>
-        </div>
+    <div class="span_4_of_6 col float_none margin_auto no_right_padding">
+        <p id="error_unknown" class="alert alert_error" style="{% if not message %}display: none;{% endif %}">
+            <i class="ts_icon ts_icon_warning"></i> Hmmm... something went wrong. Please try again.</p>
+    </div>
 
-        <div class="real_content card align_center span_4_of_6 col float_none margin_auto large_bottom_margin right_padding large_bottom_padding">
-            <h1 id="signin_header"> Sign in to <span class="break_word">Slack</span></h1>
-            <div class="col span_4_of_6 float_none margin_auto large_bottom_margin">
-                <form id="signin_form" method="post" accept-encoding="UTF-8">
-                    {% csrf_token %}
-                    <p>Enter your <strong>email address</strong> and <strong>password</strong>.</p>
-                    <p class=" no_bottom_margin">
-                        {{ form.email }}
-                    </p>
-                    <p class=" small_bottom_margin">
-                        {{ form.password }}
-                    </p>
-                    <p>
-                        <button id="signin_btn" type="submit" class="btn btn_large full_width ladda-button"
-                                data-style="expand-right"><span class="ladda-label">Sign in</span><span
-                                class="ladda-spinner"></span></button>
-                    </p>
-                    <p>
-                        <label class="checkbox">
-                            <input type="checkbox" name="remember" checked="">
-                            Keep me signed in
-                        </label>
-                    </p>
-                    <p class="small"><a id="forgot-pw" href="/forgot" class="bold">I forgot my password</a></p>
-                </form>
-            </div>
-            <p class="subtle_silver small"></p>
+    <div class="real_content card align_center span_4_of_6 col float_none margin_auto large_bottom_margin right_padding large_bottom_padding">
+        <h1 id="signin_header"> Sign in to <span class="break_word">Slack</span></h1>
+        <div class="col span_4_of_6 float_none margin_auto large_bottom_margin">
+            <form id="signin_form" method="post" accept-encoding="UTF-8">
+                {% csrf_token %}
+                <p>Enter your <strong>email address</strong> and <strong>password</strong>.</p>
+                <p class=" no_bottom_margin">
+                    {{ form.email }}
+                </p>
+                <p class=" small_bottom_margin">
+                    {{ form.password }}
+                </p>
+                <p>
+                    <button id="signin_btn" type="submit" class="btn btn_large full_width ladda-button"
+                            data-style="expand-right"><span class="ladda-label">Sign in</span><span
+                            class="ladda-spinner"></span></button>
+                </p>
+                <p>
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember" checked="">
+                        Keep me signed in
+                    </label>
+                </p>
+                <p class="small"><a id="forgot-pw" href="/forgot" class="bold">I forgot my password</a></p>
+            </form>
         </div>
+        <p class="subtle_silver small"></p>
+    </div>
 {% endblock %}

@@ -2,7 +2,6 @@
 
 from .base import *
 
-
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = False
@@ -16,7 +15,7 @@ DATABASES = {
         'PASSWORD': 'ju1io',
         'HOST': 'localhost',
         'PORT': 5432,
-        }
+    }
 }
 ########## END DATABASE CONFIGURATION
 
@@ -26,6 +25,6 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        }
+    }
 }
 ########## END CACHE CONFIGURATION

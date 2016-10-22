@@ -27,3 +27,15 @@ var item_user_list = function (name) {
         '</span>' + name + '</span></a>' +
         '<button class="ts_icon ts_icon_times_circle im_close btn_unstyle" aria-label="Close Direct Message with jeriverom" data-qa="im_close"></button></li>';
 };
+
+var item_directory_list = function (username, name, imageUrl) {
+    return '<div class="team_list_item member_item cursor_pointer active tiny_top_margin">' +
+        '<div class="member_details member_item_inset ">' +
+        '<a href="#/team/jeriverom" class="lazy member_preview_link member_image thumb_72"  ' +
+        'style="background: rgb(246, 246, 246) url(' + imageUrl + ') no-repeat;background-size: contain; "></a>' +
+        '<div class="member_name_and_title">' +
+        '<div class="color_4bbe2e">' +
+        '<a href="#/team/jeriverom" target="/team/jeriverom" class="bold member_preview_link member_name no_bottom_margin"' +
+        '>' + name + '</a></div><div>@' + username + '<span class="presence away" title="away">' +
+        '<i class="ts_icon ts_icon_presence presence_icon"></i></span></div></div></div></div>';
+};

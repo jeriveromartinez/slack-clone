@@ -2,7 +2,6 @@
 
 from base import *
 
-
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = True
@@ -39,14 +38,14 @@ CACHES = {
 
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ########## END EMAIL CONFIGURATION
 
 
 ########## Email configuration
 # Route email through Amazon SES via Celery
-#EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
-#MAILER_EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
+# EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
+# MAILER_EMAIL_BACKEND = 'seacucumber.backend.SESBackend'
 
 DEFAULT_FROM_EMAIL = 'smsqva@gmail.com'
 EMAIL_HOST_USER = 'smsqva@gmail.com'

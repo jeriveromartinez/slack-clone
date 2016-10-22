@@ -281,14 +281,13 @@
 
         </div>
 
-        <div class="panel {% comment %}active{% endcomment %}" id="team_tab" style="height: 615px;">
-            <div id="team_list_container" class="hidden">
+        <div class="panel active" id="team_tab" style="height: 615px;">
+            <div id="team_list_container" class="">
                 <div class="heading" tabindex="-1">
                     Team Directory
                     <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
-                    <a id="team_list_admin_link" href="#/admin"
-                       class="ts_tip ts_tip_bottom float_right right_margin hidden">
-                        <span class="ts_tip_tip">Manage team<br>members</span>
+                    <a id="team_list_admin_link" href="https://blackmambasoft.slack.com/admin"
+                       class="ts_tip ts_tip_bottom float_right right_margin hidden"><span class="ts_tip_tip">Manage team<br>members</span>
                         <ts-icon class="ts_icon_cog_o"></ts-icon>
                     </a>
                 </div>
@@ -296,11 +295,11 @@
                     <div id="team_tabs">
                         <ul class="flexpane_tab_bar small_top_margin lato no_bottom_margin bottom_border two_tabs">
                             <li id="active_members_tab" class="tab bold active" href="#active_members"><a
-                                    href="#active_members" data-name="active_members" data-action="search">Members <span
+                                    href="#active_members">Members <span
                                     id="active_members_count" class="normal">(<span
                                     id="active_members_count_value">2</span>)</span></a></li>
                         </ul>
-                        <div class="flexpane_tab_toolbar">
+                        {% comment %}<div class="flexpane_tab_toolbar hidden">
                             <div id="search" class="tab_action bottom_border">
                                 <div id="team_filter" class="position_relative small_margin"
                                      data-list-items-id="#team_list_scroller">
@@ -311,169 +310,242 @@
                                 </div>
                             </div>
                             <div id="user_group_edit" class="tab_action bottom_border hidden">
-                                <a class="tab_action_button lato_bold hidden" data-action="admin_user_groups_modal"><i
+                                <a data-action="admin_user_groups_modal" class="tab_action_button lato_bold"><i
                                         class="ts_icon ts_icon_cog_o"></i> Edit User Groups</a>
                                 <a class="tab_action_button lato_bold hidden" data-action="admin_user_groups_modal_new"><i
                                         class="ts_icon ts_icon_plus_circle"></i> Create a User Group</a>
                             </div>
-                        </div>
+                        </div>{% endcomment %}
                     </div>
                 </div>
-                <div id="monkey_scroll_wrapper_for_team_list_scroller" class="monkey_scroll_wrapper ">
-                    <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
-                        <div class="monkey_scroll_handle " style="left: -3px;">
-                            <div class="monkey_scroll_handle_inner "></div>
-                        </div>
-                    </div>
-                    <div class="monkey_scroll_hider" style="width: 100%;">
-                        <div id="monkey_scroll_wrapper_for_team_list_scroller" class="monkey_scroll_wrapper ">
-                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
-                                <div class="monkey_scroll_handle " style="left: -3px;">
-                                    <div class="monkey_scroll_handle_inner "></div>
-                                </div>
-                            </div>
-                            <div class="monkey_scroll_hider" style="width: 100%;">
-                                <div id="team_list_scroller" class="flex_content_scroller monkey_scroller"
-                                     style="height: 668px; width: 0px;">
-                                    <div id="team_list_members_wrapper">
-                                        <div id="team_list_members">
-                                            <div id="team_list">
-                                                <div class="tab_panels no_bottom_margin">
-                                                    <div class="panel selected active" id="active_members"
-                                                         data-tab="active">
-                                                        <div id="active_members_list">
-                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                                                <div class="member_details member_item_inset ">
-                                                                    <a href="#/team/jeriverom"
-                                                                       target="/team/jeriverom"
-                                                                       class="lazy member_preview_link member_image thumb_72"
-                                                                       style="background-color: #f6f6f6;"
-                                                                       aria-hidden="true"></a>
-                                                                    <div class="member_name_and_title">
-                                                                        <div>
-                                                                            <a href="#/team/jeriverom"
-                                                                               class="bold member_preview_link member_name no_bottom_margin">Julio
-                                                                                Rivero</a>
-                                                                        </div>
-                                                                        <div>
-                                                                            @jeriverom
-                                                                            <span class="presence away" title="away">
-                                                                                <i class="ts_icon ts_icon_presence presence_icon"></i></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                                                <div class="member_details member_item_inset ">
-                                                                    <a href="#/team/vbuilvicente"
-                                                                       target="/team/vbuilvicente"
-                                                                       class="lazy member_preview_link member_image thumb_72"
-                                                                       style="background-color: #f6f6f6;"
-                                                                       aria-hidden="true"></a>
+                <div id="monkey_scroll_wrapper_for_team_list_scroller">
+                    <div id="team_list_members">
+                        <div id="team_list">
+                            <div class="tab_panels no_bottom_margin">
+                                <div class="panel selected active" id="active_members">
+                                    <div id="active_members_list" style="overflow-y:auto;height: 475px;">
+                                        {% comment %}<div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                   target="/team/jeriverom"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
+                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                                   aria-hidden="true"></a>
 
 
-                                                                    <div class="member_name_and_title">
-                                                                        <div>
-                                                                            <a href="#/team/vbuilvicente"
-                                                                               class="bold member_preview_link member_name no_bottom_margin">Victor
-                                                                                Manuel
-                                                                                Buil Vicente</a>
-                                                                        </div>
-                                                                        <div>
-                                                                            @vbuilvicente
-                                                                            <span class="presence away" title="away">
-                                                                                <i aria-hidden="true"
-                                                                                   class="ts_icon ts_icon_presence presence_icon"></i></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <h5 class="bot_header large_top_margin no_bottom_margin subtle_silver">
-                                                                <i class="ts_icon ts_icon_bolt small_right_margin ts_icon_inherit float_left"></i>
-                                                                Bots</h5>
-                                                            <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                                                <div class="member_details member_item_inset ">
-                                                                    <a href="#/team/slackbot"
-                                                                       class="lazy member_preview_link member_image thumb_72"
-                                                                       data-thumb-size="72"
-                                                                       style="background-color: #f6f6f6;"></a>
+                                                <div class="member_name_and_title">
+                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                           target="/team/jeriverom"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="U2KQ35L2Z">Julio
+                                                            Rivero</a>
+                                                    </div>
+                                                    <div>
+                                                        @jeriverom
+                                                                            <span data-member-presence="U2KQ35L2Z"
+                                                                                  class="presence away member_presence_U2KQ35L2Z"
+                                                                                  title="away"><i aria-hidden="true"
+                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
 
 
-                                                                    <div class="member_name_and_title">
-                                                                        <div>
-                                                                            <a href="#/team/slackbot"
-                                                                               class="bold member_preview_link member_name no_bottom_margin">slackbot</a>
-                                                                        </div>
-                                                                        <div>
-                                                                            @slackbot
-                                                                            <span data-member-presence="USLACKBOT"
-                                                                                  class="presence active"
-                                                                                  title="active">
-                                                                                <i aria-hidden="true"
-                                                                                   class="ts_icon ts_icon_heart presence_icon"></i></span>
-
-                                                                            <span class="mini timezone_label"><span
-                                                                                    class="timezone_value">6:27 PM</span> local time</span>
-
-                                                                        </div>
-
-                                                                    </div>
-
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <div id="active_no_results" class="no_results hidden"></div>
                                                     </div>
 
                                                 </div>
+
                                             </div>
+
+                                        </div>
+                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                                             data-member-id="U2KQ0HRD3">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
+                                                   target="/team/vbuilvicente"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="U2KQ0HRD3" data-thumb-size="72"
+                                                   data-original="url('https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png&quot;);"
+                                                   aria-hidden="true"></a>
+
+
+                                                <div class="member_name_and_title">
+                                                    <div class="color_U2KQ0HRD3 color_9f69e7">
+                                                        <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
+                                                           target="/team/vbuilvicente"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="U2KQ0HRD3">Victor Manuel
+                                                            Buil Vicente</a>
+                                                    </div>
+                                                    <div>
+                                                        @vbuilvicente
+                                                                            <span data-member-presence="U2KQ0HRD3"
+                                                                                  class="presence away member_presence_U2KQ0HRD3"
+                                                                                  title="away"><i aria-hidden="true"
+                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                   target="/team/jeriverom"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
+                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                                   aria-hidden="true"></a>
+
+
+                                                <div class="member_name_and_title">
+                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                           target="/team/jeriverom"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="U2KQ35L2Z">Julio
+                                                            Rivero</a>
+                                                    </div>
+                                                    <div>
+                                                        @jeriverom
+                                                                            <span data-member-presence="U2KQ35L2Z"
+                                                                                  class="presence away member_presence_U2KQ35L2Z"
+                                                                                  title="away"><i aria-hidden="true"
+                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                                             data-member-id="U2KQ0HRD3">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
+                                                   target="/team/vbuilvicente"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="U2KQ0HRD3" data-thumb-size="72"
+                                                   data-original="url('https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png&quot;);"
+                                                   aria-hidden="true"></a>
+
+
+                                                <div class="member_name_and_title">
+                                                    <div class="color_U2KQ0HRD3 color_9f69e7">
+                                                        <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
+                                                           target="/team/vbuilvicente"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="U2KQ0HRD3">Victor Manuel
+                                                            Buil Vicente</a>
+                                                    </div>
+                                                    <div>
+                                                        @vbuilvicente
+                                                                            <span data-member-presence="U2KQ0HRD3"
+                                                                                  class="presence away member_presence_U2KQ0HRD3"
+                                                                                  title="away"><i aria-hidden="true"
+                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                   target="/team/jeriverom"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
+                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                                   aria-hidden="true"></a>
+
+
+                                                <div class="member_name_and_title">
+                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                           target="/team/jeriverom"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="U2KQ35L2Z">Julio
+                                                            Rivero</a>
+                                                    </div>
+                                                    <div>
+                                                        @jeriverom
+                                                                            <span data-member-presence="U2KQ35L2Z"
+                                                                                  class="presence away member_presence_U2KQ35L2Z"
+                                                                                  title="away"><i aria-hidden="true"
+                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>{% endcomment %}
+                                        <h5 class="bot_header large_top_margin no_bottom_margin subtle_silver">
+                                            <i class="ts_icon ts_icon_bolt small_right_margin ts_icon_inherit float_left"></i>
+                                            Bots</h5>
+                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                                             data-member-id="USLACKBOT">
+                                            <div class="member_details member_item_inset ">
+                                                <a href="https://blackmambasoft.slack.com/team/slackbot"
+                                                   target="/team/slackbot"
+                                                   class="lazy member_preview_link member_image thumb_72"
+                                                   data-member-id="USLACKBOT" data-thumb-size="72"
+                                                   data-original="url('https://a.slack-edge.com/0180/img/slackbot_72.png')"
+                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://a.slack-edge.com/0180/img/slackbot_72.png&quot;);"
+                                                   aria-hidden="true"></a>
+
+
+                                                <div class="member_name_and_title">
+                                                    <div class="color_USLACKBOT color_757575">
+                                                        <a href="https://blackmambasoft.slack.com/team/slackbot"
+                                                           target="/team/slackbot"
+                                                           class="bold member_preview_link member_name no_bottom_margin"
+                                                           data-member-id="USLACKBOT">slackbot</a>
+                                                    </div>
+                                                    <div>
+                                                        @slackbot
+                                                                            <span data-member-presence="USLACKBOT"
+                                                                                  class="presence active member_presence_USLACKBOT"
+                                                                                  title="active"><i aria-hidden="true"
+                                                                                                    class="ts_icon ts_icon_heart presence_icon"></i></span>
+
+                                                                            <span class="mini timezone_label"
+                                                                                  data-member-id="USLACKBOT"><span
+                                                                                    class="timezone_value">6:21 PM</span> local time</span>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <div id="team_block" class="help">
-
-                                        <p id="team_block_admin_invite_few" class="hidden">There aren't many people
-                                            here: you should <a href="#/admin/invites"
-                                                                target="_blank">invite some</a>!</p>
-
-                                        <p id="team_block_admin_invite_many" class="hidden">Is everyone on your team
-                                            already on Slack? If not, <a
-                                                    href="https://blackmambasoft.slack.com/admin/invites"
-                                                    target="_blank">send them an invite!</a></p>
-
-                                        <p id="team_block_description" class="">The team list is an easy
-                                            way to find contact details, start direct message conversations and view
-                                            individual team members' activity feeds.</p>
-
-                                        <p id="team_block_email_on" class="hidden">Anyone with an <span
-                                                id="team_block_email_domains"></span> email address will be able to join
-                                            automatically if you send them a link to <a
-                                                    href="https://company.slack.com/">https://company.slack.com</a>.
-                                        </p>
-
-                                        <p id="team_block_admin_email_off" class="hidden">To make it easier, you can <a
-                                                href="#/admin/settings#signup_mode"
-                                                target="_blank">change your settings</a> to allow anyone with a work
-                                            email address (at a domain of your choice) to sign up by themselves by
-                                            visiting <strong>https://company.slack.com</strong>.</p>
-
-                                        <div id="team_block_fill_prompt" class="">
-                                            <i class="ts_icon ts_icon_user callout"
-                                               style="float: left; margin: 0 1rem 1rem 0;"></i>
-                                            <p>To make it easier for your colleagues, we suggest you <a
-                                                    href="https://company.slack.com/account/profile"
-                                                    target="_blank">add some details to your profile</a> (such as your
-                                                phone number, Skype name and your role on the team).</p>
-                                        </div>
-
-                                    </div>
+                                    <div id="active_no_results" class="no_results hidden"></div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="member_preview_container">
+            <div id="member_preview_container" class="hidden">
                 <div class="heading">
                     <a onclick="return false;" id="back_from_member_preview"><i
                             class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
@@ -498,27 +570,22 @@
                                     <div class="member_details clearfix display_flex flex_direction_column align_items_center cropped_preview">
 
                                         <span class=" member_preview_link member_image thumb_512"
-                                              style="background-image:url('{{ MEDIA_URL }}{{ request.user.profile.image }}'),
+                                              style="background-image:
+                                                      url({{ MEDIA_URL }}{{ request.user.profile.image }}),
                                                       url({% static 'images/ava_0022-48.png' %})"></span>
-
-
                                         <div class="member_name_and_presence lato">
                                             <a href="#/team/jeriverom"
                                                class="member_name">{{ request.user.first_name }} {{ request.user.last_name }}</a>
                                             <span class="presence away" title="away">
                                                 <i class="ts_icon ts_icon_presence presence_icon"></i></span>
                                         </div>
-
-
                                         <div class="member_action_bar">
                                             <a href="{% url 'account:profile_edit' %}" class="btn btn_outline">Edit
                                                 Profile</a>
                                             <a href="{% url 'account:settings' %}" class="btn btn_outline">Account
                                                 Settings</a>
-
                                             <a class="member_preview_menu_target btn btn_outline"><i
                                                     class="ts_icon ts_icon_chevron_large_down"></i></a>
-
                                         </div>
                                         <hr class="member_details_divider">
                                         <table class="member_data_table lato">
@@ -526,7 +593,9 @@
                                             <tr>
                                                 <td><span class="small_right_padding old_petunia_grey" title="Username">Username</span>
                                                 </td>
-                                                <td><span title="@jeriverom">@{{ request.user.username }}</span></td>
+                                                <td><span
+                                                        title="@{{ request.user.username }}">@{{ request.user.username }}</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><span class="small_right_padding old_petunia_grey" title="Timezone">Timezone</span>
@@ -557,8 +626,8 @@
             </div>
             <div id="user_group_preview_container" class="hidden">
                 <div class="heading">
-                    <a onclick="return false;" id="back_from_user_group_preview"><i
-                            class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
+                    <a id="back_from_user_group_preview">
+                        <i class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
                     <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
                 </div>
                 <div id="user_group_preview_scroller"></div>

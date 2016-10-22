@@ -1,9 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.sessions.models import Session
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -97,4 +99,17 @@ def profile_by_username(request, username):
 def users_by_company(request, company):
     profiles = Profile.objects.all().filter(company__slug=company)
     serializer = ProfileSerializer(profiles, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def users_logged(request, company):
+    sessions = Session.objects.filter(expire_date__gte=timezone.now())
+    uid_list = []
+    for session in sessions:
+        data = session.get_decoded()
+        uid_list.append(data.get('_auth_user_id', None))
+
+    profile = Profile.objects.filter(user__pk__in=uid_list).filter(company__slug=company)
+    serializer = ProfileSerializer(profile, many=True)
     return Response(serializer.data)
