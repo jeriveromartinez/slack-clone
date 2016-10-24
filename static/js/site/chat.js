@@ -7,12 +7,13 @@ var panel = null, channels = '', activeChannel = 'public', users = new Array(),
 window.users_logged = 0;
 
 $(document).ready(function () {
-
+    //beginnings methods
     $(function () {
         get_chanel();
         get_users();
     });
 
+    //actions methods
     $('#team_menu').on('click', function () {
         $('#menu').removeClass('hidden');
     });
@@ -53,29 +54,34 @@ $(document).ready(function () {
     });
 
     $('#list_team').on('click', function () {
+        team_users();
+    });
+
+    $('.panel').on('click', '.close_flexpane', function () {
         $('.panel.active').removeClass('active');
-        $('#team_tab').addClass('active');
-        $('#menu.flex_menu').addClass('hidden');
+        var closure = $(this).data('pannel');
+        if (closure != 'undefined' && closure != null) {
+            $('#' + closure).addClass('hidden');
+        }
     });
 
-    $('.close_flexpane').on('click', function () {
-        $(this).closest('div[class^="panel active"]').each(function () {
-            $(this).removeClass('active');
-        });
-        $('.channel_header_icon.active').removeClass('active');
+    $('.panel').on('click', '#back_from_member_preview', function () {
+        team_users();
     });
 
-    var request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
-        $.ajax({
-            type: typeRequest,
-            url: urlSend,
-            data: dataSend,
-            dataType: dataType,
-            success: doneFunction,
-            error: errorFunction
-        });
+    window.showProfile = function (object) {
+        var exc = function (response) {
+            var list = $('#member_preview_container').html('');
+            list.append(item_user_profile(response[0]));
+        };
+
+        $('#team_list_container').addClass('hidden');
+        var urlapi = apiUrl + 'profile/' + $(object).data('user');
+        request(urlapi, 'GET', null, null, exc, null);
+        $('#member_preview_container').removeClass('hidden');
     };
 
+    //aux methods
     var get_chanel = function () {
         var exc = function (response) {
             var list = $('#channel-list').html('');
@@ -92,7 +98,7 @@ $(document).ready(function () {
     var get_users = function () {
         var exc = function (response) {
             var list = $('#im-list').html('');
-            $('#dm_header_count').html(response.length + 1);
+            $('#dm_header_count').html(response.length);
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
             response.forEach(function (item) {
@@ -109,12 +115,6 @@ $(document).ready(function () {
     var users_online = function () {
         var exc = function (response) {
             $('#active_members_count_value').html(response.length);
-            var list = $('#active_members_list').html('');
-
-            response.forEach(function (item) {
-                list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image))
-            });
-
             window.users_logged = response.length;
         };
 
@@ -122,4 +122,35 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
     };
 
+    var team_users = function () {
+        var exc = function (response) {
+            $('span#active_members_count_value').html(response.length);
+            var list = $('#active_members_list').html('');
+            response.forEach(function (item) {
+                list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image, userlogged))
+            });
+        };
+
+        $('.panel.active').removeClass('active');
+        $('#team_tab').addClass('active');
+        $('#team_list_container').removeClass('hidden');
+        $('#member_preview_container').addClass('hidden');
+
+        var urlapi = apiUrl + companyuser + '/users/';
+        request(urlapi, 'GET', null, null, exc, null);
+
+        $('#menu.flex_menu').addClass('hidden');
+    }
 });
+
+window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
+    $.ajax({
+        type: typeRequest,
+        url: urlSend,
+        data: dataSend,
+        dataType: dataType,
+        success: doneFunction,
+        error: errorFunction
+    });
+};
+

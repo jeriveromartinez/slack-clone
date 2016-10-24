@@ -281,12 +281,14 @@
 
         </div>
 
-        <div class="panel active" id="team_tab" style="height: 615px;">
+        <div class="panel" id="team_tab" style="height: 615px;">
             <div id="team_list_container" class="">
                 <div class="heading" tabindex="-1">
                     Team Directory
-                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
-                    <a id="team_list_admin_link" href="https://blackmambasoft.slack.com/admin"
+                    <a class="close_flexpane" title="Close Flexpane" data-pannel="team_list_container">
+                        <i class="ts_icon ts_icon_times"></i>
+                    </a>
+                    <a id="team_list_admin_link" href="#/admin"
                        class="ts_tip ts_tip_bottom float_right right_margin hidden"><span class="ts_tip_tip">Manage team<br>members</span>
                         <ts-icon class="ts_icon_cog_o"></ts-icon>
                     </a>
@@ -294,262 +296,191 @@
                 <div class="team_tabs_container clearfix no_bottom_border">
                     <div id="team_tabs">
                         <ul class="flexpane_tab_bar small_top_margin lato no_bottom_margin bottom_border two_tabs">
-                            <li id="active_members_tab" class="tab bold active" href="#active_members"><a
-                                    href="#active_members">Members <span
-                                    id="active_members_count" class="normal">(<span
-                                    id="active_members_count_value">2</span>)</span></a></li>
+                            <li id="active_members_tab" class="tab bold active" href="#active_members"><a>Members
+                                <span class="normal">(<span id="active_members_count_value">2</span>)</span></a>
+                            </li>
                         </ul>
-                        {% comment %}<div class="flexpane_tab_toolbar hidden">
-                            <div id="search" class="tab_action bottom_border">
-                                <div id="team_filter" class="position_relative small_margin"
-                                     data-list-items-id="#team_list_scroller">
-                                    <i class="icon_search ts_icon ts_icon_search"></i>
-                                    <a class="ts_icon ts_icon_times_circle icon_close hidden"></a>
-                                    <input class="member_filter no_margin small" name="team_filter"
-                                           placeholder="Search team directory" type="text">
-                                </div>
-                            </div>
-                            <div id="user_group_edit" class="tab_action bottom_border hidden">
-                                <a data-action="admin_user_groups_modal" class="tab_action_button lato_bold"><i
-                                        class="ts_icon ts_icon_cog_o"></i> Edit User Groups</a>
-                                <a class="tab_action_button lato_bold hidden" data-action="admin_user_groups_modal_new"><i
-                                        class="ts_icon ts_icon_plus_circle"></i> Create a User Group</a>
-                            </div>
-                        </div>{% endcomment %}
                     </div>
                 </div>
                 <div id="monkey_scroll_wrapper_for_team_list_scroller">
-                    <div id="team_list_members">
-                        <div id="team_list">
-                            <div class="tab_panels no_bottom_margin">
-                                <div class="panel selected active" id="active_members">
-                                    <div id="active_members_list" style="overflow-y:auto;height: 475px;">
-                                        {% comment %}<div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                   target="/team/jeriverom"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
-                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
-                                                   aria-hidden="true"></a>
+                    <div id="active_members_list" class="flex_content_scroller"
+                         style="overflow-y: scroll; max-height: 500px">
+                        <div class="team_list_item {% comment %}member_item{% endcomment %} cursor_pointer {% comment %}active tiny_top_margin{% endcomment %}"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset ">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url(&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                   aria-hidden="true"></a>
 
 
-                                                <div class="member_name_and_title">
-                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
-                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                           target="/team/jeriverom"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="U2KQ35L2Z">Julio
-                                                            Rivero</a>
-                                                    </div>
-                                                    <div>
-                                                        @jeriverom
-                                                                            <span data-member-presence="U2KQ35L2Z"
-                                                                                  class="presence away member_presence_U2KQ35L2Z"
-                                                                                  title="away"><i aria-hidden="true"
-                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
-
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
-                                             data-member-id="U2KQ0HRD3">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
-                                                   target="/team/vbuilvicente"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="U2KQ0HRD3" data-thumb-size="72"
-                                                   data-original="url('https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png&quot;);"
-                                                   aria-hidden="true"></a>
-
-
-                                                <div class="member_name_and_title">
-                                                    <div class="color_U2KQ0HRD3 color_9f69e7">
-                                                        <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
-                                                           target="/team/vbuilvicente"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="U2KQ0HRD3">Victor Manuel
-                                                            Buil Vicente</a>
-                                                    </div>
-                                                    <div>
-                                                        @vbuilvicente
-                                                                            <span data-member-presence="U2KQ0HRD3"
-                                                                                  class="presence away member_presence_U2KQ0HRD3"
-                                                                                  title="away"><i aria-hidden="true"
-                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
-
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                   target="/team/jeriverom"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
-                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
-                                                   aria-hidden="true"></a>
-
-
-                                                <div class="member_name_and_title">
-                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
-                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                           target="/team/jeriverom"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="U2KQ35L2Z">Julio
-                                                            Rivero</a>
-                                                    </div>
-                                                    <div>
-                                                        @jeriverom
-                                                                            <span data-member-presence="U2KQ35L2Z"
-                                                                                  class="presence away member_presence_U2KQ35L2Z"
-                                                                                  title="away"><i aria-hidden="true"
-                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
-
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
-                                             data-member-id="U2KQ0HRD3">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
-                                                   target="/team/vbuilvicente"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="U2KQ0HRD3" data-thumb-size="72"
-                                                   data-original="url('https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/135ec4a27b5d481465d022a2497dadbd.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0022-72.png&quot;);"
-                                                   aria-hidden="true"></a>
-
-
-                                                <div class="member_name_and_title">
-                                                    <div class="color_U2KQ0HRD3 color_9f69e7">
-                                                        <a href="https://blackmambasoft.slack.com/team/vbuilvicente"
-                                                           target="/team/vbuilvicente"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="U2KQ0HRD3">Victor Manuel
-                                                            Buil Vicente</a>
-                                                    </div>
-                                                    <div>
-                                                        @vbuilvicente
-                                                                            <span data-member-presence="U2KQ0HRD3"
-                                                                                  class="presence away member_presence_U2KQ0HRD3"
-                                                                                  title="away"><i aria-hidden="true"
-                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
-
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                   target="/team/jeriverom"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="U2KQ35L2Z" data-thumb-size="72"
-                                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
-                                                   aria-hidden="true"></a>
-
-
-                                                <div class="member_name_and_title">
-                                                    <div class="color_U2KQ35L2Z color_4bbe2e">
-                                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
-                                                           target="/team/jeriverom"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="U2KQ35L2Z">Julio
-                                                            Rivero</a>
-                                                    </div>
-                                                    <div>
-                                                        @jeriverom
-                                                                            <span data-member-presence="U2KQ35L2Z"
-                                                                                  class="presence away member_presence_U2KQ35L2Z"
-                                                                                  title="away"><i aria-hidden="true"
-                                                                                                  class="ts_icon ts_icon_presence presence_icon"></i></span>
-
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>{% endcomment %}
-                                        <h5 class="bot_header large_top_margin no_bottom_margin subtle_silver">
-                                            <i class="ts_icon ts_icon_bolt small_right_margin ts_icon_inherit float_left"></i>
-                                            Bots</h5>
-                                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
-                                             data-member-id="USLACKBOT">
-                                            <div class="member_details member_item_inset ">
-                                                <a href="https://blackmambasoft.slack.com/team/slackbot"
-                                                   target="/team/slackbot"
-                                                   class="lazy member_preview_link member_image thumb_72"
-                                                   data-member-id="USLACKBOT" data-thumb-size="72"
-                                                   data-original="url('https://a.slack-edge.com/0180/img/slackbot_72.png')"
-                                                   style="background: rgb(246, 246, 246) url(;}&quot;https://a.slack-edge.com/0180/img/slackbot_72.png&quot;);"
-                                                   aria-hidden="true"></a>
-
-
-                                                <div class="member_name_and_title">
-                                                    <div class="color_USLACKBOT color_757575">
-                                                        <a href="https://blackmambasoft.slack.com/team/slackbot"
-                                                           target="/team/slackbot"
-                                                           class="bold member_preview_link member_name no_bottom_margin"
-                                                           data-member-id="USLACKBOT">slackbot</a>
-                                                    </div>
-                                                    <div>
-                                                        @slackbot
-                                                                            <span data-member-presence="USLACKBOT"
-                                                                                  class="presence active member_presence_USLACKBOT"
-                                                                                  title="active"><i aria-hidden="true"
-                                                                                                    class="ts_icon ts_icon_heart presence_icon"></i></span>
-
-                                                                            <span class="mini timezone_label"
-                                                                                  data-member-id="USLACKBOT"><span
-                                                                                    class="timezone_value">6:21 PM</span> local time</span>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-                                        </div>
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           target="/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
                                     </div>
-                                    <div id="active_no_results" class="no_results hidden"></div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence away member_presence_U2KQ35L2Z" title="away"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
                                 </div>
 
                             </div>
+
+                        </div>
+                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset ">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url(&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                   aria-hidden="true"></a>
+
+
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           target="/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
+                                    </div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence away member_presence_U2KQ35L2Z" title="away"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset ">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url(&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                   aria-hidden="true"></a>
+
+
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           target="/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
+                                    </div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence away member_presence_U2KQ35L2Z" title="away"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset ">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url(&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                   aria-hidden="true"></a>
+
+
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           target="/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
+                                    </div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence away member_presence_U2KQ35L2Z" title="away"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="team_list_item member_item cursor_pointer active tiny_top_margin"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset ">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url(&quot;https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png&quot;);"
+                                   aria-hidden="true"></a>
+
+
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           target="/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
+                                    </div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence away member_presence_U2KQ35L2Z" title="away"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
+
             <div id="member_preview_container" class="hidden">
                 <div class="heading">
                     <a onclick="return false;" id="back_from_member_preview"><i
                             class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
-                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                    <a class="close_flexpane" title="Close Flexpane" data-pannel="member_preview_container">
+                        <i class="ts_icon ts_icon_times"></i>
+                    </a>
                 </div>
                 <div id="monkey_scroll_wrapper_for_member_preview_scroller" class="monkey_scroll_wrapper ">
                     <div class="monkey_scroll_bar  hidden" style="margin-left: 379.5px;">
@@ -623,14 +554,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="user_group_preview_container" class="hidden">
-                <div class="heading">
-                    <a id="back_from_user_group_preview">
-                        <i class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
-                    <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
-                </div>
-                <div id="user_group_preview_scroller"></div>
             </div>
         </div>
 
