@@ -33,12 +33,13 @@
                 <div class="contents">
                     <div id="edit_member_profile_container">
                         <div class="hidden_file_input">
-                            <input accept="image/*;capture=camera" type="file">
+                            {% comment %}<input accept="image/*;capture=camera" type="file">{% endcomment %}
+                            {{ form.image }}
                         </div>
 
                         <section id="edit_member_profile_loading" class="hidden">
                             <div class="loading_hash_animation">
-                                <img src="{{ request.user. }}"
+                                <img src="{{ request.user.profile.image }}"
                                      alt="Loading"
                                      srcset="{% static 'images/loading_hash_animation.gif' %} 1x, {% static 'images/loading_hash_animation.gif' %} 2x">
                                 <br>loading...
@@ -55,10 +56,12 @@
                                 </p>
                                 <div id="edit_member_profile_photo_container" class="col">
                                     <label for="first_name">Profile photo</label>
-                                    <div class="member_image_wrapper" data-action="edit_member_profile_photo_menu">
+                                    <div class="member_image_wrapper">
                                         <ts-icon class="upload_camera_icon ts_icon_camera">
-                                        <span class=" member_preview_link member_image thumb_192"
-                                              style="background-image: url({% static 'images/ava_0021-512.png' %})"></span>
+                                        <span class="member_preview_link member_image thumb_192"
+                                              style="background-image:
+                                                      url('/media/{{ request.user.profile.image }}'),
+                                                      url({% static 'images/ava_0021-512.png' %})"></span>
                                         </ts-icon>
                                     </div>
                                 </div>

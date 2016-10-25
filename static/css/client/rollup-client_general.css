@@ -2700,7 +2700,7 @@ html.no_touch .service:not(.no_hover):hover h4, html.no_touch .service:not(.no_h
     color: #999;
     font-family: Slack-Lato, appleLogo, sans-serif;
     font-size: .9rem;
-    margin: 9rem 0
+    margin: 9rem 0;
 }
 
 #file_page_comments .loading_hash_animation {
