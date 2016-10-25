@@ -2,6 +2,18 @@
  * Created by julio on 12/10/16.
  */
 var menu = false, teams = false;
+
+File.prototype.convertToBase64 = function (callback) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        callback(e.target.result)
+    };
+    reader.onerror = function (e) {
+        callback(null);
+    };
+    reader.readAsDataURL(this);
+};
+
 $(document).ready(function () {
     $('#menu_toggle').on('click', function () {
         if (!menu) {
@@ -38,6 +50,20 @@ $(document).ready(function () {
         if (teams) {
             teams = false;
             $('#header_team_nav').removeClass('open');
+        }
+    });
+
+    $('ts-icon.upload_camera_icon.ts_icon_camera').on('click', function () {
+        $('input[type="file"]').click();
+    });
+
+    $('input[type="file"]').on('change', function () {
+        if (this.files && this.files[0]) {
+            var selectedFile = this.files[0];
+            selectedFile.convertToBase64(function (base64) {
+                console.log(base64);
+                $('span.member_preview_link.member_image.thumb_192').css('background-image', 'url(\' ' + base64 + ' \')');
+            });
         }
     });
 });
