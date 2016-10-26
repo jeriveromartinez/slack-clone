@@ -190,6 +190,8 @@ DJANGO_APPS = (
     'suit',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    # Django_socketio
+    'django_socketio'
 
     # Django restframework:
     'rest_framework',

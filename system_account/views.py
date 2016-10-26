@@ -3,10 +3,8 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 
 # Create your views here.
 from django.template import RequestContext
-from django.template.context_processors import csrf
 from django.views.decorators.csrf import csrf_protect
 
-from plataforma.models import Profile
 from system_account.forms import *
 
 
