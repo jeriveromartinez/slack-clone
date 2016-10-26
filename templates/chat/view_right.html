@@ -1,5 +1,5 @@
 {% load staticfiles %}
-<div id="col_flex" style="top: 62px;">
+<div id="col_flex" style="z-index: 100;">
     <div id="flex_contents" role="complementary" class="tab_panels tab_container" style="opacity: 1;">
 
         <div class="panel" id="stars_tab" style="height: 615px;">
@@ -282,7 +282,7 @@
         </div>
 
         <div class="panel" id="team_tab" style="height: 615px;">
-            <div id="team_list_container" class="">
+            <div id="team_list_container" class="height: 615px;">
                 <div class="heading" tabindex="-1">
                     Team Directory
                     <a class="close_flexpane" title="Close Flexpane" data-pannel="team_list_container">
@@ -304,7 +304,7 @@
                 </div>
                 <div id="monkey_scroll_wrapper_for_team_list_scroller">
                     <div id="active_members_list" class="flex_content_scroller"
-                         style="overflow-y: scroll; max-height: 500px">
+                         style="overflow-y: auto; height: 30rem">
                         <div class="team_list_item {% comment %}member_item{% endcomment %} cursor_pointer {% comment %}active tiny_top_margin{% endcomment %}"
                              data-member-id="U2KQ35L2Z">
                             <div class="member_details member_item_inset ">

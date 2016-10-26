@@ -514,3 +514,7 @@ li.member.cursor_pointer {
     border-radius: 5px;
     border: 0.5px solid #d9d9d9;
 }
+
+.chat_list_mini {
+    width: 80% !important;
+}

@@ -1,0 +1,31 @@
+<div id="footer">
+    <div id="footer_msgs">
+        <div id="messages-input-container" class="offline" style="height: 42px;">
+            <a onclick="return false;" id="primary_file_button" data-js="primary_file_button" class="file_upload_btn"
+               aria-label="File menu" style="height: 42px;">
+                <i class="ts_icon ts_icon_plus_thick"></i>
+            </a>
+            <form id="message-form" style="height: 42px;"
+                  action="#/blackmambasoft.slack.com/messages/@jeriverom/files/">
+                <textarea id="message-input" class="with-emoji-menu"
+                          style="overflow-y: hidden; height: 42px;" autocorrect="off" autocomplete="off"
+                          spellcheck="true" placeholder="Message yourself"></textarea>
+                <div id="message-input-message" class=""><span></span></div>
+                <input id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true"
+                       type="file">
+                {% comment %}<a id="main_emo_menu" class="emo_menu" aria-label="Emoji menu">
+                    <i class="ts_icon ts_icon_circle_fill"></i>
+                    <i class="ts_icon ts_icon_smile_o"></i>
+                    <i class="ts_icon ts_icon_happy_smile"></i>
+                </a>{% endcomment %}
+            </form>
+        </div>
+    </div>
+    {% comment %}<div id="footer_archives" class="hidden">
+        <div id="footer_archives_table">
+            <div id="footer_archives_left"><span id="footer_archives_text"></span></div>
+            <div id="footer_archives_right"><a class="btn btn_outline btn_small" id="footer_archives_action_button"></a><br><span
+                    id="footer_archives_action_tip"></span></div>
+        </div>
+    </div>{% endcomment %}
+</div>
