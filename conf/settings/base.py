@@ -25,7 +25,7 @@ path.append(DJANGO_ROOT)
 
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = False
+DEBUG = True
 ########## END DEBUG CONFIGURATION
 
 
@@ -48,8 +48,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'plataforma',
         'USER': 'julio',
-        'PASSWORD': 'ju1io',
-        'HOST': 'localhost',
+        'PASSWORD': 'julio',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -191,7 +191,7 @@ DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     # Django_socketio
-    'django_socketio'
+    'django_socketio',
 
     # Django restframework:
     'rest_framework',
