@@ -3060,7 +3060,7 @@ body.sorting_mode .channels_list_holder ul {
 }
 
 #client-ui.flex_pane_showing #messages_container {
-    margin-right: 392px
+    margin-right: 5px
 }
 
 @media screen and (min-width: 1367px) {
@@ -22265,7 +22265,7 @@ html.is_electron_mac #client_header .channel_header {
 }
 
 #messages_container {
-    overflow-y: hidden
+    overflow-y: auto
 }
 
 .unread_view_is_showing #messages_unread_status {

@@ -37,6 +37,7 @@ $(document).ready(function () {
                 var arr = (obj.split('_').length > 1) ? obj.split('_')[1] : obj.split('_')[0];
                 $('.panel.active').removeClass('active');
                 $('#' + arr + '_tab').addClass('active');
+                change_chat_size('65%');
             } else {
                 $('#menu.flex_menu').removeClass('hidden');
             }
@@ -55,9 +56,11 @@ $(document).ready(function () {
 
     $('#list_team').on('click', function () {
         team_users();
+        change_chat_size('65%');
     });
 
     $('.panel').on('click', '.close_flexpane', function () {
+        change_chat_size('100%');
         $('.panel.active').removeClass('active');
         var closure = $(this).data('pannel');
         if (closure != 'undefined' && closure != null) {
@@ -140,7 +143,11 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
 
         $('#menu.flex_menu').addClass('hidden');
-    }
+    };
+
+    var change_chat_size = function (size) {
+        $('#msgs_div').css('width', size);//'65%'
+    };
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
