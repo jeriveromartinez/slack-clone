@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+
+
 {% block styles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_core.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_primary.css' %}">
@@ -22,6 +24,8 @@
                 companyuser = '{{ request.user.profile.company.slug }}',
                 localtime = {% now 'U' %};
     </script>
+    {% load socketio_tags %}
+    {% socketio %}
     {% include 'chat/header.html' %}
     {% include 'chat/footer.html' %}
     {% include 'chat/body.html' %}

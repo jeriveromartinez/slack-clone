@@ -7,16 +7,17 @@ from plataforma.models import Room
 
 @events.on_connect
 def on_connect(request, socket, context):
-    socket.session.session_id = request.user.id
 
+    send(socket.session.session_id, {"action": "connected", "message": "Welcome"})
 
 @events.on_message
 def message(request, socket, context, message):
+    send(socket.session.session_id, {"action": "connected", "message": "Welcome"})
     user = get_object_or_404(User, username=message["username"])
     try:
         send(user.id, message["message"])
     except NoSocket as e:
-        send(socket.session.session_id, {"error": "No connected sockets exist"})
+        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 @events.on_subscribe

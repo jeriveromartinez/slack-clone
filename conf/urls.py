@@ -10,6 +10,7 @@ admin.autodiscover()
 
 urlpatterns = [
     # User management
+    url("", include("django_socketio.urls")),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^account/', include('system_account.urls', namespace='account')),
