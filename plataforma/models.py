@@ -50,3 +50,60 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Message(models.Model):
+    user_to = models.ForeignKey(User, related_name='msg_to')
+    user_from = models.ForeignKey(User, related_name='msg_from')
+    msg = models.TextField(blank=False, null=False)
+    date_pub = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('date_pub',)
+
+    def __str__(self):
+        return self.user_to + '-' + self.date_pub
+
+
+class Snippet(models.Model):
+    code = models.TextField(blank=False, null=False)
+    date_pub = models.DateTimeField(auto_now_add=True)
+    users_shared = models.ManyToManyField(User)
+    date_pub = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('date_pub',)
+
+    def __str__(self):
+        return self.users_shared + '-' + self.date_pub
+
+
+class FilesUp(models.Model):
+    file_up = models.FileField(upload_to='files/', blank=True, null=True)
+    owner = models.OneToOneField(User, related_name='file_up_owner')
+    shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
+    uploaded = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(blank=False, null=False, editable=False)
+
+    class Meta:
+        ordering = ('uploaded',)
+
+    def __str__(self):
+        return self.owner + '-' + self.uploaded
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.file_up.name)
+        super(FilesUp, self).save(*args, **kwargs)
+
+
+class FilesComment(models.Model):
+    file_up = models.ForeignKey(FilesUp, related_name='comment_file')
+    comment = models.TextField(blank=False, null=False)
+    published = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, related_name='comment_user')
+
+    class Meta:
+        ordering = ('published',)
+
+    def __str__(self):
+        return self.user.username + '-' + self.file_up.file_up.name + '-' + self.published.date()
