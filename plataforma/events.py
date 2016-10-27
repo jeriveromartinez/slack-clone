@@ -2,13 +2,15 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.utils.html import strip_tags
 from django_socketio import events, send, broadcast, broadcast_channel, NoSocket
-from plataforma.models import Room
+from plataforma.models import Room, Profile
 
 
 @events.on_connect
 def on_connect(request, socket, context):
+    profile = Profile.objects.filter(user_id=request.user.id)
 
-    send(socket.session.session_id, {"action": "connected", "message": "Welcome"})
+    send(socket.session.session_id, {"action": "connected", "message": list(profile.values())})
+
 
 @events.on_message
 def message(request, socket, context, message):
