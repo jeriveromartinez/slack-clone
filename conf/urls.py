@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^logout/$', 'plataforma.views.logout_view', name="logout"),
     url(r'^apps/$', 'plataforma.views.apps', name="apps"),
     url(r'^account/', include('system_account.urls', namespace='account')),
-    url(r'^api/', include('plataforma.urls', namespace='api')),
+    url(r'^api/', include('rest_service.urls', namespace='api')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
 
     # url(r'^proto/', include('proto.urls', namespace="proto")),
