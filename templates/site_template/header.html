@@ -5,10 +5,10 @@
         <span class="menu_label">Menu</span>
         <span class="vert_divider"></span>
     </a>
-    <h1 id="header_team_name" class="inline_block" data-qa="header_team_name">
-        <a href="#home">
+    <h1 id="header_team_name" class="inline_block">
+        <a href="{% url 'app:homepage' %}">
             <i class="ts_icon ts_icon_home"></i>
-            blackmambasoft
+            {{ request.user.profile.company.name }}
         </a>
     </h1>
     <div class="header_nav">
@@ -31,8 +31,8 @@
             <li class="active">
                 <a href="#home" target="#blackmambasoft.slack.com">
                     <i class="ts_icon small ts_icon_check_circle_o active_icon s"></i>
-                    <i class="team_icon small default">B</i>
-                    <span class="switcher_label team_name">blackmambasoft</span>
+                    <i class="team_icon small default">{{ request.user.profile.company.name|make_list|first|upper }}</i>
+                    <span class="switcher_label team_name">{{ request.user.profile.company.name }}</span>
                 </a>
             </li>
             <li id="add_team_option">

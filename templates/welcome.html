@@ -189,19 +189,14 @@
                 </div>
                 <div class="cta">
                     <!--screen-->
-                    <form action="#/create" method="post" class="cta_form align_middle" novalidate="">
-                        <span class="cta_input_email_wrapper">
-                            <input name="email" spellcheck="false" id="inline_input" placeholder="Email address"
-                                   class="input_email input_inline small_right_margin" type="email">
-                        </span>
+                    <a href="{% url 'app:register' %}">
                         <button type="submit" class="btn align_top ga_track_signup">
                             Create New Team
                         </button>
-                    </form>
-
+                    </a>
                     <span class="cta_footer">Your team already uses Slack?
-                        <a href="{% url 'login' %}" class="opt_cta_signin">Sign in</a> or
-                        <a href="{% url 'find_team' %}" class="opt_cta_find">find your team</a>.</span>
+                        <a href="{% url 'app:login' %}" class="opt_cta_signin">Sign in</a> or
+                        <a href="{% url 'app:find_team' %}" class="opt_cta_find">find your team</a>.</span>
                 </div>
             </div>
         </div>
@@ -213,20 +208,16 @@
     </div>
 
     <div class="marsandbeyond signup signup_a signup_c top top_story_header_mobile">
-        <div class="cta">=
-            <form action="#/create" method="post" class="cta_form align_middle" novalidate="">
-                <span class="cta_input_email_wrapper">
-                    <input name="email" spellcheck="false" id="inline_input" placeholder="Email address"
-                           class="input_email input_inline small_right_margin" type="email">
-                </span>
+        <div class="cta">
+            <a href="{% url 'app:register' %}">
                 <button type="submit" class="btn align_top ga_track_signup">
                     Create New Team
                 </button>
-            </form>
+            </a>
 
             <span class="cta_footer">Your team already uses Slack?<br>
-                <a href="{% url 'login' %}" class="opt_cta_signin">Sign in</a> or
-                <a href="{% url 'find_team' %}" class="opt_cta_find">find your team</a>.</span>
+                <a href="{% url 'app:login' %}" class="opt_cta_signin">Sign in</a> or
+                <a href="{% url 'app:find_team' %}" class="opt_cta_find">find your team</a>.</span>
         </div>
         <div class="cta_subheader">The team behind the <strong>Mars Curiosity Rover</strong> is one of tens of thousands
             of teams around the world using <strong>Slack</strong> to make their working lives simpler, more pleasant,

@@ -1,0 +1,72 @@
+{% extends 'site_template/base_login.html' %}
+{% load staticfiles %}
+{% block body_style %}no_header full_height no_margin full_bleed{% endblock %}
+{% block container %}
+    <div id="signup_flow" class="full_height fs_split" data-step="email">
+        <div id="signup_wrapper" class="fs_split_pane fs_split_pane_left">
+
+            <form class="fs_split_flex_wrapper" action="#/slack.com/create">
+                <a class="logo_link" href="{% url 'app:homepage' %}">
+                    <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack" width="120"
+                         height="137">
+                </a>
+
+                <div id="ratelimit_alert" class="header_error_message hidden bottom_margin">
+                    <h3>Whoa, you’re going too fast!</h3>
+                    Slow down a bit. You might have better luck if you try again in a minute.
+                </div>
+                <div id="api_failed_alert" class="header_error_message hidden bottom_margin"></div>
+
+
+                <div id="email_form_body" class="fs_split_body">
+                    <h1>Create a new team</h1>
+                    <label id="email_label"><span class="normal">Your </span>email address</label>
+                    <input placeholder="you@yourdomain.com" id="signup_email" spellcheck="false" type="text">
+                    <p class="error_message"></p>
+                </div>
+
+                <div id="submit" class="fs_split_footer">
+                    <div id="email_checkbox">
+                        <input id="email_misc" checked="checked" type="checkbox">
+                        <label for="email_misc">It's ok to send me (very occasional)<br class="hide_on_mobile"> email
+                            about the Slack service.</label>
+                    </div>
+
+                    <div class="button_container">
+                        <button id="submit_btn" class="btn btn_large ladda-button" disabled="true">
+                            <span class="ladda-label">Next
+                                <ts-icon class="ts_icon_arrow_right" aria-hidden="true"></ts-icon>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <p id="legalese_mobile" class="show_on_mobile">
+                    By proceeding to create your account and use Slack, you are agreeing to our
+                    <a class="bold" href="#/slack.com/terms-of-service">Terms
+                        of Service</a> and <a href="https://slack.com/privacy-policy" class="bold">Privacy Policy</a>.
+                    If you do not agree, you cannot use Slack.
+                </p>
+            </form>
+        </div>
+
+        <div id="signup_graphics_pane" class="fs_split_pane fs_split_pane_right">
+            <div class="fs_split_flex_wrapper">
+                <div id="signup_graphics_container" class="fs_split_body">
+                    <div id="signup_graphics" class="fs_split_graphics"
+                         style="background-image: url('{% static 'images/register/step1-illi@2x.png' %}');"></div>
+                </div>
+
+                <p id="legalese">
+                    By proceeding to create your account and use Slack, you are agreeing to our
+                    <a class="bold" href="#/slack.com/terms-of-service">Terms of
+                        Service</a> and <a href="#/slack.com/privacy-policy" class="bold">Privacy Policy</a>. If you do
+                    not agree, you
+                    <nobr>cannot use Slack.</nobr>
+                </p>
+
+                <div class="fs_split_footer"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

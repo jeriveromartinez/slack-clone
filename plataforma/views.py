@@ -26,7 +26,7 @@ def login_page(request):
                     if user.is_active:
                         login(request, user)
                         # message = "Se ha logueado de correctamente"
-                        return redirect('homepage')
+                        return redirect('app:homepage')
                     else:
                         message = "Su usuario esta inactivo"
                 else:
@@ -47,7 +47,7 @@ def homepage_logged(request):
 
 
 @csrf_protect
-def registro(request):
+def register(request):
     args = {}
     args.update(csrf(request))
     if request.method == 'POST':
@@ -57,10 +57,8 @@ def registro(request):
             return HttpResponseRedirect('/login')
         else:
             args['form'] = form
-    else:
-        args['form'] = MyRegistrationForm()
 
-    return render_to_response('registro/index.html', args)
+    return render_to_response('registro/register_first.html', RequestContext(request))
 
 
 @login_required(login_url='/login/')
@@ -76,6 +74,3 @@ def logout_view(request):
 
 def find_team(request):
     return render_to_response('find_team.html', context_instance=RequestContext(request))
-
-
-

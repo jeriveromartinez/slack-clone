@@ -52,7 +52,7 @@
                                 <li id="team_customize" role="menuitem"><a href="#/customize">Customize Slack</a></li>
                                 <li id="team_statistics" role="menuitem"><a href="#/stats">Statistics</a></li>{% endcomment %}
                                 <li id="logout" class="logout_url">
-                                    <a href="{% url 'logout' %}">Sign out of
+                                    <a href="{% url 'app:logout' %}">Sign out of
                                         <strong>{{ request.user.profile.company.name }}</strong></a>
                                 </li>
                             </ul>

@@ -62,7 +62,7 @@ class Message(models.Model):
         ordering = ('date_pub',)
 
     def __str__(self):
-        return self.user_to + '-' + self.date_pub
+        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
 
 
 class Snippet(models.Model):
@@ -75,7 +75,7 @@ class Snippet(models.Model):
         ordering = ('date_pub',)
 
     def __str__(self):
-        return self.users_shared + '-' + self.date_pub
+        return 'snippets - ' + self.date_pub.__str__()
 
 
 class FilesUp(models.Model):
@@ -89,7 +89,7 @@ class FilesUp(models.Model):
         ordering = ('uploaded',)
 
     def __str__(self):
-        return self.owner + '-' + self.uploaded
+        return self.owner.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.file_up.name)
@@ -106,4 +106,4 @@ class FilesComment(models.Model):
         ordering = ('published',)
 
     def __str__(self):
-        return self.user.username + '-' + self.file_up.file_up.name + '-' + self.published.date()
+        return self.user.username + ' - ' + self.file_up.file_up.name + ' - ' + self.published.__str__()

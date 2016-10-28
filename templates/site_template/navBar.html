@@ -21,7 +21,7 @@
         <div class="nav_contents">
 
             <ul class="primary_nav">
-                <li><a href="{% url 'homepage' %}" data-qa="home"><i class="ts_icon ts_icon_home"></i>Home</a>
+                <li><a href="{% url 'app:homepage' %}" data-qa="home"><i class="ts_icon ts_icon_home"></i>Home</a>
                 </li>
                 <li><a href="{% url 'account:settings' %}" data-qa="account_profile"><i
                         class="ts_icon ts_icon_user"></i>Account &amp; Profile</a></li>
@@ -58,7 +58,7 @@
                 <li><a href="#/help/requests/new" data-qa="contact">Contact</a></li>
                 <li><a href="#/terms-of-service" data-qa="policies">Policies</a></li>
                 <li><a href="#/slackhq.com/" target="_blank" data-qa="our_blog">Our Blog</a></li>
-                <li><a href="{% url 'logout' %}">Sign Out<i
+                <li><a href="{% url 'app:logout' %}">Sign Out<i
                         class="ts_icon ts_icon_sign_out small_left_margin ts_icon_inherit"></i></a></li>
             </ul>
 

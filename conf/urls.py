@@ -12,15 +12,10 @@ urlpatterns = [
     # User management
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^login/$', 'plataforma.views.login_page', name="login"),
-    url(r'^login/find/$', 'plataforma.views.find_team', name='find_team'),
-    url(r'^registro/$', 'plataforma.views.registro', name="registro"),
-    url(r'^$', 'plataforma.views.homepage_logged', name="homepage"),
-    url(r'^logout/$', 'plataforma.views.logout_view', name="logout"),
-    url(r'^apps/$', 'plataforma.views.apps', name="apps"),
     url(r'^account/', include('system_account.urls', namespace='account')),
     url(r'^api/', include('rest_service.urls', namespace='api')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
+    url(r'^', include('plataforma.urls', namespace='app')),
 
     # url(r'^proto/', include('proto.urls', namespace="proto")),
     # url(r'^conceptboard/', include('conceptboard.urls', namespace="conceptboard")),
