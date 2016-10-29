@@ -16,31 +16,31 @@ $(document).ready(function () {
         socket.connect();
         socket.on('connect', function () {
 
-             // socket.send({"hola": "hola", action: 'start'});
+            // socket.send({"hola": "hola", action: 'start'});
         });
 
-        socket.on('message',messaged);
+        socket.on('message', messaged);
     });
     var messaged = function (data) {
 
         switch (data.action) {
             case 'error':
-                console.log('error',data);
+                console.log('error', data);
                 break;
             case 'join':
-                console.log('join',data);
+                console.log('join', data);
                 break;
             case 'connected':
-                console.log('connected',data);
+                console.log('connected', data);
                 break;
             case 'leave':
-                console.log('leave',data);
+                console.log('leave', data);
                 break;
             case 'message':
-                console.log('message',data);
+                console.log('message', data);
                 break;
             case 'system':
-                console.log('message',data);
+                console.log('message', data);
                 break;
         }
     };
@@ -60,7 +60,7 @@ $(document).ready(function () {
         $(this).addClass('active');
 
         //aqui lo demas
-        var obj = this.id;//.replace().split('_');//.slice(1, -1);
+        var obj = this.id;
         if (obj.indexOf('_toggle') !== -1) {
             obj = obj.replace('_toggle', '');
 
@@ -85,8 +85,19 @@ $(document).ready(function () {
         $('#client-ui').removeClass('search_focused');
     });
 
-    $('#list_team').on('click', function () {
-        team_users();
+    $('.flexpane_menu_item').on('click', function () {
+        switch (this.id) {
+            case 'list_team':
+                team_users();
+                break;
+            case 'files_all':
+                console.log('All files');
+                break;
+            case 'files_user':
+                user_files();
+                break;
+        }
+
         change_chat_size('65%');
     });
 
@@ -174,6 +185,14 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
 
         $('#menu.flex_menu').addClass('hidden');
+    };
+
+    var user_files = function () {
+        $('.panel.active').removeClass('active');
+        $('#files_tab').addClass('active');
+        $('#menu.flex_menu').addClass('hidden');
+
+        
     };
 
     var change_chat_size = function (size) {

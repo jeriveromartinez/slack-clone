@@ -81,9 +81,10 @@ class Snippet(models.Model):
 
 class FilesUp(models.Model):
     file_up = models.FileField(upload_to='files/', blank=True, null=True)
-    owner = models.OneToOneField(User, related_name='file_up_owner')
+    owner = models.ForeignKey(User, related_name='file_up_owner')
     shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
     uploaded = models.DateTimeField(auto_now_add=True)
+    company = models.ForeignKey(Company, related_name='file_company')
     slug = models.SlugField(blank=False, null=False, editable=False)
 
     class Meta:
@@ -98,7 +99,7 @@ class FilesUp(models.Model):
 
 
 class FilesComment(models.Model):
-    file_up = models.ForeignKey(FilesUp, related_name='comment_file')
+    file_up = models.ForeignKey(FilesUp, related_name='files_comments')
     comment = models.TextField(blank=False, null=False)
     published = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name='comment_user')

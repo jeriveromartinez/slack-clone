@@ -5,7 +5,7 @@
     <div id="signup_flow" class="full_height fs_split" data-step="email">
         <div id="signup_wrapper" class="fs_split_pane fs_split_pane_left">
 
-            <form class="fs_split_flex_wrapper" action="#/slack.com/create">
+            <form class="fs_split_flex_wrapper" method="get" action="{% url 'app:register_create' %}">
                 <a class="logo_link" href="{% url 'app:homepage' %}">
                     <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack" width="120"
                          height="137">
@@ -21,17 +21,12 @@
                 <div id="email_form_body" class="fs_split_body">
                     <h1>Create a new team</h1>
                     <label id="email_label"><span class="normal">Your </span>email address</label>
-                    <input placeholder="you@yourdomain.com" id="signup_email" spellcheck="false" type="text">
+                    <input placeholder="you@yourdomain.com" id="signup_email" name="signup_email" spellcheck="false"
+                           type="text">
                     <p class="error_message"></p>
                 </div>
 
                 <div id="submit" class="fs_split_footer">
-                    <div id="email_checkbox">
-                        <input id="email_misc" checked="checked" type="checkbox">
-                        <label for="email_misc">It's ok to send me (very occasional)<br class="hide_on_mobile"> email
-                            about the Slack service.</label>
-                    </div>
-
                     <div class="button_container">
                         <button id="submit_btn" class="btn btn_large ladda-button" disabled="true">
                             <span class="ladda-label">Next
@@ -44,7 +39,7 @@
                 <p id="legalese_mobile" class="show_on_mobile">
                     By proceeding to create your account and use Slack, you are agreeing to our
                     <a class="bold" href="#/slack.com/terms-of-service">Terms
-                        of Service</a> and <a href="https://slack.com/privacy-policy" class="bold">Privacy Policy</a>.
+                        of Service</a> and <a href="#/slack.com/privacy-policy" class="bold">Privacy Policy</a>.
                     If you do not agree, you cannot use Slack.
                 </p>
             </form>
@@ -64,9 +59,25 @@
                     not agree, you
                     <nobr>cannot use Slack.</nobr>
                 </p>
-
                 <div class="fs_split_footer"></div>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function isEmail(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+
+        $(document).ready(function () {
+            $('#signup_email').bind('select change keyup', function () {
+                console.log(this.value);
+                if (isEmail(this.value)) {
+                    $('#submit_btn').attr('disabled', false);
+                }
+            });
+        });
+    </script>
 {% endblock %}

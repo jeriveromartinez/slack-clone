@@ -1,5 +1,9 @@
 /* ::::: https://a.slack-edge.com/8537/style/rollup-plastic.css ::::: */
 
+body {
+    background-color: #fff;
+}
+
 .ladda-button {
     position: relative;
 }
@@ -3651,7 +3655,7 @@ img#slack_logo {
     bottom: 0px;
     left: 0px;
     right: 0px;
-    background-color: rgb(232, 232, 232);
+    background-color: #fff;
     transition: background-color 0.2s ease-out 0s;
 }
 
@@ -4076,6 +4080,119 @@ img#slack_logo {
     font-weight: 900;
     src: local("☺"), url('../../fonts/lato/lato-italic-black.woff2') format("woff2"), url('../../fonts/lato/lato-italic-black.woff') format("woff");
     unicode-range: U+0-F8FE, U+F900-FFFF;
+}
+
+.col + .col {
+    margin-left: 1.6%;
+}
+
+.bottom_padding {
+    padding-bottom: 1rem !important;
+}
+
+.no_top_padding {
+    padding-top: 0px !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.fs_split_pane .fs_split_flex_wrapper {
+    position: relative;
+    min-height: 100%;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+}
+
+.fs_split_pane_full_width .fs_split_flex_wrapper {
+    width: 30rem;
+    min-height: 90%;
+    margin: auto;
+    -moz-box-pack: start;
+    justify-content: flex-start;
+}
+
+.span_1_of_2 {
+    width: 49.2%;
+}
+
+.col {
+    display: block;
+    float: left;
+    margin: 0px 0px 2%;
+    padding-right: 2%;
+}
+
+.no_padding {
+    padding: 0px !important;
+}
+
+.fs_split_pane_full_width #invite_form_body {
+    padding-top: 1rem;
+}
+
+.inline_block {
+    display: inline-block !important;
+}
+
+#invite_form_body #invite_rows {
+    width: 112%;
+}
+
+#invite_form_body .invite_row {
+    position: relative;
+    padding-right: 12%;
+    margin-bottom: 0.5rem;
+}
+
+.input_wrapper {
+    position: relative;
+}
+
+#invite_form_body .delete_row {
+    position: absolute;
+    top: 1rem;
+    right: 6%;
+    color: rgb(158, 158, 166);
+    display: none;
+}
+
+.input_wrapper .input_checkmark {
+    color: rgb(42, 178, 123);
+    background-color: rgb(255, 255, 255);
+    text-align: right;
+    z-index: 5;
+    right: 0.5rem;
+}
+
+.input_wrapper p {
+    position: absolute;
+    margin: 0.75rem;
+    font-size: 1.25rem;
+    height: 1.75rem;
+    pointer-events: none;
+    border-left: 1px solid transparent;
+    border-color: transparent;
+}
+
+.seafoam_green {
+    color: rgb(42, 178, 123) !important;
+}
+
+.neutral_white_bg {
+    background-color: rgb(255, 255, 255) !important;
+}
+
+.no_bottom_margin {
+    margin-bottom: 0px !important;
+}
+
+.float_right {
+    float: right !important;
 }
 
 .color_9f69e7:not(.nuc) {

@@ -1,13 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.context_processors import csrf
-from django.http import HttpResponseRedirect
+from django.http.response import JsonResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 
 from plataforma.forms import LoginForm
-from plataforma.forms import MyRegistrationForm
 from plataforma.serializers import *
 
 
@@ -48,17 +46,37 @@ def homepage_logged(request):
 
 @csrf_protect
 def register(request):
-    args = {}
-    args.update(csrf(request))
-    if request.method == 'POST':
-        form = MyRegistrationForm(request.POST, request=request, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/login')
-        else:
-            args['form'] = form
-
     return render_to_response('registro/register_first.html', RequestContext(request))
+
+
+@csrf_protect
+def create(request):
+    if request.method == "POST":
+        post = request.POST
+
+        username = post.get("username")
+        password = post.get("password")
+        first_name = post.get("firstName")
+        last_name = post.get("lastName")
+        email = post.get("email")
+
+        user = User.objects.create_user(username, email, password)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.is_active = True
+        user.save()
+
+        name_company = post.get("company")
+        company = Company.objects.create(name=name_company)
+        Profile.objects.create(user=user, company=company, type="owner")
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return JsonResponse({'action': 'success'})
+    else:
+        email = request.GET.get("signup_email")
+
+    return render_to_response('registro/register_steps.html', {'username': email.split("@")[0], 'email': email},
+                              RequestContext(request))
 
 
 @login_required(login_url='/login/')
@@ -69,7 +87,7 @@ def apps(request):
 @login_required(login_url='/login/')
 def logout_view(request):
     logout(request)
-    return redirect('homepage')
+    return redirect('app:homepage')
 
 
 def find_team(request):

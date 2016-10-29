@@ -23,7 +23,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         exclude = ('id',)
-        # fields = ('user', 'type', 'image', 'company')
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -32,4 +31,16 @@ class RoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
         exclude = ('id',)
-        # fields = ('slug', 'name', 'company', 'profile')
+
+
+class FileCommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FilesComment
+
+
+class FileUpSerializer(serializers.ModelSerializer):
+    files_comments = FileCommentsSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = FilesUp
+        fields = ('slug', 'file_up', 'uploaded', 'files_comments')
