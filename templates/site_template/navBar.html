@@ -1,25 +1,20 @@
 {% load staticfiles %}
 <nav id="site_nav" class="hidden">
-
     <div id="site_nav_contents">
-
         <div id="user_menu">
             <div id="user_menu_contents">
                 <div id="user_menu_avatar">
                     <span class="member_image thumb_48"
-                          style="background-image: url('{% static 'images/default_avatar.jpg' %}')"
-                          data-thumb-size="48" data-member-id="U2KQ35L2Z"></span>
+                          style="background-image: url('{{ request.user.profile.image.url }}'),url('{% static 'images/default_avatar.jpg' %}')"></span>
                     <span class="member_image thumb_36"
-                          style="background-image: url('{% static 'images/default_avatar.jpg' %}')"
-                          data-thumb-size="36" data-member-id="U2KQ35L2Z"></span>
+                          style="background-image: url('{{ request.user.profile.image.url }}'),url('{% static 'images/default_avatar.jpg' %}')"></span>
                 </div>
                 <h3>Signed in as</h3>
-                <span id="user_menu_name">jeriverom</span>
+                <span id="user_menu_name">{{ request.user.username }}</span>
             </div>
         </div>
 
         <div class="nav_contents">
-
             <ul class="primary_nav">
                 <li><a href="{% url 'app:homepage' %}" data-qa="home"><i class="ts_icon ts_icon_home"></i>Home</a>
                 </li>
@@ -40,12 +35,9 @@
                 <li><a href="#/account/team" data-qa="team_settings"><i
                         class="ts_icon ts_icon_cog_o"></i>Team Settings</a></li>
             </ul>
-
-
         </div>
 
         <div id="footer">
-
             <ul id="footer_nav">
                 <li><a href="#/is" data-qa="tour">Tour</a></li>
                 <li><a href="#/downloads" data-qa="download_apps">Download Apps</a></li>
@@ -61,10 +53,7 @@
                 <li><a href="{% url 'app:logout' %}">Sign Out<i
                         class="ts_icon ts_icon_sign_out small_left_margin ts_icon_inherit"></i></a></li>
             </ul>
-
             <p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack</p>
-
         </div>
-
     </div>
 </nav>

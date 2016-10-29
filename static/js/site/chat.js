@@ -16,7 +16,7 @@ $(document).ready(function () {
         socket.connect();
         socket.on('connect', function () {
 
-            // socket.send({"username": "julio", message: 'mio que vuelta'});
+            // socket.send({"hola": "hola", action: 'start'});
         });
 
         socket.on('message', messaged);
@@ -44,6 +44,7 @@ $(document).ready(function () {
                 break;
         }
     };
+
     //actions methods
     $('#team_menu').on('click', function () {
         $('#menu').removeClass('hidden');
@@ -60,7 +61,7 @@ $(document).ready(function () {
         $(this).addClass('active');
 
         //aqui lo demas
-        var obj = this.id;//.replace().split('_');//.slice(1, -1);
+        var obj = this.id;
         if (obj.indexOf('_toggle') !== -1) {
             obj = obj.replace('_toggle', '');
 
@@ -95,8 +96,19 @@ $(document).ready(function () {
         $('#client-ui').removeClass('search_focused');
     });
 
-    $('#list_team').on('click', function () {
-        team_users();
+    $('.flexpane_menu_item').on('click', function () {
+        switch (this.id) {
+            case 'list_team':
+                team_users();
+                break;
+            case 'files_all':
+                console.log('All files');
+                break;
+            case 'files_user':
+                user_files();
+                break;
+        }
+
         change_chat_size('65%');
     });
 
@@ -113,17 +125,26 @@ $(document).ready(function () {
         team_users();
     });
 
-    window.showProfile = function (object) {
-        var exc = function (response) {
-            var list = $('#member_preview_container').html('');
-            list.append(item_user_profile(response[0]));
-        };
+    $('#channel-list').on('click', '.channel', function () {
+        active_chat(this.id, 'channel');
+        activeChannel = this.id;
+    });
 
-        $('#team_list_container').addClass('hidden');
-        var urlapi = apiUrl + 'profile/' + $(object).data('user');
-        request(urlapi, 'GET', null, null, exc, null);
-        $('#member_preview_container').removeClass('hidden');
-    };
+    $('#im-list').on('click', '.member', function () {
+        active_chat(this.id, 'user');
+        activeChannel = this.id;
+    });
+
+    $('#member_account_item').on('click', function () {
+        showProfile(this);
+        $('#menu.menu').addClass('hidden');
+        change_chat_size('65%');
+    });
+
+    $('#active_members_list').on('click', '.member_preview_link', function () {
+        showProfile(this);
+    });
+
 
     //aux methods
     var get_chanel = function () {
@@ -186,10 +207,46 @@ $(document).ready(function () {
         $('#menu.flex_menu').addClass('hidden');
     };
 
+    var user_files = function () {
+        $('.panel.active').removeClass('active');
+        $('#files_tab').addClass('active');
+        $('#menu.flex_menu').addClass('hidden');
+    };
+
     var change_chat_size = function (size) {
         $('#msgs_div').css('width', size);//'65%'
     };
+
+    var active_chat = function (search, type) {
+        var exc = null;
+        if (type == "channel") {
+            exc = function (request) {
+                $('#channel_title').html(request[0].name);
+            };
+            var urlapi = apiUrl + companyuser + '/room/' + search + '/';
+        } else {
+            exc = function (request) {
+                $('#channel_title').html(request[0].user.username);
+            };
+            var urlapi = apiUrl + 'profile/' + search + '/';
+        }
+
+        request(urlapi, 'GET', null, null, exc, null);
+    };
 });
+
+window.showProfile = function (object) {
+    var exc = function (response) {
+        var list = $('#member_preview_container').html('');
+        list.append(item_user_profile(response[0]));
+    };
+
+    $('#team_list_container').addClass('hidden');
+    var urlapi = apiUrl + 'profile/' + $(object).data('user');
+    request(urlapi, 'GET', null, null, exc, null);
+    $('#member_preview_container').removeClass('hidden');
+    $('#team_tab').addClass('active');
+};
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
     $.ajax({

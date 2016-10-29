@@ -8,8 +8,11 @@ from django.contrib.sessions.models import Session
 # Create your views here.
 
 @api_view(['GET'])
-def room_by_company(request, company):
-    room = Room.objects.all().filter(company__slug=company)
+def room_by_company(request, company, room_name):
+    if room_name == "all":
+        room = Room.objects.filter(company__slug=company)
+    else:
+        room = Room.objects.filter(company__slug=company).filter(slug=room_name)
     serializer = RoomSerializer(room, many=True)
     return Response(serializer.data)
 

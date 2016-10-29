@@ -18,7 +18,7 @@ var item_channel_list = function (name) {
 var item_user_list = function (name) {
     return '<li id="' + name.toLowerCase() + '" class="member cursor_pointer">' +
         '<div class="hotness_icon hidden"><span class="emoji-outer emoji-sizer" style="background: url(/static/images/sheet_apple_64_indexed_256colors.png) 57.5% 65%;background-size:4100%"></span>' +
-        '</div><a href="#/team/jeriverom" class="im_name nuc">' +
+        '</div><a href="#' + name + '" class="im_name nuc">' +
         '<span class="unread_highlights hidden">0</span>' +
         '<span class="typing_indicator"></span>' +
         '<span class="overflow_ellipsis">' +
@@ -31,14 +31,14 @@ var item_user_list = function (name) {
 var item_directory_list = function (username, name, imageUrl, currentUsername) {
     var item = '<div class="team_list_item member_item cursor_pointer active tiny_top_margin">' +
         '<div class="member_details member_item_inset ">' +
-        '<a href="#/team/jeriverom" class="lazy member_preview_link member_image thumb_72"  ' +
+        '<a href="#' + username + '" class="lazy member_preview_link member_image thumb_72"  ' +
         'style="background: rgb(246, 246, 246) url(' + imageUrl + ') no-repeat;background-size: contain; "></a>' +
         '<div class="member_name_and_title">';
     if (username == currentUsername)
         item += '<div class="color_4bbe2e">';
     else
         item += '<div class="color_9f69e7">';
-    item += '<a data-user="' + username + '" onclick="showProfile(this)" class="bold member_preview_link member_name no_bottom_margin">'
+    item += '<a data-user="' + username + '" class="bold member_preview_link member_name no_bottom_margin">'
         + name + '</a></div><div>@' + username + '<span class="presence away" title="away">' +
         '<i class="ts_icon ts_icon_presence presence_icon"></i></span></div></div></div></div>';
 
