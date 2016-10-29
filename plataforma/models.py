@@ -37,6 +37,17 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
+class RoomMesage(models.Model):
+    room = models.ForeignKey(Room, related_name='room')
+    user_msg = models.ForeignKey(User, related_name='user_msg')
+
+    msg = models.TextField(blank=False, null=False)
+    date_pub = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('date_pub',)
+
+
 class Profile(models.Model):
     CHOICE = (
         (u'owner', u'Owner'),
