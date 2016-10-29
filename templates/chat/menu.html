@@ -26,8 +26,9 @@
                             </h2>
 
                             <ul class="menu_list">
-                                <li id="member_account_item">
-                                    <a href="{% url 'account:profile' %}" tabindex="0">Profile &amp; account</a>
+                                <li id="member_account_item" data-user="{{ request.user.username }}"
+                                    onclick="showProfile(this);">
+                                    <a tabindex="0">Profile &amp; account</a>
                                 </li>
                                 <li id="member_prefs_item"><a href="{% url 'account:settings' %}">Preferences</a></li>
                                 {% comment %}<li id="member_presence">

@@ -22,17 +22,16 @@
         <div class="messages_header">
             <div class="channel_title">
                 <h2 id="channel_name_container" class="channel_name_container">
-			<span id="channel_name" class="channel_name" data-qa="channel_name">
-					<span id="channel_title">{% comment %}#announcements{% endcomment %}nombre canal</span>
-</span>
+                    <span id="channel_name" class="channel_name">
+                            <span id="channel_title"></span>
+                    </span>
                     <div class="channel_actions_container">
                         <a id="mute_container" class="mute_container ts_tip ts_tip_bottom"></a>
-                        <div id="star_container" class="star_container">
+                        {% comment %}<div id="star_container" class="star_container">
                             <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_channel ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                <span class="ts_tip_tip"
-                                      data-tip-toggle-auto="Unstar this channel">Star this channel</span>
+                                <span class="ts_tip_tip">Star this channel</span>
                             </button>
-                        </div>
+                        </div>{% endcomment %}
                     </div>
                 </h2>
 
@@ -40,12 +39,12 @@
                 <div id="channel_header_info">
                     <span id="channel_members_toggle_count"
                           class="blue_hover ts_tip ts_tip_bottom ts_tip_leftish"></span>
-                    <span class="topic_divider">|</span>
+                    {% comment %}<span class="topic_divider">|</span>
                     <span id="topic_inline_edit" class="channel_topic inline_edit inline_edit_editable">
-				<span class="inline_edit_inner">
-					<span id="channel_topic_text" class="inline_edit_input no_jumbomoji">Company-wide announcements and work-based matters</span>
-				</span>
-			</span>
+                    <span class="inline_edit_inner">
+                        <span id="channel_topic_text" class="inline_edit_input no_jumbomoji">Company-wide announcements and work-based matters</span>
+                    </span>{% endcomment %}
+                    </span>
                 </div>
             </div>
 

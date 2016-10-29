@@ -60,7 +60,7 @@
                                         <ts-icon class="upload_camera_icon ts_icon_camera">
                                         <span class="member_preview_link member_image thumb_192"
                                               style="background-image:
-                                                      url('/media/{{ request.user.profile.image }}'),
+                                                      url('{{ request.user.profile.image.url }}'),
                                                       url({% static 'images/ava_0021-512.png' %})"></span>
                                         </ts-icon>
                                     </div>
@@ -108,8 +108,7 @@
 
                                 <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
                                     <button id="edit_member_profile_cancel_photo_upload_btn"
-                                            class="col btn btn_large btn_outline"
-                                            data-action="edit_member_profile_cancel_photo">Cancel
+                                            class="col btn btn_large btn_outline">Cancel
                                     </button>
                                 </div>
                             </div>
@@ -129,8 +128,7 @@
                                         data-action="edit_member_profile_cancel_photo">Cancel
                                 </button>
                                 <button id="edit_member_profile_confirm_photo_crop_btn" type="submit"
-                                        class="col btn btn_large ladda-button" data-style="expand-right"
-                                        data-action="edit_member_profile_confirm_photo_crop">Save Profile Photo
+                                        class="col btn btn_large ladda-button">Save Profile Photo
                                 </button>
                             </div>
                         </section>
@@ -155,8 +153,9 @@
 
                         <section id="edit_member_profile_photo_format_error" class="hidden">
                             <div class="edit_member_profile_photo__modal_container">
-                                <p class="small photo_well align_center"><span class="emoji emoji-sizer"
-                                                                               style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f633.png)"></span><br><strong>Profile
+                                <p class="small photo_well align_center">
+                                    <span class="emoji emoji-sizer"
+                                          style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f633.png)"></span><br><strong>Profile
                                     photos must be<br>GIFs, JPGs or PNGs.</strong></p>
 
                                 <div class="clearfix bottom_margin large_top_margin display_flex justify_content_center flex_wrap">
@@ -174,8 +173,9 @@
 
                         <section id="edit_member_profile_photo_oversize_error" class="hidden">
                             <div class="edit_member_profile_photo__modal_container">
-                                <p class="small photo_well align_center"><span class="emoji emoji-sizer"
-                                                                               style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f61f.png)"></span><br><strong>That's
+                                <p class="small photo_well align_center">
+                                    <span class="emoji emoji-sizer"
+                                          style="background-image:url(https://slack-assets2.s3-us-west-2.amazonaws.com/f5d6f/img/emoji_2016_06_08/apple/1f61f.png)"></span><br><strong>That's
                                     a very nice photo, but<br>it's a bit too big. Try one<br>that's smaller than
                                     4000px<br>tall
                                     by 4000px wide.</strong></p>
