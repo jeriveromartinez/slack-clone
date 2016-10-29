@@ -16,31 +16,31 @@ $(document).ready(function () {
         socket.connect();
         socket.on('connect', function () {
 
-             // socket.send({"hola": "hola", action: 'start'});
+            // socket.send({"username": "julio", message: 'mio que vuelta'});
         });
 
-        socket.on('message',messaged);
+        socket.on('message', messaged);
     });
     var messaged = function (data) {
 
         switch (data.action) {
             case 'error':
-                console.log('error',data);
+                console.log('error', data);
                 break;
             case 'join':
-                console.log('join',data);
+                console.log('join', data);
                 break;
             case 'connected':
-                console.log('connected',data);
+                console.log('connected', data);
                 break;
             case 'leave':
-                console.log('leave',data);
+                console.log('leave', data);
                 break;
             case 'message':
-                console.log('message',data);
+                console.log('message', data);
                 break;
             case 'system':
-                console.log('message',data);
+                console.log('message', data);
                 break;
         }
     };
@@ -74,6 +74,16 @@ $(document).ready(function () {
             }
         }
     });
+    //input
+    $("#message-input").keypress(function (e) {
+        if (e.which == 13) {
+            socket.send({"username": "victor", message: $(this).val().trim()});
+            $("#message-input").val("");
+            event.preventDefault();
+        }
+
+    });
+   
 
     $('input#search_terms').on('focus', function () {
         $('#search_autocomplete_popover').removeClass('hidden');

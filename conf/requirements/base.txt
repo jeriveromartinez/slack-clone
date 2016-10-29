@@ -5,4 +5,7 @@ django-celery==3.1.16
 django-model-utils==2.3.1
 django-suit==0.2.15
 djangorestframework==3.2.4
+gevent
+gevent-socketio
+gevent-websocket
 django-socketio

@@ -15,6 +15,17 @@
 .no_pointer_events {
     pointer-events: none
 }
+.tiny {
+    font-size: .7rem
+}
+
+.small {
+    font-size: .9rem
+}
+
+.no_pointer_events {
+    pointer-events: none
+}
 
 html {
     height: 100%
