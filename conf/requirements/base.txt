@@ -1,11 +1,12 @@
 Django==1.8.5
-
+psycopg2
+Pillow
 django-allauth==0.23.0
 django-celery==3.1.16
 django-model-utils==2.3.1
 django-suit==0.2.15
 djangorestframework==3.2.4
-gevent
-gevent-socketio
+gevent==0.13.8
+gevent-socketio==0.2.1
 gevent-websocket
 django-socketio
