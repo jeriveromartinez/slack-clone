@@ -124,3 +124,9 @@ class FilesComment(models.Model):
 
     def __str__(self):
         return self.user.username + ' - ' + self.file_up.file_up.name + ' - ' + self.published.__str__()
+
+
+class StarItem(models.Model):
+    use = models.ForeignKey(User, related_name='user')
+    type = models.CharField(max_length=255, null=False)
+    refer_id = models.IntegerField(max_length=255, null=False)

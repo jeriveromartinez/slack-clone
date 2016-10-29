@@ -78,13 +78,17 @@ $(document).ready(function () {
     //input
     $("#message-input").keypress(function (e) {
         if (e.which == 13) {
-            socket.send({"username": "victor", message: $(this).val().trim()});
-            $("#message-input").val("");
-            event.preventDefault();
+            var msg = $(this).val().trim();
+            if (msg) {
+                socket.send({"username": activeChannel, message: $(this).val().trim()});
+                $("#message-input").val("");
+                event.preventDefault();
+            }
+
         }
 
     });
-   
+
 
     $('input#search_terms').on('focus', function () {
         $('#search_autocomplete_popover').removeClass('hidden');
@@ -132,7 +136,7 @@ $(document).ready(function () {
 
     $('#im-list').on('click', '.member', function () {
         active_chat(this.id, 'user');
-        activeChannel = this.id;
+        activeChannel = $(this).attr("data-name");
     });
 
     $('#member_account_item').on('click', function () {
