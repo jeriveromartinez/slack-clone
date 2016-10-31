@@ -37,9 +37,15 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
-# Message EVENTs Begin
+# Message EVENTS Begin
 class MessageEvent(models.Model):
-    type = models.CharField(max_length=255, null=False)
+    CHOICE = (
+        (u'message_int_event', u'message_int_event'),
+        (u'room_message_event', u'room_message_event'),
+        (u'file_shared_event', u'file_shared_event'),
+        (u'file_comment_event', u'file_comment_event'),
+    )
+    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
     readed = models.BooleanField(default=False)
     date_pub = models.DateTimeField(auto_now_add=True)
     is_stared = models.BooleanField(default=False)
@@ -73,7 +79,8 @@ class FileCommentEvent(MessageEvent):
     user_comment = models.ForeignKey(User, related_name='user_comment')
 
 
-# Message EVENTs End
+# Message EVENTS End
+
 class Profile(models.Model):
     CHOICE = (
         (u'owner', u'Owner'),
