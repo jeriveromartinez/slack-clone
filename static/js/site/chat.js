@@ -76,20 +76,6 @@ $(document).ready(function () {
             }
         }
     });
-    //input
-    $("#message-input").keypress(function (e) {
-        if (e.which == 13) {
-            var msg = $(this).val().trim();
-            if (msg) {
-                socket.send({"username": activeChannel, message: $(this).val().trim()});
-                $("#message-input").val("");
-                event.preventDefault();
-            }
-
-        }
-
-    });
-
 
     $('input#search_terms').on('focus', function () {
         $('#search_autocomplete_popover').removeClass('hidden');
@@ -99,22 +85,6 @@ $(document).ready(function () {
     $('input#search_terms').focusout(function () {
         $('#search_autocomplete_popover').addClass('hidden');
         $('#client-ui').removeClass('search_focused');
-    });
-
-    $('.flexpane_menu_item').on('click', function () {
-        switch (this.id) {
-            case 'list_team':
-                team_users();
-                break;
-            case 'files_all':
-                console.log('All files');
-                break;
-            case 'files_user':
-                user_files();
-                break;
-        }
-
-        change_chat_size('65%');
     });
 
     $('.panel').on('click', '.close_flexpane', function () {
@@ -192,46 +162,8 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
     };
 
-    var team_users = function () {
-        var exc = function (response) {
-            $('span#active_members_count_value').html(response.length);
-            var list = $('#active_members_list').html('');
-            response.forEach(function (item) {
-                list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image, userlogged))
-            });
-        };
-
-        $('.panel.active').removeClass('active');
-        $('#team_tab').addClass('active');
-        $('#team_list_container').removeClass('hidden');
-        $('#member_preview_container').addClass('hidden');
-
-        var urlapi = apiUrl + companyuser + '/users/';
-        request(urlapi, 'GET', null, null, exc, null);
-
-        $('#menu.flex_menu').addClass('hidden');
-    };
-
-    var user_files = function () {
-        $('.panel.active').removeClass('active');
-        $('#files_tab').addClass('active');
-
-        var exc = function (response) {
-            var list = $('#file_list_by_user').html('');
-            response.forEach(function (item) {
-                var author = item.author.user.first_name + ' ' + item.author.user.last_name;
-                var date = moment('2016-10-31T14:51:03.078669Z', moment.ISO - 8601).format("MMM Do \\at h:mm a");
-                list.append(item_file(item.slug, author, date, item.title, null, null));
-                console.log(start);
-            });
-        };
-        var urlapi = apiUrl + 'files/' + userlogged + '/';
-        request(urlapi, 'GET', null, null, exc, null);
-        $('#menu.flex_menu').addClass('hidden');
-    };
-
     var change_chat_size = function (size) {
-        $('#msgs_div').css('width', size);//'65%'
+        $('#msgs_div').css('width', size);
     };
 
     var active_chat = function (search, type) {
