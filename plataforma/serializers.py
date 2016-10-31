@@ -22,7 +22,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        exclude = ('id',)
+        exclude = ('id', 'socketsession',)
 
 
 class RoomSerializer(serializers.ModelSerializer):
@@ -36,11 +36,13 @@ class RoomSerializer(serializers.ModelSerializer):
 class FileCommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilesComment
+        exclude = ('id',)
 
 
 class FileUpSerializer(serializers.ModelSerializer):
     files_comments = FileCommentsSerializer(many=True, read_only=True)
+    author = ProfileSerializer()
 
     class Meta:
         model = FilesUp
-        fields = ('slug', 'file_up', 'uploaded', 'files_comments')
+        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')

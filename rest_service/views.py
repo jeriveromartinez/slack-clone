@@ -45,8 +45,10 @@ def users_logged(request, company):
 
 
 @api_view(['GET'])
-def get_files(request, username, type):
-    if type == "only":
-        files = FilesUp.objects.filter(owner__username=username)
+def get_files(request, username, company=None):
+    if company is None:
+        files = FilesUp.objects.filter(author__user__username=username)
+    else:
+        files = FilesUp.objects.filter(author__company__slug=company)
     serializer = FileUpSerializer(files, many=True)
     return Response(serializer.data)

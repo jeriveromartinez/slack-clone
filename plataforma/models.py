@@ -37,50 +37,6 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
-# Message EVENTS Begin
-class MessageEvent(models.Model):
-    CHOICE = (
-        (u'message_int_event', u'message_int_event'),
-        (u'room_message_event', u'room_message_event'),
-        (u'file_shared_event', u'file_shared_event'),
-        (u'file_comment_event', u'file_comment_event'),
-    )
-    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
-    readed = models.BooleanField(default=False)
-    date_pub = models.DateTimeField(auto_now_add=True)
-    is_stared = models.BooleanField(default=False)
-
-    class Meta:
-        ordering = ('date_pub',)
-
-
-class RoomMessageEvent(MessageEvent):
-    room = models.ForeignKey(Room, related_name='room')
-    user_msg = models.ForeignKey(User, related_name='user_msg')
-    msg = models.TextField(blank=False, null=False)
-
-
-class MessageInstEvent(MessageEvent):
-    user_to = models.ForeignKey(User, related_name='msg_to')
-    user_from = models.ForeignKey(User, related_name='msg_from')
-    msg = models.TextField(blank=False, null=False)
-
-    def __str__(self):
-        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
-
-
-class FileSharedEvent(MessageEvent):
-    file_up = models.ForeignKey(FilesUp, related_name='files_comments')
-    user_shared = models.ForeignKey(User, related_name='user_shared')
-
-
-class FileCommentEvent(MessageEvent):
-    file_up = models.ForeignKey(FilesComment, related_name='files_comments')
-    user_comment = models.ForeignKey(User, related_name='user_comment')
-
-
-# Message EVENTS End
-
 class Profile(models.Model):
     CHOICE = (
         (u'owner', u'Owner'),
@@ -116,21 +72,22 @@ class Snippet(models.Model):
 
 
 class FilesUp(models.Model):
+    title = models.CharField(null=True, blank=True, max_length=255)
     file_up = models.FileField(upload_to='files/', blank=True, null=True)
-    owner = models.ForeignKey(User, related_name='file_up_owner')
+    author = models.ForeignKey(Profile, related_name='file_up_owner')
     shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
     uploaded = models.DateTimeField(auto_now_add=True)
-    company = models.ForeignKey(Company, related_name='file_company')
     slug = models.SlugField(blank=False, null=False, editable=False)
 
     class Meta:
         ordering = ('uploaded',)
 
     def __str__(self):
-        return self.owner.username + ' - ' + self.uploaded.__str__()
+        return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.file_up.name)
+        self.title = self.file_up.name
         super(FilesUp, self).save(*args, **kwargs)
 
 
@@ -151,3 +108,47 @@ class StarItem(models.Model):
     use = models.ForeignKey(User, related_name='user')
     type = models.CharField(max_length=255, null=False)
     refer_id = models.IntegerField(null=False)
+
+
+# Message EVENTS Begin
+class MessageEvent(models.Model):
+    CHOICE = (
+        (u'message_int_event', u'message_int_event'),
+        (u'room_message_event', u'room_message_event'),
+        (u'file_shared_event', u'file_shared_event'),
+        (u'file_comment_event', u'file_comment_event'),
+    )
+    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
+    readed = models.BooleanField(default=False)
+    date_pub = models.DateTimeField(auto_now_add=True)
+    is_stared = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ('date_pub',)
+
+
+class RoomMessageEvent(MessageEvent):
+    room = models.ForeignKey(Room, related_name='room')
+    user_msg = models.ForeignKey(User, related_name='user_msg')
+    msg = models.TextField(blank=False, null=False)
+
+
+class MessageInstEvent(MessageEvent):
+    user_to = models.ForeignKey(User, related_name='msg_to_event_inst')
+    user_from = models.ForeignKey(User, related_name='msg_from_event_inst')
+    msg = models.TextField(blank=False, null=False)
+
+    def __str__(self):
+        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
+
+
+class FileSharedEvent(MessageEvent):
+    file_up = models.ForeignKey(FilesUp, related_name='files_comments_event_share')
+    user_shared = models.ForeignKey(User, related_name='user_shared_event_share')
+
+
+class FileCommentEvent(MessageEvent):
+    file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
+    user_comment = models.ForeignKey(User, related_name='user_comment_event')
+
+# Message EVENTS End

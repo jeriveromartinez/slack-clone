@@ -14,11 +14,11 @@ $(document).ready(function () {
         get_users();
         $('')
         /*socket = new io.Socket();
-        socket.connect();
-        socket.on('connect', function () {
+         socket.connect();
+         socket.on('connect', function () {
 
-            // socket.send({"hola": "hola", action: 'start'});
-        });
+         // socket.send({"hola": "hola", action: 'start'});
+         });
 
          socket.on('message', messaged);*/
     });
@@ -215,6 +215,18 @@ $(document).ready(function () {
     var user_files = function () {
         $('.panel.active').removeClass('active');
         $('#files_tab').addClass('active');
+
+        var exc = function (response) {
+            var list = $('#file_list_by_user').html('');
+            response.forEach(function (item) {
+                var author = item.author.user.first_name + ' ' + item.author.user.last_name;
+                var date = moment('2016-10-31T14:51:03.078669Z', moment.ISO - 8601).format("MMM Do \\at h:mm a");
+                list.append(item_file(item.slug, author, date, item.title, null, null));
+                console.log(start);
+            });
+        };
+        var urlapi = apiUrl + 'files/' + userlogged + '/';
+        request(urlapi, 'GET', null, null, exc, null);
         $('#menu.flex_menu').addClass('hidden');
     };
 

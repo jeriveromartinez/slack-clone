@@ -123,8 +123,8 @@
                 <div class="toolbar_container">
                     <div class="toolbar clearfix">
                         <ul id="file_list_toggle" class="flexpane_tab_bar">
-                            <li id="file_list_toggle_all" class="active"><a>Everyone</a></li>
-                            <li id="file_list_toggle_user">
+                            <li id="file_list_toggle_all"><a>Everyone</a></li>
+                            <li id="file_list_toggle_user" class="active">
                                 <i id="file_list_toggle_users" class="ts_icon ts_icon_caret_down"></i>
                                 <a>Just You</a>
                             </li>
@@ -132,92 +132,11 @@
                     </div>
                 </div>
                 <div id="monkey_scroll_wrapper_for_file_list_scroller" class="monkey_scroll_wrapper ">
-                    <div class="monkey_scroll_bar hidden" style="margin-left: 4.5px; height: 494px;">
-                        <div class="monkey_scroll_handle " style="left: -3px; height: 444.245px; top: 0px;">
-                            <div class="monkey_scroll_handle_inner "></div>
-                        </div>
-                    </div>
-                    <div class="monkey_scroll_hider" style="width: 100%;">
-                        <div id="monkey_scroll_wrapper_for_file_list_scroller" class="monkey_scroll_wrapper ">
-                            <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
-                                <div class="monkey_scroll_handle " style="left: -3px;">
-                                    <div class="monkey_scroll_handle_inner "></div>
-                                </div>
-                            </div>
-                            <div class="monkey_scroll_hider" style="width: 100%;">
-                                <div id="file_list_scroller" class="flex_content_scroller monkey_scroller"
-                                     style="height: 500.1px; width: 0px;">
-                                    <div id="file_list" class="feature_fast_files_flexpane not_scrolling"
-                                         data-list="all"></div>
-                                    <div id="file_list_block" class="help">
-                                        <div class="subsection" data-filter="all">
-                                            <p>Files live in channels, but you can search and sort them here.</p>
-                                            <p>To add a file, click the
-                                                <ts-icon
-                                                        class="ts_icon_plus_square_o ts_icon_inherit ts_icon_align_bottom"></ts-icon>
-                                                in any channel.
-                                            </p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="posts">
-                                            <p>Posts are useful for sharing longer documents with your team:
-                                                information that's longer than a chat message or that needs to be
-                                                formatted. Posts have the same commenting and sharing functionality as
-                                                other files.</p>
-                                            <p>If you'd like, you can <a
-                                                    href="#/files/create/post"
-                                                    target="new">create a new post</a>.</p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="spaces">
-                                            <p>Posts are useful for sharing longer documents with your team:
-                                                information that's longer than a chat message or that needs to be
-                                                formatted. Posts have the same commenting and sharing functionality as
-                                                other files.</p>
-                                            <p>If you'd like, you can <a
-                                                    href="#/files/create/space"
-                                                    target="new">create a new post</a>.</p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="snippets">
-                                            <p>Snippets are useful for pasting code or large blocks of text
-                                                into Slack. Snippets can be shared into channels so your teammates can
-                                                add comments.</p>
-                                            <p>Like other files, all content in a snippet is indexed and
-                                                searchable. Snippet content will appear in the Files tab of search
-                                                results.</p>
-                                            <p>If you'd like, you can <a>create
-                                                a new Snippet</a>.</p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="images">
-                                            <p>All sorts of image files can be uploaded to Slack. When you share an
-                                                image file, it can be previewed inline in chat.</p>
-                                            <p>If you'd like, you can <a>upload a new
-                                                image</a>.</p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="pdfs">
-                                            <p>PDFs uploaded to Slack are indexed and searchable. PDF content will
-                                                appear in the Files tab of search results.</p>
-                                            <p>If you'd like, you can <a>upload a new
-                                                PDF document</a>.</p>
-                                        </div>
-                                        <div class="subsection hidden" data-filter="gdocs">
-                                            <p>Slack provides built-in support for Google Docs. Just paste in a link to
-                                                a Google Doc and follow the prompts to set it up.</p>
-                                            <p>When you add a Google Doc, Slack will index it for search and
-                                                keep it up to date automatically so any changes you make in Google Docs
-                                                will be reflected here.</p>
-                                        </div>
-                                        <a href="#/files" id="file_listing_bottom_button"
-                                           class="top_margin btn full_width">
-                                            Open Files Archive
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% include 'chat/files_list.html' %}
                 </div>
             </div>
-
-            <div id="file_preview_container" class="{% comment %}hidden{% endcomment %}">
+            <!---Detalles del documento--->
+            <div id="file_preview_container" class="hidden">
                 <div class="heading">
                     <a onclick="return false;" id="back_from_file_preview"><i
                             class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Files</a>
