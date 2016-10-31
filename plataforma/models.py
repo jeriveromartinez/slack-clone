@@ -37,16 +37,43 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
-class RoomMessage(models.Model):
-    room = models.ForeignKey(Room, related_name='room')
-    user_msg = models.ForeignKey(User, related_name='user_msg')
-    msg = models.TextField(blank=False, null=False)
+# Message EVENTs Begin
+class MessageEvent(models.Model):
+    type = models.CharField(max_length=255, null=False)
+    readed = models.BooleanField(default=False)
     date_pub = models.DateTimeField(auto_now_add=True)
+    is_stared = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('date_pub',)
 
 
+class RoomMessageEvent(MessageEvent):
+    room = models.ForeignKey(Room, related_name='room')
+    user_msg = models.ForeignKey(User, related_name='user_msg')
+    msg = models.TextField(blank=False, null=False)
+
+
+class MessageInstEvent(MessageEvent):
+    user_to = models.ForeignKey(User, related_name='msg_to')
+    user_from = models.ForeignKey(User, related_name='msg_from')
+    msg = models.TextField(blank=False, null=False)
+
+    def __str__(self):
+        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
+
+
+class FileSharedEvent(MessageEvent):
+    file_up = models.ForeignKey(FilesUp, related_name='files_comments')
+    user_shared = models.ForeignKey(User, related_name='user_shared')
+
+
+class FileCommentEvent(MessageEvent):
+    file_up = models.ForeignKey(FilesComment, related_name='files_comments')
+    user_comment = models.ForeignKey(User, related_name='user_comment')
+
+
+# Message EVENTs End
 class Profile(models.Model):
     CHOICE = (
         (u'owner', u'Owner'),
@@ -66,19 +93,6 @@ class Profile(models.Model):
         if self.type == 'owner':
             self.user.delete()
             self.company.delete()
-
-
-class Message(models.Model):
-    user_to = models.ForeignKey(User, related_name='msg_to')
-    user_from = models.ForeignKey(User, related_name='msg_from')
-    msg = models.TextField(blank=False, null=False)
-    date_pub = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ('date_pub',)
-
-    def __str__(self):
-        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
 
 
 class Snippet(models.Model):
@@ -129,4 +143,4 @@ class FilesComment(models.Model):
 class StarItem(models.Model):
     use = models.ForeignKey(User, related_name='user')
     type = models.CharField(max_length=255, null=False)
-    refer_id = models.IntegerField(max_length=255, null=False)
+    refer_id = models.IntegerField(null=False)
