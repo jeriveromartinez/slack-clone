@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 
 urlpatterns = [
-    # User management
+    # Chat management
     url(r'^$', 'plataforma.views.homepage_logged', name="homepage"),
     url(r'^login/$', 'plataforma.views.login_page', name="login"),
     url(r'^login/find/$', 'plataforma.views.find_team', name='find_team'),
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^apps/$', 'plataforma.views.apps', name="apps"),
     url(r'^register/$', 'plataforma.views.register', name="register"),
     url(r'^register/create/$', 'plataforma.views.create', name="register_create"),
+    url(r'^invite/$', 'plataforma.views.invite_user', name='invite_user'),
 ]

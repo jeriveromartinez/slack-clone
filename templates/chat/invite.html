@@ -1,0 +1,231 @@
+{% extends 'site_template/base_login.html' %}
+{% load staticfiles %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/invite.css' %}">
+{% endblock %}
+{% block body_style %}feature_channel_name_menu banner_showing light_theme{% endblock %}
+{% block container %}
+    <div id="fs_modal_bg" class="active"></div>
+    <div id="fs_modal" class="active">
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn" href="{% url 'app:homepage' %}">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+        <div class="contents_container">
+
+            <div class="contents">
+                <div id="admin_invites_container">
+                    <h1 id="admin_invites_header" class="light align_center">
+                        <i class="ts_icon ts_icon_paper_plane clear_blue float_none small_right_margin hide_on_mobile"></i>
+                        Invite <span class="admin_invites_header_type normal">Full Members</span><span
+                            class="admin_invites_header_team_name"> to <span
+                            class="normal">{{ request.user.profile.company.name }}</span></span>
+                    </h1>
+
+                    <div id="admin_invites_switcher" class="hidden">
+                        <hr id="admin_invites_header_divider" class="hide_on_mobile">
+                        <div class="admin_invites_account_type_option">
+                            <h2 class="normal small_bottom_margin">Full Members</h2>
+                            <p>
+                                Full Members can access messages and files in any public channel and access the full
+                                team directory.
+                            </p>
+                            <i class="option_arrow ts_icon ts_icon_arrow_right ts_icon_inherit"></i>
+                        </div>
+                        <div class="admin_invites_account_type_option">
+                            <h2 class="normal small_bottom_margin">Multi-Channel Guests</h2>
+                            <p>Multi-Channel Guests see a partial team directory and can only access messages and files
+                                from selected channels.</p>
+                            <i class="option_arrow ts_icon ts_icon_arrow_right ts_icon_inherit"></i>
+                        </div>
+                        {% comment %} <div class="admin_invites_account_type_option disabled">
+                            <h2 class="normal small_bottom_margin">Single-Channel Guests</h2>
+                            <p>Single-Channel Guests can only access messages and files in a single channel. This
+                                account type is free. <a
+                                        href="#/slack.zendesk.com/hc/en-us/articles/202518103-Restricted-account-and-single-channel-guest-FAQ"
+                                        class="subtle_silver underline">Learn more</a></p>
+                            <div class="account_type_disabled_hover">
+                                <p class="bottom_margin">You've reached your team limit for <strong>Single-Channel
+                                    Guests</strong>.</p>
+                                <a href="#/slack.zendesk.com/hc/en-us/articles/202518103-Restricted-account-and-single-channel-guest-FAQ"
+                                   class="btn btn_outline">Learn More</a>
+                            </div>
+                            <i class="option_arrow ts_icon ts_icon_arrow_right ts_icon_inherit"></i>
+                        </div>
+                        <p class="align_center large_top_margin">
+                            <a href="https://blackmambasoft.slack.com/admin/invites" target="new_1477747958130">See
+                                pending and accepted invites for your team</a>
+                        </p>{% endcomment %}
+                    </div>
+
+                    <div id="admin_invites_workflow" class="top_margin">
+
+                        <div id="admin_invites_channel_picker_container">
+                            <p id="default_channels_note" class="small align_center no_bottom_margin ">
+                                New <strong>full members</strong> will automatically join
+                                #<strong>announcements</strong>
+                                and #<strong>random</strong>.
+                                <a onclick="$('#default_channels_note').hide(); $('#default_channels').show();"
+                                   class="small_left_margin subtle_silver underline">Edit/add</a>
+                            </p>
+                            <p id="default_channels" style="display: none; overflow: visible ! important;">
+                                <select multiple="multiple" id="defaultchannelsmulti" name="defaultchannels[]"
+                                        class="hidden">
+                                    <option value="C2KNC4V7D" selected="">#random</option>
+                                </select></p>
+                            <div class="lazy_filter_select default_style value">
+                                <div class="lfs_input_container">
+                                    <ts-icon class="ts_icon_search ts_icon search_icon subtle_silver"></ts-icon>
+
+                                    <div class="lfs_item  selected lfs_token"> #random</div>
+                                    <input class="lfs_input" size="1" type="text">
+                                </div>
+                                <div class="lfs_list_container">
+                                    <div class="lfs_list"></div>
+                                </div>
+                                <div class="lfs_empty hidden"></div>
+                            </div>
+                            <span class="small align_center">
+                                New <strong>full members</strong> will automatically join these channels and <strong>#announcements</strong> <a
+                                    href="#/blackmambasoft.slack.com/admin/settings#default_channels"
+                                    target="admin_settings"
+                                    class="small_left_margin subtle_silver underline">change defaults</a>
+                            </span>
+                            <p></p>
+                            <p class="small align_center no_bottom_margin">
+                                <span id="sso_signup_notice" class="block small_top_margin hidden"></span>
+                                <span id="google_auth_email_domain_notice" class="hidden">
+                                    You can invite people with email addresses ending in
+                                    <strong>@</strong>
+                                    <a href="#/blackmambasoft.slack.com/admin/auth/google"
+                                       class="subtle_silver small_left_margin underline">change SSO settings</a>
+                                </span>
+                            </p></div>
+
+                        <form id="individual_invites" action="#/blackmambasoft.slack.com/messages/@jeriverom/">
+                            <input name="account_type" id="account_type" value="full" type="hidden">
+                            <p class="alert alert_info" id="invite_notice" style="display: none;"></p>
+                            <div id="invite_rows">
+                                <div id="invite_0" class="admin_invite_row clearfix">
+                                    <div class="col span_1_of_2">
+                                        <label class="email full_width">
+                                            Email Address<br>
+                                            <div class="full_width">
+                                                <input spellcheck="false" autocorrect="off" class="email_field small"
+                                                       name="email_address" placeholder="name@domain.com"
+                                                       data-email-healing="true" value="" type="text">
+                                            </div>
+                                        </label>
+                                        <p class="error_msg input_note hidden moscow_red no_bottom_margin"></p>
+                                    </div>
+                                    <div class="col span_1_of_2">
+                                        <div class="col span_1_of_2 mobile_col small_right_padding">
+                                            <label class="full_width">
+                                                First Name<br>
+                                                <input name="first_name" placeholder="Optional"
+                                                       class="small small_right_margin no_bottom_margin full_width"
+                                                       maxlength="200" value="" type="text">
+                                            </label>
+                                        </div>
+                                        <div class="col span_1_of_2 mobile_col float_right">
+                                            <label class="full_width">
+                                                Last Name<br>
+                                                <input name="last_name" placeholder="Optional"
+                                                       class="small no_bottom_margin full_width" maxlength="200"
+                                                       value="" type="text">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <a class="delete_row hidden"><i
+                                            class="ts_icon ts_icon_times"></i></a>
+                                </div>
+                            </div>
+
+                            <p id="admin_invites_add_row" class="clear_both clearfix">
+
+                                <a class="float_left bold" tabindex="0">
+                                    <ts-icon class="ts_icon_plus_circle small_right_margin align_bottom"></ts-icon>
+                                    Add another invitation</a>
+                                <span class="float_right subtle_silver">Big team?
+                                    <a tabindex="0">Invite many people at once</a>
+                                </span>
+                            </p>
+
+                            <div class="invite_modal_options_container">
+                                <div class="admin_invites_custom_message_container">
+                                    <div class="admin_invites_show_custom_message hidden medium_bottom_margin">
+                                        <label for="admin_invite_custom_message">Custom Message</label>
+                                        <textarea id="admin_invite_custom_message" name="admin_invite_custom_message"
+                                                  maxlength="560"
+                                                  placeholder="Enter a custom message to attach to the invites"></textarea>
+                                        <a class="hide_custom_message">
+                                            <i class="ts_icon ts_icon_times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="invite_modal_options large_bottom_margin">
+                                    <div class="invite_modal_options_left">
+                                        <div class="small no_bottom_margin invite_modal_options_message">
+                                            <a href="#/blackmambasoft.slack.com/admin/invites"
+                                               class="subtle_silver underline">See
+                                                pending and accepted invites</a>
+                                        </div>
+                                    </div>
+                                    <div class="invite_modal_options_right">
+                                        <button type="submit" id="admin_invites_submit_btn"
+                                                class="btn btn_large ladda-button ladda">
+                                            <span class="ladda-label">Invite 1 Person</span>
+                                            <span class="ladda-spinner"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <form id="bulk_invites" class="hidden stacked top_margin"
+                              action="#/blackmambasoft.slack.com/messages/@jeriverom/">
+                            <p class="alert alert_warning hidden" id="bulk_notice"></p>
+                            <label class="full_width">
+                                Enter multiple email addresses
+                                <textarea name="emails" id="bulk_emails" class="no_bottom_margin full_width"
+                                          style="overflow: hidden; height: 108px;" wrap="virtual"></textarea>
+                            </label>
+                            <p class="input_note">Please separate multiple addresses with commas. <strong>Keep in mind
+                                that Slack may limit the number of invitations you can send if your team currently has a
+                                low acceptance rate.</strong> Our Help Center has <a
+                                    href="#/get.slack.help/hc/en-us/articles/201330256#invitation_limits">more
+                                details on invitation limits</a>.</p>
+
+                            <button type="submit" class="btn small_right_margin ladda-button">Add Invitees</button>
+                            <a class="btn btn_outline">Cancel</a>
+                        </form>
+                    </div>
+
+                    <div id="admin_invites_success" class="hidden">
+                        <h1 class="light align_center">
+                            Your invitation has been sent!
+                        </h1>
+
+                        <p class="align_center large_bottom_margin">
+                            You've invited undefined to {{ request.user.profile.company.name }}.
+                        </p>
+
+
+                        <p class="large_top_padding">
+                            <button class="btn btn_outline col span_1_of_2">Invite
+                                More People
+                            </button>
+                            <button class="btn btn_outline col span_1_of_2 dialog_cancel">Done</button>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

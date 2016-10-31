@@ -60,7 +60,9 @@
                                         <ts-icon class="upload_camera_icon ts_icon_camera">
                                         <span class="member_preview_link member_image thumb_192"
                                               style="background-image:
-                                                      url('{{ request.user.profile.image.url }}'),
+                                                      {% if request.user.profile.image %}
+                                                          url('{{ request.user.profile.image.url }}'),
+                                                      {% endif %}
                                                       url({% static 'images/ava_0021-512.png' %})"></span>
                                         </ts-icon>
                                     </div>

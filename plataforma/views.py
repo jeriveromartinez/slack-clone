@@ -92,3 +92,7 @@ def logout_view(request):
 
 def find_team(request):
     return render_to_response('find_team.html', context_instance=RequestContext(request))
+
+
+def invite_user(request):
+    return render_to_response('chat/invite.html', context_instance=RequestContext(request))
