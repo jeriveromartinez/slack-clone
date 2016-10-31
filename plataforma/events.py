@@ -3,7 +3,7 @@ from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.utils.html import strip_tags
 from django_socketio import events, send, broadcast, broadcast_channel, NoSocket
-from plataforma.models import Room, Profile, Message, RoomMesage
+from plataforma.models import Room, Profile, Message, RoomMessage
 from django.utils import timezone
 
 
@@ -36,7 +36,7 @@ def message(request, socket, context, message):
 def subcribe(request, socket, context, channel):
     room = get_object_or_404(Room, name=channel)
     if room:
-        RoomMesage.objects.create(room=room, user_msg=request.user, msg="User joined", date_pub=timezone.now())
+        RoomMessage.objects.create(room=room, user_msg=request.user, msg="User joined", date_pub=timezone.now())
         try:
             send(socket.session.session_id, {"message": "Welcome"})
             joined = {"action": "join", "name": request.user.username, "id": request.user.id}
@@ -51,7 +51,7 @@ def subcribe(request, socket, context, channel):
 def messagechanel(request, socket, context, message):
     room = get_object_or_404(Room, name=message["room"])
     if room and message["action"] == "message":
-        RoomMesage.objects.create(room=room, user_msg=request.user, msg=message["message"], date_pub=timezone.now())
+        RoomMessage.objects.create(room=room, user_msg=request.user, msg=message["message"], date_pub=timezone.now())
 
         message["message"] = strip_tags(message["message"])
         message["name"] = request.user.username

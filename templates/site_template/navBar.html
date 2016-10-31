@@ -5,9 +5,17 @@
             <div id="user_menu_contents">
                 <div id="user_menu_avatar">
                     <span class="member_image thumb_48"
-                          style="background-image: url('{{ request.user.profile.image.url }}'),url('{% static 'images/default_avatar.jpg' %}')"></span>
+                          style="background-image:
+                                  {% if request.user.profile.image %}
+                                      url('{{ request.user.profile.image.url }}'),
+                                  {% endif %}
+                                  url('{% static 'images/default_avatar.jpg' %}')"></span>
                     <span class="member_image thumb_36"
-                          style="background-image: url('{{ request.user.profile.image.url }}'),url('{% static 'images/default_avatar.jpg' %}')"></span>
+                          style="background-image:
+                                  {% if request.user.profile.image %}
+                                      url('{{ request.user.profile.image.url }}'),
+                                  {% endif %}
+                                  url('{% static 'images/default_avatar.jpg' %}')"></span>
                 </div>
                 <h3>Signed in as</h3>
                 <span id="user_menu_name">{{ request.user.username }}</span>

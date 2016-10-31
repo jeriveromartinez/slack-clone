@@ -9,3 +9,4 @@ gevent
 gevent-socketio
 gevent-websocket
 django-socketio
+Pillow
