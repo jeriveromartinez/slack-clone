@@ -46,3 +46,49 @@ class FileUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilesUp
         fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
+
+
+class MessageEventSeriallizer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageEvent
+        exclude = ('id',)
+
+
+class RoomMessageEventSeriallizer(MessageEventSeriallizer):
+    room = RoomSerializer()
+    user_msg = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = RoomMessageEvent
+        exclude = ('id',)
+
+
+class MessageInstEventSeriallizer(MessageEventSeriallizer):
+    user_to = UserSerializer()
+    user_from = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = MessageInstEvent
+        exclude = ('id',)
+
+
+class FileSharedEventSeriallizer(MessageEventSeriallizer):
+    file_up = FileUpSerializer()
+    user_shared = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = FileSharedEvent
+        exclude = ('id',)
+
+
+class FileCommentEventSeriallizer(MessageEventSeriallizer):
+    file_up = FileUpSerializer()
+    user_comment = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = FileCommentEvent
+        exclude = ('id',)
+
+
+
+

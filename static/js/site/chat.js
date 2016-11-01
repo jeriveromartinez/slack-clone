@@ -12,39 +12,9 @@ $(document).ready(function () {
     $(function () {
         get_chanel();
         get_users();
-        $('')
-        /*socket = new io.Socket();
-         socket.connect();
-         socket.on('connect', function () {
 
-         // socket.send({"hola": "hola", action: 'start'});
-         });
-
-         socket.on('message', messaged);*/
     });
-    /*var messaged = function (data) {
 
-     switch (data.action) {
-     case 'error':
-     console.log('error', data);
-     break;
-     case 'join':
-     console.log('join', data);
-     break;
-     case 'connected':
-     console.log('connected', data);
-     break;
-     case 'leave':
-     console.log('leave', data);
-     break;
-     case 'message':
-     console.log('message', data);
-     break;
-     case 'system':
-     console.log('message', data);
-     break;
-     }
-     };*/
 
     //actions methods
     $('#team_menu').on('click', function () {

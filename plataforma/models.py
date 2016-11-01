@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
+from model_utils.managers import InheritanceManager
 
 
 class Company(models.Model):
@@ -118,10 +119,11 @@ class MessageEvent(models.Model):
         (u'file_shared_event', u'file_shared_event'),
         (u'file_comment_event', u'file_comment_event'),
     )
-    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
+    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=40)
     readed = models.BooleanField(default=False)
     date_pub = models.DateTimeField(auto_now_add=True)
     is_stared = models.BooleanField(default=False)
+    objects = InheritanceManager()
 
     class Meta:
         ordering = ('date_pub',)

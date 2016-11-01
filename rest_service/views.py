@@ -59,3 +59,24 @@ def get_details_file(request, username, file):
     _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
     serializer = FileUpSerializer(_file, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_message_by_user(request, username):
+    messages = MessageEvent.objects.all().select_subclasses()
+    result = []
+    for inst in messages:
+        print isinstance(inst, MessageInstEvent)
+        if isinstance(inst, MessageInstEvent):
+            serializer = MessageInstEventSeriallizer(inst.messageinstevent)
+            result.append(serializer.data)
+        if isinstance(inst, RoomMessageEvent):
+            serializer = RoomMessageEventSeriallizer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileSharedEvent):
+            serializer = FileSharedEventSeriallizer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileCommentEvent):
+            serializer = FileCommentEventSeriallizer(inst)
+            result.append(serializer.data)
+    return Response(result)
