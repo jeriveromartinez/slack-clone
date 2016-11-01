@@ -52,3 +52,10 @@ def get_files(request, username, company=None):
         files = FilesUp.objects.filter(author__company__slug=company)
     serializer = FileUpSerializer(files, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_details_file(request, username, file):
+    _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
+    serializer = FileUpSerializer(_file, many=True)
+    return Response(serializer.data)

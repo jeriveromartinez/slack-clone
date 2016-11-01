@@ -19,6 +19,10 @@ $(document).ready(function () {
         change_chat_size('65%');
     });
 
+    $('#file_list_by_user').on('click', '.file_list_item', function () {
+        console.log(this.id);
+    });
+
     //AUX
     var team_users = function () {
         var exc = function (response) {

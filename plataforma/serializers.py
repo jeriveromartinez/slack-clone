@@ -36,7 +36,7 @@ class RoomSerializer(serializers.ModelSerializer):
 class FileCommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilesComment
-        exclude = ('id',)
+        exclude = ('id', 'user', 'file_up')
 
 
 class FileUpSerializer(serializers.ModelSerializer):
