@@ -50,7 +50,6 @@ $(document).ready(function () {
                 var author = item.author.user.first_name + ' ' + item.author.user.last_name;
                 var date = moment('2016-10-31T14:51:03.078669Z', moment.ISO - 8601).format("MMM Do \\at h:mm a");
                 list.append(item_file(item.slug, author, date, item.title, null, null));
-                console.log(start);
             });
         };
         var urlapi = apiUrl + 'files/' + userlogged + '/';
@@ -58,4 +57,7 @@ $(document).ready(function () {
         $('#menu.flex_menu').addClass('hidden');
     };
 
+    var details_files = function () {
+        $('#file_list_container').addClass('hidden');
+    };
 });

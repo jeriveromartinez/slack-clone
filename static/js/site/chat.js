@@ -162,10 +162,6 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
     };
 
-    var change_chat_size = function (size) {
-        $('#msgs_div').css('width', size);
-    };
-
     var active_chat = function (search, type) {
         var exc = null;
         if (type == "channel") {
@@ -195,6 +191,10 @@ window.showProfile = function (object) {
     request(urlapi, 'GET', null, null, exc, null);
     $('#member_preview_container').removeClass('hidden');
     $('#team_tab').addClass('active');
+};
+
+window.change_chat_size = function (size) {
+    $('#msgs_div').css('width', size);
 };
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
