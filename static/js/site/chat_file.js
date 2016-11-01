@@ -20,7 +20,25 @@ $(document).ready(function () {
     });
 
     $('#file_list_by_user').on('click', '.file_list_item', function () {
-        console.log(this.id);
+        var exc = function (response) {
+            $('#file_preview_container').removeClass('hidden');
+            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
+            var file = response[0];
+            item.append(item_file_detail(file.author.user.username, file.author.image, file.title, file_comments_msg(file.files_comments)));
+        };
+
+        $('.panel.active').removeClass('active');
+        $('#files_tab').addClass('active');
+
+        var urlapi = apiUrl + 'files/' + userlogged + '/detail/' + this.id;
+        request(urlapi, 'GET', null, null, exc, null);
+        $('#file_list_container').addClass('hidden');
+    });
+
+    $('#back_from_file_preview').on('click', function () {
+        $('#file_preview_container').addClass('hidden');
+        $('#file_list_container').removeClass('hidden');
+        user_files();
     });
 
     //AUX
@@ -52,16 +70,13 @@ $(document).ready(function () {
             var list = $('#file_list_by_user').html('');
             response.forEach(function (item) {
                 var author = item.author.user.first_name + ' ' + item.author.user.last_name;
-                var date = moment('2016-10-31T14:51:03.078669Z', moment.ISO - 8601).format("MMM Do \\at h:mm a");
+                var date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
                 list.append(item_file(item.slug, author, date, item.title, null, null));
             });
         };
+
         var urlapi = apiUrl + 'files/' + userlogged + '/';
         request(urlapi, 'GET', null, null, exc, null);
         $('#menu.flex_menu').addClass('hidden');
-    };
-
-    var details_files = function () {
-        $('#file_list_container').addClass('hidden');
     };
 });
