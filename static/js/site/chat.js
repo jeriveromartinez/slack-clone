@@ -170,6 +170,26 @@ window.change_chat_size = function (size) {
     $('#msgs_scroller_div').css('width', size);
 };
 
+window.team_users = function () {
+    var exc = function (response) {
+        $('span#active_members_count_value').html(response.length);
+        var list = $('#active_members_list').html('');
+        response.forEach(function (item) {
+            list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image, userlogged))
+        });
+    };
+
+    $('.panel.active').removeClass('active');
+    $('#team_tab').addClass('active');
+    $('#team_list_container').removeClass('hidden');
+    $('#member_preview_container').addClass('hidden');
+
+    var urlapi = apiUrl + companyuser + '/users/';
+    request(urlapi, 'GET', null, null, exc, null);
+
+    $('#menu.flex_menu').addClass('hidden');
+};
+
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
     $.ajax({
         type: typeRequest,
@@ -179,5 +199,10 @@ window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunctio
         success: doneFunction,
         error: errorFunction
     });
+};
+
+window.getUserPath = function (username) {
+    var urlapi = apiUrl + 'profile/' + username + '/path/';
+    return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
 };
 

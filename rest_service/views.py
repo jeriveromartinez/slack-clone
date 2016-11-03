@@ -9,6 +9,8 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 
 # Create your views here.
+from rest_framework.reverse import reverse
+
 
 @api_view(['GET'])
 def room_by_company(request, company, room_name):
@@ -97,3 +99,9 @@ def get_message_by_user(request, username, page):
             serializer = FileCommentEventSeriallizer(inst)
             result.append(serializer.data)
     return Response(result)
+
+
+@api_view(['GET'])
+def get_url_user_path(request, username):
+    url_path = {'url': reverse('account:profile', kwargs={'username': username})}
+    return Response(url_path)

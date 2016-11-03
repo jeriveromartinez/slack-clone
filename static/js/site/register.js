@@ -1,7 +1,7 @@
 /**
  * Created by julio on 28/10/16.
  */
-var user = {email: '', username: '', firstName: '', lastName: '', company: '', step: 2};
+var user = {email: '', username: '', firstName: '', lastName: '', company: '', step: 2, invite: []};
 var btnContinue = {
     2: 'Continue to Password',
     3: 'Continue to Company Name',
@@ -12,7 +12,7 @@ var btn = function (str) {
     return str + '<ts-icon class="ts_icon_arrow_right" aria-hidden="true"></ts-icon>';
 };
 var fieldInvitation = function () {
-    return '<div class="invite_row"><div class="input_wrapper"><p class="seafoam_green hidden input_checkmark"><i class="ts_icon ts_icon_check_small_bold neutral_white_bg"></i></p><input class="no_bottom_margin" placeholder="name@domain.com" name="email_address[]" autocomplete="off" spellcheck="false" type="text"></div><p class="error_message"></p><a class="delete_row"><i class="ts_icon ts_icon_times"></i></a></div>';
+    return '<div class="invite_row"><div class="input_wrapper"><p class="seafoam_green hidden input_checkmark"><i class="ts_icon ts_icon_check_small_bold neutral_white_bg"></i></p><input class="no_bottom_margin" placeholder="name@domain.com" autocomplete="off" spellcheck="false" type="email"></div><p class="error_message"></p><a class="delete_row"><i class="ts_icon ts_icon_times"></i></a></div>';
 };
 hostUrl = window.location.protocol + '//' + window.location.host;
 
@@ -77,7 +77,6 @@ $(document).ready(function () {
     };
 
     $('.fs_split_flex_wrapper').on('submit', function () {
-
         switch (user.step) {
             case 2:
                 user.firstName = $('#signup_first_name').val();
@@ -105,6 +104,10 @@ $(document).ready(function () {
                 $('.fs_split_body').html(setInvitations(user.step));
                 break;
             case 5:
+                $('input[type="email"]').each(function (key) {
+                    user.invite.push(this.value);
+                });
+                user = JSON.stringify(user);
                 sendForm();
                 break;
         }

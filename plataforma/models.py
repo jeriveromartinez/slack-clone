@@ -46,7 +46,7 @@ class Profile(models.Model):
     )
 
     image = models.ImageField(upload_to='images/', blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, related_name='company', on_delete=models.CASCADE)
     type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
     socketsession = models.CharField(max_length=255, null=True, blank=True)
@@ -54,10 +54,13 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def delete(self, using=None):
+    def delete(self, *args, **kwargs):
         if self.type == 'owner':
             self.user.delete()
             self.company.delete()
+        else:
+            self.user.delete()
+        super(Profile, self).delete(*args, **kwargs)
 
 
 class Snippet(models.Model):

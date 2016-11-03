@@ -19,17 +19,16 @@
             <i class="ts_icon ts_icon_arrow_large_left"></i>
             <span class="key_label">back</span>
         </a>
-        <a id="fs_modal_close_btn" class="fs_modal_btn" href="{% url 'account:profile' %}">
+        <a id="fs_modal_close_btn" class="fs_modal_btn" href="{% url 'account:profile' request.user.username %}">
             <i class="ts_icon ts_icon_times"></i>
             <span class="key_label">esc</span>
         </a>
 
         <div id="fs_modal_header"><h3>Edit your profile</h3></div>
 
-        <form method="post" accept-encoding="UTF-8">
+        <form method="post" accept-encoding="UTF-8" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="contents_container">
-
                 <div class="contents">
                     <div id="edit_member_profile_container">
                         <div class="hidden_file_input">
@@ -101,7 +100,6 @@
                             </p>
                         </div>{% endcomment %}
                         </section>
-
 
                         <section id="edit_member_profile_photo_upload"
                                  class="display_flex flex_direction_column very_large_bottom_margin align_center hidden">

@@ -86,49 +86,30 @@ var item_user_profile = function (object) {
     return item;
 };
 
-var date_divider = function (date) {
-    var divider = '<div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----' +
-        '</i>' +
-        '<div class="day_divider_label">' + moment(date, moment.ISO - 8601).format("MMM Do \\at h:mm a") + '</div>' +
-        ' <i class="copy_only"> -----</i></div>';
-    return divider;
-};
-
 var ts_message = function (avatar, from, msg) {
-    var avatar = "url('/static/images/" + avatar + "')";
     var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first">' +
         '<div class="action_hover_container"></div>' +
-
         '<div class="message_gutter">' +
         '<div class="message_icon">' +
-        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class=" member_preview_link member_image thumb_36" style="background-image:' + avatar + '" aria-hidden="true"></a>' +
-
-        ' </div>' +
+        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class=" member_preview_link member_image thumb_36" style="background-image: url(' + avatar + ')" aria-hidden="true"></a>' +
+        '</div><a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
+        //'<span class="message_star_holder">' +
+        //'<button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +
+        //'<span class="ts_tip_tip">Star this message</span></button></span>' +
+        '</div><div class="message_content ">' +
+        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7">' + from + '</a>' +
         '<a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
-        '   <span class="message_star_holder">' +
-        '    <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +
-        '  <span class="ts_tip_tip">Star this message</span></button></span>' +
-        ' </div>' +
-
-        '<div class="message_content ">' +
-        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7">'+from+'</a>' +
-        ' <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
-
-        ' <span class="message_star_holder">' +
-        '  <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +
-        '   <span class="ts_tip_tip">Star this message</span></button></span>' +
-        ' <span class="message_body">'+msg+'</span>' +
-
-        '<div class="rxn_panel "></div>' +
-        '<i class="copy_only"><br></i>' +
-
-        ' <span id="msg_1475690976_000002_label" class="message_aria_label hidden">' +
-
-        '</span>' +
-
-        '</div>' +
-
-        '  </ts-message>';
+        '<span class="message_star_holder">' +
+        '<button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +
+        //'<span class="ts_tip_tip">Star this message</span></button></span>' +
+        '<span class="message_body">' + msg + '</span>' +
+        '<div class="rxn_panel "></div><i class="copy_only"><br></i>' +
+        '<span id="msg_1475690976_000002_label" class="message_aria_label hidden">' +
+        '<strong>' + from + '</strong>.' +
+        //'hola julio.' +
+        //'replies' +
+        //'two oh-nine PM.' +
+        '</span></div></ts-message>';
     return msg;
 };
 
@@ -184,7 +165,7 @@ var file_comments_msg = function (comments) {
 };
 
 var item_file = function (fileSlug, owner, dateCreate, title, comments, profileUrl) {
-    return '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '"><div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top"><div class="ts_tip_tip">More actions</div></button><button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button></div><i class="filetype_icon s30 post"></i><div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>1</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
+    return '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '"><div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top"><div class="ts_tip_tip">More actions</div></button><button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button></div><i class="filetype_icon s30 post"></i><div class="contents"><span class="author"><a href="' + profileUrl + '" target="_blank" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' + comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
 };
 
 var item_file_detail = function (username, picture, filename, comments) {
