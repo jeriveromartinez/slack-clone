@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from plataforma.models import *
-from rest_framework.reverse import reverse
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -49,9 +48,47 @@ class FileUpSerializer(serializers.ModelSerializer):
         fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
 
 
-class UrlSerializer(serializers.Serializer):
-    url = serializers.SerializerMethodField('url')
+class MessageEventSeriallizer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageEvent
+        exclude = ('id',)
 
-    # obj.my_objects.values_list("url_name", flat=True)
-    def url(self, obj):
-        return obj.my_objects.values_list('url', flat=True)
+
+class RoomMessageEventSeriallizer(MessageEventSeriallizer):
+    room = RoomSerializer()
+    user_msg = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = RoomMessageEvent
+        exclude = ('id',)
+
+
+class MessageInstEventSeriallizer(MessageEventSeriallizer):
+    user_to = UserSerializer()
+    user_from = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = MessageInstEvent
+        exclude = ('id',)
+
+
+class FileSharedEventSeriallizer(MessageEventSeriallizer):
+    file_up = FileUpSerializer()
+    user_shared = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = FileSharedEvent
+        exclude = ('id',)
+
+
+class FileCommentEventSeriallizer(MessageEventSeriallizer):
+    file_up = FileUpSerializer()
+    user_comment = UserSerializer()
+
+    class Meta(MessageEventSeriallizer.Meta):
+        model = FileCommentEvent
+        exclude = ('id',)
+
+
+
+

@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.sessions.models import Session
 
+
 # Create your views here.
 from rest_framework.reverse import reverse
 
@@ -40,7 +41,7 @@ def users_logged(request, company):
         data = session.get_decoded()
         uid_list.append(data.get('_auth_user_id', None))
 
-    profile = Profile.objects.filterprofileUrl(user__pk__in=uid_list).filter(company__slug=company)
+    profile = Profile.objects.filter(user__pk__in=uid_list).filter(company__slug=company)
     serializer = ProfileSerializer(profile, many=True)
     return Response(serializer.data)
 
@@ -52,7 +53,6 @@ def get_files(request, username, company=None):
     else:
         files = FilesUp.objects.filter(author__company__slug=company)
     serializer = FileUpSerializer(files, many=True)
-    # print reverse('account:profile', kwargs={'username': 'julio'})
     return Response(serializer.data)
 
 
@@ -61,6 +61,27 @@ def get_details_file(request, username, file):
     _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
     serializer = FileUpSerializer(_file, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_message_by_user(request, username):
+    messages = MessageEvent.objects.all().select_subclasses()
+    result = []
+    for inst in messages:
+        print isinstance(inst, MessageInstEvent)
+        if isinstance(inst, MessageInstEvent):
+            serializer = MessageInstEventSeriallizer(inst.messageinstevent)
+            result.append(serializer.data)
+        if isinstance(inst, RoomMessageEvent):
+            serializer = RoomMessageEventSeriallizer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileSharedEvent):
+            serializer = FileSharedEventSeriallizer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileCommentEvent):
+            serializer = FileCommentEventSeriallizer(inst)
+            result.append(serializer.data)
+    return Response(result)
 
 
 @api_view(['GET'])
