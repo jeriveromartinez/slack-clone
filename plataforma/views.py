@@ -1,3 +1,7 @@
+import json
+
+import numpy as np
+from django.core.mail import EmailMessage
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
@@ -52,23 +56,29 @@ def register(request):
 @csrf_protect
 def create(request):
     if request.method == "POST":
-        post = request.POST
+        post = json.loads(request.body)
 
-        username = post.get("username")
-        password = post.get("password")
-        first_name = post.get("firstName")
-        last_name = post.get("lastName")
-        email = post.get("email")
+        username = post["username"]
+        password = post["password"]
+        first_name = post["firstName"]
+        last_name = post["lastName"]
+        email = post["email"]
+        invite = post["invite"]
 
         user = User.objects.create_user(username, email, password)
         user.first_name = first_name
         user.last_name = last_name
         user.is_active = True
+        print post
         user.save()
 
         name_company = post.get("company")
         company = Company.objects.create(name=name_company)
         Profile.objects.create(user=user, company=company, type="owner")
+
+        email = EmailMessage('Subject', 'Body', to=np.asarray(invite))  # TODO: ver que conno es esto
+        email.send()
+
         user = authenticate(username=username, password=password)
         login(request, user)
         return JsonResponse({'action': 'success'})

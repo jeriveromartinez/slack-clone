@@ -261,3 +261,11 @@ SUIT_CONFIG = {
     'ADMIN_NAME': 'Timeneye',
     'LIST_PER_PAGE': 3,
 }
+
+###### Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.uci.cu'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'jerivero@uci.cu'
+EMAIL_HOST_PASSWORD = 'J3rm*91.'

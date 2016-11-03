@@ -53,12 +53,13 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def delete(self, using=None):
+    def delete(self, *args, **kwargs):
         if self.type == 'owner':
             self.user.delete()
             self.company.delete()
         else:
             self.user.delete()
+        super(Profile, self).delete(*args, **kwargs)
 
 
 class Snippet(models.Model):
