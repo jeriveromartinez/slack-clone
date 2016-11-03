@@ -86,6 +86,10 @@ var item_user_profile = function (object) {
     return item;
 };
 
+var item_user_menu = function (username, avatar) {
+    return '<li id="' + username + '" class="member_item active"><a href="#"><span class="wrapper"><span class="lazy member_preview_link member_image thumb_24" style="background: rgb(246, 246, 246) url(\'' + avatar + '\');" aria-hidden="true"></span></span><span class="name">' + username + '</span></a></li>';
+};
+
 var ts_message = function (avatar, from, msg) {
     var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first">' +
         '<div class="action_hover_container"></div>' +
@@ -165,7 +169,7 @@ var file_comments_msg = function (comments) {
 };
 
 var item_file = function (fileSlug, owner, dateCreate, title, comments, profileUrl) {
-    return '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '"><div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top"><div class="ts_tip_tip">More actions</div></button><button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button></div><i class="filetype_icon s30 post"></i><div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>1</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
+    return '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '"><div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top"><div class="ts_tip_tip">More actions</div></button><button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button></div><i class="filetype_icon s30 post"></i><div class="contents"><span class="author"><a href="' + profileUrl + '" target="_blank" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' + comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
 };
 
 var item_file_detail = function (username, picture, filename, comments) {

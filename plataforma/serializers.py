@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from plataforma.models import *
+from rest_framework.reverse import reverse
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -46,3 +47,11 @@ class FileUpSerializer(serializers.ModelSerializer):
     class Meta:
         model = FilesUp
         fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
+
+
+class UrlSerializer(serializers.Serializer):
+    url = serializers.SerializerMethodField('url')
+
+    # obj.my_objects.values_list("url_name", flat=True)
+    def url(self, obj):
+        return obj.my_objects.values_list('url', flat=True)

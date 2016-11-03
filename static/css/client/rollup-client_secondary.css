@@ -543,7 +543,6 @@ input.search_input {
 }
 
 #file_list_toggle_users {
-    padding: 0 .5rem .5rem .25rem;
     float: right;
     cursor: pointer;
     color: #9e9ea6

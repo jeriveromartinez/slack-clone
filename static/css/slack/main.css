@@ -518,3 +518,11 @@ li.member.cursor_pointer {
 .chat_list_mini {
     width: 80% !important;
 }
+
+.my_menu {
+    position: absolute;
+    top: 3rem;
+    left: 5rem;
+    max-height: 15rem;
+    overflow-y: auto;
+}
