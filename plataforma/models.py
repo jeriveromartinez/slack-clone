@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from model_utils.managers import InheritanceManager
+from polymorphic.models import PolymorphicModel
 
 
 class Company(models.Model):
@@ -112,7 +113,7 @@ class StarItem(models.Model):
 
 
 # Message EVENTS Begin
-class MessageEvent(models.Model):
+class MessageEvent(PolymorphicModel):
     CHOICE = (
         (u'message_int_event', u'message_int_event'),
         (u'room_message_event', u'room_message_event'),
@@ -123,7 +124,6 @@ class MessageEvent(models.Model):
     readed = models.BooleanField(default=False)
     date_pub = models.DateTimeField(auto_now_add=True)
     is_stared = models.BooleanField(default=False)
-    objects = InheritanceManager()
 
     class Meta:
         ordering = ('date_pub',)
@@ -131,14 +131,14 @@ class MessageEvent(models.Model):
 
 class RoomMessageEvent(MessageEvent):
     room = models.ForeignKey(Room, related_name='room')
-    user_msg = models.ForeignKey(User, related_name='user_msg')
     msg = models.TextField(blank=False, null=False)
+    user_from = models.ForeignKey(User, related_name='user_from_room')
 
 
 class MessageInstEvent(MessageEvent):
-    user_to = models.ForeignKey(User, related_name='msg_to_event_inst')
-    user_from = models.ForeignKey(User, related_name='msg_from_event_inst')
+    user_to = models.ForeignKey(User, related_name='user_to_event_inst')
     msg = models.TextField(blank=False, null=False)
+    user_from = models.ForeignKey(User, related_name='user_from_event_inst')
 
     def __str__(self):
         return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
@@ -146,11 +146,11 @@ class MessageInstEvent(MessageEvent):
 
 class FileSharedEvent(MessageEvent):
     file_up = models.ForeignKey(FilesUp, related_name='files_comments_event_share')
-    user_shared = models.ForeignKey(User, related_name='user_shared_event_share')
+    user_eject = models.ForeignKey(User, related_name='user_eject_shared')
 
 
 class FileCommentEvent(MessageEvent):
     file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
-    user_comment = models.ForeignKey(User, related_name='user_comment_event')
+    user_eject = models.ForeignKey(User, related_name='user_eject_comment')
 
 # Message EVENTS End

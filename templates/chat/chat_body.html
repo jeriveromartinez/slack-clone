@@ -26,162 +26,203 @@
                 </div>
             </div>
         </div>{% endcomment %}
-
-    <!---empieza aqui--->
-    <div id="msgs_div" class="msgs_holder"
-         style="overflow-y: auto;height: 32rem;margin-top: 2.4rem;padding-right: 5px;">
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 5th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
+    <div id="msgs_scroller_div" tabindex="-1" style="height: 500px;">
+        <div id="end_div" class="relative mini help" style="height: 224px;">
+            <div id="end_display_onboarding" class="hidden onboarding">
+                <div id="onboarding_header">
+                    <div id="onboarding_fade_out_mask" class="hidden"></div>
+                    <span id="onboarding_welcome_text" class="lato_light">Welcome!</span>
+                    <span id="onboarding_welcome_message" class="align_center lato_bold">Slack is a messaging app for teams.</span>
+                    <div id="onboarding_video"
+                         class="display_flex align_items_center justify_content_center align_center hidden"
+                         style="background: url('/img/newxp/newxp_video_preview_2x.png') 50% 50% no-repeat;background-size:contain; width:398px; height:224px; margin-top:15px;">
+                        <button id="onboarding_video_play"
+                                class="tour_btn btn pill_btn btn_large btn_info ts_icon ts_icon_play"
+                                style="box-shadow:0 5px 10px 5px rgba(0,0,0,.24);">Watch the Tour
+                        </button>
+                    </div>
+                    <div id="in_skip_messaging" class="align_center hidden">Got the hang of Slack already? <a
+                            class="skip_tutorial_link">Skip the tutorial.</a></div>
+                    <div id="unskip_messaging" class="align_center hidden">I changed my mind. <a
+                            class="take_tutorial_link">Take the tutorial.</a></div>
+                </div>
+                <div id="onboarding_footer">
+                    <div id="explore_btn_container" class="align_center">
+                        <a class="btn">Explore Slack</a>
+                    </div>
+                    <div id="pre_skip_messaging" class="align_center">Not your first Slack team? <a
+                            class="skip_tutorial_link">Skip the tutorial.</a></div>
+                </div>
+            </div>
+            <div id="end_display_div" class="relative">
+                <div id="end_display_padder" style="height: 16px;"></div>
+                <div id="end_display_meta" class="">
+                    <div id="channel_meta" class="hidden">
+                        <h1 class="small_bottom_margin channel_meta_name"><a href="/archives/announcements"
+                                                                             target="/archives/announcements"
+                                                                             class="channel_link"
+                                                                             data-channel-id="C2KPUV3P0"><span
+                                class="normal">#</span>announcements</a></h1>
+                        <p class="small_bottom_margin">
+                            <span id="channel_creator_name" class="">You</span> created this channel
+                            <span class="channel_meta_shared_info dusty_springfield_grey hidden"></span>
+                            <span id="channel_create_date">on October 5th</span>.
+                            <span class="not_limited_copy">This is the very beginning of the </span>
+                            <span class="is_limited_copy hidden">This is the </span>
+                            <span class="channel_meta_name"><a href="/archives/announcements"
+                                                               target="/archives/announcements" class="channel_link"
+                                                               data-channel-id="C2KPUV3P0"><span class="normal">#</span>announcements</a></span>
+                            channel.
+											<span id="channel_meta_purpose_container">
+												Purpose: <span id="channel_meta_purpose" class="italic no_jumbomoji">This channel is for team-wide communication and announcements. All team members are in this channel.</span> (<a
+                                                    class="end_action_purpose">edit</a>)											</span>
+                        </p>
+                        <ul class="end_display_actions">
+                            <li class="hidden"><a class="end_action_purpose"><i
+                                    class="ts_icon ts_icon_pencil ts_icon_inherit"></i> Set a purpose</a></li>
+                            <li><a class="end_action_integration" href="/apps/new?channel=C2KPUV3P0" target="new"><i
+                                    class="ts_icon ts_icon_plus ts_icon_inherit"></i>
+                                Add an app or custom integration
+                            </a></li>
+                            <li class="hidden"><a class="end_action_invite"><i
+                                    class="ts_icon ts_icon_user ts_icon_inherit"></i> Invite others to this channel</a>
+                            </li>
+                            <li class=""><span class="end_action_slack_invite havana_blue" data-clog-click="true"
+                                               data-clog-event="INVITEMODAL_ACTION"
+                                               data-clog-params="action=open_modal,trigger=click_general_channel_invite_btn"><a><i
+                                    class="ts_icon ts_icon_user ts_icon_inherit"></i> Invite people to <strong>blackmambasoft</strong></a></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="group_meta" class="hidden">
+                        <h1 class="small_bottom_margin group_meta_name"></h1>
+                        <p class="small_bottom_margin">
+                            <span id="group_creator_name"></span> created this private channel
+                            <span class="group_meta_shared_info dusty_springfield_grey hidden"></span>
+                            <span id="group_create_date"></span>.
+                            <span class="not_limited_copy">This is the very beginning of the </span>
+                            <span class="is_limited_copy hidden">This is the </span>
+                            <span class="group_meta_name bold"></span> private channel.
+											<span id="group_meta_purpose_container">
+												Purpose: <span id="group_meta_purpose"
+                                                               class="no_jumbomoji italic"></span> (<a
+                                                    class="end_action_purpose">edit</a>)											</span>
+											<span id="group_meta_archived_parent">
+												It was created from the now archived private channel <a
+                                                    id="group_meta_archived_parent_link" href="" target="_blank"></a>.
+											</span>
+                            <span class="show_when_ce_enabled hidden">While messages here are generally private to the people within this private channel, messages sent on or after <span
+                                    class="js_compliance_export_start"></span> may be accessible to your Team Owners via <a
+                                    href="https://slack.zendesk.com/hc/en-us/articles/203950296-FAQs-about-Slack-s-policy-update#complianceexport">Compliance
+                                Exports</a>. See <a href="/account/team">Your Team Settings</a> to learn more.</span>
+                        </p>
+                        <ul class="end_display_actions">
+                            <li class="hidden"><a class="end_action_purpose"><i
+                                    class="ts_icon ts_icon_pencil ts_icon_inherit"></i> Set a purpose</a></li>
+                            <li><a class="end_action_integration" href="/apps/new?channel=C2KPUV3P0" target="new"><i
+                                    class="ts_icon ts_icon_plus ts_icon_inherit"></i>
+                                Add an app or custom integration
+                            </a></li>
+                            <li class="hidden"><a class="end_action_invite"><i
+                                    class="ts_icon ts_icon_user ts_icon_inherit"></i> Invite others to this private
+                                channel</a></li>
+                        </ul>
+                    </div>
+                    <div id="slackbot_meta" class="hidden">
+                        This is Slackbot display
+                    </div>
+                    <div id="im_meta" class="">
+                        <div class="dm_badge display_flex align_items_center">
+                            <a href="/team/jeriverom" target="/team/jeriverom"
+                               class=" member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                               data-thumb-size="72"
+                               style="background-image: url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
                                aria-hidden="true"></a>
 
+
+                            <p class="dm_badge_meta">
+                                <span class="member_real_name bold">Julio Rivero</span>
+                                <span data-member-presence="U2KQ35L2Z" class="presence away member_presence_U2KQ35L2Z"
+                                      title="away"><i aria-hidden="true"
+                                                      class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+					<span class="color_U2KQ35L2Z color_4bbe2e">
+						<a href="/team/jeriverom" class="member_preview_link member_name" data-member-id="U2KQ35L2Z">@jeriverom</a>
+					</span>
+
+                                <br>
+                            </p>
                         </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+
+                        <p class="dm_explanation margin_auto align_left clear_both">
+                            This is <span class="not_limited_copy">the very beginning of</span> your direct message
+                            history with
+                            <strong>jeriverom</strong>.
+
+                            Direct messages are private between the two of you.
+                        </p>
                     </div>
 
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">hola julio</span>
-
-                        <div class="rxn_panel "></div>
-                        <i class="copy_only"><br></i>
-
-                                            <span id="msg_1475690976_000002_label" class="message_aria_label hidden">
-                                                <strong>vbuilvicente</strong>.
-                                                hola julio.
-                                                 replies
-                                                two oh-nine PM.
-                                            </span>
-
+                    <div class="is_limited_div is_limited_copy hidden mini">
+                        <i class="ts_icon ts_icon_comment_o "></i> Your team has more than 10,000 messages in its
+                        archive, so although there are older messages than are shown below, you can't see them. <a
+                            href="/admin/billing" target="_blank" class="bold">Find out more about upgrading your
+                        team.</a>
                     </div>
-
-                </ts-message>
-                <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
-                        </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button data-msg-id="1475690990.000003"
-                                                        class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                    </div>
-
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                           class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
-
-                        <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
-                                            <span class="ts_tip_tip">
-                                                <span class="ts_tip_multiline_inner">Open in archives<br>
-                                                    <span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span>
-                                                </span>
-                                            </span>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">chama este es &nbsp;la app</span>
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
-                                            <span id="msg_1475690990_000003_label" class="message_aria_label hidden">
-                                                <strong>jeriverom</strong>.
-                                                chama este es &nbsp;la app.
-                                                 replies
-                                                two oh-nine PM.
-                                            </span>
-                    </div>
-                </ts-message>
-                <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
-                    <hr role="separator" aria-hidden="true">
-
+                </div>
+                <div id="end_display_status" class="hidden" aria-live="polite" aria-atomic="true">Retrieving
+                    history...
                 </div>
             </div>
         </div>
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 6th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475809819_000002"
-                            class="message feature_fix_files first file_reference file_share">
-                    <div class="action_hover_container">
-                        <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Add reaction …"></a>
-                        <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Share file …"></a>
-                        <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Show message actions"></a>
-                    </div>
+        <!---empieza aqui--->
+        <div id="msgs_div" class="msgs_holder">
 
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 6th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475809819_000002"
+                                class="message feature_fix_files first file_reference file_share">
+                        <div class="action_hover_container">
+                            <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Add reaction …"></a>
+                            <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Share file …"></a>
+                            <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Show message actions"></a>
                         </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
                                             <span class="message_star_holder">
                                                 <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
                                                     <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
                                                 </button>
                                             </span>
-                    </div>
+                        </div>
 
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
 
                                             <span class="message_star_holder">
                                                 <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
@@ -201,49 +242,49 @@
                                             </span>
 
 
-                        <div class="file_container post_container">
-                            <div class="file_header post_header">
-                                <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
-                                <h4 class="file_header_title post_header_title overflow_ellipsis">
-                                    dsfdsf</h4>
-                                <p class="file_header_meta post_header_meta">
-                                    Last edited <span class="file_time_ago">8 days ago</span>
-                                </p>
-                            </div>
+                            <div class="file_container post_container">
+                                <div class="file_header post_header">
+                                    <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
+                                    <h4 class="file_header_title post_header_title overflow_ellipsis">
+                                        dsfdsf</h4>
+                                    <p class="file_header_meta post_header_meta">
+                                        Last edited <span class="file_time_ago">8 days ago</span>
+                                    </p>
+                                </div>
 
-                            <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
+                                <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
 
-                            <div class="preview_actions">
-                                <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="Collapse"></a>
+                                <div class="preview_actions">
+                                    <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="Collapse"></a>
 
-                                <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
-                                   href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
-                                    <span class="ts_tip_tip">Open in new window</span>
-                                </a>
-                                <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="More actions"></a>
-                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                   class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
-                                    <span>Add Comment</span>
-                                </a>
-                            </div>
-                            <div class="preview_show preview_show_more">
-                                <div class="preview_show_center">
-                                    <button class="preview_show_btn">
-                                        <i class="ts_icon ts_icon_plus_small"></i>
-                                        Click to expand inline
-                                    </button>
+                                    <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
+                                       href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                        <span class="ts_tip_tip">Open in new window</span>
+                                    </a>
+                                    <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="More actions"></a>
+                                    <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                       class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
+                                        <span>Add Comment</span>
+                                    </a>
+                                </div>
+                                <div class="preview_show preview_show_more">
+                                    <div class="preview_show_center">
+                                        <button class="preview_show_btn">
+                                            <i class="ts_icon ts_icon_plus_small"></i>
+                                            Click to expand inline
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="preview_show preview_show_less">
+                                    <button class="preview_show_btn">Collapse<i
+                                            class="ts_icon ts_icon_arrow_up_medium"></i></button>
                                 </div>
                             </div>
-                            <div class="preview_show preview_show_less">
-                                <button class="preview_show_btn">Collapse<i
-                                        class="ts_icon ts_icon_arrow_up_medium"></i></button>
-                            </div>
-                        </div>
 
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
 
                                             <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
                                                 <strong>vbuilvicente</strong>.
@@ -253,53 +294,53 @@
                                                    target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
                                                  replies eleven ten PM.
                                             </span>
-                    </div>
-                </ts-message>
-            </div>
-        </div>
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 5th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
                         </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+                    </ts-message>
+                </div>
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 5th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
                                             <span class="message_star_holder">
                                                 <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
                                                     <span class="ts_tip_tip">Star this message</span></button></span>
-                    </div>
+                        </div>
 
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
 
                                             <span class="message_star_holder">
                                                 <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
                                                     <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">hola julio</span>
+                            <span class="message_body">hola julio</span>
 
-                        <div class="rxn_panel "></div>
-                        <i class="copy_only"><br></i>
+                            <div class="rxn_panel "></div>
+                            <i class="copy_only"><br></i>
 
                                             <span id="msg_1475690976_000002_label" class="message_aria_label hidden">
                                                 <strong>vbuilvicente</strong>.
@@ -308,36 +349,36 @@
                                                 two oh-nine PM.
                                             </span>
 
-                    </div>
-
-                </ts-message>
-                <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
                         </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
+
+                    </ts-message>
+                    <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
                                             <span class="message_star_holder">
                                                 <button data-msg-id="1475690990.000003"
                                                         class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
                                                     <span class="ts_tip_tip">Star this message</span></button></span>
-                    </div>
+                        </div>
 
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                           class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                               class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
 
-                        <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
+                            <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
                                             <span class="ts_tip_tip">
                                                 <span class="ts_tip_multiline_inner">Open in archives<br>
                                                     <span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span>
@@ -347,371 +388,23 @@
                                             <span class="message_star_holder">
                                                 <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
                                                     <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">chama este es &nbsp;la app</span>
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
+                            <span class="message_body">chama este es &nbsp;la app</span>
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
                                             <span id="msg_1475690990_000003_label" class="message_aria_label hidden">
                                                 <strong>jeriverom</strong>.
                                                 chama este es &nbsp;la app.
                                                  replies
                                                 two oh-nine PM.
                                             </span>
-                    </div>
-                </ts-message>
-                <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
-                    <hr role="separator" aria-hidden="true">
+                        </div>
+                    </ts-message>
+                    <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
+                        <hr role="separator" aria-hidden="true">
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 6th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475809819_000002"
-                            class="message feature_fix_files first file_reference file_share">
-                    <div class="action_hover_container">
-                        <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Add reaction …"></a>
-                        <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Share file …"></a>
-                        <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Show message actions"></a>
-                    </div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
-                        </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
-                                                </button>
-                                            </span>
-                    </div>
-
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this file</span>
-                                                </button>
-                                            </span>
-
-                                            <span class="meta message_body  msg_inline_file_preview_toggler expanded">
-                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                                   target="$/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
-                                                    shared a post
-                                                    <span class="msg_inline_file_title_hider">:
-                                                            <span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">dsfdsf</span>
-                                                    </span>
-                                                    <ts-icon class="msg_inline_media_toggler"></ts-icon>
-                                                </a>
-                                            </span>
-
-
-                        <div class="file_container post_container">
-                            <div class="file_header post_header">
-                                <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
-                                <h4 class="file_header_title post_header_title overflow_ellipsis">
-                                    dsfdsf</h4>
-                                <p class="file_header_meta post_header_meta">
-                                    Last edited <span class="file_time_ago">8 days ago</span>
-                                </p>
-                            </div>
-
-                            <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
-
-                            <div class="preview_actions">
-                                <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="Collapse"></a>
-
-                                <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
-                                   href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
-                                    <span class="ts_tip_tip">Open in new window</span>
-                                </a>
-                                <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="More actions"></a>
-                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                   class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
-                                    <span>Add Comment</span>
-                                </a>
-                            </div>
-                            <div class="preview_show preview_show_more">
-                                <div class="preview_show_center">
-                                    <button class="preview_show_btn">
-                                        <i class="ts_icon ts_icon_plus_small"></i>
-                                        Click to expand inline
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="preview_show preview_show_less">
-                                <button class="preview_show_btn">Collapse<i
-                                        class="ts_icon ts_icon_arrow_up_medium"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
-
-                                            <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
-                                                <strong>vbuilvicente</strong>.
-                                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                                                   class="internal_member_link">@vbuilvicente</a> shared a file:
-                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                                   target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
-                                                 replies eleven ten PM.
-                                            </span>
-                    </div>
-                </ts-message>
-            </div>
-        </div>
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 5th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
-                        </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                    </div>
-
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">hola julio</span>
-
-                        <div class="rxn_panel "></div>
-                        <i class="copy_only"><br></i>
-
-                                            <span id="msg_1475690976_000002_label" class="message_aria_label hidden">
-                                                <strong>vbuilvicente</strong>.
-                                                hola julio.
-                                                 replies
-                                                two oh-nine PM.
-                                            </span>
-
-                    </div>
-
-                </ts-message>
-                <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
-                    <div class="action_hover_container"></div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
-                        </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button data-msg-id="1475690990.000003"
-                                                        class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                    </div>
-
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/jeriverom"
-                           class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
-
-                        <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
-                                            <span class="ts_tip_tip">
-                                                <span class="ts_tip_multiline_inner">Open in archives<br>
-                                                    <span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span>
-                                                </span>
-                                            </span>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this message</span></button></span>
-                        <span class="message_body">chama este es &nbsp;la app</span>
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
-                                            <span id="msg_1475690990_000003_label" class="message_aria_label hidden">
-                                                <strong>jeriverom</strong>.
-                                                chama este es &nbsp;la app.
-                                                 replies
-                                                two oh-nine PM.
-                                            </span>
-                    </div>
-                </ts-message>
-                <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
-                    <hr role="separator" aria-hidden="true">
-
-                </div>
-            </div>
-        </div>
-        <div class="day_container">
-            <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
-            </i>
-                <div class="day_divider_label">October 6th</div>
-                <i class="copy_only"> -----</i></div>
-            <div class="day_msgs">
-                <ts-message id="msg_1475809819_000002"
-                            class="message feature_fix_files first file_reference file_share">
-                    <div class="action_hover_container">
-                        <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Add reaction …"></a>
-                        <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Share file …"></a>
-                        <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
-                           title="Show message actions"></a>
-                    </div>
-
-                    <div class="message_gutter">
-                        <div class="message_icon">
-                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                               class=" member_preview_link member_image thumb_36"
-                               style="background-image: url('/static/images/ava_0022-48.png')"
-                               aria-hidden="true"></a>
-
-                        </div>
-                        <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
-                                                </button>
-                                            </span>
-                    </div>
-
-                    <div class="message_content ">
-                        <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                           class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
-                        <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
-                           class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
-                                class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
-                                class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
-                                class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
-
-                                            <span class="message_star_holder">
-                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
-                                                    <span class="ts_tip_tip">Star this file</span>
-                                                </button>
-                                            </span>
-
-                                            <span class="meta message_body  msg_inline_file_preview_toggler expanded">
-                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                                   target="$/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
-                                                    shared a post
-                                                    <span class="msg_inline_file_title_hider">:
-                                                            <span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">dsfdsf</span>
-                                                    </span>
-                                                    <ts-icon class="msg_inline_media_toggler"></ts-icon>
-                                                </a>
-                                            </span>
-
-
-                        <div class="file_container post_container">
-                            <div class="file_header post_header">
-                                <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
-                                <h4 class="file_header_title post_header_title overflow_ellipsis">
-                                    dsfdsf</h4>
-                                <p class="file_header_meta post_header_meta">
-                                    Last edited <span class="file_time_ago">8 days ago</span>
-                                </p>
-                            </div>
-
-                            <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
-
-                            <div class="preview_actions">
-                                <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="Collapse"></a>
-
-                                <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
-                                   href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
-                                    <span class="ts_tip_tip">Open in new window</span>
-                                </a>
-                                <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
-                                   title="More actions"></a>
-                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                   class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
-                                    <span>Add Comment</span>
-                                </a>
-                            </div>
-                            <div class="preview_show preview_show_more">
-                                <div class="preview_show_center">
-                                    <button class="preview_show_btn">
-                                        <i class="ts_icon ts_icon_plus_small"></i>
-                                        Click to expand inline
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="preview_show preview_show_less">
-                                <button class="preview_show_btn">Collapse<i
-                                        class="ts_icon ts_icon_arrow_up_medium"></i></button>
-                            </div>
-                        </div>
-
-                        <div class="rxn_panel"></div>
-                        <i class="copy_only"><br></i>
-
-                                            <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
-                                                <strong>vbuilvicente</strong>.
-                                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
-                                                   class="internal_member_link">@vbuilvicente</a> shared a file:
-                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
-                                                   target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
-                                                 replies eleven ten PM.
-                                            </span>
-                    </div>
-                </ts-message>
-            </div>
-        </div>
-        {% comment %}
             <div class="day_container">
                 <div class="day_divider" id="day_divider_1476494459_xxxxx2">
                     <i class="copy_only"><br>----- </i>
@@ -755,7 +448,586 @@
                         </div>
                     </ts-message>
                 </div>
-            </div>{% endcomment %}
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 6th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475809819_000002"
+                                class="message feature_fix_files first file_reference file_share">
+                        <div class="action_hover_container">
+                            <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Add reaction …"></a>
+                            <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Share file …"></a>
+                            <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Show message actions"></a>
+                        </div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
+                                                </button>
+                                            </span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this file</span>
+                                                </button>
+                                            </span>
+
+                                            <span class="meta message_body  msg_inline_file_preview_toggler expanded">
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="$/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                                    shared a post
+                                                    <span class="msg_inline_file_title_hider">:
+                                                            <span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">dsfdsf</span>
+                                                    </span>
+                                                    <ts-icon class="msg_inline_media_toggler"></ts-icon>
+                                                </a>
+                                            </span>
+
+
+                            <div class="file_container post_container">
+                                <div class="file_header post_header">
+                                    <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
+                                    <h4 class="file_header_title post_header_title overflow_ellipsis">
+                                        dsfdsf</h4>
+                                    <p class="file_header_meta post_header_meta">
+                                        Last edited <span class="file_time_ago">8 days ago</span>
+                                    </p>
+                                </div>
+
+                                <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
+
+                                <div class="preview_actions">
+                                    <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="Collapse"></a>
+
+                                    <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
+                                       href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                        <span class="ts_tip_tip">Open in new window</span>
+                                    </a>
+                                    <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="More actions"></a>
+                                    <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                       class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
+                                        <span>Add Comment</span>
+                                    </a>
+                                </div>
+                                <div class="preview_show preview_show_more">
+                                    <div class="preview_show_center">
+                                        <button class="preview_show_btn">
+                                            <i class="ts_icon ts_icon_plus_small"></i>
+                                            Click to expand inline
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="preview_show preview_show_less">
+                                    <button class="preview_show_btn">Collapse<i
+                                            class="ts_icon ts_icon_arrow_up_medium"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
+
+                                            <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
+                                                <strong>vbuilvicente</strong>.
+                                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                                   class="internal_member_link">@vbuilvicente</a> shared a file:
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
+                                                 replies eleven ten PM.
+                                            </span>
+                        </div>
+                    </ts-message>
+                </div>
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 5th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                            <span class="message_body">hola julio</span>
+
+                            <div class="rxn_panel "></div>
+                            <i class="copy_only"><br></i>
+
+                                            <span id="msg_1475690976_000002_label" class="message_aria_label hidden">
+                                                <strong>vbuilvicente</strong>.
+                                                hola julio.
+                                                 replies
+                                                two oh-nine PM.
+                                            </span>
+
+                        </div>
+
+                    </ts-message>
+                    <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button data-msg-id="1475690990.000003"
+                                                        class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                               class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
+
+                            <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
+                                            <span class="ts_tip_tip">
+                                                <span class="ts_tip_multiline_inner">Open in archives<br>
+                                                    <span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span>
+                                                </span>
+                                            </span>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                            <span class="message_body">chama este es &nbsp;la app</span>
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
+                                            <span id="msg_1475690990_000003_label" class="message_aria_label hidden">
+                                                <strong>jeriverom</strong>.
+                                                chama este es &nbsp;la app.
+                                                 replies
+                                                two oh-nine PM.
+                                            </span>
+                        </div>
+                    </ts-message>
+                    <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
+                        <hr role="separator" aria-hidden="true">
+
+                    </div>
+                </div>
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 6th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475809819_000002"
+                                class="message feature_fix_files first file_reference file_share">
+                        <div class="action_hover_container">
+                            <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Add reaction …"></a>
+                            <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Share file …"></a>
+                            <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Show message actions"></a>
+                        </div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
+                                                </button>
+                                            </span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this file</span>
+                                                </button>
+                                            </span>
+
+                                            <span class="meta message_body  msg_inline_file_preview_toggler expanded">
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="$/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                                    shared a post
+                                                    <span class="msg_inline_file_title_hider">:
+                                                            <span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">dsfdsf</span>
+                                                    </span>
+                                                    <ts-icon class="msg_inline_media_toggler"></ts-icon>
+                                                </a>
+                                            </span>
+
+
+                            <div class="file_container post_container">
+                                <div class="file_header post_header">
+                                    <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
+                                    <h4 class="file_header_title post_header_title overflow_ellipsis">
+                                        dsfdsf</h4>
+                                    <p class="file_header_meta post_header_meta">
+                                        Last edited <span class="file_time_ago">8 days ago</span>
+                                    </p>
+                                </div>
+
+                                <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
+
+                                <div class="preview_actions">
+                                    <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="Collapse"></a>
+
+                                    <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
+                                       href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                        <span class="ts_tip_tip">Open in new window</span>
+                                    </a>
+                                    <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="More actions"></a>
+                                    <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                       class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
+                                        <span>Add Comment</span>
+                                    </a>
+                                </div>
+                                <div class="preview_show preview_show_more">
+                                    <div class="preview_show_center">
+                                        <button class="preview_show_btn">
+                                            <i class="ts_icon ts_icon_plus_small"></i>
+                                            Click to expand inline
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="preview_show preview_show_less">
+                                    <button class="preview_show_btn">Collapse<i
+                                            class="ts_icon ts_icon_arrow_up_medium"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
+
+                                            <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
+                                                <strong>vbuilvicente</strong>.
+                                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                                   class="internal_member_link">@vbuilvicente</a> shared a file:
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
+                                                 replies eleven ten PM.
+                                            </span>
+                        </div>
+                    </ts-message>
+                </div>
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 5th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475690976_000002" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                            <span class="message_body">hola julio</span>
+
+                            <div class="rxn_panel "></div>
+                            <i class="copy_only"><br></i>
+
+                                            <span id="msg_1475690976_000002_label" class="message_aria_label hidden">
+                                                <strong>vbuilvicente</strong>.
+                                                hola julio.
+                                                 replies
+                                                two oh-nine PM.
+                                            </span>
+
+                        </div>
+
+                    </ts-message>
+                    <ts-message id="msg_1475690990_000003" class="message feature_fix_files first">
+                        <div class="action_hover_container"></div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690990000003"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button data-msg-id="1475690990.000003"
+                                                        class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/jeriverom"
+                               class="message_sender member member_preview_link color_U2KQ35L2Z color_4bbe2e">jeriverom</a>
+
+                            <i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i>
+                                            <span class="ts_tip_tip">
+                                                <span class="ts_tip_multiline_inner">Open in archives<br>
+                                                    <span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:50&nbsp;PM</span>
+                                                </span>
+                                            </span>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this message</span></button></span>
+                            <span class="message_body">chama este es &nbsp;la app</span>
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
+                                            <span id="msg_1475690990_000003_label" class="message_aria_label hidden">
+                                                <strong>jeriverom</strong>.
+                                                chama este es &nbsp;la app.
+                                                 replies
+                                                two oh-nine PM.
+                                            </span>
+                        </div>
+                    </ts-message>
+                    <div id="msgs_unread_divider" class="unread_divider adjacent_to_date no_unreads">
+                        <hr role="separator" aria-hidden="true">
+
+                    </div>
+                </div>
+            </div>
+            <div class="day_container">
+                <div class="day_divider" id="day_divider_1475809819_000002"><i class="copy_only"><br>-----
+                </i>
+                    <div class="day_divider_label">October 6th</div>
+                    <i class="copy_only"> -----</i></div>
+                <div class="day_msgs">
+                    <ts-message id="msg_1475809819_000002"
+                                class="message feature_fix_files first file_reference file_share">
+                        <div class="action_hover_container">
+                            <a class="ts_icon ts_icon_small_reaction ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Add reaction …"></a>
+                            <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Share file …"></a>
+                            <a class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60"
+                               title="Show message actions"></a>
+                        </div>
+
+                        <div class="message_gutter">
+                            <div class="message_icon">
+                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                   class=" member_preview_link member_image thumb_36"
+                                   style="background-image: url('/static/images/ava_0022-48.png')"
+                                   aria-hidden="true"></a>
+
+                            </div>
+                            <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip" data-tip-toggle-auto="Unstar this file">Star this file</span>
+                                                </button>
+                                            </span>
+                        </div>
+
+                        <div class="message_content ">
+                            <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                               class="message_sender member member_preview_link color_9f69e7">vbuilvicente</a>
+                            <a href="/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002"
+                               class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i
+                                    class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span
+                                    class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span
+                                    class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a>
+
+                                            <span class="message_star_holder">
+                                                <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">
+                                                    <span class="ts_tip_tip">Star this file</span>
+                                                </button>
+                                            </span>
+
+                                            <span class="meta message_body  msg_inline_file_preview_toggler expanded">
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="$/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                                    shared a post
+                                                    <span class="msg_inline_file_title_hider">:
+                                                            <span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">dsfdsf</span>
+                                                    </span>
+                                                    <ts-icon class="msg_inline_media_toggler"></ts-icon>
+                                                </a>
+                                            </span>
+
+
+                            <div class="file_container post_container">
+                                <div class="file_header post_header">
+                                    <i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>
+                                    <h4 class="file_header_title post_header_title overflow_ellipsis">
+                                        dsfdsf</h4>
+                                    <p class="file_header_meta post_header_meta">
+                                        Last edited <span class="file_time_ago">8 days ago</span>
+                                    </p>
+                                </div>
+
+                                <div class="file_body post_body"><p>fdsfsdfdsfdsfds</p></div>
+
+                                <div class="preview_actions">
+                                    <a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="Collapse"></a>
+
+                                    <a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden"
+                                       href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">
+                                        <span class="ts_tip_tip">Open in new window</span>
+                                    </a>
+                                    <a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300"
+                                       title="More actions"></a>
+                                    <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                       class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">
+                                        <span>Add Comment</span>
+                                    </a>
+                                </div>
+                                <div class="preview_show preview_show_more">
+                                    <div class="preview_show_center">
+                                        <button class="preview_show_btn">
+                                            <i class="ts_icon ts_icon_plus_small"></i>
+                                            Click to expand inline
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="preview_show preview_show_less">
+                                    <button class="preview_show_btn">Collapse<i
+                                            class="ts_icon ts_icon_arrow_up_medium"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="rxn_panel"></div>
+                            <i class="copy_only"><br></i>
+
+                                            <span id="msg_1475809819_000002_label" class="message_aria_label hidden">
+                                                <strong>vbuilvicente</strong>.
+                                                <a href="#/blackmambasoft.slack.com/team/vbuilvicente"
+                                                   class="internal_member_link">@vbuilvicente</a> shared a file:
+                                                <a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"
+                                                   target="_blank" class="file_preview_link no_jumbomoji">dsfdsf</a>.
+                                                 replies eleven ten PM.
+                                            </span>
+                        </div>
+                    </ts-message>
+                </div>
+            </div>
+
+            {% comment %}
+
+            {% endcomment %}
+        </div>
     </div>
     <!---Hasta aqui---->
 

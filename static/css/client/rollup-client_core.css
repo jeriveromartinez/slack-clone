@@ -5891,7 +5891,7 @@ body:not(.loading) #team_menu.active #team_header_user_name, body:not(.loading) 
 }
 
 #messages-input-container.offline:not(.recent-incremental-boot) #message-input, #messages-input-container.offline:not(.recent-incremental-boot) #primary_file_button {
-    background-color: #fdf1c1 !important
+    background-color: #ffffff !important
 }
 
 #messages-input-container.offline #primary_file_button {

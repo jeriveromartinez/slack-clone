@@ -1,8 +1,11 @@
+from django.db.models import Q
+from django.db.models.query import Prefetch
 from django.utils import timezone
 from plataforma.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.sessions.models import Session
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
 
 # Create your views here.
@@ -62,11 +65,25 @@ def get_details_file(request, username, file):
 
 
 @api_view(['GET'])
-def get_message_by_user(request, username):
-    messages = MessageEvent.objects.all().select_subclasses()
+def get_message_by_user(request, username, page):
+    messages = MessageEvent.objects.all().filter(
+        (Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) | Q(
+            filesharedevent__user_eject__username=username))
+
+    paginator = Paginator(messages, 5)
+
+    page = page
+
+    if not page:
+        page = 1
+
+    try:
+        data = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        data = paginator.page(paginator.num_pages)
+
     result = []
-    for inst in messages:
-        print isinstance(inst, MessageInstEvent)
+    for inst in data.object_list:
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSeriallizer(inst.messageinstevent)
             result.append(serializer.data)

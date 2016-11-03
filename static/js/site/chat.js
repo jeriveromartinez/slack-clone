@@ -58,6 +58,7 @@ $(document).ready(function () {
     });
 
     $('.panel').on('click', '.close_flexpane', function () {
+        
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
         var closure = $(this).data('pannel');
@@ -83,6 +84,7 @@ $(document).ready(function () {
     $('#member_account_item').on('click', function () {
         showProfile(this);
         $('#menu.menu').addClass('hidden');
+       $('#client-ui').addClass('flex_pane_showing');
         change_chat_size('65%');
     });
 
@@ -164,7 +166,8 @@ window.showProfile = function (object) {
 };
 
 window.change_chat_size = function (size) {
-    $('#msgs_div').css('width', size);
+   
+    $('#msgs_scroller_div').css('width', size);
 };
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {

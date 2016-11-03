@@ -4,9 +4,9 @@
  * Version: 0.0.1
  */
 
-(function($){
+(function ($) {
 
-    $.fn.infiniteScroll = function(settings){
+    $.fn.infiniteScroll = function (settings) {
         var $this = $(this)
         if (!$this.length) {
             return $this;
@@ -18,7 +18,7 @@
 
         $this.find(opts.itemSelector + ':last').addClass('last-scroll-row');
 
-        $(window).on('scroll', function() {
+        $(window).on('scroll', function () {
             var row = $('.last-scroll-row');
             if (row.length && !scrollTriggered && isScrolledIntoView(row)) {
                 scrollTriggered = 1;
@@ -43,7 +43,7 @@
                 scrollTriggered = 0;
             }
             if (jQuery.isFunction(opts.onDataLoaded)) {
-                opts.onDataLoaded(currentScrollPage);
+                opts.onDataLoaded(data);
             }
         }
 
@@ -52,9 +52,9 @@
             if (jQuery.isFunction(opts.onDataLoading)) {
                 opts.onDataLoading(currentScrollPage);
             }
-            $.get(opts.dataPath + '?page=' + currentScrollPage)
+            $.get(opts.dataPath + currentScrollPage)
                 .always(onDataLoaded)
-                .fail(function() {
+                .fail(function () {
                     if (jQuery.isFunction(opts.onDataError)) {
                         opts.onDataError(currentScrollPage);
                     }
@@ -69,7 +69,7 @@
         dataPath: null,
         itemSelector: '.item',
         onDataLoading: null, // function (page)
-        onDataLoaded: null, // function (page)
+        onDataLoaded: null, // function (data)
         onDataError: null // function (page)
     }
 

@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/(?P<company>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files',
         name='api-files'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files', name='api-files-company'),
-    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_message_by_user', name='api-message'),
+    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user', name='api-message'),
 ]

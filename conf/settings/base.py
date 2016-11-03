@@ -192,6 +192,9 @@ DJANGO_APPS = (
     'django.contrib.admindocs',
     # Django_socketio
     'django_socketio',
+    # polymorphic
+    'polymorphic',
+
 
     # Django restframework:
     'rest_framework',
@@ -203,6 +206,7 @@ THIRD_PARTY_APPS = (
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
 )
 
 # AQUI AGREGAMOS LOS NOMBRES DE LAS APPS DE CADA UNO
