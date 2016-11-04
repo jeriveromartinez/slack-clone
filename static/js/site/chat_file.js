@@ -28,7 +28,7 @@ $(document).ready(function () {
                 user_files(); //get all user's files
                 break;
         }
-
+        $('#client-ui').addClass('flex_pane_showing');
         change_chat_size('65%');
     });
 

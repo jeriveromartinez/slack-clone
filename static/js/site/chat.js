@@ -58,13 +58,14 @@ $(document).ready(function () {
     });
 
     $('.panel').on('click', '.close_flexpane', function () {
-        
+
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
         var closure = $(this).data('pannel');
         if (closure != 'undefined' && closure != null) {
             $('#' + closure).addClass('hidden');
         }
+        $('#client-ui').removeClass('flex_pane_showing');
     });
 
     $('.panel').on('click', '#back_from_member_preview', function () {
@@ -84,7 +85,7 @@ $(document).ready(function () {
     $('#member_account_item').on('click', function () {
         showProfile(this);
         $('#menu.menu').addClass('hidden');
-       $('#client-ui').addClass('flex_pane_showing');
+
         change_chat_size('65%');
     });
 
@@ -166,7 +167,7 @@ window.showProfile = function (object) {
 };
 
 window.change_chat_size = function (size) {
-   
+
     $('#msgs_scroller_div').css('width', size);
 };
 
