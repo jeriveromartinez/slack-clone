@@ -1,7 +1,7 @@
 import json
 
 import numpy as np
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
@@ -69,15 +69,16 @@ def create(request):
         user.first_name = first_name
         user.last_name = last_name
         user.is_active = True
-        print post
         user.save()
 
         name_company = post.get("company")
         company = Company.objects.create(name=name_company)
         Profile.objects.create(user=user, company=company, type="owner")
-
-        email = EmailMessage('Subject', 'Body', to=np.asarray(invite))  # TODO: ver que conno es esto
-        email.send()
+        try:
+            send_mail(subject='Asunto', message='Hola', from_email='jerivero@uci.cu',
+                      recipient_list=['jerivero@uci.cu'])  # np.asarray(invite) TODO: sigue sin pinchar
+        except Exception as e:
+            print e
 
         user = authenticate(username=username, password=password)
         login(request, user)

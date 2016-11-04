@@ -22,15 +22,14 @@
                     <tbody>
                     <tr>
                         <td><span class="small_right_padding old_petunia_grey"
-                                  title="Username">{{ request.user.username }}</span></td>
+                                  title="Username">Username</span></td>
                         <td><span title="@jeriverom">@{{ request.user.username }}</span></td>
                     </tr>
                     <tr>
                         <td><span class="small_right_padding old_petunia_grey" title="Timezone">Timezone</span></td>
                         <td class="member_preview_timezone"><span class="timezone_label">
                             <span class="timezone_value">{% now "P" %}</span> local time</span>
-                            (<a
-                                    href="{% url 'account:settings' %}" target="_self">change</a>)
+                            {#(<a href="{% url 'account:settings' %}" target="_self">change</a>)#}
                         </td>
                     </tr>
                     <tr>

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.template.defaultfilters import slugify
-from model_utils.managers import InheritanceManager
 from polymorphic.models import PolymorphicModel
 
 
@@ -54,20 +55,11 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def delete(self, *args, **kwargs):
-        if self.type == 'owner':
-            self.user.delete()
-            self.company.delete()
-        else:
-            self.user.delete()
-        super(Profile, self).delete(*args, **kwargs)
-
 
 class Snippet(models.Model):
     code = models.TextField(blank=False, null=False)
     date_pub = models.DateTimeField(auto_now_add=True)
     users_shared = models.ManyToManyField(User)
-    date_pub = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('date_pub',)
@@ -156,4 +148,15 @@ class FileCommentEvent(MessageEvent):
     file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
     user_eject = models.ForeignKey(User, related_name='user_eject_comment')
 
+
 # Message EVENTS End
+@receiver(post_delete, sender=Profile)
+def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
+    try:
+        instance.user
+        instance.company
+    except (User.DoesNotExist, Profile.DoesNotExist):
+        pass
+    else:
+        instance.user.delete()
+        instance.company.delete()

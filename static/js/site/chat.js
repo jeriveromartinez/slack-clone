@@ -6,6 +6,8 @@ var panel = null, channels = '', activeChannel = 'public', users = new Array(),
     hostUrl = window.location.protocol + '//' + window.location.host;
 window.users_logged = 0;
 
+$('body').prepend(itemLoad);
+
 $(document).ready(function () {
     //beginnings methods
     var socket;
@@ -156,13 +158,15 @@ $(document).ready(function () {
 window.showProfile = function (object) {
     var exc = function (response) {
         var list = $('#member_preview_container').html('');
-        list.append(item_user_profile(response[0]));
+        var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
+        list.append(item_user_profile(response[0], date));
     };
 
     $('#team_list_container').addClass('hidden');
     var urlapi = apiUrl + 'profile/' + $(object).data('user');
     request(urlapi, 'GET', null, null, exc, null);
     $('#member_preview_container').removeClass('hidden');
+    $('#client-ui').addClass('flex_pane_showing');
     $('#team_tab').addClass('active');
 };
 
@@ -192,13 +196,17 @@ window.team_users = function () {
 };
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
+    $('#convo_loading_indicator').show();
     $.ajax({
         type: typeRequest,
         url: urlSend,
         data: dataSend,
         dataType: dataType,
         success: doneFunction,
-        error: errorFunction
+        error: errorFunction,
+        complete: function () {
+            $('#convo_loading_indicator').hide();
+        }
     });
 };
 

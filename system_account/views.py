@@ -33,14 +33,12 @@ def setting_profile_edit(request):
 
     if request.method == "POST":
         formP = ProfileForm(data=request.POST or None, files=request.FILES or None, instance=profile)
-        # files=request.FILES, TODO: ver como cono le meto las imagenes
         formU = UserForm(data=request.POST or None, instance=user)
         if formU.is_valid():
-            user_profile = formU.save(commit=False)
-            formP.user = user_profile
+            formU.save()
         if formP.is_valid():
             formP.save()
-            return redirect('account:profile')
+            return redirect('account:profile', username=request.user.username)
         else:
             print formP.is_valid(), formP.errors, type(formP.errors)
     else:

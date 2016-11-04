@@ -16,6 +16,8 @@ var fieldInvitation = function () {
 };
 hostUrl = window.location.protocol + '//' + window.location.host;
 
+var itemLoad = '<div id="convo_loading_indicator"></div>';
+$('body').prepend(itemLoad);
 var setPassword = function (step) {
     return '<div class="create_step_number_label">Step ' + step + ' of 6</div><h1>Set your password</h1><p class="subtle_silver">Choose a password for signing in to Slack.</p><label class="normal" for="password">Password</label><input id="signup_password" placeholder="Password" name="password" type="password" required><div style="position: relative; width: 100%; margin: 5px 0px 1rem;"><div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div><div style="height: 4px; width: 0%; position: absolute; left: 0px; background-color: rgb(39, 179, 15);" id="password-strength-meter"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 75%;"></div></div><p class="error_message" id="password_error_message"></p><p class="subtle_silver">Passwords must be at least 6 characters long, and can’t be things like <i>password</i>, <i>123456</i> or <i>abcdef</i>.</p>';
 };
@@ -27,7 +29,6 @@ var setCompanyName = function (step) {
 var setInvitations = function (step) {
     return '<div class="create_step_number_label">Step ' + step + ' of 6</div><div><h1 class="small_bottom_margin">Send Invitations</h1><p class="desc">Your Slack team is ready to go. Know a few friends or coworkers who’d like to explore Slack with you?</p><label class="inline_block">Email address</label><a id="add_invitation" class="inline_block float_right bold">+ Add another invitation</a></div><div id="invite_rows">' + fieldInvitation() + '</div>';
 };
-
 
 function defineStep() {
     $('span#step').html(user.step);
@@ -46,12 +47,10 @@ var getCookie = function (c_name) {
     return "";
 };
 
-
 $(document).ready(function () {
     $(function () {
         defineStep();
     });
-
 
     $('.fs_split_flex_wrapper').on('input', '#signup_password', function () {
         var result = zxcvbn(this.value).score;
@@ -64,6 +63,7 @@ $(document).ready(function () {
     });
 
     var sendForm = function () {
+        $('#convo_loading_indicator').show();
         $.ajax({
             url: hostUrl + urlSend,
             data: user,
@@ -72,7 +72,11 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.action == 'success')
                     window.location = hostUrl;
+                $('#convo_loading_indicator').hide();
             },
+            error: function (error) {
+                $('#convo_loading_indicator').hide();
+            }
         });
     };
 

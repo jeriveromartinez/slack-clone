@@ -16949,14 +16949,19 @@ ts-message:hover .view_conv_hover {
 }
 
 #convo_loading_indicator {
-    height: 2.5rem;
-    background: url(../../images/loading_hash_animation.gif) no-repeat bottom center;
-    background-size: 40px
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    z-index: 1010;
+    background: url('../../images/loading_hash_animation_@2x.gif') no-repeat;
+    display: none;
 }
 
 @media (-webkit-min-device-pixel-ratio: 2),(min-resolution: 192dpi) {
     #convo_loading_indicator {
-        background-image: url(../../images/loading_hash_animation.gif)
+        background: url(../../images/loading_hash_animation.gif) no-repeat;
     }
 }
 

@@ -4,15 +4,13 @@
 {% block container %}
     <div id="signup_flow" class="full_height fs_split" data-step="name">
         <div id="signup_wrapper" class="fs_split_pane fs_split_pane_full_width">
-
-
             <a class="logo_link" href="{% url 'app:homepage' %}">
-                <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack" width="120"
-                     height="137"></a>
+                <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack"></a>
 
-            <form class="fs_split_flex_wrapper" onsubmit="return false;" action="https://slack.com/create">
+            <form class="fs_split_flex_wrapper" onsubmit="return false;">
                 <div class="fs_split_body">
-                    <div class="create_step_number_label">Step <span id="step"></span> of 6</div>
+
+                    <div class="create_step_number_label">Step <span id="step"></span> of 5</div>
                     <h1>What’s your name?</h1>
                     <p class="desc">Your name will be displayed along with your messages in Slack.</p>
                     <div class="names no_top_padding bottom_padding" id="name_fields">
