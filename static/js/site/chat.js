@@ -78,11 +78,13 @@ $(document).ready(function () {
     $('#channel-list').on('click', '.channel', function () {
         active_chat(this.id, 'channel');
         activeChannel = this.id;
+          Reload(activeChannel);
     });
 
     $('#im-list').on('click', '.member', function () {
         active_chat(this.id, 'user');
         activeChannel = $(this).attr("data-name");
+          Reload(activeChannel);
     });
 
     $('#member_account_item').on('click', function () {

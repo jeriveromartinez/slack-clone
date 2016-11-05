@@ -29,6 +29,7 @@ def message(request, socket, context, message):
         try:
             print user_to.username
             print profile[0].user.username
+            print profile[0].socketsession
 
             message["action"] = "message"
             message["user_to"] = profile[0].user.username

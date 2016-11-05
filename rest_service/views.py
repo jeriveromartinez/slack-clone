@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-
 # Create your views here.
 from rest_framework.reverse import reverse
 
@@ -69,10 +68,11 @@ def get_details_file(request, username, file):
 @api_view(['GET'])
 def get_message_by_user(request, username, page):
     messages = MessageEvent.objects.all().filter(
-        (Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) | Q(
-            filesharedevent__user_eject__username=username))
+        ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
+         (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
+            filesharedevent__user_eject__username=username)).order_by('date_pub')
 
-    paginator = Paginator(messages, 5)
+    paginator = Paginator(messages, 20)
 
     page = page
 
@@ -85,7 +85,7 @@ def get_message_by_user(request, username, page):
         data = paginator.page(paginator.num_pages)
 
     result = []
-    for inst in data.object_list:
+    for inst in messages:
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSeriallizer(inst.messageinstevent)
             result.append(serializer.data)
