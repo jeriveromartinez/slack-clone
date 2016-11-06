@@ -1,16 +1,14 @@
 <div id="footer">
     <div id="footer_msgs">
-        <div id="messages-input-container" class="offline" style="height: 42px;">
-            <a onclick="return false;" id="primary_file_button" data-js="primary_file_button" class="file_upload_btn"
-               aria-label="File menu" style="height: 42px;">
+        {% include 'chat/menu_options_upload_files.html' %}
+        <div id="messages-input-container" class="offline">
+            <a id="primary_file_button" class="file_upload_btn" aria-label="File menu">
                 <i class="ts_icon ts_icon_plus_thick"></i>
             </a>
-            <form id="message-form" style="height: 42px;"
-                  action="#/blackmambasoft.slack.com/messages/@jeriverom/files/">
-                <textarea id="message-input" class="with-emoji-menu"
-                          style="overflow-y: hidden; height: 42px;" autocorrect="off" autocomplete="off"
+            <form id="message-form">
+                <textarea id="message-input" class="with-emoji-menu" autocorrect="off" autocomplete="off"
                           spellcheck="true" placeholder="Message yourself"></textarea>
-                <div id="message-input-message" class=""><span></span></div>
+                <div id="message-input-message"><span></span></div>
                 <input id="file-upload" class="offscreen" multiple="multiple" aria-hidden="true"
                        type="file">
                 {% comment %}<a id="main_emo_menu" class="emo_menu" aria-label="Emoji menu">

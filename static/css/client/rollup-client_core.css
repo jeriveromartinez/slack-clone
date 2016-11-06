@@ -5907,7 +5907,7 @@ body:not(.loading) #team_menu.active #team_header_user_name, body:not(.loading) 
     position: absolute;
     z-index: 1;
     right: 0;
-    top: 0;
+    top: -2.5rem;
     width: 2.5rem;
     height: 2.625rem;
     line-height: 2.625rem;

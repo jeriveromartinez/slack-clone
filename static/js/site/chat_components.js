@@ -31,14 +31,14 @@ var item_user_list = function (name) {
 var item_directory_list = function (username, name, imageUrl, currentUsername) {
     var item = '<div class="team_list_item member_item cursor_pointer active tiny_top_margin">' +
         '<div class="member_details member_item_inset ">' +
-        '<a href="#' + username + '" class="lazy member_preview_link member_image thumb_72"  ' +
+        '<a onclick="showProfile(this)" data-user="' + username + '" class="lazy member_preview_link member_image thumb_72" ' +
         'style="background: rgb(246, 246, 246) url(' + imageUrl + ') no-repeat;background-size: contain; "></a>' +
         '<div class="member_name_and_title">';
     if (username == currentUsername)
         item += '<div class="color_4bbe2e">';
     else
         item += '<div class="color_9f69e7">';
-    item += '<a data-user="' + username + '" class="bold member_preview_link member_name no_bottom_margin">'
+    item += '<a onclick="showProfile(this)" data-user="' + username + '" class="bold member_preview_link member_name no_bottom_margin">'
         + name + '</a></div><div>@' + username + '<span class="presence away" title="away">' +
         '<i class="ts_icon ts_icon_presence presence_icon"></i></span></div></div></div></div>';
 
@@ -89,6 +89,7 @@ var item_user_profile = function (object, localtime) {
 var item_user_menu = function (username, avatar) {
     return '<li id="' + username + '" class="member_item active"><a href="#"><span class="wrapper"><span class="lazy member_preview_link member_image thumb_24" style="background: rgb(246, 246, 246) url(\'' + avatar + '\');" aria-hidden="true"></span></span><span class="name">' + username + '</span></a></li>';
 };
+
 var date_divider = function (date) {
     var divider = '<div class="day_divider" id="day_divider_1475690976_000002"><i class="copy_only"><br>-----' +
         '</i>' +

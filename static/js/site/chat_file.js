@@ -4,17 +4,6 @@
 $(document).ready(function () {
     var userFileStatus = false, userFileActive = userlogged;
 
-    /*$(document).click(function (event) {
-     var target = $(event.target)[0];
-     var outside = $('.menu.my_menu');
-     var span = $('span.name')[0], a = $('a')[0];
-
-     if (target != span && target != a && !$(outside).hasClass('hidden')) {
-     $(outside).addClass('hidden');
-     userFileStatus = false;
-     }
-     });*/
-
     //menu more items options
     $('.flexpane_menu_item').on('click', function () {
         switch (this.id) {
@@ -95,6 +84,22 @@ $(document).ready(function () {
         $('.menu.my_menu').addClass('hidden');
     });
 
+    //launch files upload forms
+    $('#primary_file_button').on('click', function () {
+        $('.menu.menu_file_create').removeClass('hidden');
+    });
+
+    //select files from pc
+    $('li.file_menu_item').on('click', function () {
+        hide_menu_files();
+        $('#file-upload').click();
+    });
+
+    //save files uploaded
+    $('#file-upload').on('change', function () {
+        alert('archivos');
+    });
+
     //AUX
     var user_files = function (username) {
         clean_user_files();
@@ -132,5 +137,9 @@ $(document).ready(function () {
     var clean_user_files = function () {
         $('#file_list_toggle_all').removeClass('active');
         $('#file_list_toggle_user').removeClass('active');
+    };
+
+    var hide_menu_files = function () {
+        $('#menu.menu_file_create').addClass('hidden');
     };
 });

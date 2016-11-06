@@ -519,10 +519,16 @@ li.member.cursor_pointer {
     width: 80% !important;
 }
 
-.my_menu {
+.menu_user_list {
     position: absolute;
     top: 3rem;
     left: 5rem;
     max-height: 15rem;
     overflow-y: auto;
+}
+
+.menu_file_create {
+    bottom: 5rem;
+    left: 1rem;
+    position: absolute;
 }

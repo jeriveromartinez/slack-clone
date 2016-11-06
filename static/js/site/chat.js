@@ -6,7 +6,7 @@ var panel = null, channels = '', activeChannel = 'public', users = new Array(),
     hostUrl = window.location.protocol + '//' + window.location.host;
 window.users_logged = 0;
 
-$('body').prepend(itemLoad);
+//$('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
@@ -20,12 +20,13 @@ $(document).ready(function () {
 
     //actions methods
     $('#team_menu').on('click', function () {
-        $('#menu').removeClass('hidden');
+        $('#menu.slack_menu.team_menu').removeClass('hidden');
     });
 
     $('.popover_mask').on('click', function () {
-        $('#menu').addClass('hidden');
+        $('#menu.slack_menu.team_menu').addClass('hidden');
         $('#menu.flex_menu').addClass('hidden');
+        $('#menu.menu_file_create').addClass('hidden');
     });
 
     $('.channel_header_icon').on('click', function () {
@@ -166,7 +167,7 @@ window.showProfile = function (object) {
     var urlapi = apiUrl + 'profile/' + $(object).data('user');
     request(urlapi, 'GET', null, null, exc, null);
     $('#member_preview_container').removeClass('hidden');
-    $('#client-ui').addClass('flex_pane_showing');
+    //$('#client-ui').addClass('flex_pane_showing');
     $('#team_tab').addClass('active');
 };
 
@@ -180,7 +181,7 @@ window.team_users = function () {
         $('span#active_members_count_value').html(response.length);
         var list = $('#active_members_list').html('');
         response.forEach(function (item) {
-            list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, hostUrl + item.image, userlogged))
+            list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, item.image, userlogged))
         });
     };
 
@@ -196,7 +197,7 @@ window.team_users = function () {
 };
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
-    $('#convo_loading_indicator').show();
+    //$('#convo_loading_indicator').show();
     $.ajax({
         type: typeRequest,
         url: urlSend,
@@ -204,9 +205,9 @@ window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunctio
         dataType: dataType,
         success: doneFunction,
         error: errorFunction,
-        complete: function () {
-            $('#convo_loading_indicator').hide();
-        }
+        /*complete: function () {
+         $('#convo_loading_indicator').hide();
+         }*/
     });
 };
 
