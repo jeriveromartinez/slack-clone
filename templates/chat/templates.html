@@ -16,12 +16,13 @@
 
 {% block container %}
     <script>
-        var userlogged = '{{ request.user.username }}',
+        var userFileActive = userlogged = '{{ request.user.username }}',
                 companyuser = '{{ request.user.profile.company.slug }}',
-                localtime = {% now 'U' %};
+                localtime = {% now 'U' %},
+                sendTo = {type: '', to: ''};
     </script>
-        {% load socketio_tags %}
-        {% socketio %}
+    {% load socketio_tags %}
+    {% socketio %}
     {% include 'chat/header.html' %}
     {% include 'chat/footer.html' %}
     {% include 'chat/body.html' %}

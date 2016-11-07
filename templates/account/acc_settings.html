@@ -1,4 +1,4 @@
-{% extends 'account/settigns_template.html' %}
+{% extends 'account/settings_template.html' %}
 {% block settings %}
     <section class="tab_pane selected clearfix" data-tab="settings">
         <div id="change_username" class="accordion_section">
@@ -279,7 +279,7 @@
             </p>
         </div>
         <div class="col span_2_of_6 no_right_padding">
-            <p><a href="#/blackmambasoft.slack.com/account/deactivate"
+            <p><a href="{% url 'account:deactivate' request.user.username %}"
                   class="btn btn_danger btn_outline full_width">Deactivate your account</a></p>
         </div>
     </section>

@@ -83,8 +83,11 @@ class FilesUp(models.Model):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.file_up.name)
-        self.title = self.file_up.name
+        if self.title == "":
+            self.title = self.file_up.name
+            self.slug = slugify(self.title)
+        else:
+            self.slug = slugify(self.file_up.name)
         super(FilesUp, self).save(*args, **kwargs)
 
 

@@ -58,11 +58,17 @@ def get_files(request, username, company=None):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_details_file(request, username, file):
     _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
-    serializer = FileUpSerializer(_file, many=True)
-    return Response(serializer.data)
+    if request.method == "GET":
+        serializer = FileUpSerializer(_file, many=True)
+        return Response(serializer.data)
+    if request.method == "POST":
+        user = User.objects.filter(username=username)[0]
+        comment = request.POST['comment']
+        FilesComment.objects.create(file_up=_file[0], comment=comment, user=user)
+        return Response({'data': 'save'})
 
 
 @api_view(['GET'])
@@ -105,3 +111,20 @@ def get_message_by_user(request, username, page):
 def get_url_user_path(request, username):
     url_path = {'url': reverse('account:profile', kwargs={'username': username})}
     return Response(url_path)
+
+
+@api_view(['POST', 'GET'])
+def save_files(request, type, from_user, to):
+    if type == "user":
+        user = User.objects.filter(username=to)[0]
+        author = Profile.objects.filter(user__username=from_user)[0]
+        for key in request.FILES:
+            file = request.FILES[key]
+            create = FilesUp.objects.create(title=file.name, file_up=file,
+                                            author=author)  # FilesUp(title=file.name, file_up=file.read(), author=author)
+            create.shared_to.add(user)
+            create.save()
+        pass
+    else:
+        pass
+    return Response({'response': from_user + ' ' + type + ' ' + to})

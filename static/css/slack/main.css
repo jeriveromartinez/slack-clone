@@ -532,3 +532,14 @@ li.member.cursor_pointer {
     left: 1rem;
     position: absolute;
 }
+
+#convo_loading_indicator {
+    width: 5rem;
+    height: 5rem;
+    position: absolute;
+    top: 40%;
+    left: 45%;
+    z-index: 1010;
+    background: url('../../images/loading_hash_animation_@2x.gif') no-repeat;
+    display: none;
+}

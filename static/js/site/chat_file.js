@@ -2,7 +2,7 @@
  * Created by julio on 31/10/16.
  */
 $(document).ready(function () {
-    var userFileStatus = false, userFileActive = userlogged;
+    var userFileStatus = false;
 
     //menu more items options
     $('.flexpane_menu_item').on('click', function () {
@@ -27,7 +27,7 @@ $(document).ready(function () {
             $('#file_preview_container').removeClass('hidden');
             var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
             var file = response[0];
-            item.append(item_file_detail(file.author.user.username, file.author.image, file.title, file_comments_msg(file.files_comments)));
+            item.append(item_file_detail(file.author.user.username, file.author.image, file.title, file.slug, file_comments_msg(file.files_comments)));
         };
 
         $('.panel.active').removeClass('active');
@@ -46,9 +46,11 @@ $(document).ready(function () {
         user_files(userFileActive);
     });
 
+    //get all files from company
     $('#file_list_toggle_all').on('click', function () {
         user_all_files();
     });
+
 
     $('#file_list_toggle_user').on('click', function (event) {
         if ($('#file_list_toggle_user').hasClass('active')) {
@@ -97,7 +99,34 @@ $(document).ready(function () {
 
     //save files uploaded
     $('#file-upload').on('change', function () {
-        alert('archivos');
+        var data = new FormData();
+        $.each($(this)[0].files, function (key, file) {
+            data.append('file[' + key + ']', file);
+        });
+
+        var exc = function (response) {
+            console.log(response);//TODO: agregar aqui el archivo a la lista si esta activa 
+        };
+
+        var urlapi = apiUrl + 'files/upload/' + userlogged + '/' + sendTo.type + '/' + sendTo.to + '/';
+        request(urlapi, 'POST', 'html', data, exc, null, 'file');
+    });
+
+    //add comment to the file
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', '#file_comment_submit_btn', function () {
+        var exc = function (request) {
+            if (request.data == "save") {
+                $('.file_body.post_body').append('<p>' + comment.comment + '</p>')
+                $('#file_comment').val('');
+            }
+        };
+
+        var comment = {comment: $('#file_comment').val()};
+        var file = $('#file_preview_head_section').attr("data-file"),
+            owner = $('#file_preview_head_section').attr("data-owner");
+
+        var urlapi = apiUrl + 'files/' + owner + '/detail/' + file + '/';
+        request(urlapi, 'POST', 'json', comment, exc, null);
     });
 
     //AUX

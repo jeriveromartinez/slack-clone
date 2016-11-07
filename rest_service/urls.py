@@ -10,8 +10,12 @@ urlpatterns = [
         name='api-file-detail'),
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/path/$', 'rest_service.views.get_url_user_path',
         name='api-profile-path'),
+    url(r'^files/upload/(?P<from_user>[0-9a-zA-Z_-]+)/(?P<type>[a-z]+)/(?P<to>[0-9a-zA-Z_-]+)/$',
+        'rest_service.views.save_files',
+        name='api-files-save'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/(?P<company>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files',
         name='api-files'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files', name='api-files-company'),
-    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user', name='api-message'),
+    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user',
+        name='api-message'),
 ]

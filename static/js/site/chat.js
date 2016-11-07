@@ -6,7 +6,7 @@ var panel = null, channels = '', activeChannel = 'public', users = new Array(),
     hostUrl = window.location.protocol + '//' + window.location.host;
 window.users_logged = 0;
 
-//$('body').prepend(itemLoad);
+$('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
@@ -14,15 +14,15 @@ $(document).ready(function () {
     $(function () {
         get_chanel();
         get_users();
-
+        active_chat(userlogged, 'user');
     });
-
 
     //actions methods
     $('#team_menu').on('click', function () {
         $('#menu.slack_menu.team_menu').removeClass('hidden');
     });
 
+    //hidden all menus
     $('.popover_mask').on('click', function () {
         $('#menu.slack_menu.team_menu').addClass('hidden');
         $('#menu.flex_menu').addClass('hidden');
@@ -78,13 +78,13 @@ $(document).ready(function () {
     $('#channel-list').on('click', '.channel', function () {
         active_chat(this.id, 'channel');
         activeChannel = this.id;
-          Reload(activeChannel);
+        Reload(activeChannel);
     });
 
     $('#im-list').on('click', '.member', function () {
         active_chat(this.id, 'user');
         activeChannel = $(this).attr("data-name");
-          Reload(activeChannel);
+        Reload(activeChannel);
     });
 
     $('#member_account_item').on('click', function () {
@@ -97,7 +97,6 @@ $(document).ready(function () {
     $('#active_members_list').on('click', '.member_preview_link', function () {
         showProfile(this);
     });
-
 
     //aux methods
     var get_chanel = function () {
@@ -142,14 +141,17 @@ $(document).ready(function () {
 
     var active_chat = function (search, type) {
         var exc = null;
+        sendTo.type = type;
         if (type == "channel") {
             exc = function (request) {
                 $('#channel_title').html(request[0].name);
+                sendTo.to = request[0].name;
             };
             var urlapi = apiUrl + companyuser + '/room/' + search + '/';
         } else {
             exc = function (request) {
                 $('#channel_title').html(request[0].user.username);
+                sendTo.to = request[0].user.username;
             };
             var urlapi = apiUrl + 'profile/' + search + '/';
         }
@@ -169,12 +171,11 @@ window.showProfile = function (object) {
     var urlapi = apiUrl + 'profile/' + $(object).data('user');
     request(urlapi, 'GET', null, null, exc, null);
     $('#member_preview_container').removeClass('hidden');
-    //$('#client-ui').addClass('flex_pane_showing');
+    $('#client-ui').addClass('flex_pane_showing');
     $('#team_tab').addClass('active');
 };
 
 window.change_chat_size = function (size) {
-
     $('#msgs_scroller_div').css('width', size);
 };
 
@@ -198,23 +199,55 @@ window.team_users = function () {
     $('#menu.flex_menu').addClass('hidden');
 };
 
-window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction) {
-    //$('#convo_loading_indicator').show();
-    $.ajax({
-        type: typeRequest,
-        url: urlSend,
-        data: dataSend,
-        dataType: dataType,
-        success: doneFunction,
-        error: errorFunction,
-        /*complete: function () {
-         $('#convo_loading_indicator').hide();
-         }*/
-    });
+window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
+    $('#convo_loading_indicator').show();
+    if (type == 'file') {
+        $.ajax({
+            type: typeRequest,
+            url: urlSend,
+            data: dataSend,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: dataType,
+            headers: {"X-CSRFToken": getCookie("csrftoken")},
+            success: doneFunction,
+            error: errorFunction,
+            complete: function () {
+                $('#convo_loading_indicator').hide();
+            }
+        });
+    } else {
+        $.ajax({
+            type: typeRequest,
+            url: urlSend,
+            data: dataSend,
+            dataType: dataType,
+            headers: {"X-CSRFToken": getCookie("csrftoken")},
+            success: doneFunction,
+            error: errorFunction,
+            complete: function () {
+                $('#convo_loading_indicator').hide();
+            }
+        });
+    }
 };
 
 window.getUserPath = function (username) {
     var urlapi = apiUrl + 'profile/' + username + '/path/';
     return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
+};
+
+window.getCookie = function (c_name) {
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
+    }
+    return "";
 };
 

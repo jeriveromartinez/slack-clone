@@ -2,6 +2,8 @@
  * Created by julio on 12/10/16.
  */
 var menu = false, teams = false;
+var itemLoad = '<div id="convo_loading_indicator"></div>';
+$('body').prepend(itemLoad);
 
 File.prototype.convertToBase64 = function (callback) {
     var reader = new FileReader();
@@ -61,9 +63,55 @@ $(document).ready(function () {
         if (this.files && this.files[0]) {
             var selectedFile = this.files[0];
             selectedFile.convertToBase64(function (base64) {
-                console.log(base64);
                 $('span.member_preview_link.member_image.thumb_192').css('background-image', 'url(\' ' + base64 + ' \')');
             });
         }
     });
 });
+
+window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
+    $('#convo_loading_indicator').show();
+    if (type == 'file') {
+        $.ajax({
+            type: typeRequest,
+            url: urlSend,
+            data: dataSend,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: dataType,
+            headers: {"X-CSRFToken": getCookie("csrftoken")},
+            success: doneFunction,
+            error: errorFunction,
+            complete: function () {
+                $('#convo_loading_indicator').hide();
+            }
+        });
+    } else {
+        $.ajax({
+            type: typeRequest,
+            url: urlSend,
+            data: dataSend,
+            dataType: dataType,
+            headers: {"X-CSRFToken": getCookie("csrftoken")},
+            success: doneFunction,
+            error: errorFunction,
+            complete: function () {
+                $('#convo_loading_indicator').hide();
+            }
+        });
+    }
+};
+
+window.getCookie = function (c_name) {
+    if (document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if (c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if (c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start, c_end));
+        }
+    }
+    return "";
+};

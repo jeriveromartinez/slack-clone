@@ -5,4 +5,5 @@ urlpatterns = [
     url(r'^logs/$', 'system_account.views.setting_log', name='logs'),
     url(r'^profile/edit/$', 'system_account.views.setting_profile_edit', name='profile_edit'),
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/$', 'system_account.views.setting_profile', name='profile'),
+    url(r'^deactivate/(?P<username>[0-9a-zA-Z_-]+)/$', 'system_account.views.deactivate_account', name='deactivate'),
 ]

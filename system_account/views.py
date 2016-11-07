@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 
@@ -47,3 +48,12 @@ def setting_profile_edit(request):
 
     return render_to_response('account/acc_edit_profile.html', {'formP': formP, 'formU': formU},
                               context_instance=RequestContext(request))
+
+
+@login_required(login_url='/login/')
+def deactivate_account(request, username):
+    user = get_object_or_404(User, username=username)
+    user.is_active = False
+    user.save()
+    logout(request)
+    return redirect('app:login')
