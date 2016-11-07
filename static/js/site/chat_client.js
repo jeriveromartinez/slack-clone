@@ -1,7 +1,7 @@
 /**
  * Created by victor on 31/10/16.
  */
-var currentday = -1;
+
 $(document).ready(function () {
 
 
@@ -29,18 +29,19 @@ $(document).ready(function () {
                 socket.send({user_to: activeChannel, message: $(this).val().trim(), user_from: userlogged});
                 $("#message-input").val("");
                 e.preventDefault();
-
-                if (currentday == new Date().getDate()) {
+                var date = $(".day_container:last").find('ts-message:last').attr('data-date');
+                var day = new Date(date).getDate();
+                if (day == new Date().getDate()) {
                     var elemt = $(".day_container:last").find('.day_msgs');
                     if (elemt.length) {
-                        elemt.append(ts_message('ava_0022-48.png', userlogged, message));
+                        elemt.append(ts_message('ava_0022-48.png', userlogged, message, new Date().toISOString()));
                     }
                 }
                 else {
                     var day_container = $("<div class='day_container'></div>");
                     day_container.append(date_divider(new Date()));
                     var day_msgs = $("<div class='day_msgs'></div>");
-                    day_msgs.append(ts_message('ava_0022-48.png', userlogged, message));
+                    day_msgs.append(ts_message('ava_0022-48.png', userlogged, message, new Date().toISOString()));
                     day_container.append(day_msgs);
 
                     $("#msgs_div").append(day_container);
@@ -74,18 +75,19 @@ var messaged = function (data) {
             break;
         case 'message':
             console.log('message', data);
-
-            if (currentday == new Date().getDate()) {
+            var date = $(".day_container:last").find('ts-message:last').attr('data-date');
+            var day = new Date(date).getDate();
+            if (day == new Date().getDate()) {
                 var elemt = $(".day_container:last").find('.day_msgs');
                 if (elemt.length) {
-                    elemt.append(ts_message('ava_0022-48.png', data.user_from, data.message));
+                    elemt.append(ts_message('ava_0022-48.png', data.user_from, data.message, data.date_pub));
                 }
             }
             else {
                 var day_container = $("<div class='day_container'></div>");
                 day_container.append(date_divider(new Date()));
                 var day_msgs = $("<div class='day_msgs'></div>");
-                day_msgs.append(ts_message('ava_0022-48.png', data.user_from, data.message));
+                day_msgs.append(ts_message('ava_0022-48.png', data.user_from, data.message, data.date_pub));
                 day_container.append(day_msgs);
 
                 $("#msgs_div").append(day_container);
@@ -109,8 +111,12 @@ var onDataLoaded = function (data) {
 
         var container = $("#msgs_div");
 
-
+        var currentday = -1;
         var currentday_container = "";
+        var date = $(".day_container:first").find('ts-message:first').attr('data-date');
+        if (date) {
+            currentday = new Date(date).getDate();
+        }
 
 
         $.each(data, function (index, item) {
@@ -118,14 +124,14 @@ var onDataLoaded = function (data) {
             var date = new Date(item.date_pub);
 
 
-            if (date.getDate() > currentday) {
+            if (date.getDate() != currentday) {
 
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
                 var day_msgs = $("<div class='day_msgs'></div>");
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg));
+                        day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
                         break;
                     case 'file_shared_event':
                         console.log('event');
@@ -141,7 +147,7 @@ var onDataLoaded = function (data) {
             } else if (date.getDate() == currentday) {
 
                 var day_msgs = $("<div class='day_msgs'></div>");
-                day_msgs = $(".day_container:last").find('.day_msgs');
+                day_msgs = $(".day_container:first").find('.day_msgs');
 
                 switch (item.type) {
                     case 'message_int_event':
@@ -156,7 +162,9 @@ var onDataLoaded = function (data) {
 
 
             }
-            currentday = date.getDate();
+            var date = $(".day_container:first").find('ts-message:first').attr('data-date');
+
+            currentday = new Date(date).getDate();
 
 
         });
@@ -179,7 +187,6 @@ var initScroll = function (name) {
 };
 var Reload = function (name) {
     $("#msgs_div").empty();
-    currentday = -1;
 
     $.ajax({
         type: 'GET',
@@ -200,7 +207,7 @@ var Reload = function (name) {
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
 };
-var success=function (data) {
+var success = function (data) {
     onDataLoaded(data.items)
-        $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
+    $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
 }

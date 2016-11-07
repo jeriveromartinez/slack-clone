@@ -23,20 +23,21 @@ def message(request, socket, context, message):
     if request.user.is_authenticated and user_to:
         profile = Profile.objects.filter(user__username=message["user_to"])
 
-        MessageInstEvent.objects.create(user_to=profile[0].user, user_from=request.user, msg=message["message"],
-                                        type="message_int_event")
+    msg = MessageInstEvent.objects.create(user_to=profile[0].user, user_from=request.user, msg=message["message"],
+                                          type="message_int_event")
 
-        try:
-            print user_to.username
-            print profile[0].user.username
-            print profile[0].socketsession
+    try:
+        print user_to.username
+        print profile[0].user.username
+        print profile[0].socketsession
 
-            message["action"] = "message"
-            message["user_to"] = profile[0].user.username
-            message["user_from"] = user_to.username
-            send(profile[0].socketsession, message)
-        except NoSocket as e:
-            send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+        message["action"] = "message"
+        message["user_to"] = profile[0].user.username
+        message["user_from"] = user_to.username
+        message["date_pub"] = msg.date_pub
+        send(profile[0].socketsession, message)
+    except NoSocket as e:
+        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 @events.on_subscribe
