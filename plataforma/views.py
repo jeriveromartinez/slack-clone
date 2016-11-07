@@ -1,7 +1,6 @@
 import json
 
-import numpy as np
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http.response import JsonResponse
