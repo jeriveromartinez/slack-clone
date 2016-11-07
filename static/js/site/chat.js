@@ -80,14 +80,14 @@ $(document).ready(function () {
         activeChannel = this.id;
         Reload(activeChannel);
 
-    
+
     });
 
     $('#im-list').on('click', '.member', function () {
         active_chat(this.id, 'user');
         activeChannel = $(this).attr("data-name");
         Reload(activeChannel);
-        
+
     });
 
     $('#member_account_item').on('click', function () {
@@ -143,23 +143,14 @@ $(document).ready(function () {
     };
 
     var active_chat = function (search, type) {
-        var exc = null;
         sendTo.type = type;
         if (type == "channel") {
-            exc = function (request) {
-                $('#channel_title').html(request[0].name);
-                sendTo.to = request[0].name;
-            };
-            var urlapi = apiUrl + companyuser + '/room/' + search + '/';
+            $('#channel_title').html('#' + search);
+            sendTo.to = search;
         } else {
-            exc = function (request) {
-                $('#channel_title').html(request[0].user.username);
-                sendTo.to = request[0].user.username;
-            };
-            var urlapi = apiUrl + 'profile/' + search + '/';
+            $('#channel_title').html('@' + search);
+            sendTo.to = search;
         }
-
-        request(urlapi, 'GET', null, null, exc, null);
     };
 });
 
@@ -170,6 +161,7 @@ window.showProfile = function (object) {
         list.append(item_user_profile(response[0], date));
     };
 
+    $('.panel.active').removeClass('active');
     $('#team_list_container').addClass('hidden');
     var urlapi = apiUrl + 'profile/' + $(object).data('user');
     request(urlapi, 'GET', null, null, exc, null);

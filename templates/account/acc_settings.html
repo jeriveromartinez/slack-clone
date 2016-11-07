@@ -1,4 +1,9 @@
 {% extends 'account/settings_template.html' %}
+{% load staticfiles %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/libraries/pass-strong.js' %}"></script>
+{% endblock %}
 {% block settings %}
     <section class="tab_pane selected clearfix" data-tab="settings">
         <div id="change_username" class="accordion_section">
@@ -7,7 +12,8 @@
             <div id="accordion-username" class="accordion_subsection top_margin" style="display: none;">
                 <div class="username_input_container">
                     <input name="username" class="username_input input_inline small_right_margin"
-                           placeholder="username" value="jeriverom" autocapitalize="off" autocorrect="off"
+                           placeholder="username" value="{{ request.user.username }}" autocapitalize="off"
+                           autocorrect="off"
                            type="text">
                     <button id="button-username" type="submit" class="btn btn_large align_top ladda-button">
                         <span class="ladda-label">Save</span>
@@ -27,8 +33,6 @@
             <a id="expand-password" class="accordion_expand btn btn_outline ">expand</a>
             <h4 id="h-password"><a>Password</a></h4>
             <div id="accordion-password" class="accordion_subsection top_margin" style="display: none;">
-                <input name="change_password" value="1" type="hidden">
-                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
                 <p class="small_bottom_margin">
                     <label for="old_password">Current Password</label>
                     <input id="old_password" name="old_password" value="" type="password">
@@ -36,9 +40,9 @@
                 <p class="large_bottom_margin">
                     <label for="password">New Password</label>
                     <input id="password" name="password" value="" type="password"></p>
-                <div style="position: relative; width: 100%; margin: 5px 0px 1rem;">
+                <div style="position: relative; width: 100%; padding: 0 0 0.5rem;">
                     <div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div>
-                    <div style="height: 4px; background-color: rgb(200, 24, 24); width: 0px; position: absolute; left: 0px;"
+                    <div style="height: 4px; background-color: #2ab27b; width: 0; position: absolute; left: 0px;"
                          id="password-strength-meter"></div>
                     <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div>
                     <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div>
@@ -51,8 +55,6 @@
                             class="ladda-label">Save Password</span></button>
                 </p>
                 <div class="clear_both"></div>
-                <input name="reset_password" value="1" type="hidden">
-                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
                 <p>
                     <span class="small_right_margin">Can't remember your current password?</span>
                     <button type="submit" class="btn btn_small btn_outline">Reset your password by email</button>

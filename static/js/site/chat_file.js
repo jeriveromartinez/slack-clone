@@ -51,7 +51,7 @@ $(document).ready(function () {
         user_all_files();
     });
 
-
+    //list documents by user select in All Files Type
     $('#file_list_toggle_user').on('click', function (event) {
         if ($('#file_list_toggle_user').hasClass('active')) {
             if (!userFileStatus) {
@@ -65,10 +65,10 @@ $(document).ready(function () {
                 };
 
                 request(urlapi, 'GET', null, null, exc, null);
-                $('.menu.my_menu.hidden').removeClass('hidden');
+                $('.menu.menu_user_list.hidden').removeClass('hidden');
                 userFileStatus = true;
             } else {
-                $('.menu.my_menu').addClass('hidden');
+                $('.menu.menu_user_list').addClass('hidden');
                 userFileStatus = false;
             }
         } else {
@@ -79,11 +79,11 @@ $(document).ready(function () {
     });
 
     //get files by user selected 
-    $('.menu.my_menu').on('click', 'li.member_item', function () {
+    $('.menu.menu_user_list').on('click', 'li.member_item', function () {
         var user = this.id;
         user_files(user);
         $('#file_list_toggle_user.active').find('a').html((userFileActive == userlogged) ? 'Just You' : userFileActive);
-        $('.menu.my_menu').addClass('hidden');
+        $('.menu.menu_user_list').addClass('hidden');
     });
 
     //launch files upload forms

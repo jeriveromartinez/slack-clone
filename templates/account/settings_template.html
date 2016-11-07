@@ -3,6 +3,13 @@
 {% block js %}
     {{ block.super }}
     <script type="text/javascript" src="{% static 'js/site/settings.js' %}"></script>
+    <script>
+        var userlogged = '{{ request.user.username }}',
+                companyuser = '{{ request.user.profile.company.slug }}',
+                localtime = {% now 'U' %};
+        var apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
+                hostUrl = window.location.protocol + '//' + window.location.host;
+    </script>
 {% endblock %}
 {% block main_container %}
     {% url 'account:settings' as account_settings %}
@@ -17,6 +24,8 @@
         <a href="#/account/notifications"
            class="{% if user_profile and user_profile.username != request.user.username %}hidden{% endif %}">Notifications</a>
         <a href="
+
+
                 {% if user_profile %}{% url 'account:profile' user_profile.username %}{% else %}{% url 'account:profile' request.user.username %}{% endif %}"
            {% if request.get_full_path == account_profile %}class="selected"{% endif %}>Profile</a>
         <a {% comment %}href="#/account/team"{% endcomment %}

@@ -130,3 +130,11 @@ def save_files(request, type, from_user, to):
     else:
         pass
     return Response({'response': from_user + ' ' + type + ' ' + to})
+
+
+@api_view(['POST'])
+def change_user(request, username):
+    user = User.objects.filter(username=username)[0]
+    user.username = request.POST['username']
+    user.save()
+    return Response({'success': 'ok'})
