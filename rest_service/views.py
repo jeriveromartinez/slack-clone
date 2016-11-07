@@ -136,5 +136,26 @@ def save_files(request, type, from_user, to):
 def change_user(request, username):
     user = User.objects.filter(username=username)[0]
     user.username = request.POST['username']
-    user.save()
-    return Response({'success': 'ok'})
+    if user.save():
+        return Response({'success': 'ok'})
+    return Response({'success': 'false'})
+
+
+@api_view(['POST'])
+def change_pass(request, username):
+    user = User.objects.filter(username=username)[0]
+    if user.check_password(request.POST['old']):
+        user.set_password(request.POST['change'])
+        user.save()
+        return Response({'success': 'ok'})
+    return Response({'success': 'false'})
+
+
+@api_view(['POST'])
+def change_email(request, username):
+    user = User.objects.filter(username=username)[0]
+    if user.check_password(request.POST['password']):
+        user.email = request.POST['email']
+        user.save()
+        return Response({'success': 'ok'})
+    return Response({'success': 'false'})

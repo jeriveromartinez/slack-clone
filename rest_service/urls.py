@@ -10,7 +10,11 @@ urlpatterns = [
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/path/$', 'rest_service.views.get_url_user_path',
         name='api-profile-path'),
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/change/$', 'rest_service.views.change_user',
-        name='api-profile-path'),
+        name='api-profile-username-change'),
+    url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/password/$', 'rest_service.views.change_pass',
+        name='api-profile-pass-change'),
+    url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/email/$', 'rest_service.views.change_email',
+        name='api-profile-email-change'),
 
     url(r'^files/upload/(?P<from_user>[0-9a-zA-Z_-]+)/(?P<type>[a-z]+)/(?P<to>[0-9a-zA-Z_-]+)/$',
         'rest_service.views.save_files', name='api-files-save'),

@@ -38,6 +38,28 @@ $(document).ready(function () {
     });
 
     $('#button-password').on('click', function () {
+        var password = {old: $('#old_password').val(), change: $('#password').val()};
+        var urlapi = apiUrl + 'profile/' + userlogged + '/password/';
+        request(urlapi, 'POST', 'json', password, null, null);
+        console.log(password);
+    });
 
+    $('#new_email').bind('select change keyup', function () {
+        if (isEmail(this.value))
+            $('#button-email').attr('disabled', false);
+        else
+            $('#button-email').attr('disabled', true);
+    });
+
+    $('#button-email').on('click', function () {
+        var data = {email: $('#new_email').val(), password: $('#email_password').val()};
+        var exc = function (response) {
+            if (response.success == "ok") {
+                $('strong#email_address').html(data.email);
+            }
+        };
+
+        var urlapi = apiUrl + 'profile/' + userlogged + '/email/';
+        request(urlapi, 'POST', 'json', data, exc, null);
     });
 });

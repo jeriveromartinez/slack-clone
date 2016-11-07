@@ -73,10 +73,10 @@
 
         $(document).ready(function () {
             $('#signup_email').bind('select change keyup', function () {
-                console.log(this.value);
-                if (isEmail(this.value)) {
+                if (isEmail(this.value))
                     $('#submit_btn').attr('disabled', false);
-                }
+                else
+                    $('#submit_btn').attr('disabled', true);
             });
         });
     </script>

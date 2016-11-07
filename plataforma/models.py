@@ -23,11 +23,28 @@ class Company(models.Model):
         super(Company, self).save(*args, **kwargs)
 
 
+class Profile(models.Model):
+    CHOICE = (
+        (u'owner', u'Owner'),
+        (u'guest', u'Guest'),
+    )
+
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    company = models.ManyToManyField(Company, related_name='company')
+    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
+    socketsession = models.CharField(max_length=255, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+
 class Room(models.Model):
     name = models.CharField(max_length=255, null=False, default="public")
     slug = models.SlugField(null=True, blank=True)
     company = models.ForeignKey(Company, related_name='room')
     created = models.DateTimeField(auto_now_add=True)
+    users = models.ManyToManyField(Profile, related_name='users_room')
 
     class Meta:
         ordering = ('created',)
@@ -38,22 +55,6 @@ class Room(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super(Room, self).save(*args, **kwargs)
-
-
-class Profile(models.Model):
-    CHOICE = (
-        (u'owner', u'Owner'),
-        (u'guest', u'Guest'),
-    )
-
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    company = models.ForeignKey(Company, related_name='company', on_delete=models.CASCADE)
-    type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
-    socketsession = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return self.user.username
 
 
 class Snippet(models.Model):

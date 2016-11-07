@@ -51,7 +51,7 @@
                          id="password-strength-label">&nbsp;</div>
                 </div>
                 <p>
-                    <button id="button-password" type="submit" class="btn ladda-button" data-style="expand-right"><span
+                    <button id="button-password" type="submit" class="btn ladda-button"><span
                             class="ladda-label">Save Password</span></button>
                 </p>
                 <div class="clear_both"></div>
@@ -85,11 +85,9 @@
             <a id="expand-email" class="accordion_expand btn btn_outline">expand</a>
             <h4 id="h-email"><a>Email Address</a></h4>
             <p class="no_bottom_margin">
-                Your email address is <strong>jeriveromartinez@gmail.com</strong>
+                Your email address is <strong id="email_address">{{ request.user.email }}</strong>
             </p>
             <div id="accordion-email" class="accordion_subsection" style="display: none;">
-                <input name="change_email" value="1" type="hidden">
-                <input name="crumb" value="s-1475717307-5586b94fe4-☃" type="hidden">
                 <p class="small_bottom_margin">
                     <label for="email_password">Current Password</label>
                     <input id="email_password" name="email_password" type="password">
@@ -99,7 +97,7 @@
                     <input id="new_email" name="new_email" type="email">
                 </p>
                 <p>
-                    <button id="button-email" type="submit" class="btn" data-style="expand-right"><span
+                    <button id="button-email" type="submit" class="btn" disabled><span
                             class="ladda-label">Update Email</span>
                     </button>
                 </p>
@@ -107,7 +105,7 @@
             </div>
         </div>
 
-        <div id="change_timezone" class="accordion_section">
+        {% comment %}<div id="change_timezone" class="accordion_section">
             <a id="expand-timezone" class="accordion_expand btn btn_outline ">expand</a>
             <h4 id="h-timezone"><a>Time Zone</a></h4>
             <p class="small_bottom_margin">
@@ -257,7 +255,8 @@
                             class="ladda-label">Save Time Zone</span></button>
                 </p>
             </div>
-        </div>
+        </div>{% endcomment %}
+
         <div id="sign_out_sessions" class="large_top_margin">
             <h4>Sign out all other sessions</h4>
             <div class="col span_4_of_6">
