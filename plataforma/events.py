@@ -9,10 +9,10 @@ from django.utils import timezone
 
 @events.on_connect
 def on_connect(request, socket, context):
-    Profile.objects.filter(user_id=request.user.id).update(socketsession=socket.session.session_id)
+    Profile.objects.filter(user__username=request.user.username).update(socketsession=socket.session.session_id)
 
-    profile = Profile.objects.filter(user_id=request.user.id)
-
+    profile = Profile.objects.filter(user__username=request.user.username)
+    print profile[0].socketsession
     send(socket.session.session_id, {"action": "connected", "message": profile[0].user.username})
 
 
@@ -58,7 +58,8 @@ def subcribe(request, socket, context, channel):
 def messagechanel(request, socket, context, message):
     room = get_object_or_404(Room, name=message["room"])
     if room and message["action"] == "message":
-        RoomMessage.objects.create(room=room, user_msg=request.user, msg=message["message"], date_pub=timezone.now())
+        RoomMessageEvent.objects.create(room=room, user_from=request.user, msg=message["message"],
+                                        date_pub=timezone.now())
 
         message["message"] = strip_tags(message["message"])
         message["name"] = request.user.username
@@ -74,7 +75,7 @@ def messagechanel(request, socket, context, message):
 def disconect(request, socket, context):
     left = {"action": "leave", "name": request.user.username, "id": request.user.id}
     try:
-        socket.broadcast_channel(left)
+        socket.broadcast(left)
     except NoSocket as e:
         send(socket.session.session_id, {"error": "No connected sockets exist"})
 

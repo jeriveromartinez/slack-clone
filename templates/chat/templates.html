@@ -1,5 +1,6 @@
 {% extends 'site_template/base.html' %}
 
+
 {% load staticfiles %}
 {% block styles %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_core.css' %}">
@@ -34,6 +35,7 @@
 {% block js %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery-infinite-scroll.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat.js' %}"></script>

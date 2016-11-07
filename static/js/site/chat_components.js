@@ -98,7 +98,7 @@ var date_divider = function (date) {
     return divider;
 };
 
-var ts_message = function (avatar, from, msg) {
+var ts_message = function (avatar, from, msg,date) {
     var avatar = "url('/static/images/" + avatar + "')";
     var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first">' +
         '<div class="action_hover_container"></div>' +
@@ -116,7 +116,7 @@ var ts_message = function (avatar, from, msg) {
 
         '<div class="message_content ">' +
         '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7">' + from + '</a>' +
-        ' <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>2:09 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
+        ' <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>'+moment(date, moment.ISO - 8601).format("hh:mm a")+'<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
 
         ' <span class="message_star_holder">' +
         '  <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +

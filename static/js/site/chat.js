@@ -79,12 +79,15 @@ $(document).ready(function () {
         active_chat(this.id, 'channel');
         activeChannel = this.id;
         Reload(activeChannel);
+
+    
     });
 
     $('#im-list').on('click', '.member', function () {
         active_chat(this.id, 'user');
         activeChannel = $(this).attr("data-name");
         Reload(activeChannel);
+        
     });
 
     $('#member_account_item').on('click', function () {
@@ -176,6 +179,7 @@ window.showProfile = function (object) {
 };
 
 window.change_chat_size = function (size) {
+
     $('#msgs_scroller_div').css('width', size);
 };
 

@@ -76,9 +76,9 @@ def get_message_by_user(request, username, page):
     messages = MessageEvent.objects.all().filter(
         ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
          (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
-            filesharedevent__user_eject__username=username)).order_by('date_pub')
+            filesharedevent__user_eject__username=username)).order_by('-date_pub')
 
-    paginator = Paginator(messages, 20)
+    paginator = Paginator(messages, 10)
 
     page = page
 
@@ -89,9 +89,9 @@ def get_message_by_user(request, username, page):
         data = paginator.page(page)
     except (EmptyPage, InvalidPage):
         data = paginator.page(paginator.num_pages)
-
+    reponse = {}
     result = []
-    for inst in messages:
+    for inst in data.object_list:
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSeriallizer(inst.messageinstevent)
             result.append(serializer.data)
@@ -104,7 +104,9 @@ def get_message_by_user(request, username, page):
         if isinstance(inst, FileCommentEvent):
             serializer = FileCommentEventSeriallizer(inst)
             result.append(serializer.data)
-    return Response(result)
+    reponse['items'] = result
+    reponse['has_next'] = data.has_next()
+    return Response(reponse)
 
 
 @api_view(['GET'])

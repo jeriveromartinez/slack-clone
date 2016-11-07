@@ -1,14 +1,19 @@
 /**
- * Created by julio on 31/10/16.
+ * Created by victor on 31/10/16.
  */
 var currentday = -1;
 $(document).ready(function () {
 
 
     var socket = new io.Socket();
-    socket.connect();
-    socket.on('connect', function () {
 
+    setInterval(function () {
+        socket.connect();
+
+    }, 8000);
+
+    socket.on('connect', function () {
+        console.log(" connected")
         // socket.send({"hola": "hola", action: 'start'});
     });
 
@@ -25,7 +30,7 @@ $(document).ready(function () {
                 $("#message-input").val("");
                 e.preventDefault();
 
-                if (currentday == new Date().getDay()) {
+                if (currentday == new Date().getDate()) {
                     var elemt = $(".day_container:last").find('.day_msgs');
                     if (elemt.length) {
                         elemt.append(ts_message('ava_0022-48.png', userlogged, message));
@@ -70,7 +75,7 @@ var messaged = function (data) {
         case 'message':
             console.log('message', data);
 
-            if (currentday == new Date().getDay()) {
+            if (currentday == new Date().getDate()) {
                 var elemt = $(".day_container:last").find('.day_msgs');
                 if (elemt.length) {
                     elemt.append(ts_message('ava_0022-48.png', data.user_from, data.message));
@@ -87,7 +92,7 @@ var messaged = function (data) {
             }
 
 
-            var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height();
+            var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_scroller_div").height();
             $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
             break;
@@ -101,6 +106,7 @@ var onDataLoaded = function (data) {
 
     if (data.length > 0) {
 
+
         var container = $("#msgs_div");
 
 
@@ -112,7 +118,7 @@ var onDataLoaded = function (data) {
             var date = new Date(item.date_pub);
 
 
-            if (date.getDay() > currentday) {
+            if (date.getDate() > currentday) {
 
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
@@ -129,17 +135,17 @@ var onDataLoaded = function (data) {
                 }
                 currentday_container.append(day_msgs);
 
-                container.append(currentday_container);
+                container.prepend(currentday_container);
 
 
-            } else if (date.getDay() == currentday) {
+            } else if (date.getDate() == currentday) {
 
                 var day_msgs = $("<div class='day_msgs'></div>");
                 day_msgs = $(".day_container:last").find('.day_msgs');
 
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg));
+                        day_msgs.prepend(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
                         break;
                     case 'file_shared_event':
                         console.log('event');
@@ -150,30 +156,51 @@ var onDataLoaded = function (data) {
 
 
             }
-            currentday = date.getDay();
+            currentday = date.getDate();
 
 
         });
-        var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height();
-        $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
+
 
     }
 
 };
+var initScroll = function (name) {
+    var url = "/api/messages/" + name + "/";
 
+    $("#msgs_scroller_div").infiniteScroll({
+        dataPath: url,
+        itemSelector: 'ts-message.message:first',
+        onDataLoading: null,// function (page),
+        onDataLoaded: onDataLoaded, // function (data)
+        onDataError: null // function (page)
+    });
+
+};
 var Reload = function (name) {
-    $("#msgs_div").html('');
+    $("#msgs_div").empty();
+    currentday = -1;
+
     $.ajax({
         type: 'GET',
         url: "/api/messages/" + name + "/" + 1,
         // data: {page: 1},
         success: function (data, status, object) {
 
-            onDataLoaded(data);
+            $.when(success(data)).then(initScroll(name));
+
+
         },
         error: function (data, status, object) {
             console.log(data.message);
         }
     });
+    var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_scroller_div").height();
 
+    $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
+
+};
+var success=function (data) {
+    onDataLoaded(data.items)
+        $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
 }
