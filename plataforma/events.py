@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
+from django.utils.datetime_safe import time
 from django.utils.html import strip_tags
 from django_socketio import events, send, broadcast, broadcast_channel, NoSocket
 from plataforma.models import *
@@ -34,7 +35,7 @@ def message(request, socket, context, message):
         message["action"] = "message"
         message["user_to"] = profile[0].user.username
         message["user_from"] = user_to.username
-        message["date_pub"] = msg.date_pub
+        message["date_pub"] = str(msg.date_pub.isoformat())
         send(profile[0].socketsession, message)
     except NoSocket as e:
         send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
@@ -59,7 +60,7 @@ def subcribe(request, socket, context, channel):
 def messagechanel(request, socket, context, message):
     room = get_object_or_404(Room, name=message["room"])
     if room and message["action"] == "message":
-        RoomMessageEvent.objects.create(room=room, user_from=request.user, msg=message["message"],
+        MessageInstEvent.objects.create(room=room, user_from=request.user, msg=message["message"],
                                         date_pub=timezone.now())
 
         message["message"] = strip_tags(message["message"])

@@ -1,16 +1,9 @@
-/**
- * Created by victor on 31/10/16.
- */
 
 $(document).ready(function () {
 
 
     var socket = new io.Socket();
-
-    setInterval(function () {
-        socket.connect();
-
-    }, 8000);
+    socket.connect();
 
     socket.on('connect', function () {
         console.log(" connected")
@@ -47,7 +40,7 @@ $(document).ready(function () {
                     $("#msgs_div").append(day_container);
                 }
 
-                var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height();
+                var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
 
                 $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
@@ -94,7 +87,7 @@ var messaged = function (data) {
             }
 
 
-            var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_scroller_div").height();
+            var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
             $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
             break;
@@ -141,7 +134,7 @@ var onDataLoaded = function (data) {
                 }
                 currentday_container.append(day_msgs);
 
-                container.prepend(currentday_container);
+                container.prepend(currentday_container).fadeIn('slow');
 
 
             } else if (date.getDate() == currentday) {
@@ -151,7 +144,7 @@ var onDataLoaded = function (data) {
 
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.prepend(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
+                        day_msgs.prepend(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub)).fadeIn('slow');
                         break;
                     case 'file_shared_event':
                         console.log('event');
@@ -202,7 +195,7 @@ var Reload = function (name) {
             console.log(data.message);
         }
     });
-    var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_scroller_div").height();
+    var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
 
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 

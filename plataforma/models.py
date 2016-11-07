@@ -115,7 +115,6 @@ class StarItem(models.Model):
 class MessageEvent(PolymorphicModel):
     CHOICE = (
         (u'message_int_event', u'message_int_event'),
-        (u'room_message_event', u'room_message_event'),
         (u'file_shared_event', u'file_shared_event'),
         (u'file_comment_event', u'file_comment_event'),
     )
@@ -123,21 +122,16 @@ class MessageEvent(PolymorphicModel):
     readed = models.BooleanField(default=False)
     date_pub = models.DateTimeField(auto_now_add=True)
     is_stared = models.BooleanField(default=False)
+    room = models.ForeignKey(Room, blank=True, null=True, related_name='message_room')
+    user_to = models.ForeignKey(User, related_name='user_to')
+    user_from = models.ForeignKey(User, related_name='user_from')
 
     class Meta:
-        ordering = ('date_pub',)
-
-
-class RoomMessageEvent(MessageEvent):
-    room = models.ForeignKey(Room, related_name='room')
-    msg = models.TextField(blank=False, null=False)
-    user_from = models.ForeignKey(User, related_name='user_from_room')
+        ordering = ('-date_pub',)
 
 
 class MessageInstEvent(MessageEvent):
-    user_to = models.ForeignKey(User, related_name='user_to_event_inst')
     msg = models.TextField(blank=False, null=False)
-    user_from = models.ForeignKey(User, related_name='user_from_event_inst')
 
     def __str__(self):
         return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
@@ -145,12 +139,10 @@ class MessageInstEvent(MessageEvent):
 
 class FileSharedEvent(MessageEvent):
     file_up = models.ForeignKey(FilesUp, related_name='files_comments_event_share')
-    user_eject = models.ForeignKey(User, related_name='user_eject_shared')
 
 
 class FileCommentEvent(MessageEvent):
     file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
-    user_eject = models.ForeignKey(User, related_name='user_eject_comment')
 
 
 # Message EVENTS End

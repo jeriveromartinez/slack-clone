@@ -76,7 +76,7 @@ def get_message_by_user(request, username, page):
     messages = MessageEvent.objects.all().filter(
         ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
          (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
-            filesharedevent__user_eject__username=username)).order_by('-date_pub')
+            filesharedevent__user_from__username=username)).order_by('-date_pub')
 
     paginator = Paginator(messages, 5)
 
@@ -94,9 +94,6 @@ def get_message_by_user(request, username, page):
     for inst in data.object_list:
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSeriallizer(inst.messageinstevent)
-            result.append(serializer.data)
-        if isinstance(inst, RoomMessageEvent):
-            serializer = RoomMessageEventSeriallizer(inst)
             result.append(serializer.data)
         if isinstance(inst, FileSharedEvent):
             serializer = FileSharedEventSeriallizer(inst)

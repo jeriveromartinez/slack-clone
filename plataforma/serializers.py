@@ -54,15 +54,6 @@ class MessageEventSeriallizer(serializers.ModelSerializer):
         exclude = ('id',)
 
 
-class RoomMessageEventSeriallizer(MessageEventSeriallizer):
-    room = RoomSerializer()
-    user_msg = UserSerializer()
-
-    class Meta(MessageEventSeriallizer.Meta):
-        model = RoomMessageEvent
-        exclude = ('id',)
-
-
 class MessageInstEventSeriallizer(MessageEventSeriallizer):
     user_to = UserSerializer()
     user_from = UserSerializer()
@@ -88,7 +79,3 @@ class FileCommentEventSeriallizer(MessageEventSeriallizer):
     class Meta(MessageEventSeriallizer.Meta):
         model = FileCommentEvent
         exclude = ('id',)
-
-
-
-
