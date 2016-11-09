@@ -6,6 +6,7 @@ from django.db.models.signals import post_delete
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from django_user_agents.utils import get_user_agent
 from ipware.ip import get_real_ip, get_ip
 from polymorphic.models import PolymorphicModel
 
@@ -184,7 +185,8 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
 @receiver(user_logged_in)
 def login_logger(request, **kwargs):  # no borrar nada de aqui
     user = User.objects.filter(username=request.user.username)[0]
+    browser = get_user_agent(request)  # TODO: mejorar esto despues
     if get_real_ip(request) is not None:
-        UserLogger.objects.create(user=user, ip_address=get_real_ip(request))
+        UserLogger.objects.create(user=user, ip_address=get_real_ip(request), description=browser)
     if get_ip(request) is not None:
-        UserLogger.objects.create(user=user, ip_address=get_ip(request))
+        UserLogger.objects.create(user=user, ip_address=get_ip(request), description=browser)

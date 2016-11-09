@@ -33,6 +33,15 @@
                 </span>
             </p>
         </div>
+        <hr>
+        <div class="col span_2_of_6"><p class="bold">Wednesday, October 5th</p></div>
+        {% for prev,current,next in logs %}
+            {% if current.time_login|date:'Y-m-d' == next.time_login|date:'Y-m-d' %}
+                misma<br/>
+            {% else %}
+                otra<br/>
+            {% endif %}
+        {% endfor %}
         <hr class="clear_both">
     </section>
 {% endblock %}

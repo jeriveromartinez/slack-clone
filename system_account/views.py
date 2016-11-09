@@ -7,6 +7,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 
 from system_account.forms import *
+from plataforma.models import UserLogger
 
 
 @login_required(login_url='/login/')
@@ -16,7 +17,9 @@ def setting_account(request):
 
 @login_required(login_url='/login/')
 def setting_log(request):
-    return render_to_response('account/acc_logs.html', context_instance=RequestContext(request))
+    logs = UserLogger.objects.filter(user__username=request.user.username)[:10]
+    return render_to_response('account/acc_logs.html', {'logs': logs},
+                              context_instance=RequestContext(request))
 
 
 @login_required(login_url='/login/')

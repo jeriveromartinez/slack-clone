@@ -197,6 +197,8 @@ DJANGO_APPS = (
 
     # Django restframework:
     'rest_framework',
+    'ipware',
+    'django_user_agents',
 )
 
 THIRD_PARTY_APPS = (
@@ -276,3 +278,12 @@ EMAIL_HOST_PASSWORD = 'J3rm*91.'
 ##SOCKETIO
 SOCKETIO_HOST = "0.0.0.0"
 SOCKETIO_PORT = 8000
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+USER_AGENTS_CACHE = 'default'
