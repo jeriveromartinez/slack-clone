@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
-from django.template.defaultfilters import slugify
+
 from django.db.models.signals import post_delete
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 from ipware.ip import get_real_ip, get_ip
 from polymorphic.models import PolymorphicModel
 
@@ -160,7 +161,13 @@ class FileCommentEvent(MessageEvent):
     file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
 
 
-# SIGNAL
+class Communication(models.Model):
+    user_me = models.ForeignKey(Profile, related_name='user_me')
+    user_connect = models.ForeignKey(Profile, related_name='user_connect')
+    un_reader_msg = models.IntegerField()
+
+
+# Message EVENTS End
 @receiver(post_delete, sender=Profile)
 def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
     try:
@@ -173,6 +180,7 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
         instance.company.delete()
 
 
+# SIGNAL
 @receiver(user_logged_in)
 def login_logger(request, **kwargs):  # no borrar nada de aqui
     user = User.objects.filter(username=request.user.username)[0]
