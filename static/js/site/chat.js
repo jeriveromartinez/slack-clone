@@ -4,7 +4,8 @@
 var panel = null, channels = '', activeChannel = 'public', users = new Array(),
     apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
     hostUrl = window.location.protocol + '//' + window.location.host;
-window.users_logged = 0;
+window.users_logged = 0,
+    window.userFileStatus = false;
 
 $('body').prepend(itemLoad);
 
@@ -27,6 +28,8 @@ $(document).ready(function () {
         $('#menu.slack_menu.team_menu').addClass('hidden');
         $('#menu.flex_menu').addClass('hidden');
         $('#menu.menu_file_create').addClass('hidden');
+        $('#menu.menu_user_list').addClass('hidden');
+        userFileStatus = false;
     });
 
     $('.channel_header_icon').on('click', function () {

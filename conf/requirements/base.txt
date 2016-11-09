@@ -11,4 +11,5 @@ gevent==0.13.8
 gevent-socketio==0.2.1
 gevent-websocket
 django-socketio
+django-ipware
 Pillow

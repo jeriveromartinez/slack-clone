@@ -2,7 +2,7 @@
  * Created by julio on 31/10/16.
  */
 $(document).ready(function () {
-    var userFileStatus = false;
+
 
     //menu more items options
     $('.flexpane_menu_item').on('click', function () {

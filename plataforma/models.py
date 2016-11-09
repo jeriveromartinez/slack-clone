@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from django.db.models.signals import post_delete
+from django.contrib.auth.signals import user_logged_in
+from django.dispatch import receiver
+from ipware.ip import get_real_ip, get_ip
 from polymorphic.models import PolymorphicModel
 
 
@@ -111,6 +113,19 @@ class StarItem(models.Model):
     refer_id = models.IntegerField(null=False)
 
 
+class UserLogger(models.Model):
+    user = models.ForeignKey(User, related_name="user_logger")
+    time_login = models.DateTimeField(auto_now_add=True)
+    ip_address = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        ordering = ('-time_login',)
+
+    def __str__(self):
+        return self.user.username + ' ' + self.time_login.__str__()
+
+
 # Message EVENTS Begin
 class MessageEvent(PolymorphicModel):
     CHOICE = (
@@ -145,14 +160,23 @@ class FileCommentEvent(MessageEvent):
     file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
 
 
-# Message EVENTS End
+# SIGNAL
 @receiver(post_delete, sender=Profile)
 def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
     try:
         instance.user
         instance.company
-    except (User.DoesNotExist, Profile.DoesNotExist):
-        pass
+    except (User.DoesNotExist, Profile.DoesNotExist) as e:
+        print e
     else:
         instance.user.delete()
         instance.company.delete()
+
+
+@receiver(user_logged_in)
+def login_logger(request, **kwargs):  # no borrar nada de aqui
+    user = User.objects.filter(username=request.user.username)[0]
+    if get_real_ip(request) is not None:
+        UserLogger.objects.create(user=user, ip_address=get_real_ip(request))
+    if get_ip(request) is not None:
+        UserLogger.objects.create(user=user, ip_address=get_ip(request))
