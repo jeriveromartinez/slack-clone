@@ -1,8 +1,6 @@
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
-
-# Create your views here.
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 

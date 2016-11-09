@@ -9,7 +9,8 @@
         <div id="change_username" class="accordion_section">
             <a id="expand-username" class="accordion_expand btn btn_outline">expand</a>
             <h4 id="h-username"><a>Username</a></h4>
-            <div id="accordion-username" class="accordion_subsection top_margin" style="display: none;">
+            <div id="accordion-username" class="accordion_subsection top_margin" style="display: none;"
+                 data-active="deactivated">
                 <div class="username_input_container">
                     <input name="username" class="username_input input_inline small_right_margin"
                            placeholder="username" value="{{ request.user.username }}" autocapitalize="off"
@@ -32,7 +33,8 @@
         <div id="change_password" class="accordion_section">
             <a id="expand-password" class="accordion_expand btn btn_outline ">expand</a>
             <h4 id="h-password"><a>Password</a></h4>
-            <div id="accordion-password" class="accordion_subsection top_margin" style="display: none;">
+            <div id="accordion-password" class="accordion_subsection top_margin" style="display: none;"
+                 data-active="deactivated">
                 <p class="small_bottom_margin">
                     <label for="old_password">Current Password</label>
                     <input id="old_password" name="old_password" value="" type="password">
@@ -87,7 +89,7 @@
             <p class="no_bottom_margin">
                 Your email address is <strong id="email_address">{{ request.user.email }}</strong>
             </p>
-            <div id="accordion-email" class="accordion_subsection" style="display: none;">
+            <div id="accordion-email" class="accordion_subsection" style="display: none;" data-active="deactivated">
                 <p class="small_bottom_margin">
                     <label for="email_password">Current Password</label>
                     <input id="email_password" name="email_password" type="password">

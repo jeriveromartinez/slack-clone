@@ -3,10 +3,12 @@
  */
 $(document).ready(function () {
     $('.accordion_expand.btn.btn_outline').on('click', function () {
+        defaultExpands();
         var toExc = this.id.split('-')[1];
         $(this).addClass('hidden');
         $('#h-' + toExc).addClass('hidden');
         $('#accordion-' + toExc).css({display: 'initial'});
+        $('#accordion-' + toExc).attr("data-active", 'activate');
     });
 
     $('button.btn').on('click', function () {
@@ -23,6 +25,7 @@ $(document).ready(function () {
             if (response.success == "ok") {
                 userlogged = data.username;
                 $('input[name="username"]').val(data.username);
+                $('span#user_menu_name').html(data.username);
             }
         };
         var data = {username: $('input[name="username"]').val()};
@@ -62,4 +65,13 @@ $(document).ready(function () {
         var urlapi = apiUrl + 'profile/' + userlogged + '/email/';
         request(urlapi, 'POST', 'json', data, exc, null);
     });
+
+    //AUX
+    var defaultExpands = function () {
+        $('.accordion_expand.hidden').removeClass('hidden');
+        $('h4[id*="h-"].hidden').removeClass('hidden');
+        var accordion = $('div[id*="accordion"][data-active="activate"]');
+        $(accordion).css('display', 'none');
+        $(accordion).attr('data-active', 'deactivated');
+    };
 });

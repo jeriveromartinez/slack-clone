@@ -1,4 +1,5 @@
 {% extends 'account/settings_template.html' %}
+{% load app_filter %}
 {% block settings %}
     <section class="tab_pane selected" data-tab="logs">
         <p>
@@ -7,41 +8,46 @@
             sessions</a> except for your current one.
         </p>
         <hr>
-        <div class="col span_2_of_6"><p class="bold">Wednesday, October 5th</p></div>
-        <div class="col span_4_of_6">
-            <p class="log_entry"> 9:25pm with the&nbsp;
-                <abbr title="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0"
-                      style="cursor: help;">
-                    <i class="ts_icon ts_icon_laptop"></i>
-                    Slack Web App
-                </abbr>
-                <br>
+        {% for log in logs %}
+            {% with logs|before:forloop.counter0 as previous %}
+                {% if forloop.first %}
+                    <div class="col span_2_of_6"><p class="bold">{{ log.time_login|date:'l, F jS' }}</p></div>
+                    <div class="col span_4_of_6">
+                {% endif %}
+            {% if log.time_login|date:'Y-m-d' == previous.time_login|date:'Y-m-d' or forloop.first %}
+                <p class="log_entry"> {{ log.time_login|date:'h:m a' }} with the&nbsp;
+                    <abbr title="{{ log.description }}"
+                          style="cursor: help;">
+                        <i class="ts_icon ts_icon_laptop"></i>
+                        Slack Web App
+                    </abbr>
+                    <br>
                 <span class="small subtle_silver">
-					IP: 200.55.140.181 (Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 11 additional logins from this device, with the most recent at 9:28pm.
+					IP: {{ log.ip_address }} {% comment %}(Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 11 additional logins from this device, with the most recent at 9:28pm.{% endcomment %}
                 </span>
-            </p>
-            <p class="log_entry">
-                2:09pm with the&nbsp;
-                <abbr title="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/52.0.2743.116 Chrome/52.0.2743.116 Safari/537.36"
-                      style="cursor: help;">
-                    <i class="ts_icon ts_icon_laptop"></i>
-                    Slack Web App
-                </abbr>
-                <br>
-				<span class="small subtle_silver">
-                    IP: 200.55.140.181 (Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 2 additional logins from this device, with the most recent at 2:09pm.
-                </span>
-            </p>
-        </div>
-        <hr>
-        <div class="col span_2_of_6"><p class="bold">Wednesday, October 5th</p></div>
-        {% for prev,current,next in logs %}
-            {% if current.time_login|date:'Y-m-d' == next.time_login|date:'Y-m-d' %}
-                misma<br/>
+                </p>
             {% else %}
-                otra<br/>
+                </div>
+                <hr>
+                <div class="col span_2_of_6"><p class="bold">{{ log.time_login|date:'l, F jS' }}</p></div>
+                <div class="col span_4_of_6">
+                <p class="log_entry"> {{ log.time_login|date:'h:m a' }} with the&nbsp;
+                    <abbr title="{{ log.description }}"
+                          style="cursor: help;">
+                        <i class="ts_icon ts_icon_laptop"></i>
+                        Slack Web App
+                    </abbr>
+                    <br>
+                <span class="small subtle_silver">
+					IP: {{ log.ip_address }} {% comment %}(Cuba, Camaguey; Empresa de Telecomunicaciones de Cuba, S.A.).There were 11 additional logins from this device, with the most recent at 9:28pm.{% endcomment %}
+                </span>
+                </p>
             {% endif %}
+            {% if forloop.last %}
+                </div>
+                <hr class="clear_both">
+            {% endif %}
+            {% endwith %}
         {% endfor %}
-        <hr class="clear_both">
     </section>
 {% endblock %}

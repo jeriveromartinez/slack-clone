@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 urlpatterns = [
     url(r'^settings/$', 'system_account.views.setting_account', name='settings'),
