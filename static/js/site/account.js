@@ -1,7 +1,10 @@
 /**
  * Created by julio on 12/10/16.
  */
-var menu = false, teams = false;
+var menu = false, teams = false, userFileActive = null,
+    apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
+    hostUrl = window.location.protocol + '//' + window.location.host;
+
 var itemLoad = '<div id="convo_loading_indicator"></div>';
 $('body').prepend(itemLoad);
 
@@ -71,6 +74,14 @@ $(document).ready(function () {
     $('.chosen-select').chosen({
         no_results_text: "Oops, nothing found!",
     });
+
+    $('#fromFile').bind('select change', function () {
+        get_files();
+    });
+
+    $('#typeFile').bind('select change', function () {
+        get_files();
+    });
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
@@ -124,3 +135,27 @@ window.isEmail = function (email) {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
 };
+
+var get_files = function () {
+    var from = $('#fromFile option:selected').val();
+    var type = $('#typeFile option:selected').val();
+
+    var urlapi = '';
+    if (from == "all")
+        urlapi = apiUrl + 'files/' + userlogged + '/' + type + '/' + companyuser + '/';
+    else
+        urlapi = apiUrl + 'files/' + from + '/get/all_files/';
+    // request(urlapi, 'GET', null, null, user_files_exc, null);
+};
+
+var user_all_files = function () {
+    clean_user_files();
+    $('.panel.active').removeClass('active');
+    $('#files_tab').addClass('active');
+    $('#file_list_toggle_all').addClass('active');
+
+    var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
+    request(urlapi, 'GET', null, null, user_files_exc, null);
+    $('#menu.flex_menu').addClass('hidden');
+};
+

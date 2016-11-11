@@ -54,8 +54,21 @@ def get_files(request, username, type, company=None):
         files = type_file_by_user(type=type, username=username)
     else:
         files = type_file_by_company(type=type, company_slug=company)
-    serializer = SlackFileSerializer(files, many=True)  # TODO: ver como serializar los objetos hijos segun tipo
-    return Response(serializer.data)
+
+    data = []
+    for file in files:
+        if isinstance(file, Post):
+            data.append(PostSerializer(file).data)
+        elif isinstance(file, Snippet):
+            data.append(SnippetSerializer(file).data)
+        elif isinstance(file, FilesUp):
+            data.append(FilesUpSerializer(file).data)
+        elif isinstance(file, ImageUp):
+            data.append(ImageUpSerializer(file).data)
+        else:
+            data.append(SlackFileSerializer(file).data)
+    # TODO: este codigo esta puerco, ver como mejorarlo
+    return Response(data)
 
 
 @api_view(['GET', 'POST'])
@@ -168,13 +181,13 @@ def type_file_by_user(type, username):
     files = None
     if type == "post":
         files = Post.objects.filter(author__user__username=username)
-    if type == "snippet":
+    if type == "snippets":
         files = Snippet.objects.filter(author__user__username=username)
-    if type == "google":
+    if type == "gdocs":
         files = GoogleDocs.objects.filter(author__user__username=username)
-    if type == "doc":
+    if type == "docs":
         files = FilesUp.objects.filter(author__user__username=username)
-    if type == "image":
+    if type == "images":
         files = ImageUp.objects.filter(author__user__username=username)
     if files is None:
         files = SlackFile.objects.filter(author__user__username=username)
@@ -185,13 +198,13 @@ def type_file_by_company(type, company_slug):
     files = None
     if type == "post":
         files = Post.objects.filter(author__company__slug=company_slug)
-    if type == "snippet":
+    if type == "snippets":
         files = Snippet.objects.filter(author__company__slug=company_slug)
-    if type == "google":
+    if type == "gdocs":
         files = GoogleDocs.objects.filter(author__company__slug=company_slug)
-    if type == "doc":
+    if type == "docs":
         files = FilesUp.objects.filter(author__company__slug=company_slug)
-    if type == "image":
+    if type == "images":
         files = ImageUp.objects.filter(author__company__slug=company_slug)
     if files is None:
         files = SlackFile.objects.filter(author__company__slug=company_slug)
