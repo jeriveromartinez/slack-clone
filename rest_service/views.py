@@ -49,12 +49,12 @@ def users_logged(request, company):
 
 
 @api_view(['GET'])
-def get_files(request, username, company=None):
+def get_files(request, username, type, company=None):
     if company is None:
-        files = FilesUp.objects.filter(author__user__username=username)
+        files = type_file_by_user(type=type, username=username)
     else:
-        files = FilesUp.objects.filter(author__company__slug=company)
-    serializer = FileUpSerializer(files, many=True)
+        files = type_file_by_company(type=type, company_slug=company)
+    serializer = SlackFileSerializer(files, many=True)  # TODO: ver como serializar los objetos hijos segun tipo
     return Response(serializer.data)
 
 
@@ -62,7 +62,7 @@ def get_files(request, username, company=None):
 def get_details_file(request, username, file):
     _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
     if request.method == "GET":
-        serializer = FileUpSerializer(_file, many=True)
+        serializer = SlackFileSerializer(_file, many=True)
         return Response(serializer.data)
     if request.method == "POST":
         user = User.objects.filter(username=username)[0]
@@ -93,13 +93,13 @@ def get_message_by_user(request, username, page):
     result = []
     for inst in data.object_list:
         if isinstance(inst, MessageInstEvent):
-            serializer = MessageInstEventSeriallizer(inst.messageinstevent)
+            serializer = MessageInstEventSerializer(inst.messageinstevent)
             result.append(serializer.data)
         if isinstance(inst, FileSharedEvent):
-            serializer = FileSharedEventSeriallizer(inst)
+            serializer = FileSharedEventSerializer(inst)
             result.append(serializer.data)
         if isinstance(inst, FileCommentEvent):
-            serializer = FileCommentEventSeriallizer(inst)
+            serializer = FileCommentEventSerializer(inst)
             result.append(serializer.data)
     reponse['items'] = result
     reponse['has_next'] = data.has_next()
@@ -119,11 +119,9 @@ def save_files(request, type, from_user, to):
         author = Profile.objects.filter(user__username=from_user)[0]
         for key in request.FILES:
             file = request.FILES[key]
-            create = FilesUp.objects.create(title=file.name, file_up=file,
-                                            author=author)  # FilesUp(title=file.name, file_up=file.read(), author=author)
+            create = FilesUp.objects.create(title=file.name, file_up=file, author=author)
             create.shared_to.add(user)
             create.save()
-        pass
     else:
         pass
     return Response({'response': from_user + ' ' + type + ' ' + to})
@@ -164,3 +162,37 @@ def change_email(request, username):
         except:
             pass
     return Response({'success': 'false'})
+
+
+def type_file_by_user(type, username):
+    files = None
+    if type == "post":
+        files = Post.objects.filter(author__user__username=username)
+    if type == "snippet":
+        files = Snippet.objects.filter(author__user__username=username)
+    if type == "google":
+        files = GoogleDocs.objects.filter(author__user__username=username)
+    if type == "doc":
+        files = FilesUp.objects.filter(author__user__username=username)
+    if type == "image":
+        files = ImageUp.objects.filter(author__user__username=username)
+    if files is None:
+        files = SlackFile.objects.filter(author__user__username=username)
+    return files
+
+
+def type_file_by_company(type, company_slug):
+    files = None
+    if type == "post":
+        files = Post.objects.filter(author__company__slug=company_slug)
+    if type == "snippet":
+        files = Snippet.objects.filter(author__company__slug=company_slug)
+    if type == "google":
+        files = GoogleDocs.objects.filter(author__company__slug=company_slug)
+    if type == "doc":
+        files = FilesUp.objects.filter(author__company__slug=company_slug)
+    if type == "image":
+        files = ImageUp.objects.filter(author__company__slug=company_slug)
+    if files is None:
+        files = SlackFile.objects.filter(author__company__slug=company_slug)
+    return files

@@ -137,7 +137,7 @@ $(document).ready(function () {
         $('#file_list_toggle_user').addClass('active');
 
         userFileActive = username = (username) ? username : userlogged;
-        var urlapi = apiUrl + 'files/' + username + '/';
+        var urlapi = apiUrl + 'files/' + username + '/get/all_files/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
         $('#menu.flex_menu').addClass('hidden');
     };
@@ -148,7 +148,7 @@ $(document).ready(function () {
         $('#files_tab').addClass('active');
         $('#file_list_toggle_all').addClass('active');
 
-        var urlapi = apiUrl + 'files/' + userlogged + '/' + companyuser + '/';
+        var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
         $('#menu.flex_menu').addClass('hidden');
     };

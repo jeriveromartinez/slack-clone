@@ -58,3 +58,17 @@ def deactivate_account(request, username):
     user.save()
     logout(request)
     return redirect('app:login')
+
+
+@login_required(login_url='/login/')
+def home_profile(request):
+    return render_to_response('account/acc_home.html',
+                              context_instance=RequestContext(request))
+
+
+@login_required(login_url='/login/')
+def files_profile(request):
+    partners = Profile.objects.filter(company__slug=request.user.profile.company.slug).exclude(
+        user__username=request.user.username)
+    return render_to_response('account/acc_files.html', {'partners': partners},
+                              context_instance=RequestContext(request))

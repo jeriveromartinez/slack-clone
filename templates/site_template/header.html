@@ -6,7 +6,7 @@
         <span class="vert_divider"></span>
     </a>
     <h1 id="header_team_name" class="inline_block">
-        <a href="#">
+        <a href="{% url 'account:profile_home' %}">
             <i class="ts_icon ts_icon_home"></i>
             {{ request.user.profile.company.name }}
         </a>
@@ -17,10 +17,10 @@
                 <i class="ts_icon ts_icon_th_large ts_icon_inherit"></i>
                 <span class="block label">Teams</span>
             </a>
-            <a href="#help" id="help_link" data-qa="help_link">
+            {% comment %}<a href="#help" id="help_link" data-qa="help_link">
                 <i class="ts_icon ts_icon_life_ring ts_icon_inherit"></i>
                 <span class="block label">Help</span>
-            </a>
+            </a>{% endcomment %}
             <a href="{% url 'app:homepage' %}">
                 <img src="{% static 'images/ios-64.png' %}"
                      srcset="{% static 'images/ios-32.png' %} 1x, {% static 'images/ios-64.png' %} 2x">

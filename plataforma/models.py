@@ -61,39 +61,55 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
-class Snippet(models.Model):
-    code = models.TextField(blank=False, null=False)
-    date_pub = models.DateTimeField(auto_now_add=True)
-    users_shared = models.ManyToManyField(User)
-
-    class Meta:
-        ordering = ('date_pub',)
-
-    def __str__(self):
-        return 'snippets - ' + self.date_pub.__str__()
-
-
-class FilesUp(models.Model):
+class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
-    file_up = models.FileField(upload_to='files/', blank=True, null=True)
     author = models.ForeignKey(Profile, related_name='file_up_owner')
     shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
 
     class Meta:
-        ordering = ('uploaded',)
+        ordering = ('-uploaded',)
 
     def __str__(self):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        if self.title == "":
-            self.title = self.file_up.name
-            self.slug = slugify(self.title)
-        else:
-            self.slug = slugify(self.file_up.name)
-        super(FilesUp, self).save(*args, **kwargs)
+        self.slug = slugify(self.title)
+        super(SlackFile, self).save(*args, **kwargs)
+
+
+class Post(SlackFile):
+    code = models.TextField(blank=False, null=False)
+
+    def __str__(self):
+        return 'post - ' + self.date_pub.__str__()
+
+
+class Snippet(SlackFile):
+    code = models.TextField(blank=False, null=False)
+
+    def __str__(self):
+        return 'snippets - ' + self.date_pub.__str__()
+
+
+class GoogleDocs(SlackFile):
+    url = models.URLField(null=False, blank=False)
+
+    def __str__(self):
+        return 'google_docs - ' + self.date_pub.__str__()
+
+
+class FilesUp(SlackFile):
+    file_up = models.FileField(upload_to='files/', blank=True, null=True)
+
+    def __str__(self):
+        return 'files_up - ' + self.uploaded.__str__()
+
+
+class ImageUp(FilesUp):
+    def __str__(self):
+        return 'images_up - ' + self.uploaded.__str__()
 
 
 class FilesComment(models.Model):
@@ -107,12 +123,6 @@ class FilesComment(models.Model):
 
     def __str__(self):
         return self.user.username + ' - ' + self.file_up.file_up.name + ' - ' + self.published.__str__()
-
-
-class StarItem(models.Model):
-    use = models.ForeignKey(User, related_name='user')
-    type = models.CharField(max_length=255, null=False)
-    refer_id = models.IntegerField(null=False)
 
 
 class UserLogger(models.Model):

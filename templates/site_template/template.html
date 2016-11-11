@@ -6,9 +6,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/main.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/footer.css' %}">
 {% endblock %}
-{% block js %}
+{% block js_libraries %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap.js' %}"></script>
+{% endblock %}
+{% block js %}
     <script type="text/javascript" src="{% static 'js/site/account.js' %}"></script>
 {% endblock %}
 {% block header %}
@@ -19,10 +21,11 @@
 {% endblock %}
 {% block container %}
     <div id="page_contents">
-        {% block main_container %}test{% endblock %}
+        {% block main_container %}PROFILE{% endblock %}
     </div>
     <div id="overlay"></div>
 {% endblock %}
+{% comment %}
 {% block footer %}
     {% include 'site_template/footer.html' %}
-{% endblock %}
+{% endblock %}{% endcomment %}

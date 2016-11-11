@@ -67,6 +67,10 @@ $(document).ready(function () {
             });
         }
     });
+
+    $('.chosen-select').chosen({
+        no_results_text: "Oops, nothing found!",
+    });
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {

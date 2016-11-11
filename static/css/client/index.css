@@ -2458,7 +2458,7 @@ h3 {
 }
 
 a, a:link, a:visited {
-    color: rgb(58, 163, 227);
+    /*color: rgb(58, 163, 227);*/
     text-decoration: none;
 }
 
@@ -4194,6 +4194,244 @@ img#slack_logo {
     z-index: 1010;
     background: url('../../images/loading_hash_animation_@2x.gif') no-repeat;
     display: none;
+}
+
+#client-ui .file_list_item.email, #client-ui .file_list_item.post, #client-ui .file_list_item.snippet, #client-ui .file_list_item.space, #files_list .file_list_item.email, #files_list .file_list_item.post, #files_list .file_list_item.snippet, #files_list .file_list_item.space {
+    padding: 0.25rem;
+    min-height: 0px;
+}
+
+#client-ui .file_list_item, #files_list .file_list_item {
+    min-height: 0px;
+}
+
+.tab_container .file_list_item {
+    opacity: 1;
+    cursor: pointer;
+    overflow: visible;
+    padding: 0.25rem;
+}
+
+.tab_container .file_comment_item, .tab_container .file_list_item {
+    margin: 0.75rem 0.5rem;
+}
+
+.tab_container .file_comment_item, .tab_container .file_list_item, .tab_container .star_item .message, .tab_container .star_item ts-message {
+    border: 0.0625rem solid transparent;
+    border-radius: 6px;
+}
+
+.file_list_item.email, .file_list_item.post, .file_list_item.snippet, .file_list_item.space {
+    padding: 0.4rem 0.5rem 0.5rem 2rem;
+    display: block;
+    min-height: 0px;
+}
+
+.file_list_item {
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    min-height: 100px;
+    position: relative;
+    font-size: 0.9375rem;
+    line-height: 1.25rem;
+    color: rgb(85, 84, 89);
+    font-family: Slack-Lato, appleLogo, sans-serif;
+    overflow: hidden;
+    opacity: 0.8;
+    transition: opacity 90ms ease-in-out 0s;
+    margin-bottom: 0.5rem;
+    -moz-user-select: text;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+}
+
+#client-ui .file_list_item .actions, #files_list .file_list_item .actions {
+    width: auto;
+}
+
+#client-ui .file_comment_item .actions, #client-ui .file_list_item .actions, #client-ui .message .actions, #files_list .file_comment_item .actions, #files_list .file_list_item .actions, #files_list .message .actions {
+    padding: 0.375rem;
+}
+
+.tab_container .file_comment_item .actions, .tab_container .file_list_item .actions, .tab_container .star_item .message .actions, .tab_container .star_item ts-message .actions {
+    transition: opacity 0.1s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
+}
+
+.file_list_item .actions {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 0.375rem;
+    border-radius: 1rem 0px 0px 1rem;
+    background-clip: padding-box;
+    width: 2.625rem;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out 0.1s;
+    text-align: center;
+    z-index: 10;
+}
+
+#client-ui .file_list_item .filetype_icon, #files_list .file_list_item .filetype_icon {
+    margin-left: -0.3125rem;
+}
+
+.tab_container .file_list_item.has_icon .filetype_icon {
+    margin-top: 0px;
+    margin-left: 0px;
+}
+
+.tab_container .file_list_item .filetype_icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.tab_container .file_list_item .filetype_icon, .tab_container .file_list_item .filetype_image {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.5625rem;
+    margin-top: -0.0625rem;
+}
+
+.file_list_item.email .filetype_icon, .file_list_item.post .filetype_icon, .file_list_item.snippet .filetype_icon, .file_list_item.space .filetype_icon {
+    float: left;
+    margin-top: 3px;
+    margin-left: -1.5rem;
+}
+
+.tab_container .file_list_item.has_icon .contents {
+    padding-left: 0px;
+    margin-left: 3.0625rem;
+    min-height: 2.9375rem;
+}
+
+.tab_container .file_list_item .contents {
+    margin-right: 0.6875rem;
+    overflow: hidden;
+}
+
+.file_list_item.email .contents, .file_list_item.post .contents, .file_list_item.snippet .contents, .file_list_item.space .contents {
+    padding-left: 8px;
+    margin-top: 0px;
+}
+
+.file_list_item .contents {
+    padding-left: 0.625rem;
+    flex: 1 1 0%;
+}
+
+.tab_container .file_comment_item .actions .btn_icon, .tab_container .file_list_item .actions .btn_icon, .tab_container .star_item .message .actions .btn_icon, .tab_container .star_item ts-message .actions .btn_icon {
+    width: 1.875rem;
+    height: 1.75rem;
+}
+
+.tab_container .file_comment_item .actions .btn_icon, .tab_container .file_comment_item .actions .star_jump, .tab_container .file_list_item .actions .btn_icon, .tab_container .file_list_item .actions .star_jump, .tab_container .star_item .message .actions .btn_icon, .tab_container .star_item .message .actions .star_jump, .tab_container .star_item ts-message .actions .btn_icon, .tab_container .star_item ts-message .actions .star_jump {
+    float: left;
+    margin-left: 0.3125rem;
+    background-color: rgb(255, 255, 255);
+}
+
+.btn_icon {
+    width: 2rem;
+    height: 1.875rem;
+    padding: 0px;
+}
+
+#client-ui .file_list_item .actions .star_file, #files_list .file_list_item .actions .star_file {
+    margin-top: 0px;
+    background-color: transparent;
+}
+
+.tab_container .file_comment_item .actions .star, .tab_container .file_list_item .actions .star, .tab_container .star_item .message .actions .star, .tab_container .star_item ts-message .actions .star {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    border: 0px none;
+    width: 1.875rem;
+    height: 1.75rem;
+}
+
+.tab_container .file_list_item .star {
+    color: rgb(85, 84, 89);
+}
+
+.file_list_item .actions a, .file_list_item .actions span {
+    border: 1px solid rgb(232, 232, 232);
+    background-color: transparent;
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    color: rgb(158, 158, 166);
+    display: inline-block;
+    width: 1.625rem;
+    height: 1.625rem;
+    margin: 0px 0px 0.2rem;
+    line-height: 1.5625rem;
+    text-align: center;
+}
+
+.star:not(.not-clickable) {
+    cursor: pointer;
+}
+
+.tab_container .file_list_item .author {
+    margin-right: 0.25rem;
+}
+
+.tab_container .file_list_item .contents .member, .tab_container .file_list_item .contents .service_link, .tab_container .file_list_item .contents .share_info, .tab_container .file_list_item .contents .time {
+    font-size: 0.8125rem;
+    color: rgb(153, 145, 160);
+}
+
+.tab_container .file_list_item .time {
+    white-space: nowrap;
+}
+
+#client-ui .file_list_item .title, #files_list .file_list_item .title {
+    font-size: 1rem;
+    line-height: 1.2375;
+    margin-bottom: 0.125rem;
+}
+
+.tab_container .file_list_item .contents .title {
+    margin-bottom: 0px;
+    line-height: 1.3125rem;
+}
+
+.file_list_item .title {
+    font-size: 1rem;
+    line-height: 1.125rem;
+    margin-bottom: 0.1rem;
+}
+
+.tab_container .file_list_item.has_icon .file_comment_link, .tab_container .file_list_item.has_icon .share_info {
+    position: relative;
+    top: -0.125rem;
+}
+
+.tab_container .file_list_item .contents .member, .tab_container .file_list_item .contents .service_link, .tab_container .file_list_item .contents .share_info, .tab_container .file_list_item .contents .time {
+    font-size: 0.8125rem;
+    color: rgb(153, 145, 160);
+}
+
+.tab_container .file_list_item .contents .member, .tab_container .file_list_item .contents .service_link, .tab_container .file_list_item .contents .share_info, .tab_container .file_list_item .contents .time {
+    font-size: 0.8125rem;
+    color: rgb(153, 145, 160);
+}
+
+.file_list_item .file_comment_link:hover .ts_icon_comment, .file_list_item a.member {
+    color: rgb(85, 84, 89);
+}
+
+.file_list_item .title a {
+    color: rgb(61, 60, 64);
+    transition: color 90ms ease-in-out 0s;
+    font-weight: 900;
+}
+
+.file_list_item a {
+    color: rgb(85, 84, 89);
 }
 
 .color_9f69e7:not(.nuc) {

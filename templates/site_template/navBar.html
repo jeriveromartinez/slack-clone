@@ -24,15 +24,15 @@
 
         <div class="nav_contents">
             <ul class="primary_nav">
-                <li><a href="#" data-qa="home"><i class="ts_icon ts_icon_home"></i>Home</a>
+                <li><a href="{% url 'account:profile_home' %}"><i class="ts_icon ts_icon_home"></i>Home</a>
                 </li>
                 <li><a href="{% url 'account:settings' %}" data-qa="account_profile"><i
                         class="ts_icon ts_icon_user"></i>Account &amp; Profile</a></li>
-                <li><a href="#/apps/manage" data-qa="configure_apps" target="_blank"><i
-                        class="ts_icon ts_icon_plug"></i>Configure Apps</a></li>
+                {% comment %}<li><a href="#/apps/manage" data-qa="configure_apps" target="_blank"><i
+                        class="ts_icon ts_icon_plug"></i>Configure Apps</a></li>{% endcomment %}
                 <li><a href="#/archives" data-qa="archives"><i
                         class="ts_icon ts_icon_archive"></i>Message Archives</a></li>
-                <li><a href="#/files" data-qa="files"><i
+                <li><a href="{% url 'account:file' %}"><i
                         class="ts_icon ts_icon_all_files clear_blue"></i>Files</a></li>
                 <li><a href="#/team" data-qa="team_directory"><i
                         class="ts_icon ts_icon_team_directory"></i>Team Directory</a></li>
@@ -40,14 +40,16 @@
                         class="ts_icon ts_icon_dashboard"></i>Statistics</a></li>
                 <li><a href="#/customize" data-qa="customize"><i
                         class="ts_icon ts_icon_magic"></i>Customize</a></li>
-                <li><a href="#/account/team" data-qa="team_settings"><i
-                        class="ts_icon ts_icon_cog_o"></i>Team Settings</a></li>
+                {% if request.user.profile.type == "owner" %}
+                    <li><a href="#/account/team" data-qa="team_settings"><i
+                            class="ts_icon ts_icon_cog_o"></i>Team Settings</a></li>
+                {% endif %}
             </ul>
         </div>
 
         <div id="footer">
             <ul id="footer_nav">
-                <li><a href="#/is" data-qa="tour">Tour</a></li>
+                {% comment %}<li><a href="#/is" data-qa="tour">Tour</a></li>
                 <li><a href="#/downloads" data-qa="download_apps">Download Apps</a></li>
                 <li><a href="#/brand-guidelines" data-qa="brand_guidelines">Brand
                     Guidelines</a></li>
@@ -57,11 +59,11 @@
                 <li><a href="#/pricing" data-qa="pricing">Pricing</a></li>
                 <li><a href="#/help/requests/new" data-qa="contact">Contact</a></li>
                 <li><a href="#/terms-of-service" data-qa="policies">Policies</a></li>
-                <li><a href="#/slackhq.com/" target="_blank" data-qa="our_blog">Our Blog</a></li>
+                <li><a href="#/slackhq.com/" target="_blank" data-qa="our_blog">Our Blog</a></li>{% endcomment %}
                 <li><a href="{% url 'app:logout' %}">Sign Out<i
                         class="ts_icon ts_icon_sign_out small_left_margin ts_icon_inherit"></i></a></li>
             </ul>
-            <p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack</p>
+            {% comment %}<p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack</p>{% endcomment %}
         </div>
     </div>
 </nav>

@@ -39,43 +39,67 @@ class FileCommentsSerializer(serializers.ModelSerializer):
         exclude = ('id', 'user', 'file_up')
 
 
-class FileUpSerializer(serializers.ModelSerializer):
+class SlackFileSerializer(serializers.ModelSerializer):
     files_comments = FileCommentsSerializer(many=True, read_only=True)
     author = ProfileSerializer()
 
     class Meta:
         model = FilesUp
+        fields = ('slug', 'title', 'uploaded', 'author', 'files_comments')
+
+
+class PostSerializer(SlackFileSerializer):
+    class Meta(SlackFileSerializer.Meta):
+        model = Post
+        fields = ('slug', 'title', 'code', 'uploaded', 'author', 'files_comments')
+
+
+class SnippetSerializer(SlackFileSerializer):
+    class Meta(SlackFileSerializer.Meta):
+        model = Snippet
+        fields = ('slug', 'title', 'code', 'uploaded', 'author', 'files_comments')
+
+
+class FilesUpSerializer(SlackFileSerializer):
+    class Meta(SlackFileSerializer.Meta):
+        model = FilesUp
         fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
 
 
-class MessageEventSeriallizer(serializers.ModelSerializer):
+class ImageUpSerializer(FilesUpSerializer):
+    class Meta(FilesUpSerializer.Meta):
+        model = ImageUp
+        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
+
+
+class MessageEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = MessageEvent
         exclude = ('id',)
 
 
-class MessageInstEventSeriallizer(MessageEventSeriallizer):
+class MessageInstEventSerializer(MessageEventSerializer):
     user_to = UserSerializer()
     user_from = UserSerializer()
 
-    class Meta(MessageEventSeriallizer.Meta):
+    class Meta(MessageEventSerializer.Meta):
         model = MessageInstEvent
         exclude = ('id',)
 
 
-class FileSharedEventSeriallizer(MessageEventSeriallizer):
-    file_up = FileUpSerializer()
+class FileSharedEventSerializer(MessageEventSerializer):
+    file_up = SlackFileSerializer()
     user_shared = UserSerializer()
 
-    class Meta(MessageEventSeriallizer.Meta):
+    class Meta(MessageEventSerializer.Meta):
         model = FileSharedEvent
         exclude = ('id',)
 
 
-class FileCommentEventSeriallizer(MessageEventSeriallizer):
-    file_up = FileUpSerializer()
+class FileCommentEventSerializer(MessageEventSerializer):
+    file_up = SlackFileSerializer()
     user_comment = UserSerializer()
 
-    class Meta(MessageEventSeriallizer.Meta):
+    class Meta(MessageEventSerializer.Meta):
         model = FileCommentEvent
         exclude = ('id',)
