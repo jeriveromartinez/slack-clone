@@ -13,6 +13,7 @@ $(document).ready(function () {
     //beginnings methods
     var socket;
     $(function () {
+        initView();
         get_chanel();
         get_users();
         active_chat(userlogged, 'user');
@@ -102,6 +103,12 @@ $(document).ready(function () {
 
     $('#active_members_list').on('click', '.member_preview_link', function () {
         showProfile(this);
+    });
+
+    $("#direct_messages_header, .new_dm_btn").on("click", function (e) {
+        e.stopPropagation();
+
+        openDirectModal(e);
     });
 
     //aux methods
@@ -250,3 +257,35 @@ window.getCookie = function (c_name) {
     return "";
 };
 
+var initView = function () {
+    $("a.clear_unread_messages").tooltip({placement: "bottom", delay: {show: 500, hide: 150}});
+    $(".channels_list_new_btn").tooltip({container: "body", delay: {show: 400, hide: 150}});
+    $(".channel_list_header_label, #direct_messages_header").tooltip({
+        placement: "top-left",
+        container: "body",
+        delay: {show: 400, hide: 150}
+    });
+}
+
+
+var openDirectModal = function (e) {
+
+    var modal = $("#direct-message").find("#fs_modal");
+    var modal_bg = $("#fs_modal_bg");
+    modal_bg.removeClass("hidden");
+    modal_bg.addClass("active");
+    modal.removeClass("hidden");
+    modal.addClass("active");
+    modal.find("#im_browser_tokens").addClass("active");
+
+    $("body").on("click", "#fs_modal_close_btn", function () {
+        modal_bg.removeClass("active");
+        modal_bg.addClass("hidden");
+        modal.removeClass("active");
+        modal.addClass("hidden");
+        modal.find("#im_browser_tokens").removeClass("active");
+
+    })
+    $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
+
+};

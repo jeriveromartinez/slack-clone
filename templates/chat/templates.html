@@ -3,9 +3,11 @@
 
 {% load staticfiles %}
 {% block styles %}
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_core.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_primary.css' %}">
+
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_primary.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_secondary.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/incoming_call.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/main.css' %}">
@@ -30,11 +32,15 @@
     {% include 'chat/view_right.html' %}
     {% include 'chat/menu.html' %}
     {% include 'chat/menu_right.html' %}
+    {% include 'chat/modals.html' %}
 {% endblock %}
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
+
     <script type="text/javascript" src="{% static 'js/libraries/jquery-infinite-scroll.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>

@@ -1,0 +1,151 @@
+<div id="fs_modal_bg" class="hidden"></div>
+<div id="direct-message">
+    <div id="fs_modal" class="fs_modal_internal_scroll hidden">
+
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+
+        <div class="contents_container">
+
+            <div class="contents">
+
+                <div id="im_browser" class="channel_modal_with_list channel_modal showing_recent  ">
+
+                    <div class="large_bottom_margin">
+                        <h1 class="channel_modal_header no_bottom_margin">Direct Messages</h1>
+                    </div>
+                    <div class="im_browser_filter_container full_width">
+                        <div class="float_right left_margin">
+                            <button class="btn btn_primary btn_large disabled im_browser_go ladda-button"
+                                    data-style="zoom-in">
+                                <span class="ladda-label">Go</span>
+                                <span class="ladda-spinner"></span></button>
+                            <div class="subtle_silver mini align_right tiny_right_margin return_hint">Return <i
+                                    class="ts_icon ts_icon_enter ts_icon_inherit"></i></div>
+                        </div>
+
+
+                        <div id="im_browser_tokens" class="">
+                            <input id="im_browser_filter" placeholder="Find or start a conversation" value=""
+                                   type="text">
+                            <svg id="im_browser_spinner" class="ts_icon ts_icon_spin ts_icon_spinner hidden">
+                                <use xlink:href="/img/starburst.svg#starburst_svg"></use>
+                            </svg>
+                        </div>
+                        <div class="remaining_participant_hint cloud_silver"></div>
+                        <div class="kb_nav_label mini cloud_silver">
+                            <span class="subtle_silver">Tab</span> or
+                            <i class="ts_icon ts_icon_arrow_up"></i>
+                            <i class="ts_icon ts_icon_arrow_down"></i>
+                            to navigate
+                            <span class="left_margin subtle_silver">Return</span> <i class="ts_icon ts_icon_enter"></i>
+                            to add selection
+                        </div>
+                    </div>
+                    <div id="im_browser_empty"
+                         class="hidden align_center margin_auto display_flex align_items_center justify_content_center">
+                        <span class="im_browser_empty_message"></span>
+                    </div>
+                    <div class="create_private_channel_container align_center large_top_margin">
+                        <div class="subtle_silver">Need to add more people?</div>
+                        <button class="btn btn_outline small_top_margin create_private_channel">Create a private channel
+                            instead
+                        </button>
+                    </div>
+                    <div class="recent_label cloud_silver mini small_bottom_margin">Recent conversations</div>
+                    <div id="monkey_scroll_wrapper_for_im_list_container" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 626.5px;">
+                            <div class="monkey_scroll_handle " style="left: 0px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="im_list_container" class="channel_modal_list not_scrolling monkey_scroller"
+                                 style="width: 640px;">
+                                <div class="list_items" style="position: relative; height: 192px;">
+                                    <div class="im_browser_row" data-long-list-item="1"
+                                         style="position: absolute; top: 0px;">
+
+                                    <span class=" member_preview_link member_image thumb_36" data-member-id="U2KQ0HRD3"
+                                          data-thumb-size="36"
+                                          style="background-image: url('135ec4a27b5d481465d022a2497dadbd.jpg');"
+                                          aria-hidden="true"></span>
+
+
+                                        <div class="im_last_msg_time float_right cloud_silver small_left_margin">about 8
+                                            hours ago
+                                        </div>
+                                        <i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>
+                                        <div class="overflow_ellipsis bold im_display_name_container">
+
+                                            <span class="im_display_name">vbuilvicente</span>
+                                        <span class="im_presence"><span data-member-presence="U2KQ0HRD3"
+                                                                        class="presence away dnd member_presence_U2KQ0HRD3"
+                                                                        title="away"><i aria-hidden="true"
+                                                                                        class="ts_icon ts_icon_presence presence_icon"></i></span></span>
+                                            <span class="cloud_silver normal">Victor Manuel Buil Vicente</span>
+                                        </div>
+                                    </div>
+                                    <div class="im_browser_row" data-long-list-item="1"
+                                         style="position: absolute; top: 0px; transform: translateY(64px);">
+
+                                    <span class=" member_preview_link member_image thumb_36" data-member-id="U2KQ35L2Z"
+                                          data-thumb-size="36"
+                                          style="background-image: url('53efb3a0c90e50818529f825ff34f343_001.jpg');"
+                                          aria-hidden="true"></span>
+
+
+                                        <i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>
+                                        <div class="overflow_ellipsis bold im_display_name_container">
+
+                                            <span class="im_display_name">jeriverom (you)</span>
+                                        <span class="im_presence"><span data-member-presence="U2KQ35L2Z"
+                                                                        class="presence active dnd member_presence_U2KQ35L2Z"
+                                                                        title="active"><i aria-hidden="true"
+                                                                                          class="ts_icon ts_icon_presence presence_icon"></i></span></span>
+                                            <span class="cloud_silver normal">Julio Rivero</span>
+                                        </div>
+                                    </div>
+                                    <div class="im_browser_row" data-long-list-item="1"
+                                         style="position: absolute; top: 0px; transform: translateY(128px);">
+
+                                    <span class=" member_preview_link member_image thumb_36" data-member-id="USLACKBOT"
+                                          data-thumb-size="36" style="background-image: url('service_48.png');"
+                                          aria-hidden="true"></span>
+
+
+                                        <i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>
+                                        <div class="overflow_ellipsis bold im_display_name_container">
+
+                                            <span class="im_display_name">slackbot</span>
+                                        <span class="im_presence"><span data-member-presence="USLACKBOT"
+                                                                        class="presence active member_presence_USLACKBOT"
+                                                                        title="active"><i aria-hidden="true"
+                                                                                          class="ts_icon ts_icon_heart presence_icon"></i></span></span>
+
+                                        </div>
+                                        <div class="im_slackbot_greeting italic subtle_silver overflow_ellipsis">You’re
+                                            here! What can I do to help?
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="new_channel_container" class="hidden"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>

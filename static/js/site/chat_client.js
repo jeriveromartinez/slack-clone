@@ -1,4 +1,3 @@
-
 $(document).ready(function () {
 
 
@@ -204,3 +203,4 @@ var success = function (data) {
     onDataLoaded(data.items)
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
 }
+

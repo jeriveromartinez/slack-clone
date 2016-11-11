@@ -28,4 +28,9 @@ urlpatterns = [
 
     url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user',
         name='api-message'),
+    url(r'^unread/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_unread_message_user',
+        name='api-unread'),
+    url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_recente_message_user',
+        name='api-unread'),
+
 ]

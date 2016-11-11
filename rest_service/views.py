@@ -1,4 +1,6 @@
 from django.db.models import Q
+from datetime import datetime, timedelta
+from django.db.models.aggregates import Count
 from django.db.models.query import Prefetch
 from django.utils import timezone
 from plataforma.serializers import *
@@ -6,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
+import json
 
 # Create your views here.
 from rest_framework.reverse import reverse
@@ -104,6 +107,33 @@ def get_message_by_user(request, username, page):
     reponse['items'] = result
     reponse['has_next'] = data.has_next()
     return Response(reponse)
+
+
+@api_view(['GET'])
+def get_unread_message_user(request, username):
+    messages = MessageEvent.objects.all().filter(readed=False). \
+        values("user_from__username") \
+        .exclude(**{'user_from__username' + '__exact': username}) \
+        .annotate(
+        total=Count('readed')) \
+        .order_by('user_from')
+    result = {'items': list(messages)}
+
+    return Response(result)
+
+
+@api_view(['GET'])
+def get_recente_message_user(request, username):
+    messages = MessageEvent.objects.all().filter(
+        user_from__username=username, date_pub__gte=datetime.now() - timedelta(days=2)) \
+        .values("user_to__username,messageinstevent__msg") \
+        .annotate(
+        total=Count('user_to')) \
+        .order_by('user_to')
+
+    result = {'items': list(messages)}
+
+    return Response(result)
 
 
 @api_view(['GET'])
