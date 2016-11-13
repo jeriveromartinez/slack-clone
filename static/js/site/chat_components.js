@@ -98,9 +98,9 @@ var date_divider = function (date) {
     return divider;
 };
 
-var ts_message = function (avatar, from, msg,date) {
+var ts_message = function (avatar, from, msg, date) {
     var avatar = "url('/static/images/" + avatar + "')";
-    var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first" data-date='+date+'>' +
+    var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first" data-date=' + date + '>' +
         '<div class="action_hover_container"></div>' +
 
         '<div class="message_gutter">' +
@@ -116,7 +116,7 @@ var ts_message = function (avatar, from, msg,date) {
 
         '<div class="message_content ">' +
         '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7">' + from + '</a>' +
-        ' <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>'+moment(date, moment.ISO - 8601).format("hh:mm a")+'<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
+        ' <a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475690976000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>' + moment(date, moment.ISO - 8601).format("hh:mm a") + '<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br><span class="subtle_silver">Oct&nbsp;5th&nbsp;at&nbsp;2:09:36&nbsp;PM</span></span></span></a>' +
 
         ' <span class="message_star_holder">' +
         '  <button class="star ts_icon ts_icon_star_o ts_icon_inherit star_message ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle">' +
@@ -194,5 +194,55 @@ var item_file = function (fileSlug, owner, dateCreate, title, comments, profileU
 var item_file_detail = function (username, picture, filename, slug, comments) {
     return '<div id="file_preview_head_section" data-file="' + slug + '" data-owner="' + username + '"><div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title"><a href="#/blackmambasoft.slack.com/team/vbuilvicente" style="background-image: url(\'' + picture + '\')" class="member_preview_link member_image thumb_36"></a><span class="color_9f69e7"><a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7 ">' + username + '</a></span><!--<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_new_window_link">Private post</a><span class="no_wrap"><button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle"><span class="ts_tip_tip">Star this file</span></button></span></span>--><ul class="file_action_list no_bullets no_bottom_margin float_right"><li class="file_action_item inline_block"><a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"><span class="ts_tip_btn ts_icon ts_icon_external_link"></span><span class="ts_tip_tip">Open in new window</span></a></li></ul></div></div><div id="file_edit_title_container" class="hidden"><!--<form action="" id="file_edit_title_form" class="small_bottom_margin" method="post" onsubmit="return false;">--><p class="no_bottom_margin"><input id="file_edit_title_input" class="small" name="file_edit_title_input" type="text"></p><p class="no_bottom_margin align_right"><button type="button" class="btn btn_small btn_outline">Cancel</button><button type="submit" class="btn btn_small">Save Changes</button></p><!--</form>--></div></div><div class="file_preview_file"><div class="file_container post_container"><div class="file_header post_header"><i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post_small"></i><h4 class="file_header_title post_header_title overflow_ellipsis">' + filename + '</h4><!--<p class="file_header_meta post_header_meta">Last edited <span class="file_time_ago">8 days ago</span></p></div>--><div class="file_body post_body"><!--<p>fdsfsdfdsfdsfds</p>-->' + comments + '</div></div><div class="clear_both"></div></div><div class="file_preview_meta"><!--<form action="" id="file_comment_form" class="comment_form" method="post">--><a href="#/blackmambasoft.slack.com/team/jeriverom" class="member_preview_link"><span class="member_image thumb_36" style="background-image: url(\'IMAGE2\')"></span></a><textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" name="comment" autocorrect="off" autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual"></textarea><span class="mini float_left cloud_silver file_comment_tip">shift+enter to add a new line</span><button id="file_comment_submit_btn" type="submit" class="btn  btn_small float_right  ladda-button"><span class="ladda-label">Add Comment</span></button><!--</form>--></div></div>';
 };
+var item_direct_message = function (data, pos) {
+    var avatar = "url('/static/images/roosty@2x.png')";
+    var item = '<div  data-member-id="' + data.user_from.username + '" class="im_browser_row" data-long-list-item="1"  style="position: absolute; top: 0px; transform: translateY(' + pos + 'px);" >' +
+
+        '<span class=" member_preview_link member_image thumb_36"  data-thumb-size="36" style="background-image: ' + avatar + '"> ' + '</span>' +
+        '<div class="im_last_msg_time float_right cloud_silver small_left_margin">' +
+        '<i class="ts_icon ts_icon_angle_arrow_up_left ts_icon_inherit">' +
+        '</i>' + moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +
+        '</div>' +
+        '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
+        '<div class="overflow_ellipsis bold im_display_name_container">' +
+
+        '<span class="im_display_name">' + data.user_from.username + '</span>' +
+        ' <span class="im_presence"><span data-member-presence="USLACKBOT" class="presence active member_presence_USLACKBOT" title="active"><i aria-hidden="true" class="ts_icon ts_icon_heart presence_icon"></i></span></span>' +
+
+        '</div>' +
+        '  <div class="im_slackbot_greeting italic subtle_silver overflow_ellipsis">' + data.msg +
+
+        ' </div>' +
+        '</div>';
+    return item;
+
+};
+var item_direct_filter = function (data, pos) {
+    var avatar = "url('/static/images/roosty@2x.png')";
+    var item = '<div data-member-id="' + data.user.username + '" class="im_browser_row" data-long-list-item="1"  style="position: absolute; top: 0px; transform: translateY(' + pos + 'px);" >' +
+
+        '<span class=" member_preview_link member_image thumb_36"  data-thumb-size="36" style="background-image: ' + avatar + '"> ' + '</span>' +
+        '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
+        '<div class="overflow_ellipsis bold im_display_name_container">' +
+
+        '<span class="im_display_name">' + data.user.username + '</span>' +
+        ' <span class="im_presence"><span data-member-presence="USLACKBOT" class="presence active member_presence_USLACKBOT" title="active"><i aria-hidden="true" class="ts_icon ts_icon_heart presence_icon"></i></span></span>' +
+
+        '</div>' +
+
+        '</div>';
+    return item;
+
+};
+var item_member_token = function (user) {
+    var avatar = "url('/static/images/roosty@2x.png')";
+    var item = '<div class="member_token " data-member-id="U2KQ35L2Z">' +
+        '<span class=" member_preview_link member_image thumb_24" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
+        user +
+        '<i class="ts_icon ts_icon_times ts_icon_inherit remove_member_icon"></i>' +
+        '</div>';
+    return item;
+
+}
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';

@@ -84,6 +84,20 @@ def users_by_company(request, company):
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def get_user_by_company(request):
+    name = Profile.objects.filter(user=request.user).values('company__name')
+    if request.method == "POST":
+
+        term = request.POST.get("term")
+        if term:
+            users = Profile.objects.filter(company__name=name, user__username__icontains=term)
+        else:
+            users = Profile.objects.filter(company__name=name)
+    serializer = ProfileSerializer(users, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def users_logged(request, company):
     sessions = Session.objects.filter(expire_date__gte=timezone.now())
@@ -188,9 +202,10 @@ def delete_comunicaton_me(request, username):
 
 @api_view(['GET'])
 def get_recente_message_user(request, username):
+    # .exclude(**{'user_from__username' + '__exact': username}) \
+
     messages = MessageEvent.objects.all().filter(
         date_pub__gte=datetime.now() - timedelta(days=2)) \
-        .exclude(**{'user_from__username' + '__exact': username}) \
         .distinct('user_from__username').order_by('user_from__username')
 
     reponse = {}
@@ -209,20 +224,6 @@ def get_recente_message_user(request, username):
     reponse['items'] = result
 
     return Response(reponse)
-
-
-@api_view(['POST'])
-def get_user_by_company(request):
-    name = Profile.objects.filter(user=request.user).values('company__name')
-    if request.method == "POST":
-
-        term = request.POST.get("term")
-        if term:
-            users = Profile.objects.filter(company__name=name, user__username__icontains=term)
-        else:
-            users = Profile.objects.filter(company__name=name)
-    serializer = ProfileSerializer(users, many=True)
-    return Response(serializer.data)
 
 
 @api_view(['GET'])

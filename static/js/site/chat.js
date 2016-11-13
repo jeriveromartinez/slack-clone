@@ -162,130 +162,262 @@ $(document).ready(function () {
             sendTo.to = search;
         }
     };
-});
 
-window.showProfile = function (object) {
-    var exc = function (response) {
-        var list = $('#member_preview_container').html('');
-        var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
-        list.append(item_user_profile(response[0], date));
+    var users_online = function () {
+        var exc = function (response) {
+            $('#active_members_count_value').html(response.length);
+            window.users_logged = response.length;
+        };
+
+        var urlapi = apiUrl + companyuser + '/users-logged/';
+        request(urlapi, 'GET', null, null, exc, null);
     };
 
-    $('.panel.active').removeClass('active');
-    $('#team_list_container').addClass('hidden');
-    var urlapi = apiUrl + 'profile/' + $(object).data('user');
-    request(urlapi, 'GET', null, null, exc, null);
-    $('#member_preview_container').removeClass('hidden');
-    $('#client-ui').addClass('flex_pane_showing');
-    $('#team_tab').addClass('active');
-};
+    window.showProfile = function (object) {
+        var exc = function (response) {
+            var list = $('#member_preview_container').html('');
+            var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
+            list.append(item_user_profile(response[0], date));
+        };
 
-window.change_chat_size = function (size) {
-
-    $('#msgs_scroller_div').css('width', size);
-};
-
-window.team_users = function () {
-    var exc = function (response) {
-        $('span#active_members_count_value').html(response.length);
-        var list = $('#active_members_list').html('');
-        response.forEach(function (item) {
-            list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, item.image, userlogged))
-        });
+        $('.panel.active').removeClass('active');
+        $('#team_list_container').addClass('hidden');
+        var urlapi = apiUrl + 'profile/' + $(object).data('user');
+        request(urlapi, 'GET', null, null, exc, null);
+        $('#member_preview_container').removeClass('hidden');
+        $('#client-ui').addClass('flex_pane_showing');
+        $('#team_tab').addClass('active');
     };
 
-    $('.panel.active').removeClass('active');
-    $('#team_tab').addClass('active');
-    $('#team_list_container').removeClass('hidden');
-    $('#member_preview_container').addClass('hidden');
+    window.change_chat_size = function (size) {
 
-    var urlapi = apiUrl + companyuser + '/users/';
-    request(urlapi, 'GET', null, null, exc, null);
+        $('#msgs_scroller_div').css('width', size);
+    };
 
-    $('#menu.flex_menu').addClass('hidden');
-};
+    window.team_users = function () {
+        var exc = function (response) {
+            $('span#active_members_count_value').html(response.length);
+            var list = $('#active_members_list').html('');
+            response.forEach(function (item) {
+                list.append(item_directory_list(item.user.username, item.user.first_name + ' ' + item.user.last_name, item.image, userlogged))
+            });
+        };
 
-window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
-    $('#convo_loading_indicator').show();
-    if (type == 'file') {
-        $.ajax({
-            type: typeRequest,
-            url: urlSend,
-            data: dataSend,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: dataType,
-            headers: {"X-CSRFToken": getCookie("csrftoken")},
-            success: doneFunction,
-            error: errorFunction,
-            complete: function () {
-                $('#convo_loading_indicator').hide();
-            }
-        });
-    } else {
-        $.ajax({
-            type: typeRequest,
-            url: urlSend,
-            data: dataSend,
-            dataType: dataType,
-            headers: {"X-CSRFToken": getCookie("csrftoken")},
-            success: doneFunction,
-            error: errorFunction,
-            complete: function () {
-                $('#convo_loading_indicator').hide();
-            }
-        });
-    }
-};
+        $('.panel.active').removeClass('active');
+        $('#team_tab').addClass('active');
+        $('#team_list_container').removeClass('hidden');
+        $('#member_preview_container').addClass('hidden');
 
-window.getUserPath = function (username) {
-    var urlapi = apiUrl + 'profile/' + username + '/path/';
-    return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
-};
+        var urlapi = apiUrl + companyuser + '/users/';
+        request(urlapi, 'GET', null, null, exc, null);
 
-window.getCookie = function (c_name) {
-    if (document.cookie.length > 0) {
-        c_start = document.cookie.indexOf(c_name + "=");
-        if (c_start != -1) {
-            c_start = c_start + c_name.length + 1;
-            c_end = document.cookie.indexOf(";", c_start);
-            if (c_end == -1) c_end = document.cookie.length;
-            return unescape(document.cookie.substring(c_start, c_end));
+        $('#menu.flex_menu').addClass('hidden');
+    };
+
+    window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
+        $('#convo_loading_indicator').show();
+        if (type == 'file') {
+            $.ajax({
+                type: typeRequest,
+                url: urlSend,
+                data: dataSend,
+                cache: false,
+                contentType: false,
+                processData: false,
+                dataType: dataType,
+                headers: {"X-CSRFToken": getCookie("csrftoken")},
+                success: doneFunction,
+                error: errorFunction,
+                complete: function () {
+                    $('#convo_loading_indicator').hide();
+                }
+            });
+        } else {
+            $.ajax({
+                type: typeRequest,
+                url: urlSend,
+                data: dataSend,
+                dataType: dataType,
+                headers: {"X-CSRFToken": getCookie("csrftoken")},
+                success: doneFunction,
+                error: errorFunction,
+                complete: function () {
+                    $('#convo_loading_indicator').hide();
+                }
+            });
         }
+    };
+
+    window.getUserPath = function (username) {
+        var urlapi = apiUrl + 'profile/' + username + '/path/';
+        return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
+    };
+
+    window.getCookie = function (c_name) {
+        if (document.cookie.length > 0) {
+            c_start = document.cookie.indexOf(c_name + "=");
+            if (c_start != -1) {
+                c_start = c_start + c_name.length + 1;
+                c_end = document.cookie.indexOf(";", c_start);
+                if (c_end == -1) c_end = document.cookie.length;
+                return unescape(document.cookie.substring(c_start, c_end));
+            }
+        }
+        return "";
+    };
+
+    var initView = function () {
+        $("a.clear_unread_messages").tooltip({placement: "bottom", delay: {show: 500, hide: 150}});
+        $(".channels_list_new_btn").tooltip({container: "body", delay: {show: 400, hide: 150}});
+        $(".channel_list_header_label, #direct_messages_header").tooltip({
+            placement: "top-left",
+            container: "body",
+            delay: {show: 400, hide: 150}
+        });
     }
-    return "";
-};
 
-var initView = function () {
-    $("a.clear_unread_messages").tooltip({placement: "bottom", delay: {show: 500, hide: 150}});
-    $(".channels_list_new_btn").tooltip({container: "body", delay: {show: 400, hide: 150}});
-    $(".channel_list_header_label, #direct_messages_header").tooltip({
-        placement: "top-left",
-        container: "body",
-        delay: {show: 400, hide: 150}
-    });
-}
+//Direct message Modal
+    var openDirectModal = function (e) {
+
+        var modal = $("#direct-message").find("#fs_modal");
+        var modal_bg = $("#fs_modal_bg");
+        modal_bg.removeClass("hidden");
+        modal_bg.addClass("active");
+        modal.removeClass("hidden");
+        modal.addClass("active");
+        modal.find("#im_browser_tokens").addClass("active");
+        var _$im_browser = $("#im_browser");
+        var _$list_container = $("#im_list_container");
+        var list = $("#im_browser").find('.list_items');
+        var _selected_members = [];
+        var _MAX = 8;
 
 
-var openDirectModal = function (e) {
+        $("body").on("click", "#fs_modal_close_btn", function () {
+            _close();
 
-    var modal = $("#direct-message").find("#fs_modal");
-    var modal_bg = $("#fs_modal_bg");
-    modal_bg.removeClass("hidden");
-    modal_bg.addClass("active");
-    modal.removeClass("hidden");
-    modal.addClass("active");
-    modal.find("#im_browser_tokens").addClass("active");
+        });
 
-    $("body").on("click", "#fs_modal_close_btn", function () {
-        modal_bg.removeClass("active");
-        modal_bg.addClass("hidden");
-        modal.removeClass("active");
-        modal.addClass("hidden");
-        modal.find("#im_browser_tokens").removeClass("active");
+        function _close() {
+            modal_bg.removeClass("active");
+            modal_bg.addClass("hidden");
+            modal.removeClass("active");
+            modal.addClass("hidden");
+            modal.find("#im_browser_tokens").removeClass("active");
 
-    })
-    $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
+        }
 
-};
+        _startListView();
+        if (!_selected_members)_selected_members = [];
+
+
+        _$list_container.on("click", ".im_browser_row", function (e) {
+
+            _selectRow($(this))
+        });
+        _$im_browser.on("input", "#im_browser_filter", function () {
+            var input = $("#im_browser_filter").val();
+            _filterListView(input);
+        });
+
+        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
+
+
+        function _filterListView(input) {
+            var exc = function (data) {
+
+                list.empty();
+                if (input.length == 0) {
+                    _startListView()
+                }
+                else {
+                    $.each(data, function (index, item) {
+
+                        var pos = 64 * index;
+                        console.log("_selected_members", $.inArray(item.user.username, _selected_members));
+                        if ($.inArray(item.user.username, _selected_members) == -1) {
+                            list.append(item_direct_filter(item, parseInt(pos)));
+                        }
+
+                    });
+                }
+
+
+            };
+            var urlapi = apiUrl + 'usercomapny';
+            $.when(users_online()).done(function () {
+                request(urlapi, 'POST', null, {term: input}, exc, null);
+            });
+        };
+        function _startListView() {
+            var exc = function (data) {
+
+                list.empty();
+                $.each(data.items, function (index, item) {
+                    var pos = 64 * index;
+                     if ($.inArray(item.user_from.username, _selected_members) == -1) {
+                         list.append(item_direct_message(item, parseInt(pos)));
+                     }
+                });
+
+            };
+            var urlapi = apiUrl + 'resent/' + userlogged;
+
+            request(urlapi, 'GET', null, null, exc, null);
+        };
+
+        function _selectRow($row) {
+            var member = $row.attr('data-member-id');
+            //save member
+            _selected_members.push(member);
+
+            if (member == userlogged) {
+                console.log("iguales", member)
+                active_chat(member, 'user');
+                activeChannel = member;
+                Reload(activeChannel);
+
+                _selected_members.pop();
+                _close();
+            }
+            else {
+                var input = $("#im_browser_filter").val();
+                _filterListView(input);
+
+                $("#im_browser_tokens").prepend(item_member_token(member));
+
+            }
+            if (_selected_members.length) {
+                _$im_browser.find(".im_browser_go").removeClass("disabled")
+            } else {
+                _$im_browser.find(".im_browser_go").addClass("disabled")
+            }
+            if (_selected_members.length >= _MAX) {
+                _$im_browser.addClass("reached_maximum")
+            } else {
+                _$im_browser.removeClass("reached_maximum")
+            }
+            _updateParticipantCountHint();
+
+
+        }
+
+        function _updateParticipantCountHint() {
+            var max = _MAX;
+            var remaining = Math.max(0, max - _selected_members.length
+                )
+                ;
+            var $div = _$im_browser.find(".remaining_participant_hint");
+            if (remaining) {
+                if (remaining === 1) {
+                    $div.text("You can add 1 more person")
+                } else {
+                    $div.text("You can add " + remaining + " more people")
+                }
+            } else {
+                $div.text("You have reached the maximum number of participants")
+            }
+        };
+
+    };
+});
