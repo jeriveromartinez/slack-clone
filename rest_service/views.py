@@ -25,6 +25,52 @@ def room_by_company(request, company, room_name):
 
 
 @api_view(['GET'])
+def room_by_user(request, username):
+    room = Room.objects.filter(users_room__user__username=username)
+    serializer = RoomSerializer(room, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])  # TODO: Agregar a url
+def room_subcribe_user(request, roomname, username):
+    room = Room.objects.filter(name=roomname)[0]
+    profile = Profile.objects.filter(user__username=username)[0]
+    room.users.add(profile)
+    room.save()
+
+    return Response({"result": "ok"})
+
+
+@api_view(['GET'])  # TODO: Agregar a url
+def room_unsubcribe_user(request, roomname, username):
+    room = Room.objects.filter(name=roomname)[0]
+    profile = Profile.objects.filter(user__username=username)[0]
+    room.users.remove(profile)
+    room.save()
+
+    return Response({"result": "ok"})
+
+
+@api_view(['POST'])  # TODO: falta notificar join y poner en url
+def create_room_by_company(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        prupose = request.POST.get("prupose")
+        users_invite = json.loads(request.POST.get("users_invite"))
+        if name and prupose:
+            company = Profile.objects.filter(user=request.user).values('company')
+            room = Room.objects.create(name=name, company=company)
+            user_me = Profile.objects.filter(user=request.user)[0]
+            room.users.add(user_me)
+            if len(users_invite) > 0:
+                for obj in users_invite:
+                    user = Profile.objects.filter(user__username=obj)[0]
+                    room.users.add(user)
+
+    return Response({"result": "ok"})
+
+
+@api_view(['GET'])
 def profile_by_username(request, username):
     room = Profile.objects.all().filter(user__username=username)
     serializer = ProfileSerializer(room, many=True)
@@ -88,7 +134,7 @@ def get_details_file(request, username, file):
 
 
 @api_view(['GET'])
-def get_message_by_user(request, username, page):
+def get_message_by_user_recent(request, username, page):
     messages = MessageEvent.objects.all().filter(
         ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
          (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
@@ -123,30 +169,60 @@ def get_message_by_user(request, username, page):
 
 
 @api_view(['GET'])
-def get_unread_message_user(request, username):
-    messages = MessageEvent.objects.all().filter(readed=False). \
-        values("user_from__username") \
-        .exclude(**{'user_from__username' + '__exact': username}) \
-        .annotate(
-        total=Count('readed')) \
-        .order_by('user_from')
-    result = {'items': list(messages)}
+def get_comunicaton_me(request, username):
+    users = Communication.objects.all().filter(user_me__username=username)
 
-    return Response(result)
+    serializer = CommunicationSerializer(users, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])  # TODO: poner en url
+def delete_comunicaton_me(request, username):
+    user = Communication.objects.filter(user_connect__username=username)[0]
+    try:
+        user.delete()
+    except User.DoesNotExist as e:
+        return Response({"error": "user not found"})
+    return Response({"result": "ok"})
 
 
 @api_view(['GET'])
 def get_recente_message_user(request, username):
     messages = MessageEvent.objects.all().filter(
-        user_from__username=username, date_pub__gte=datetime.now() - timedelta(days=2)) \
-        .values("user_to__username,messageinstevent__msg") \
-        .annotate(
-        total=Count('user_to')) \
-        .order_by('user_to')
+        date_pub__gte=datetime.now() - timedelta(days=2)) \
+        .exclude(**{'user_from__username' + '__exact': username}) \
+        .distinct('user_from__username').order_by('user_from__username')
 
-    result = {'items': list(messages)}
+    reponse = {}
+    result = []
+    for inst in messages:
+        if isinstance(inst, MessageInstEvent):
+            serializer = MessageInstEventSerializer(inst.messageinstevent)
+            result.append(serializer.data)
+        if isinstance(inst, FileSharedEvent):
+            serializer = FileSharedEventSerializer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileCommentEvent):
+            serializer = FileCommentEventSerializer(inst)
+            result.append(serializer.data)
 
-    return Response(result)
+    reponse['items'] = result
+
+    return Response(reponse)
+
+
+@api_view(['POST'])
+def get_user_by_company(request):
+    name = Profile.objects.filter(user=request.user).values('company__name')
+    if request.method == "POST":
+
+        term = request.POST.get("term")
+        if term:
+            users = Profile.objects.filter(company__name=name, user__username__icontains=term)
+        else:
+            users = Profile.objects.filter(company__name=name)
+    serializer = ProfileSerializer(users, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

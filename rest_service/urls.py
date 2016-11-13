@@ -3,6 +3,8 @@ from django.conf.urls import url
 urlpatterns = [
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/room/(?P<room_name>[0-9a-zA-Z_-]+)/$', 'rest_service.views.room_by_company',
         name='api-room'),
+    url(r'room_user$', 'rest_service.views.room_by_user',
+        name='api-roomuser'),
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/users/$', 'rest_service.views.users_by_company', name='api-company-profile'),
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/users-logged/$', 'rest_service.views.users_logged', name='api-user-logged'),
 
@@ -26,11 +28,14 @@ urlpatterns = [
         'rest_service.views.get_files', name='api-files-company'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files', name='api-files-company'),
 
-    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user',
+    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user_recent',
         name='api-message'),
-    url(r'^unread/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_unread_message_user',
+    url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
     url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_recente_message_user',
-        name='api-unread'),
+        name='api-recente_message_use'),
+    url(r'^usercomapny$', 'rest_service.views.get_user_by_company',
+        name='api-usercomapny$')
+    ,
 
 ]
