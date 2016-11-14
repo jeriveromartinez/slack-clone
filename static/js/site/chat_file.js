@@ -3,7 +3,6 @@
  */
 $(document).ready(function () {
 
-
     //menu more items options
     $('.flexpane_menu_item').on('click', function () {
         switch (this.id) {
@@ -26,8 +25,7 @@ $(document).ready(function () {
         var exc = function (response) {
             $('#file_preview_container').removeClass('hidden');
             var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
-            var file = response[0];
-            item.append(item_file_detail(file.author.user.username, file.author.image, file.title, file.slug, file_comments_msg(file.files_comments)));
+            item.append(item_file_detail(response.author.user.username, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
         };
 
         $('.panel.active').removeClass('active');

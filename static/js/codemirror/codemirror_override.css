@@ -1,0 +1,56 @@
+@font-face {
+    font-family: appleLogo;
+    src: local("Lucida Grande");
+    unicode-range: U+F8FF
+}
+
+.tiny {
+    font-size: .7rem
+}
+
+.small {
+    font-size: .9rem
+}
+
+.no_pointer_events {
+    pointer-events: none
+}
+
+.CodeMirror {
+    font-family: Consolas, monaco, "Ubuntu Mono", courier, monospace !important;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 6px;
+    color: #555459;
+    height: auto;
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+    will-change: transform
+}
+
+.CodeMirror pre {
+    font-family: inherit !important
+}
+
+.CodeMirror .CodeMirror-sizer {
+    font-size: .8125rem !important;
+    line-height: 1.5
+}
+
+html.is_mac .CodeMirror .CodeMirror-sizer {
+    font-size: .75rem !important
+}
+
+.CodeMirror .CodeMirror-gutters {
+    background-color: #fbfbfb;
+    border-color: #ebebeb
+}
+
+.CodeMirror .CodeMirror-linenumber {
+    color: #9e9ea6
+}
+
+#file_page .CodeMirror, #snippet_dialog .CodeMirror {
+    height: 12rem
+}

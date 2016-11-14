@@ -57,30 +57,19 @@ def get_files(request, username, type, company=None):
 
     data = []
     for file in files:
-        if isinstance(file, Post):
-            data.append(PostSerializer(file).data)
-        elif isinstance(file, Snippet):
-            data.append(SnippetSerializer(file).data)
-        elif isinstance(file, FilesUp):
-            data.append(FilesUpSerializer(file).data)
-        elif isinstance(file, ImageUp):
-            data.append(ImageUpSerializer(file).data)
-        else:
-            data.append(SlackFileSerializer(file).data)
-    # TODO: este codigo esta puerco, ver como mejorarlo
+        data.append(get_file_by_type(file))
     return Response(data)
 
 
 @api_view(['GET', 'POST'])
 def get_details_file(request, username, file):
-    _file = FilesUp.objects.filter(author__user__username=username).filter(slug=file)
+    _file = SlackFile.objects.filter(author__user__username=username).filter(slug=file)[0]
     if request.method == "GET":
-        serializer = SlackFileSerializer(_file, many=True)
-        return Response(serializer.data)
+        return Response(get_file_by_type(_file))
     if request.method == "POST":
         user = User.objects.filter(username=username)[0]
         comment = request.POST['comment']
-        FilesComment.objects.create(file_up=_file[0], comment=comment, user=user)
+        FilesComment.objects.create(file_up=_file, comment=comment, user=user)
         return Response({'data': 'save'})
 
 
@@ -132,7 +121,10 @@ def save_files(request, type, from_user, to):
         author = Profile.objects.filter(user__username=from_user)[0]
         for key in request.FILES:
             file = request.FILES[key]
-            create = FilesUp.objects.create(title=file.name, file_up=file, author=author)
+            if "image" in file.content_type:
+                create = ImageUp.objects.create(title=file.name, file_up=file, author=author)
+            else:
+                create = FilesUp.objects.create(title=file.name, file_up=file, author=author)
             create.shared_to.add(user)
             create.save()
     else:
@@ -209,3 +201,16 @@ def type_file_by_company(type, company_slug):
     if files is None:
         files = SlackFile.objects.filter(author__company__slug=company_slug)
     return files
+
+
+def get_file_by_type(file):
+    if isinstance(file, Post):
+        return PostSerializer(file).data
+    elif isinstance(file, Snippet):
+        return SnippetSerializer(file).data
+    elif isinstance(file, FilesUp):
+        return FilesUpSerializer(file).data
+    elif isinstance(file, ImageUp):
+        return ImageUpSerializer(file).data
+    else:
+        return SlackFileSerializer(file).data

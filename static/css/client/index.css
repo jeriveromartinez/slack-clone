@@ -2731,6 +2731,27 @@ body {
     box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2) inset;
 }
 
+.btn_outline {
+    background: rgb(251, 251, 250) none repeat scroll 0% 0%;
+    color: rgb(85, 84, 89) !important;
+    font-weight: 700;
+    text-shadow: none;
+}
+
+.btn_outline.hover, .btn_outline:focus, .btn_outline:hover {
+    background: rgb(255, 255, 255) none repeat scroll 0% 0%;
+    color: rgb(58, 163, 227) !important;
+}
+
+.no_touch .btn.hover, .no_touch .btn:focus, .no_touch .btn:hover {
+    outline: 0px none;
+    text-decoration: none;
+}
+
+.no_touch a:hover, a.active {
+    text-decoration: underline;
+}
+
 .btn_outline::after {
     border: 1px solid rgb(199, 202, 205);
 }

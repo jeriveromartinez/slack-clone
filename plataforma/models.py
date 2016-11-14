@@ -83,37 +83,112 @@ class Post(SlackFile):
     code = models.TextField(blank=False, null=False)
 
     def __str__(self):
-        return 'post - ' + self.date_pub.__str__()
+        return 'post - ' + self.uploaded.__str__()
 
 
 class Snippet(SlackFile):
+    CHOICE = (
+        (u'text', u'Plain Text'),
+        (u'applescript', u'AppleScript'),
+        (u'boxnote', u'BoxNote'),
+        (u'c', u'C'),
+        (u'csharp', u'C#'),
+        (u'cpp', u'C++'),
+        (u'css', u'CSS'),
+        (u'csv', u'CSV'),
+        (u'clojure', u'Clojure'),
+        (u'coffeescript', u'CoffeeScript'),
+        (u'cfm', u'Cold Fusion'),
+        (u'crystal', u'Crystal'),
+        (u'cypher', u'Cypher'),
+        (u'd', u'D'),
+        (u'dart', u'Dart'),
+        (u'diff', u'Diff'),
+        (u'dockerfile', u'Docker'),
+        (u'erlang', u'Erlang'),
+        (u'fsharp', u'F#'),
+        (u'fortran', u'Fortran'),
+        (u'gherkin', u'Gherkin'),
+        (u'go', u'Go'),
+        (u'groovy', u'Groovy'),
+        (u'html', u'HTML'),
+        (u'handlebars', u'Handlebars'),
+        (u'haskell', u'Haskell'),
+        (u'haxe', u'Haxe'),
+        (u'java', u'Java'),
+        (u'javascript', u'JavaScript'),
+        (u'julia', u'Julia'),
+        (u'kotlin', u'Kotlin'),
+        (u'latex', u'LaTeX/sTeX'),
+        (u'lisp', u'Lisp'),
+        (u'lua', u'Lua'),
+        (u'matlab', u'MATLAB'),
+        (u'mumps', u'MUMPS'),  # a
+        (u'markdown', u'Markdown'),
+        (u'ocaml', u'OCaml'),
+        (u'objc', u'Objective-C'),
+        (u'php', u'PHP'),
+        (u'pascal', u'Pascal'),
+        (u'perl', u'Perl'),
+        (u'pig', u'Pig'),
+        (u'post', u'Post'),
+        (u'powershell', u'PowerShell'),
+        (u'puppet', u'Puppet'),
+        (u'python', u'Python'),
+        (u'r', u'R'),
+        (u'ruby', u'Ruby'),
+        (u'rust', u'Rust'),
+        (u'sql', u'SQL'),
+        (u'sass', u'Sass'),
+        (u'scala', u'Scala'),
+        (u'scheme', u'Scheme'),
+        (u'shell', u'Shell'),
+        (u'smalltalk', u'Smalltalk'),
+        (u'swift', u'Swift'),
+        (u'tsv', u'TSV'),
+        (u'vb', u'VB.NET'),
+        (u'vbscript', u'VBScript'),
+        (u'velocity', u'Velocity'),
+        (u'verilog', u'Verilog'),
+        (u'xml', u'XML'),
+        (u'yaml', u'YAML'),
+    )
+    type = models.CharField(blank=False, null=False, choices=CHOICE, max_length=50)
     code = models.TextField(blank=False, null=False)
 
     def __str__(self):
-        return 'snippets - ' + self.date_pub.__str__()
+        return 'snippets - ' + self.uploaded.__str__()
+
+    def save(self, *args, **kwargs):
+        if self.title is None:
+            self.title = 'Snippet - ' + self.author.user.username + ' - ' + self.uploaded.__str__()
+        self.slug = slugify(self.title)
+        super(Snippet, self).save(*args, **kwargs)
 
 
 class GoogleDocs(SlackFile):
     url = models.URLField(null=False, blank=False)
 
     def __str__(self):
-        return 'google_docs - ' + self.date_pub.__str__()
+        return 'google_docs - ' + self.uploaded.__str__()
 
 
 class FilesUp(SlackFile):
-    file_up = models.FileField(upload_to='files/', blank=True, null=True)
+    file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True)
 
     def __str__(self):
         return 'files_up - ' + self.uploaded.__str__()
 
 
-class ImageUp(FilesUp):
+class ImageUp(SlackFile):
+    file_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
+
     def __str__(self):
         return 'images_up - ' + self.uploaded.__str__()
 
 
 class FilesComment(models.Model):
-    file_up = models.ForeignKey(FilesUp, related_name='files_comments')
+    file_up = models.ForeignKey(SlackFile, related_name='files_comments')
     comment = models.TextField(blank=False, null=False)
     published = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name='comment_user')
@@ -122,7 +197,7 @@ class FilesComment(models.Model):
         ordering = ('published',)
 
     def __str__(self):
-        return self.user.username + ' - ' + self.file_up.file_up.name + ' - ' + self.published.__str__()
+        return 'Comment by ' + self.user.username + ' - ' + self.published.__str__()
 
 
 class UserLogger(models.Model):

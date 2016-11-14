@@ -1,0 +1,296 @@
+{% extends 'site_template/base.html' %}
+{% load staticfiles %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/index_file_detail.css' %}">
+{% endblock %}
+{% block body_style %}light_theme comments_visible{% endblock %}
+{% block body %}
+    <nav>
+        <div class="space">
+            <button class="space_btn_star btn ts_icon star star_file cloud_silver ts_icon_star_o"
+                    data-file-id="F2ZD4PFRQ" type="button"></button>
+            <div class="status_message">
+                <div id="space_status">Connecting…</div>
+            </div>
+            <div id="edit_status" class="hidden">You can now edit this post.</div>
+            <div class="space_buttons right">
+
+
+                <div class="space_btn_edit_container hidden float_left ts_tip ts_tip_btn ts_tip_bottom ts_tip_right ts_tip_multiline">
+                    <button class="space_btn_edit btn btn_small hidden ladda-button disabled" type="button"
+                            data-style="slide-left" data-spinner-size="20">
+                        <span class="edit_button_text ladda-label">Edit</span>
+                    </button>
+                    <span class="ts_tip_tip ts_tip_multiline_inner edit_tooltip_text"></span>
+                </div>
+
+
+                <button class="space_btn_share btn btn_outline ts_icon ts_icon_share_action ts_tip ts_tip_tip ts_tip_bottom ts_tip_center float_left"
+                        type="button">
+                    <span class="ts_tip_tip">Share</span>
+                </button>
+
+                <button class="space_btn_more btn btn_outline ts_icon ts_icon_ellipsis ts_tip ts_tip_tip ts_tip_bottom ts_tip_center float_left"
+                        type="button">
+                    <span class="ts_tip_tip">More actions</span>
+                </button>
+
+                <div class="comments_open_shell float_left">
+                    <button class="space_btn_comments comments_open btn btn_outline ts_icon ts_icon_comment_o ts_tip ts_tip_tip ts_tip_bottom ts_tip_right"
+                            type="button">
+                        <span class="notif"></span>
+                        <span class="ts_tip_tip">View comments</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="comments">
+            <h1>Comments</h1>
+            <a id="space_btn_comments_hide" class="comments_close ts_icon ts_icon_times"></a>
+        </div>
+    </nav>
+
+    <div id="space_alert" class="from_bottom has_buttons hidden">
+        <span id="space_alert_text"><span class="msg">Welcome to Posts</span><span class="buttons"><a
+                id="spaces_new_xp_learn_more" class="btn btn_outline btn_transparent small_right_margin"
+                href="https://get.slack.help/hc/en-us/articles/203950418-Composing-a-post" target="{{ newWindowName }}">Tell me more</a> <a
+                id="spaces_new_xp_dismiss" class="btn btn_outline btn_transparent">I’ll figure it out</a></span></span>
+        <button id="space_alert_close" class="ts_icon ts_icon_times"></button>
+    </div>
+
+    <div id="space_find_bar">
+        <span id="space_find_info"></span>
+        <div class="find_container">
+            <input aria-label="Search for text in this post" placeholder="Find in post" id="space_find_input" value=""
+                   type="text">
+            <button aria-label="Find next occurence" id="space_find_next"><span
+                    class="ts_icon ts_icon_arrow_right"></span></button>
+        </div>
+        <a id="space_find_close" class="ts_icon ts_icon_times" aria-label="Close find bar"></a>
+    </div>
+
+    <ts-space class="readonly loaded active">
+        <header class="headroom headroom--top">
+            <div class="owner_avatar">
+                <span class="member_image thumb_192"
+                      style="background-image: url('{% static 'images/ava_0022-48.png' %}');"></span>
+            </div>
+            <div class="owner_detail">
+                <small class="owner_name_and_share_info">
+                    <span class="owner_name">jeriverom</span>
+                    <span class="space_saved_in"></span>
+                    <ul class="space_shared_in">
+                        <li>shared in</li>
+                    </ul>
+                </small>
+                <h1 class="file_title_header">
+                    <span class="file_title">mio</span>
+                    <textarea class="inline-edit" rows="1" autocomplete="off" spellcheck="false" maxlength="100"
+                              aria-label="Edit title" {% comment %}data-autosize-on="true"{% endcomment %}
+                            {% comment %}style="overflow: hidden; overflow-wrap: break-word;"{% endcomment %}
+                              placeholder="Untitled"></textarea>
+                </h1>
+            </div>
+
+            <div class="divider"></div>
+        </header>
+        <div class="content">
+            <ts-rocket rocket-id="002" tabindex="0" class="readOnly readonly">
+                <div>
+                    <div class="text p first last tab0">
+                        <div><p tabindex="-1">fdssdfdsf</p>
+                            <p class="shadow" spellcheck="false" contenteditable="false">fdssdfdsf</p></div>
+                    </div>
+                </div>
+            </ts-rocket>
+            <div class="para_menu" style="display: none;">
+                <div class="insert"><a class="trigger ob"><span></span></a>
+                    <ul class="options">
+                        <li><a class="file"><span></span></a>
+                            <div class="tooltip"><span class="arrow"></span><span class="arrow-shadow"></span>
+                                <div class="content">Image or File</div>
+                            </div>
+                        </li>
+                        <li><a class="checklist"><span></span></a>
+                            <div class="tooltip"><span class="arrow"></span><span class="arrow-shadow"></span>
+                                <div class="content">Checklist</div>
+                            </div>
+                        </li>
+                        <li><a class="snippet"><span></span></a>
+                            <div class="tooltip"><span class="arrow"></span><span class="arrow-shadow"></span>
+                                <div class="content">Code snippet</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="format"><a class="trigger pilcrow"></a>
+                    <div class="options"><span class="top arrow"></span><span class="top arrow-shadow"></span>
+                        <div class="content">
+                            <ul>
+                                <li><a class="paragraph" data-which="paragraph"><span></span></a></li>
+                                <li><a class="header1" data-which="header1"><span></span></a></li>
+                                <li><a class="header2" data-which="header2"><span></span></a></li>
+                                <li><a class="header3" data-which="header3"><span></span></a></li>
+                            </ul>
+                            <ul>
+                                <li><a class="bullet" data-which="list-bullet"><span></span></a></li>
+                                <li><a class="number" data-which="list-number"><span></span></a></li>
+                                <li><a class="checklist" data-which="list-check"><span></span></a></li>
+                                <li><a class="snippet" data-which="code-snippet"><span></span></a></li>
+                            </ul>
+                        </div>
+                        <span class="bottom arrow"></span><span class="bottom arrow-shadow"></span></div>
+                </div>
+            </div>
+        </div>
+    </ts-space>
+
+    <comments class="loaded">
+        <div id="comments_holder" class="clearfix clear_both">
+            <div class="col span_1_of_6"></div>
+            <div class="col span_4_of_6 no_right_padding">
+                <div id="file_page_comments">
+                    <div class="file_comments_F2ZD4PFRQ comments">
+                        <div class="comment" data-timestamp="1478917071" data-comment-id="Fc32CQ9TL6">
+                            <a name="Fc32CQ9TL6"></a>
+	<span class="no_print">	<a href="https://blackmambasoft.slack.com/team/jeriverom" target="/team/jeriverom"
+                                  class=" member_preview_link member_image thumb_36" data-member-id="U2KQ35L2Z"
+                                  data-thumb-size="36"
+                                  style="background-image: url('{% static 'images/ava_0022-48.png' %}');"
+                                  aria-hidden="true"></a>
+</span>
+                            <p class="comment_meta">
+                                <span class="no_print"><a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                                          target="/team/jeriverom"
+                                                          class="message_sender color_U2KQ35L2Z color_4bbe2e member member_preview_link "
+                                                          data-member-id="U2KQ35L2Z">jeriverom</a></span>
+                                <span class="print_only_inline"><strong>jeriverom</strong> • </span>
+		<span class="comment_date_star_cog">
+			Today at 9:17 PM
+			<span class="no_print"><button data-comment-id="Fc32CQ9TL6" data-file-id="F2ZD4PFRQ"
+                                           class="star ts_icon ts_icon_star_o ts_icon_inherit ts_tip_top star_comment star_file_comment ts_tip ts_tip_float ts_tip_hidden ts_tip_top btn_unstyle"><span
+                    class="ts_tip_tip"
+                    data-tip-toggle-auto="Unstar this file comment">Star this file comment</span></button></span>
+			<a class="comment_actions" data-file-id="F2ZD4PFRQ" data-comment-id="Fc32CQ9TL6"><i
+                    class="comment_cog ts_icon ts_icon_cog ts_icon_inherit"></i></a>
+		</span>
+                            </p>
+                            <div class="comment_body">lol</div>
+                            <div class="rxn_panel rxns_key_file_comment-Fc32CQ9TL6-"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <form action="https://blackmambasoft.slack.com/files/jeriverom/F2ZD4PFRQ/mio" id="file_comment_form"
+                      class="comment_form" method="post">
+                    <a href="https://blackmambasoft.slack.com/team/jeriverom" class="member_preview_link"
+                       data-member-id="U2KQ35L2Z">
+                        <span class="member_image thumb_36"
+                              style="background-image: url('{% static 'images/ava_0022-48.png' %}');"
+                              data-thumb-size="36" data-member-id="U2KQ35L2Z"></span>
+                    </a>
+                    <input name="addcomment" value="1" type="hidden">
+                    <input name="crumb" value="s-1478917078-c0f84bba41-☃" type="hidden">
+
+                    <textarea id="file_comment" data-el-id-to-keep-in-view="file_comment_submit_btn"
+                              class="small comment_input small_bottom_margin autogrow-short" name="comment"
+                              style="overflow: hidden; height: 38px;" wrap="virtual"></textarea>
+                    <span class="input_note float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
+                    <button id="file_comment_submit_btn" type="submit" class="btn float_right btn_small ladda-button"
+                            data-style="expand-right"><span class="ladda-label">Add Comment</span></button>
+                </form>
+
+                <form id="file_edit_comment_form" class="edit_comment_form hidden" method="post"
+                      action="https://blackmambasoft.slack.com/files/jeriverom/F2ZD4PFRQ/mio">
+                    <textarea id="file_edit_comment" class="small comment_input small_bottom_margin" name="comment"
+                              wrap="virtual"></textarea><br>
+                    <span class="input_note float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
+                    <input class="save btn float_right btn_small" value="Save" type="submit">
+                    <button class="cancel btn btn_outline float_right small_right_margin btn_small">Cancel</button>
+                </form>
+            </div>
+            <div class="col span_1_of_6"></div>
+        </div>
+    </comments>
+
+    <div id="connected_members" style="display: none;"></div>
+    <div id="connected_members_overflow_popover" class="hidden popover_menu">
+        <span class="arrow"></span>
+        <span class="arrow_shadow"></span>
+        <div id="" class="monkey_scroll_wrapper ">
+            <div class="monkey_scroll_bar  hidden" style="margin-left: 3.5px;">
+                <div class="monkey_scroll_handle " style="left: 0px;">
+                    <div class="monkey_scroll_handle_inner "></div>
+                </div>
+            </div>
+            <div class="monkey_scroll_hider " style="width: 0px;">
+                <div class="member_overflow_wrapper monkey_scroller" style="width: 0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div id="connection_status">
+        <span id="connection_icon" class="offline"></span>
+        <span id="connection_label">MS reconnecting in 5 seconds… <a onclick="TS.ds.manualReconnectNow()">retry now</a></span>
+    </div>
+    <div style="position: absolute; top: -10000px; left: -10000px; width: 100px; font-size: 14.4px; font-family: Slack-Lato,appleLogo,sans-serif; font-weight: 400; line-height: 20px; resize: none; overflow-wrap: break-word;">
+        ...
+    </div>
+    <div id="aria_live_announcer" role="status"></div>
+    <div rocket-id="001" class="rocket-box" style="width: 0px; height: 0px;"></div>
+    <div class="textstyle_menu style include_remove new hide hidden"><span class="arrow"></span><span
+            class="arrow-shadow"></span>
+        <div class="content">
+            <ul>
+                <li><a data-toggle="tooltip" class="bold" data-which="bold" title="" data-original-title="Bold">
+                    <ts-icon class="ts_icon_bold"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="italic" data-which="italic" title="" data-original-title="Italic">
+                    <ts-icon class="ts_icon_italic"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="underline" data-which="underline" title=""
+                       data-original-title="Underline">
+                    <ts-icon class="ts_icon_underline"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="strikethrough" data-which="strikethrough" title=""
+                       data-original-title="Strikethrough">
+                    <ts-icon class="ts_icon_strikethrough"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="snippet" data-which="code" title=""
+                       data-original-title="Code block">
+                    <ts-icon class="ts_icon_code"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="link" data-which="link" title="" data-original-title="Link">
+                    <ts-icon class="ts_icon_link"></ts-icon>
+                </a></li>
+                <li><a data-toggle="tooltip" class="deformat" data-which="deformat" title=""
+                       data-original-title="Clear formatting">
+                    <ts-icon class="ts_icon_times"></ts-icon>
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="textstyle_menu link hide"><span class="arrow"></span><span class="arrow-shadow"></span>
+        <div class="content">
+            <input placeholder="e.g. www.slack.com" value="" type="text">
+            <a class="link tsm_edit_link" target="_blank"></a>
+            <div class="buttons">
+                <a data-toggle="tooltip" class="item link_unfurl" data-which="unfurl" title=""
+                   data-original-title="Unfurl link">
+                    <ts-icon class="ts_icon_eye"></ts-icon>
+                </a>
+                <a data-toggle="tooltip" class="item link_remove" data-which="remove" title=""
+                   data-original-title="Remove link">
+                    <ts-icon class="ts_icon_times"></ts-icon>
+                </a>
+                <a data-toggle="tooltip" class="item link_edit" data-which="edit" title=""
+                   data-original-title="Edit link address">
+                    <ts-icon class="ts_icon_pencil"></ts-icon>
+                </a>
+                <a data-toggle="tooltip" class="item link_ok" data-which="okay" title=""
+                   data-original-title="Save changes">
+                    <ts-icon class="ts_icon_check_large"></ts-icon>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

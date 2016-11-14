@@ -1,0 +1,85 @@
+{% extends 'site_template/template.html' %}
+{% load staticfiles %}
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/codemirror/codemirror.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/codemirror/codemirror_override.css' %}">
+{% endblock %}
+{% block js_libraries %}
+    {{ block.super }}
+    <script>
+        var cdn_url = window.location.protocol + '//' + window.location.host + '/static';
+    </script>
+    <script type="text/javascript" src="{% static 'js/codemirror/codemirror.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/codemirror/codemirror_load.js' %}"></script>
+    <script>
+        var g_editor;
+
+        $(function () {
+            var wrap_long_lines = true;
+
+            g_editor = CodeMirror.fromTextArea(document.getElementById("id_code"), {
+                lineNumbers: true,
+                matchBrackets: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                enterMode: "keep",
+                tabMode: "shift",
+                viewportMargin: 10,
+                lineWrapping: wrap_long_lines,
+            });
+
+            $('select#id_type').change(function (evt) {
+                CodeMirror.switchSlackMode(g_editor, $(this).val());
+            }).change();
+
+            // setup wrap checkbox
+            $('#file_create_wrap_cb').bind('change', function (e) {
+                var wrap = $(this).is(":checked");
+                g_editor.setOption('lineWrapping', wrap);
+                {% comment %}TS.prefs.setPrefByAPI({name: 'snippet_editor_wrap_long_lines', value: wrap});{% endcomment %}
+            });
+        });
+    </script>
+{% endblock %}
+{% block main_container %}
+    <h1><i class="ts_icon ts_icon_code clear_blue"></i> New Snippet</h1>
+    <div class="card clearfix large_bottom_padding">
+        <form method="post" accept-encoding="UTF-8">
+            {% csrf_token %}
+            <div class="col span_4_of_6 no_right_padding no_bottom_margin">
+                <p class="small_bottom_margin">
+                    <label>Title <span class="normal">(optional)</span></label>
+                    {{ form.title }}
+                </p>
+            </div>
+            <div class="col span_2_of_6 no_right_padding no_bottom_margin">
+                <p class="small_bottom_margin">
+                    <label for="filetype" class="select">
+                        File Type
+                        {{ form.type }}
+                    </label>
+                </p>
+            </div>
+            <div class="clear_both">
+                <p>
+                    {{ form.code }}
+                    {#                    {{ form.code.value }}#}
+                    {% comment %}{% render_field form.code value=form.code.value %}{% endcomment %}
+                    {% comment %}<textarea name="content" id="file_create_textarea" class="full_width" style="display: none;"
+                                  wrap="virtual"></textarea>{% endcomment %}
+                </p>
+
+                <label class="checkbox normal float_left no_top_padding">
+                    <input id="file_create_wrap_cb" type="checkbox"> wrap
+                </label>
+                <p></p>
+
+                <input class="btn float_right" value="Create Snippet" type="submit">
+                <a href="https://blackmambasoft.slack.com/files/create/Are%20you%20sure%20you%20want%20to%20discard%20this%20snippet?%20This%20cannot%20be%20undone."
+                   class="btn btn_outline float_right small_right_margin">Discard</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -20,6 +20,10 @@ File.prototype.convertToBase64 = function (callback) {
 };
 
 $(document).ready(function () {
+    $(function () {
+        get_files();
+    });
+
     $('#menu_toggle').on('click', function () {
         if (!menu) {
             $('body').removeClass('nav_close').addClass('nav_open')
@@ -32,7 +36,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#overlay').on('click', function () {
+    $('div#overlay').on('click', function () {
         if (menu) {
             $('body').removeClass('nav_open').addClass('nav_close')
             $('#site_nav').addClass('hidden');
@@ -136,7 +140,15 @@ window.isEmail = function (email) {
     return regex.test(email);
 };
 
-var get_files = function () {
+var get_files = function () { //TODO: verificar como funciona con los demas elementos.
+    var exc = function (response) {
+        var list = $('#files_list');
+        $(list).html('');
+        $.each(response, function (key, item) {
+            var date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+            $(list).append(fileComponent(item.title, item.slug, item.author, date));
+        });
+    };
     var from = $('#fromFile option:selected').val();
     var type = $('#typeFile option:selected').val();
 
@@ -144,18 +156,6 @@ var get_files = function () {
     if (from == "all")
         urlapi = apiUrl + 'files/' + userlogged + '/' + type + '/' + companyuser + '/';
     else
-        urlapi = apiUrl + 'files/' + from + '/get/all_files/';
-    // request(urlapi, 'GET', null, null, user_files_exc, null);
+        urlapi = apiUrl + 'files/' + from + '/get/' + type + '/';
+    request(urlapi, 'GET', null, null, exc, null);
 };
-
-var user_all_files = function () {
-    clean_user_files();
-    $('.panel.active').removeClass('active');
-    $('#files_tab').addClass('active');
-    $('#file_list_toggle_all').addClass('active');
-
-    var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
-    request(urlapi, 'GET', null, null, user_files_exc, null);
-    $('#menu.flex_menu').addClass('hidden');
-};
-

@@ -8,4 +8,7 @@ urlpatterns = [
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/$', 'system_account.views.setting_profile', name='profile'),
     url(r'^deactivate/(?P<username>[0-9a-zA-Z_-]+)/$', 'system_account.views.deactivate_account', name='deactivate'),
     url(r'^file/$', 'system_account.views.files_profile', name='file'),
+    url(r'^file/snippet/$', 'system_account.views.snippet', name='file_snippet'),
+    url(r'^file/snippet/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.snippet', name='file_snippet_edit'),
+    url(r'^file/detail/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.file_detail', name='file_detail'),
 ]

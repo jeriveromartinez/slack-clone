@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from plataforma.models import Snippet
 
 
 class LoginForm(forms.Form):
@@ -43,3 +44,14 @@ class MyRegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+
+class SnippetForm(forms.ModelForm):
+    title = forms.CharField()
+    code = forms.CharField(widget=forms.Textarea(
+        attrs={'autocorrect': 'off', 'autocapitalize': 'off', 'spellcheck': 'false', 'tabindex': '0', 'wrap': 'off'}))
+    type = forms.ChoiceField(required=True, widget=forms.Select, choices=Snippet.CHOICE)
+
+    class Meta:
+        model = Snippet
+        fields = ('title', 'type', 'code')
