@@ -125,12 +125,12 @@ def get_files(request, username, type, company=None):
 
 
 @api_view(['GET', 'POST'])
-def get_details_file(request, username, file):
-    _file = SlackFile.objects.filter(author__user__username=username).filter(slug=file)[0]
+def get_details_file(request, file, user_post=None):
+    _file = SlackFile.objects.filter(slug=file)[0]  # todo: see the way to get the last 10 comments
     if request.method == "GET":
         return Response(get_file_by_type(_file))
     if request.method == "POST":
-        user = User.objects.filter(username=username)[0]
+        user = User.objects.filter(username=user_post)[0]
         comment = request.POST['comment']
         FilesComment.objects.create(file_up=_file, comment=comment, user=user)
         return Response({'data': 'save'})

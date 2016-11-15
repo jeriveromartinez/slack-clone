@@ -8,9 +8,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/footer.css' %}">
 {% endblock %}
 {% block js_libraries %}
-    <script>
-        var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.profile.company.slug }}';
-    </script>
     <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap.js' %}"></script>
 {% endblock %}

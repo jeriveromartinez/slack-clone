@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load dumper %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,7 @@
     <link id="favicon" rel="shortcut icon" href="{% static 'images/favicon-32.png' %}"
           sizes="16x16 32x32 48x48" type="image/png">
     <link rel="icon" href="{% static 'images/app-256.png' %}" sizes="256x256" type="image/png">
+    <script>var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.profile.company }}';</script>
 </head>
 <body class="{% block body_style %}light_theme nav_close{% endblock %}">
 {% block body %}

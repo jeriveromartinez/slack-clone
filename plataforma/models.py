@@ -35,7 +35,7 @@ class Profile(models.Model):
     )
 
     image = models.ImageField(upload_to='images/', blank=True, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_profile')
     company = models.ForeignKey(Company, related_name='company')
     type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
     socketsession = models.CharField(max_length=255, null=True, blank=True)
@@ -79,6 +79,19 @@ class SlackFile(PolymorphicModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(SlackFile, self).save(*args, **kwargs)
+
+    @staticmethod
+    def get_data(self):
+        data = None
+        if isinstance(self, Snippet):
+            data = self.code
+        elif isinstance(self, Post):
+            data = self.code
+        elif isinstance(self, FilesUp):
+            data = self.file_up.url
+        elif isinstance(self, ImageUp):
+            data = self.file_up.url
+        return data
 
 
 class Post(SlackFile):
@@ -282,17 +295,11 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
         if not communication:
             messages = MessageEvent.objects.all().filter(readed=False,
                                                          user_to__username=instance.messageevent_ptr.user_to.username) \
-                .values("user_to__username") \
-                .annotate(
-                total=Count('readed')) \
-                .order_by('user_to')
+                .values("user_to__username").annotate(total=Count('readed')).order_by('user_to')
 
             Communication.objects.create(user_me=instance.messageevent_ptr.user_from,
                                          user_connect=instance.messageevent_ptr.user_to,
                                          un_reader_msg=messages[0]['total'])
-
-
-
 
     except MessageEvent.DoesNotExist as e:
         print e

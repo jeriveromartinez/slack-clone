@@ -32,7 +32,7 @@ $(document).ready(function () {
         $('#files_tab').addClass('active');
         $('#file_list_toggle_user').addClass('active');
 
-        var urlapi = apiUrl + 'files/' + userFileActive + '/detail/' + this.id;
+        var urlapi = apiUrl + 'files/detail/' + this.id;
         request(urlapi, 'GET', null, null, exc, null);
         $('#file_list_container').addClass('hidden');
     });
@@ -123,7 +123,7 @@ $(document).ready(function () {
         var file = $('#file_preview_head_section').attr("data-file"),
             owner = $('#file_preview_head_section').attr("data-owner");
 
-        var urlapi = apiUrl + 'files/' + owner + '/detail/' + file + '/';
+        var urlapi = apiUrl + 'files/detail/' + file + '/' + userlogged + '/';
         request(urlapi, 'POST', 'json', comment, exc, null);
     });
 

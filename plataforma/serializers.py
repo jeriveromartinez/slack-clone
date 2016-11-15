@@ -25,6 +25,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         exclude = ('id', 'socketsession',)
 
 
+class ProfileFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        exclude = ('id', 'socketsession', 'type', 'user', 'company',)
+
+
+class UserFileSerializer(serializers.ModelSerializer):
+    user_profile = ProfileFileSerializer(many=False)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'user_profile',)
+
+
 class RoomSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
 
@@ -34,17 +48,19 @@ class RoomSerializer(serializers.ModelSerializer):
 
 
 class FileCommentsSerializer(serializers.ModelSerializer):
+    user = UserFileSerializer(many=False)
+
     class Meta:
         model = FilesComment
-        exclude = ('id', 'user', 'file_up')
+        fields = ('comment', 'published', 'user')
 
 
 class SlackFileSerializer(serializers.ModelSerializer):
-    files_comments = FileCommentsSerializer(many=True, read_only=True)
+    files_comments = FileCommentsSerializer(many=True, read_only=False)
     author = ProfileSerializer()
 
     class Meta:
-        model = FilesUp
+        model = SlackFile
         fields = ('slug', 'title', 'uploaded', 'author', 'files_comments')
 
 

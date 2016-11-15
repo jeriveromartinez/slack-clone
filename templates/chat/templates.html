@@ -1,6 +1,4 @@
 {% extends 'site_template/base.html' %}
-
-
 {% load staticfiles %}
 {% block styles %}
     {{ block.super }}
@@ -34,14 +32,14 @@
     {% include 'chat/modals.html' %}
 {% endblock %}
 
-{% block js %}
+{% block js_libraries %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
-
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
-
     <script type="text/javascript" src="{% static 'js/libraries/jquery-infinite-scroll.js' %}"></script>
+{% endblock %}
 
+{% block js %}
     <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat_file.js' %}"></script>
