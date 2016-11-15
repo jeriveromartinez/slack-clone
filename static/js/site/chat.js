@@ -1,11 +1,8 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = '', activeChannel = 'public', users = new Array(),
-    apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
-    hostUrl = window.location.protocol + '//' + window.location.host;
-window.users_logged = 0,
-    window.userFileStatus = false;
+var panel = null, channels = '', activeChannel = 'public', users = new Array();
+window.users_logged = 0, window.userFileStatus = false;
 
 $('body').prepend(itemLoad);
 
@@ -83,21 +80,17 @@ $(document).ready(function () {
         active_chat(this.id, 'channel');
         activeChannel = this.id;
         Reload(activeChannel);
-
-
     });
 
     $('#im-list').on('click', '.member', function () {
-        active_chat(this.id, 'user');
+        active_chat($(this).attr('data-name'), 'user');
         activeChannel = $(this).attr("data-name");
         Reload(activeChannel);
-
     });
 
     $('#member_account_item').on('click', function () {
         showProfile(this);
         $('#menu.menu').addClass('hidden');
-
         change_chat_size('65%');
     });
 
@@ -160,16 +153,6 @@ $(document).ready(function () {
         });
     };
 
-    var users_online = function () {
-        var exc = function (response) {
-            $('#active_members_count_value').html(response.length);
-            window.users_logged = response.length;
-        };
-
-        var urlapi = apiUrl + companyuser + '/users-logged/';
-        request(urlapi, 'GET', null, null, exc, null);
-    };
-
     var active_chat = function (search, type) {
         sendTo.type = type;
         if (type == "channel") {
@@ -208,7 +191,6 @@ $(document).ready(function () {
     };
 
     window.change_chat_size = function (size) {
-
         $('#msgs_scroller_div').css('width', size);
     };
 
@@ -322,7 +304,7 @@ $(document).ready(function () {
             modal.removeClass("active");
             modal.addClass("hidden");
             modal.find("#im_browser_tokens").removeClass("active");
-            
+
             _$list_container.unbind().off("click", ".im_browser_row", function () {
 
                 _selected_members = [];

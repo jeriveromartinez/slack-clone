@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="monkey_scroll_hider" style="width: 100%;">
-                <div id="menu_items_scroller" class="monkey_scroller" style="max-height: 569px; width: 270px;">
+                <div id="menu_items_scroller" class="monkey_scroller">
                     <div class="menu_body">
 
                         <section class="slack_menu_you slack_menu_section" aria-label="you">
@@ -18,7 +18,7 @@
                                 <a href="#/team/jeriverom"
                                    class="member_preview_link member_image thumb_36"
                                    style="background-image:
-                                           url({{ MEDIA_URL }}{{ request.user.profile.image }}),
+                                           url({{ MEDIA_URL }}{{ request.user.user_profile.image }}),
                                            url({% static 'images/default_avatar.jpg' %})"></a>
 
                                 <span class="current_user_name slack_menu_header_primary overflow_ellipsis">{{ request.user.username }}</span>
@@ -43,8 +43,8 @@
                         <section class="slack_menu_current_team slack_menu_section" aria-label="current team">
                             <h2 class="slack_menu_header">
                                 <ts-icon
-                                        class="team_icon small default">{{ request.user.profile.company.name|make_list|first|upper }}</ts-icon>
-                                <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.profile.company.name }}</span>
+                                        class="team_icon small default">{{ request.user.user_profile.company.name|make_list|first|upper }}</ts-icon>
+                                <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.user_profile.company.name }}</span>
                                 {% comment %}<span class="current_team_name slack_menu_header_secondary overflow_ellipsis">{{ request.host }}/{{ request.user.profile.company.name }}</span>{% endcomment %}
                             </h2>
                             <ul class="menu_list">
@@ -54,7 +54,7 @@
                                 <li id="team_statistics" role="menuitem"><a href="#/stats">Statistics</a></li>{% endcomment %}
                                 <li id="logout" class="logout_url">
                                     <a href="{% url 'app:logout' %}">Sign out of
-                                        <strong>{{ request.user.profile.company.name }}</strong></a>
+                                        <strong>{{ request.user.user_profile.company.name }}</strong></a>
                                 </li>
                             </ul>
                         </section>

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <div id="fs_modal_bg" class="hidden"></div>
 <div id="direct-message">
     <div id="fs_modal" class="fs_modal_internal_scroll hidden">
@@ -36,7 +37,7 @@
                             <input id="im_browser_filter" placeholder="Find or start a conversation" value=""
                                    type="text">
                             <svg id="im_browser_spinner" class="ts_icon ts_icon_spin ts_icon_spinner hidden">
-                                <use xlink:href="/img/starburst.svg#starburst_svg"></use>
+                                <use xlink:href="{% static 'images/svg/starburst.svg' %}"></use>
                             </svg>
                         </div>
                         <div class="remaining_participant_hint cloud_silver"></div>
@@ -117,7 +118,8 @@
                                          style="position: absolute; top: 0px; transform: translateY(128px);">
 
                                     <span class=" member_preview_link member_image thumb_36" data-member-id="USLACKBOT"
-                                          data-thumb-size="36" style="background-image: url('/static/images/roosty@2x.png');"
+                                          data-thumb-size="36"
+                                          style="background-image: url('/static/images/roosty@2x.png');"
                                           aria-hidden="true"></span>
 
 

@@ -69,7 +69,7 @@ def home_profile(request):
 
 @login_required(login_url='/login/')
 def files_profile(request):
-    partners = Profile.objects.filter(company__slug=request.user.profile.company.slug).exclude(
+    partners = Profile.objects.filter(company__slug=request.user.user_profile.company.slug).exclude(
         user__username=request.user.username)
     return render_to_response('account/acc_files.html', {'partners': partners},
                               context_instance=RequestContext(request))
