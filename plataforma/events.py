@@ -12,9 +12,9 @@ from django.utils import timezone
 def on_connect(request, socket, context):
     Profile.objects.filter(user__username=request.user.username).update(socketsession=socket.session.session_id)
 
-    profile = Profile.objects.filter(user__username=request.user.username)
-    print profile[0].socketsession
-    send(socket.session.session_id, {"action": "connected", "message": profile[0].user.username})
+    profile = Profile.objects.get(user__username=request.user.username)
+
+    send(socket.session.session_id, {"action": "connected", "message": profile.user.username})
 
 
 @events.on_message

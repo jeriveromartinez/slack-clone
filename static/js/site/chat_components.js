@@ -16,15 +16,20 @@ var item_channel_list = function (name) {
 };
 
 var item_user_list = function (data) {
+    var minutes = 30 * 60 * 1000;
+    var dif=new Date().getTime()-new Date(data.date_pub).getTime() ;
+    var date = dif> minutes;
+    var un_reader_msg = (data.un_reader_msg > 0) ? 'active' : 'hidden';
+     var active = (date) ? 'away' : 'active';
     return '<li id="' + name.toLowerCase() + '"  data-name="' + data.user_connect.username.toLowerCase() + '" class="member cursor_pointer">' +
         '<div class="hotness_icon hidden"><span class="emoji-outer emoji-sizer" style="background: url(/static/images/sheet_apple_64_indexed_256colors.png) 57.5% 65%;background-size:4100%"></span>' +
-        '</div><a href="#' + name + '" class="im_name nuc">' +
-        '<span class="unread_highlights hidden">0</span>' +
+        '</div><a href="#' + data.user_connect.username + '" class="im_name nuc">' +
+        '<span class="unread_highlights ' + un_reader_msg + '">' + data.un_reader_msg + '</span>' +
         '<span class="typing_indicator"></span>' +
         '<span class="overflow_ellipsis">' +
-        '<span class="presence away " title="away">' +
+        '<span class="presence '+active+' " title="'+active+'">' +
         '<i class="ts_icon ts_icon_presence presence_icon"></i>' +
-        '</span>' + name + '</span></a>' +
+        '</span>' + data.user_connect.username + '</span></a>' +
         '<button class="ts_icon ts_icon_times_circle im_close btn_unstyle" aria-label="Close Direct Message with jeriverom" data-qa="im_close"></button></li>';
 };
 

@@ -108,7 +108,7 @@ $(document).ready(function () {
     $("#direct_messages_header, .new_dm_btn").on("click", function (e) {
         e.stopPropagation();
 
-        openDirectModal(e);
+        openDirectModal();
     });
 
     //aux methods
@@ -143,7 +143,8 @@ $(document).ready(function () {
     };
     var get_comuncation_me = function () {
         var exc = function (response) {
-            
+            window.usercomunication = response;
+
             var list = $('#im-list').html('');
             $('#dm_header_count').html(response.length);
             $('span#active_members_count_value').html(response.length);
@@ -153,7 +154,7 @@ $(document).ready(function () {
             });
         };
 
-        var urlapi = apiUrl + 'cummunication_me' + userlogged;
+        var urlapi = apiUrl + 'cummunication_me/' + userlogged;
         $.when(users_online()).done(function () {
             request(urlapi, 'GET', null, null, exc, null);
         });
@@ -294,7 +295,7 @@ $(document).ready(function () {
     }
 
 //Direct message Modal
-    var openDirectModal = function () {
+    function openDirectModal() {
 
         var modal = $("#direct-message").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
@@ -321,12 +322,20 @@ $(document).ready(function () {
             modal.removeClass("active");
             modal.addClass("hidden");
             modal.find("#im_browser_tokens").removeClass("active");
-            _$list_container.off("click", ".im_browser_row", function () {
+            
+            _$list_container.unbind().off("click", ".im_browser_row", function () {
 
                 _selected_members = [];
 
 
             });
+            _$im_browser.off('click', '.member_token .remove_member_icon', function () {
+
+            });
+            $("body").off("click", "#fs_modal_close_btn", function () {
+
+            });
+
 
         }
 
@@ -372,7 +381,9 @@ $(document).ready(function () {
                     if ($.inArray(item.user.username, _selected_members) == -1) {
                         list.append(item_direct_filter(item, parseInt(pos)));
                     }
-
+                    else {
+                        pos -= 64 * index;
+                    }
                 });
 
 

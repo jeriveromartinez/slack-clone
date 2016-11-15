@@ -52,7 +52,6 @@ class Room(models.Model):
     users = models.ManyToManyField(Profile, related_name='users_room')
     purpose = models.CharField(max_length=255, null=False, default="public")
 
-
     class Meta:
         ordering = ('created',)
 
@@ -202,7 +201,8 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
     try:
 
         communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_from,
-                                                     user_connect=instance.messageevent_ptr.user_to)
+                                                     user_connect=instance.messageevent_ptr.user_to) \
+            .update(date_pub=datetime.now())
 
         if not communication:
             messages = MessageEvent.objects.all().filter(readed=False,
@@ -215,6 +215,9 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
             Communication.objects.create(user_me=instance.messageevent_ptr.user_from,
                                          user_connect=instance.messageevent_ptr.user_to,
                                          un_reader_msg=messages[0]['total'])
+
+
+
 
     except MessageEvent.DoesNotExist as e:
         print e
