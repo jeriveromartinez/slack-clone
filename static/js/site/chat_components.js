@@ -15,8 +15,8 @@ var item_channel_list = function (name) {
         '</span></a></li>'
 };
 
-var item_user_list = function (name) {
-    return '<li id="' + name.toLowerCase() + '"  data-name="' + name.toLowerCase() + '" class="member cursor_pointer">' +
+var item_user_list = function (data) {
+    return '<li id="' + name.toLowerCase() + '"  data-name="' + data.user_connect.username.toLowerCase() + '" class="member cursor_pointer">' +
         '<div class="hotness_icon hidden"><span class="emoji-outer emoji-sizer" style="background: url(/static/images/sheet_apple_64_indexed_256colors.png) 57.5% 65%;background-size:4100%"></span>' +
         '</div><a href="#' + name + '" class="im_name nuc">' +
         '<span class="unread_highlights hidden">0</span>' +
@@ -236,7 +236,7 @@ var item_direct_filter = function (data, pos) {
 };
 var item_member_token = function (user) {
     var avatar = "url('/static/images/roosty@2x.png')";
-    var item = '<div class="member_token " data-member-id="U2KQ35L2Z">' +
+    var item = '<div class="member_token " data-member-id="' + user + '">' +
         '<span class=" member_preview_link member_image thumb_24" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
         user +
         '<i class="ts_icon ts_icon_times ts_icon_inherit remove_member_icon"></i>' +

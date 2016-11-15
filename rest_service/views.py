@@ -205,7 +205,7 @@ def get_recente_message_user(request, username):
     # .exclude(**{'user_from__username' + '__exact': username}) \
 
     messages = MessageEvent.objects.all().filter(
-        date_pub__gte=datetime.now() - timedelta(days=2)) \
+        date_pub__gte=datetime.now() - timedelta(days=8)) \
         .distinct('user_from__username').order_by('user_from__username')
 
     reponse = {}

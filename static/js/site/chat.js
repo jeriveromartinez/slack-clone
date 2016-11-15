@@ -15,7 +15,7 @@ $(document).ready(function () {
     $(function () {
         initView();
         get_chanel();
-        get_users();
+        get_comuncation_me();
         active_chat(userlogged, 'user');
     });
 
@@ -137,6 +137,23 @@ $(document).ready(function () {
         };
 
         var urlapi = apiUrl + companyuser + '/users/';
+        $.when(users_online()).done(function () {
+            request(urlapi, 'GET', null, null, exc, null);
+        });
+    };
+    var get_comuncation_me = function () {
+        var exc = function (response) {
+            
+            var list = $('#im-list').html('');
+            $('#dm_header_count').html(response.length);
+            $('span#active_members_count_value').html(response.length);
+            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
+            response.forEach(function (item) {
+                list.append(item_user_list(item));
+            });
+        };
+
+        var urlapi = apiUrl + 'cummunication_me' + userlogged;
         $.when(users_online()).done(function () {
             request(urlapi, 'GET', null, null, exc, null);
         });
@@ -277,7 +294,7 @@ $(document).ready(function () {
     }
 
 //Direct message Modal
-    var openDirectModal = function (e) {
+    var openDirectModal = function () {
 
         var modal = $("#direct-message").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
@@ -304,20 +321,40 @@ $(document).ready(function () {
             modal.removeClass("active");
             modal.addClass("hidden");
             modal.find("#im_browser_tokens").removeClass("active");
+            _$list_container.off("click", ".im_browser_row", function () {
+
+                _selected_members = [];
+
+
+            });
 
         }
 
         _startListView();
+        _clear();
         if (!_selected_members)_selected_members = [];
 
 
-        _$list_container.on("click", ".im_browser_row", function (e) {
+        _$list_container.on("click", ".im_browser_row", function () {
 
-            _selectRow($(this))
+            _selectRow($(this));
         });
         _$im_browser.on("input", "#im_browser_filter", function () {
             var input = $("#im_browser_filter").val();
             _filterListView(input);
+        });
+        _$im_browser.on('click', '.member_token .remove_member_icon', function () {
+            var item = $(this).parent();
+            var member = item.attr('data-member-id');
+            var index = _selected_members.indexOf(member);
+            if (index > -1) {
+                _selected_members.splice(index, 1);
+            }
+            item.remove();
+
+            var input = $("#im_browser_filter").val();
+            _filterListView(input);
+            _updateGo();
         });
 
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
@@ -327,20 +364,16 @@ $(document).ready(function () {
             var exc = function (data) {
 
                 list.empty();
-                if (input.length == 0) {
-                    _startListView()
-                }
-                else {
-                    $.each(data, function (index, item) {
 
-                        var pos = 64 * index;
-                        console.log("_selected_members", $.inArray(item.user.username, _selected_members));
-                        if ($.inArray(item.user.username, _selected_members) == -1) {
-                            list.append(item_direct_filter(item, parseInt(pos)));
-                        }
+                $.each(data, function (index, item) {
 
-                    });
-                }
+                    var pos = 64 * index;
+
+                    if ($.inArray(item.user.username, _selected_members) == -1) {
+                        list.append(item_direct_filter(item, parseInt(pos)));
+                    }
+
+                });
 
 
             };
@@ -355,9 +388,9 @@ $(document).ready(function () {
                 list.empty();
                 $.each(data.items, function (index, item) {
                     var pos = 64 * index;
-                     if ($.inArray(item.user_from.username, _selected_members) == -1) {
-                         list.append(item_direct_message(item, parseInt(pos)));
-                     }
+
+                    list.append(item_direct_message(item, parseInt(pos)));
+
                 });
 
             };
@@ -366,13 +399,12 @@ $(document).ready(function () {
             request(urlapi, 'GET', null, null, exc, null);
         };
 
-        function _selectRow($row) {
-            var member = $row.attr('data-member-id');
-            //save member
-            _selected_members.push(member);
+        function _selectRow(row) {
+            var member = row.attr('data-member-id');
+
 
             if (member == userlogged) {
-                console.log("iguales", member)
+
                 active_chat(member, 'user');
                 activeChannel = member;
                 Reload(activeChannel);
@@ -381,12 +413,23 @@ $(document).ready(function () {
                 _close();
             }
             else {
-                var input = $("#im_browser_filter").val();
-                _filterListView(input);
+                if ($.inArray(member, _selected_members) == -1) {
+                    _selected_members.push(member);
+                    var input = $("#im_browser_filter").val();
+                    _filterListView(input);
 
-                $("#im_browser_tokens").prepend(item_member_token(member));
+                    $("#im_browser_tokens").prepend(item_member_token(member));
+                }
+
 
             }
+            _updateGo();
+            _updateParticipantCountHint();
+
+
+        }
+
+        function _updateGo() {
             if (_selected_members.length) {
                 _$im_browser.find(".im_browser_go").removeClass("disabled")
             } else {
@@ -397,10 +440,8 @@ $(document).ready(function () {
             } else {
                 _$im_browser.removeClass("reached_maximum")
             }
-            _updateParticipantCountHint();
 
-
-        }
+        };
 
         function _updateParticipantCountHint() {
             var max = _MAX;
@@ -418,6 +459,17 @@ $(document).ready(function () {
                 $div.text("You have reached the maximum number of participants")
             }
         };
+
+        function _clear() {
+            var select = $('#im_browser_tokens').find("div.member_token")
+
+            $.each(select, function (index, item) {
+                item.parentNode.removeChild(item);
+
+            });
+
+        }
+
 
     };
 });
