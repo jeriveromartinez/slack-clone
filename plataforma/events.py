@@ -12,9 +12,9 @@ from django.utils import timezone
 def on_connect(request, socket, context):
     Profile.objects.filter(user__username=request.user.username).update(socketsession=socket.session.session_id)
 
-    profile = Profile.objects.filter(user__username=request.user.username)
-    print profile[0].socketsession
-    send(socket.session.session_id, {"action": "connected", "message": profile[0].user.username})
+    profile = Profile.objects.get(user__username=request.user.username)
+
+    send(socket.session.session_id, {"action": "connected", "message": profile.user.username})
 
 
 @events.on_message
@@ -23,22 +23,21 @@ def message(request, socket, context, message):
 
     if request.user.is_authenticated and user_to:
         profile = Profile.objects.filter(user__username=message["user_to"])
+        msg = MessageInstEvent.objects.create(user_to=profile[0].user, user_from=request.user, msg=message["message"],
+                                              type="message_int_event")
 
-    msg = MessageInstEvent.objects.create(user_to=profile[0].user, user_from=request.user, msg=message["message"],
-                                          type="message_int_event")
+        try:
+            print user_to.username
+            print profile[0].user.username
+            print profile[0].socketsession
 
-    try:
-        print user_to.username
-        print profile[0].user.username
-        print profile[0].socketsession
-
-        message["action"] = "message"
-        message["user_to"] = profile[0].user.username
-        message["user_from"] = user_to.username
-        message["date_pub"] = str(msg.date_pub.isoformat())
-        send(profile[0].socketsession, message)
-    except NoSocket as e:
-        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+            message["action"] = "message"
+            message["user_to"] = profile[0].user.username
+            message["user_from"] = user_to.username
+            message["date_pub"] = str(msg.date_pub.isoformat())
+            send(profile[0].socketsession, message)
+        except NoSocket as e:
+            send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 @events.on_subscribe

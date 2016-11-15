@@ -6396,7 +6396,9 @@ button.close {
     text-decoration: none;
     background-color: #000;
     border-radius: 4px;
+    white-space:nowrap;
 }
+
 
 .tooltip-arrow {
     position: absolute;

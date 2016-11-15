@@ -103,3 +103,12 @@ class FileCommentEventSerializer(MessageEventSerializer):
     class Meta(MessageEventSerializer.Meta):
         model = FileCommentEvent
         exclude = ('id',)
+
+
+class CommunicationSerializer(serializers.ModelSerializer):
+    user_me = UserSerializer()
+    user_connect = UserSerializer()
+
+    class Meta:
+        model = Communication
+        exclude = ('id',)

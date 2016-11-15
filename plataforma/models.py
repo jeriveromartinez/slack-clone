@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.db import models
-
-from django.db.models.signals import post_delete
+from django.db.models import Count
+from datetime import datetime, timedelta
+from django.db.models.signals import post_delete, post_save
 from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
@@ -49,6 +50,7 @@ class Room(models.Model):
     company = models.ForeignKey(Company, related_name='room')
     created = models.DateTimeField(auto_now_add=True)
     users = models.ManyToManyField(Profile, related_name='users_room')
+    purpose = models.CharField(max_length=255, null=False, default="public")
 
     class Meta:
         ordering = ('created',)
@@ -248,9 +250,11 @@ class FileCommentEvent(MessageEvent):
 
 
 class Communication(models.Model):
-    user_me = models.ForeignKey(Profile, related_name='user_me')
-    user_connect = models.ForeignKey(Profile, related_name='user_connect')
+    user_me = models.ForeignKey(User, related_name='user_me')
+    user_connect = models.ForeignKey(User, related_name='user_connect')
+    date_pub = models.DateTimeField(auto_now_add=True)
     un_reader_msg = models.IntegerField()
+    stared = models.BooleanField(default=False)
 
 
 # Message EVENTS End
@@ -264,6 +268,34 @@ def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
     else:
         instance.user.delete()
         instance.company.delete()
+
+
+# Create Comunication between users
+@receiver(post_save, sender=MessageInstEvent)
+def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
+    try:
+
+        communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_from,
+                                                     user_connect=instance.messageevent_ptr.user_to) \
+            .update(date_pub=datetime.now())
+
+        if not communication:
+            messages = MessageEvent.objects.all().filter(readed=False,
+                                                         user_to__username=instance.messageevent_ptr.user_to.username) \
+                .values("user_to__username") \
+                .annotate(
+                total=Count('readed')) \
+                .order_by('user_to')
+
+            Communication.objects.create(user_me=instance.messageevent_ptr.user_from,
+                                         user_connect=instance.messageevent_ptr.user_to,
+                                         un_reader_msg=messages[0]['total'])
+
+
+
+
+    except MessageEvent.DoesNotExist as e:
+        print e
 
 
 # SIGNAL

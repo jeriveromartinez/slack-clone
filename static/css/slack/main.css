@@ -465,12 +465,12 @@ header#client_header {
 }
 
 .channels_list_holder .unread_highlights, .channels_list_holder .unread_msgs {
-    right: 15px;
-    width: 1.1rem;
+    /*right: 15px;*/
+    /*width: 1.1rem;*/
 }
 
 li.member.cursor_pointer {
-    width: 12rem;
+   /*width: 12 rem;*/
 }
 
 #col_channels_footer {

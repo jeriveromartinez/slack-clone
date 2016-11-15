@@ -35,10 +35,16 @@
                                         </li>
                                     </ul>
                                     <div id="channels" role="navigation" class="section_holder" aria-label="Channels">
-                                        {% comment %}<button class="new_channel_btn ts_icon ts_icon_plus_circle channels_list_new_btn btn_unstyle"
-                                                title="Create new Channel"></button>{% endcomment %}
+
+                                        <button class="new_channel_btn ts_icon ts_icon_plus_circle channels_list_new_btn btn_unstyle"
+                                                data-toggle="tooltip" data-action="create_channel" title=""
+                                                aria-label="Create new channel"
+                                                data-original-title="Create new channel"></button>
                                         <h2 id="channels_header" class="hoverable">
-                                            <button class="channel_list_header_label btn_unstyle">
+                                            <button class="channel_list_header_label btn_unstyle"
+                                                    data-toggle="tooltip" title=""
+                                                    aria-label="Browse all 1 channels"
+                                                    data-original-title="Browse all channels">
                                                 Channels
                                                 <span class="header_count">
                                                     (<span id="channel_header_count">2</span>)
@@ -52,9 +58,11 @@
                                     <div id="direct_messages" role="navigation" class="section_holder no_bottom_margin"
                                          aria-label="Direct Messages">
                                         <button class="new_dm_btn ts_icon ts_icon_plus_circle channels_list_new_btn btn_unstyle"
-                                                title="New Message"></button>
+                                                data-toggle="tooltip" title="" aria-label="Direct Messages"
+                                                data-original-title="Open a Direct Message"></button>
 
-                                        <h2 id="direct_messages_header" class="hoverable" title="Open a Direct Message">
+                                        <h2 id="direct_messages_header" class="hoverable" data-toggle="tooltip" title=""
+                                            aria-label="Direct Messages" data-original-title="Open a Direct Message">
                                             Direct Messages <span class="header_count">(<span
                                                 id="dm_header_count">3</span>)</span></h2>
                                         <ul id="im-list">
