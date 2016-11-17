@@ -190,15 +190,12 @@ DJANGO_APPS = (
     'suit',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    # Django_socketio
     'django_socketio',
-    # polymorphic
     'polymorphic',
-
-    # Django restframework:
     'rest_framework',
     'ipware',
     'django_user_agents',
+    'pygithub3'
 )
 
 THIRD_PARTY_APPS = (
@@ -274,6 +271,7 @@ EMAIL_HOST = 'smtp.uci.cu'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'jerivero@uci.cu'
 EMAIL_HOST_PASSWORD = 'J3rm*91.'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ##SOCKETIO
 SOCKETIO_HOST = "0.0.0.0"

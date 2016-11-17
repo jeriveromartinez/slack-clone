@@ -13,4 +13,5 @@ gevent-websocket
 django-socketio
 django-ipware
 django-user-agents
+pygithub3
 Pillow
