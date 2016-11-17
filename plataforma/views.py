@@ -3,13 +3,15 @@ import json
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail.message import EmailMessage
 from django.http.response import JsonResponse
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 
 from plataforma.forms import LoginForm
 from plataforma.serializers import *
+from plataforma.utils import Email
 
 
 def login_page(request):
@@ -72,21 +74,25 @@ def create(request):
 
         name_company = post.get("company")
         company = Company.objects.create(name=name_company)
-        Profile.objects.create(user=user, company=company, type="owner")
+
         try:
-            send_mail(subject='Asunto', message='Hola', from_email='jerivero@uci.cu',
-                      recipient_list=['jerivero@uci.cu'])  # np.asarray(invite) TODO: sigue sin pinchar
+            email = Email
+            for element in invite:
+                slug = slugify(datetime.now().__str__() + element)
+                UserInvited.objects.create(email=element, company=company, slug_activation=slug)
+                email.send('topic', element, slug)
         except Exception as e:
             print e
 
+        Profile.objects.create(user=user, company=company, type="owner")
         user = authenticate(username=username, password=password)
         login(request, user)
         return JsonResponse({'action': 'success'})
     else:
         email = request.GET.get("signup_email")
 
-    return render_to_response('registro/register_steps.html', {'username': email.split("@")[0], 'email': email},
-                              RequestContext(request))
+    return render_to_response('registro/register_steps.html',
+                              {'username': email.split("@")[0], 'email': email}, RequestContext(request))
 
 
 @login_required(login_url='/login/')
@@ -104,5 +110,29 @@ def find_team(request):
     return render_to_response('find_team.html', context_instance=RequestContext(request))
 
 
-def invite_user(request):
-    return render_to_response('chat/invite.html', context_instance=RequestContext(request))
+def invite_user(request, slug=None):
+    invitation = get_object_or_404(UserInvited, slug_activation=slug)
+    if request.method == "POST":
+        try:
+            first_name = request.POST['firstName']
+            last_name = request.POST['lastName']
+            username = request.POST['username']
+            password = request.POST['password']
+
+            user = User.objects.create_user(username, invitation.email, password)
+            user.first_name = first_name
+            user.last_name = last_name
+            user.is_active = True
+            user.save()
+
+            company = Company.objects.filter(slug=invitation.company.slug)[0]
+            Profile.objects.create(user=user, company=company, type="guest")
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            invitation.delete()
+            return redirect('app:homepage')
+        except Exception as e:
+            print e
+
+    return render_to_response('registro/register_user_invited.html', {'username': invitation.email.split("@")[0]},
+                              context_instance=RequestContext(request))

@@ -8,7 +8,7 @@
     <h1 id="header_team_name" class="inline_block">
         <a href="{% url 'account:profile_home' %}">
             <i class="ts_icon ts_icon_home"></i>
-            {{ request.user.profile.company.name }}
+            {{ request.user.user_profile.company.name }}
         </a>
     </h1>
     <div class="header_nav">

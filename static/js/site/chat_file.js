@@ -24,8 +24,9 @@ $(document).ready(function () {
     $('#file_list_by_user').on('click', '.file_list_item', function () {
         var exc = function (response) {
             $('#file_preview_container').removeClass('hidden');
-            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
-            item.append(item_file_detail(response.author.user.username, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
+            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html(''),
+                userurl = hostUrl + '/account/profile/' + response.author.user.username + '/';
+            item.append(item_file_detail(response.author.user.username, userurl, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
         };
 
         $('.panel.active').removeClass('active');

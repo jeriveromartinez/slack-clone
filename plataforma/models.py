@@ -228,6 +228,12 @@ class UserLogger(models.Model):
         return self.user.username + ' ' + self.time_login.__str__()
 
 
+class UserInvited(models.Model):
+    email = models.EmailField(max_length=255)
+    company = models.ForeignKey(Company, related_name='invited_company')
+    slug_activation = models.SlugField(null=True, blank=True)
+
+
 # Message EVENTS Begin
 class MessageEvent(PolymorphicModel):
     CHOICE = (
@@ -272,7 +278,7 @@ class Communication(models.Model):
 
 # Message EVENTS End
 @receiver(post_delete, sender=Profile)
-def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
+def delete_user_profile(sender, instance=None, **kwargs):  # no borrar nada de aqui
     try:
         instance.user
         instance.company

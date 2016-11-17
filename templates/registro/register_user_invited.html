@@ -1,0 +1,72 @@
+{% extends 'site_template/base_login.html' %}
+{% load staticfiles %}
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/site/invitation_register.js' %}"></script>
+{% endblock %}
+{% block body_style %}no_header full_height no_margin full_bleed{% endblock %}
+{% block container %}
+    <div id="signup_flow" class="full_height fs_split" data-step="name">
+        <div id="signup_wrapper" class="fs_split_pane fs_split_pane_full_width">
+            <a class="logo_link" href="{% url 'app:homepage' %}">
+                <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack"></a>
+
+            <form class="fs_split_flex_wrapper" method="post">
+                {% csrf_token %}
+                <div class="fs_split_body">
+                    <div class="create_step_number_label">Step <span id="step"></span> of 5</div>
+                    <h1>What’s your name?</h1>
+                    <p class="desc">Your name will be displayed along with your messages in Slack.</p>
+                    <div class="names no_top_padding bottom_padding" id="name_fields">
+                        <label>Your name</label>
+                        <div class="col span_1_of_2 no_padding name_field" id="first_name_wrapper">
+                            <input placeholder="first name" id="signup_first_name" maxlength="35" autocomplete="off"
+                                   name="firstName" required aria-label="First name" type="text">
+                            <p class="error_message"></p>
+                        </div>
+                        <div class="col span_1_of_2 no_padding name_field" id="last_name_wrapper">
+                            <input placeholder="last name" id="signup_last_name" maxlength="35" autocomplete="off"
+                                   name="lastName" required value="" aria-label="Last name" type="text">
+                            <p class="error_message"></p>
+                        </div>
+                    </div>
+                    <div id="username_form_body" class="clear_both">
+                        <label id="username_label">Username</label>
+                        <div class="input_wrapper username">
+                            <p id="username_overlay" class="input_overlay"></p>
+                            <input id="signup_username" maxlength="21" autocomplete="off" required type="text"
+                                   name="username" value="{{ username }}"
+                                   aria-labelledby="username_label username_rule_label">
+                        </div>
+                        <p class="error_message"></p>
+                        <p id="username_rule_label" class="subtle_silver">Usernames must be all lowercase, with no
+                            spaces. They can only contain letters, numbers, periods, hyphens, and underscores.</p>
+                    </div>
+                    <div id="username_form_body" class="clear_both">
+                        <label class="normal" for="password">Password</label>
+                        <input id="signup_password" placeholder="Password" name="password" type="password" required>
+                        <div style="position: relative; width: 100%; margin: 5px 0px 1rem;">
+                            <div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div>
+                            <div style="height: 4px; width: 0%; position: absolute; left: 0px; background-color: rgb(39, 179, 15);"
+                                 id="password-strength-meter"></div>
+                            <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div>
+                            <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div>
+                            <div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 75%;"></div>
+                        </div>
+                        <p class="error_message" id="password_error_message"></p>
+                        <p class="subtle_silver">Passwords must be at least 6 characters long, and can’t be things like
+                            <i>password</i>, <i>123456</i> or <i>abcdef</i>.</p>
+                    </div>
+                </div>
+                <div id="submit" class="fs_split_footer">
+                    <div class="button_container">
+                        <button id="submit_btn" class="btn btn_large ladda-button">
+                            <span class="ladda-label">Save
+                                <ts-icon class="ts_icon_arrow_right" aria-hidden="true"></ts-icon>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
