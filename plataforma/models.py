@@ -48,9 +48,10 @@ class Room(models.Model):
     name = models.CharField(max_length=255, null=False, default="public")
     slug = models.SlugField(null=True, blank=True)
     company = models.ForeignKey(Company, related_name='room')
+    usercreator = models.ForeignKey(Profile, related_name='creator')
     created = models.DateTimeField(auto_now_add=True)
     users = models.ManyToManyField(Profile, related_name='users_room')
-    purpose = models.CharField(max_length=255, null=False, default="public")
+    purpose = models.TextField(max_length=255, null=False, default="public")
 
     class Meta:
         ordering = ('created',)

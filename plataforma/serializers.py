@@ -32,7 +32,7 @@ class ProfileFileSerializer(serializers.ModelSerializer):
 
 
 class UserFileSerializer(serializers.ModelSerializer):
-    user_profile = ProfileFileSerializer(many=False)
+    user_profile = ProfileFileSerializer()
 
     class Meta:
         model = User
@@ -41,6 +41,7 @@ class UserFileSerializer(serializers.ModelSerializer):
 
 class RoomSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
+    usercreator = ProfileSerializer()
 
     class Meta:
         model = Room

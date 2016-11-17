@@ -24,11 +24,57 @@ def room_by_company(request, company, room_name):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def room_by_user(request, username):
-    room = Room.objects.filter(users_room__user__username=username)
+@api_view(['POST'])
+def room_by_company_filter(request):
+    name = Profile.objects.filter(user=request.user).values('company__name')
+    room = []
+    if request.method == "POST":
+
+        term = request.POST.get("term")
+        if term:
+            room = Room.objects.filter(company__name=name).filter(name__icontains=term)
+        else:
+            room = Room.objects.filter(company__name=name)
+
     serializer = RoomSerializer(room, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def room_by_user(request, username):
+    rooms = Room.objects.filter(users__user__username=username)
+    serializer = RoomSerializer(rooms, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def room_by_user_list(request, username):
+    rooms = Room.objects.filter(users__user__username=username).values("name")
+    data = list(rooms)
+
+    if len(data) > 1:
+        for key, room in data:
+            print room["name"]
+            messages = MessageEvent.objects.all().filter(readed=False, room__name=room.name). \
+                values("room__name") \
+                .annotate(
+                total=Count('readed')) \
+                .order_by('room')
+            data[key]["un_reader_msg"] = messages[0]['total']
+    else:
+        messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"]). \
+            values("room__name") \
+            .annotate(
+            total=Count('readed')) \
+            .order_by('room')
+        if len(messages) > 0:
+            data[0]["un_reader_msg"] = messages[0]['total']
+        else:
+            data[0]["un_reader_msg"] = 0
+
+    result = {'items': data}
+
+    return Response(result)
 
 
 @api_view(['GET'])  # TODO: Agregar a url
@@ -58,10 +104,9 @@ def create_room_by_company(request):
         prupose = request.POST.get("prupose")
         users_invite = json.loads(request.POST.get("users_invite"))
         if name and prupose:
-            company = Profile.objects.filter(user=request.user).values('company')
-            room = Room.objects.create(name=name, company=company)
-            user_me = Profile.objects.filter(user=request.user)[0]
-            room.users.add(user_me)
+            profile = Profile.objects.filter(user__username=request.user.username)[0]
+            room = Room.objects.create(name=name, company=profile.company, creator=profile, prupose=prupose)
+            room.users.add(profile)
             if len(users_invite) > 0:
                 for obj in users_invite:
                     user = Profile.objects.filter(user__username=obj)[0]

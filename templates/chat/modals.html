@@ -151,3 +151,317 @@
     </div>
 
 </div>
+
+<div id="browse-chanel">
+    <div id="fs_modal" class="fs_modal_internal_scroll hidden">
+
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+
+        <div class="contents_container">
+
+            <div class="contents">
+                <div id="channel_browser" class="channel_modal_with_list channel_modal">
+                    <div class="large_bottom_margin display_flex align_items_center">
+                        <h1 class="no_bottom_margin channel_modal_header">Browse all 3 channels</h1>
+                        <button class="new_channel btn btn_primary auto_left_margin">New channel</button>
+                    </div>
+                    <div class="small_bottom_margin display_flex align_items_center">
+                        <div class="channel_browser_filter_container channel_modal_filter_container right_margin flex_one">
+                            <i class="ts_icon ts_icon_search cloud_silver search_icon"></i>
+                            <i class="ts_icon ts_icon_times_circle cloud_silver clear_filter_icon"></i>
+                            <input id="channel_browser_filter" class="small" placeholder="Search channels"
+                                   title="Search channels" value="" type="text">
+                        </div>
+                        <div class="channel_browser_sort_container">
+                            <label class="select small">
+                                <select id="channel_browser_sort" class="small">
+                                    <option value="name">Channel Name &amp; Membership</option>
+                                    <option value="creator">Name of Creator</option>
+                                    <option value="created">Creation Date (newest first)</option>
+                                    <option value="members_high">Members (most to fewest)</option>
+                                    <option value="members_low">Members (fewest to most)</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="channel_browser_empty"
+                         class="hidden align_center margin_auto display_flex align_items_center justify_content_center">
+                        <span class="channel_browser_empty_message"></span>
+                    </div>
+                    <div id="monkey_scroll_wrapper_for_channel_list_container" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 626.5px;">
+                            <div class="monkey_scroll_handle " style="left: 0px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="channel_list_container" class="channel_modal_list not_scrolling monkey_scroller"
+                                 style="width: 640px;">
+                                <div class="list_items" style="position: relative; height: 331px;">
+                                    <div class="channel_browser_divider" style="z-index: 2; top: 0px; margin-top: 0px;"
+                                         data-long-list-item="1">Channels you belong to
+                                    </div>
+                                    <div class="channel_browser_row channel_link" data-long-list-item="1"
+                                         style="position: absolute; top: 0px; transform: translateY(35px);"
+                                         data-channel-id="C2KPUV3P0">
+                                        <div class="channel_browser_row_header overflow_ellipsis">
+                                            <ts-icon
+                                                    class="channel_browser_type_icon subtle_silver ts_icon_channel_pane_hash"></ts-icon>
+                                            <span class="channel_browser_channel_name bold">announcements</span>
+                                            <ts-icon
+                                                    class="shared_channel_icon subtle_silver ts_icon_shared_channel hidden"></ts-icon>
+                                            <span class="channel_browser_joined cloud_silver">JOINED</span>
+                                        </div>
+                                        <div class="overflow_ellipsis italic">
+                                            Created <span class="channel_browser_created_by">by <span
+                                                class="channel_browser_creator_name">vbuilvicente</span></span> on <span
+                                                class="channel_browser_created_on">October 5th, 2016</span>
+                                        </div>
+                                        <div class="channel_browser_channel_purpose subtle_silver">This channel is for
+                                            team-wide communication and announcements. All team members are in this
+                                            channel.
+                                        </div>
+
+                                        <div class="channel_browser_member_count_container subtle_silver small_left_margin">
+                                            <i class="ts_icon ts_icon_user"></i> <span
+                                                class="channel_browser_member_count">2</span></div>
+                                        <div class="channel_browser_open">
+                                            <i class="ts_icon ts_icon_enter"></i>
+                                        </div>
+                                        <div class="channel_browser_preview align_center hidden">
+                                            <i class="ts_icon ts_icon_enter"></i><br>preview
+                                        </div>
+
+                                    </div>
+                                    <div class="channel_browser_row group_link" data-long-list-item="1"
+                                         style="position: absolute; top: 0px; transform: translateY(147px);"
+                                         data-group-id="G2W0P8TLJ">
+                                        <div class="channel_browser_row_header overflow_ellipsis">
+                                            <ts-icon
+                                                    class="channel_browser_type_icon subtle_silver ts_icon_lock"></ts-icon>
+                                            <span class="channel_browser_channel_name bold">chat</span>
+                                            <ts-icon
+                                                    class="shared_channel_icon subtle_silver ts_icon_shared_channel hidden"></ts-icon>
+                                            <span class="channel_browser_joined cloud_silver">JOINED</span>
+                                        </div>
+                                        <div class="overflow_ellipsis italic">
+                                            Created <span class="channel_browser_created_by">by <span
+                                                class="channel_browser_creator_name">vbuilvicente</span></span> on <span
+                                                class="channel_browser_created_on">October 29th, 2016</span>
+                                        </div>
+                                        <div class="channel_browser_channel_purpose subtle_silver hidden"></div>
+
+                                        <div class="channel_browser_member_count_container subtle_silver small_left_margin">
+                                            <i class="ts_icon ts_icon_user"></i> <span
+                                                class="channel_browser_member_count">2</span></div>
+                                        <div class="channel_browser_open">
+                                            <i class="ts_icon ts_icon_enter"></i>
+                                        </div>
+                                        <div class="channel_browser_preview align_center hidden">
+                                            <i class="ts_icon ts_icon_enter"></i><br>preview
+                                        </div>
+
+                                    </div>
+                                    <div class="channel_browser_row channel_link" data-long-list-item="1"
+                                         style="position: absolute; top: 0px; transform: translateY(219px);"
+                                         data-channel-id="C2KNC4V7D">
+                                        <div class="channel_browser_row_header overflow_ellipsis">
+                                            <ts-icon
+                                                    class="channel_browser_type_icon subtle_silver ts_icon_channel_pane_hash"></ts-icon>
+                                            <span class="channel_browser_channel_name bold">random</span>
+                                            <ts-icon
+                                                    class="shared_channel_icon subtle_silver ts_icon_shared_channel hidden"></ts-icon>
+                                            <span class="channel_browser_joined cloud_silver">JOINED</span>
+                                        </div>
+                                        <div class="overflow_ellipsis italic">
+                                            Created <span class="channel_browser_created_by">by <span
+                                                class="channel_browser_creator_name">vbuilvicente</span></span> on <span
+                                                class="channel_browser_created_on">October 5th, 2016</span>
+                                        </div>
+                                        <div class="channel_browser_channel_purpose subtle_silver">A place for
+                                            non-work-related flimflam, faffing, hodge-podge or jibber-jabber you'd
+                                            prefer to keep out of more focused work-related channels.
+                                        </div>
+
+                                        <div class="channel_browser_member_count_container subtle_silver small_left_margin">
+                                            <i class="ts_icon ts_icon_user"></i> <span
+                                                class="channel_browser_member_count">2</span></div>
+                                        <div class="channel_browser_open">
+                                            <i class="ts_icon ts_icon_enter"></i>
+                                        </div>
+                                        <div class="channel_browser_preview align_center hidden">
+                                            <i class="ts_icon ts_icon_enter"></i><br>preview
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="new_channel_container" class="no_opacity"></div>
+            </div>
+        </div>
+
+        <div id="channel_browser_footer" class="channel_modal_footer">
+            <a class="subtle_silver right_margin about_channels"><i
+                    class="ts_icon ts_icon_info_circle small_right_margin"></i>About channels...</a>
+            <a class="subtle_silver" href="https://blackmambasoft.slack.com/archives/archived" target="_top"><i
+                    class="ts_icon ts_icon_archive small_right_margin"></i>View archived channels...</a>
+        </div>
+    </div>
+</div>
+<div id="create-channel">
+    <div id="fs_modal" class="hidden">
+
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+
+        <div class="contents_container">
+
+            <div class="contents">
+                <div id="new_channel_modal_container">
+                    <div id="new_channel_modal" class="channel_modal">
+                        <div>
+                            <h1 class="channel_modal_header">Create a <span
+                                    class="private_channel_item hidden">private</span> channel</h1>
+
+                            <p class="input_note_special medium_bottom_margin">Channels are where your team
+                                communicates. They’re best when organized around a topic — #leads, for example.</p>
+                        </div>
+                        <div class="bottom_margin">
+                            <label class="checkbox hidden">
+                                <input id="channel_public_private_toggle" name="public" value="public" checked="checked"
+                                       data-style="toggle" data-on-text="Public" data-off-text="Private"
+                                       data-label="Anyone on your team can view and join this channel."
+                                       data-off-label="This channel can only be joined or viewed by invite."
+                                       data-off-class="ts_toggle_orange" type="checkbox">
+                            </label>
+                            <div class="ts_toggle
+			checked
+	">
+                                <div class="ts_toggle_button">
+                                    <div class="ts_toggle_off_text">Private</div>
+                                    <div class="ts_toggle_on_text">Public</div>
+                                    <span class="ts_toggle_handle"></span>
+                                </div>
+                                <div class="ts_toggle_secondary_label">
+                                    <span class="ts_toggle_off_label">This channel can only be joined or viewed by invite.</span>
+                                    <span class="ts_toggle_on_label">Anyone on your team can view and join this channel.</span>
+                                </div>
+                            </div>
+                            <p class="private_channel_item input_note bottom_margin hidden"></p>
+                        </div>
+                        <div>
+                            <div class="bottom_margin">
+                                <label for="channel_create_title" class="block align_left validation_warning">Name<span
+                                        class="validation_message overflow_ellipsis"
+                                        title="Please fill in a channel name." style="display: inline;"></span></label>
+                                <div class="channel_modal_title_input_container no_margin">
+                                    <i class="channel_icon private_channel_item subtle_silver ts_icon_lock ts_icon hidden"></i>
+                                    <i class="channel_icon public_channel_item subtle_silver ts_icon_channel ts_icon "></i>
+                                    <input id="channel_create_title" name="title_input"
+                                           class="title_input large_left_padding validation_warning" value=""
+                                           maxlength="21" placeholder="e.g. leads" data-validation="channel_name"
+                                           data-validation-for="channel_create_title" data-validation-success=""
+                                           type="text">
+                                </div>
+			<span class="modal_input_note margin_auto">
+				Names must be lowercase, with no spaces, and unique.
+			</span>
+			<span class="modal_input_note mustard_yellow hidden name_taken_warning margin_auto block">
+				<i class="ts_icon ts_icon_warning"></i>
+				That name is already taken by a channel, username, or user group.
+			</span>
+			<span class="modal_input_note mustard_yellow hidden invalid_chars_warning margin_auto block">
+				<i class="ts_icon ts_icon_warning"></i>
+				We changed your name so it doesn't contain disallowed characters. If it looks good, click "Create Channel" again!
+			</span>
+			<span class="modal_input_note mustard_yellow hidden other_error margin_auto block">
+				<i class="ts_icon ts_icon_warning"></i>
+				<span class="error_message"></span>
+			</span>
+                            </div>
+
+                            <div class="medium_bottom_margin">
+                                <label for="channel_purpose_input" class="block align_left">
+                                    Purpose
+                                    <span class="subtle_silver normal">(optional)</span>
+                                </label>
+                                <input id="channel_purpose_input" name="channel_purpose_input" maxlength="250"
+                                       placeholder="" value="" type="text">
+                                <span class="modal_input_note margin_auto">What’s this channel about?</span>
+                            </div>
+
+                            <div class="bottom_margin">
+                                <label for="group_members" class="block align_left">
+                                    Send invites to:
+                                    <span class="subtle_silver normal">(optional)</span>
+                                </label>
+                                <div id="invite_members_container">
+                                    <div class="lazy_filter_select default_style">
+                                        <div class="lfs_input_container empty">
+                                            <ts-icon class="ts_icon_search ts_icon search_icon subtle_silver"></ts-icon>
+
+                                            <input class="lfs_input" size="1" placeholder="Search by name" value=""
+                                                   type="text">
+                                        </div>
+                                        <div class="lfs_list_container">
+                                            <div class="lfs_list">
+                                                <div class="list_items" style="position: relative; height: 50px;">
+                                                    <div class="lfs_item" data-long-list-item="1" data-lfs-id="0"
+                                                         style="position: absolute; top: 0px;">
+                                                        <div class="channel_invite_member_small clearfix">
+                                                            <i class="enter_icon ts_icon ts_icon_enter sky_blue not_in_token float_right small_top_margin"></i>
+                                                            <span class=" member_preview_link member_image thumb_36"
+                                                                  data-member-id="U2KQ35L2Z" data-thumb-size="36"
+                                                                  style="background-image: url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=48&amp;d=https%3A%2F%2Fa.slack-edge.com%2F3654%2Fimg%2Favatars%2Fava_0021-48.png')"
+                                                                  aria-hidden="true"></span>
+
+                                                            <div class="name_container overflow_ellipsis">
+                                                                <div class="bold">Julio Rivero</div>
+                                                                <div class="subtle_silver not_in_token">jeriverom</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="lfs_empty hidden"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="new_channel_modal_footer">
+                            <button id="save_channel" class="btn btn_large new_channel_go ladda-button float_right"
+                                    type="submit" data-style="expand-right" disabled="disabled" aria-disabled="true">
+                                <span class="ladda-label">Create Channel</span><span class="ladda-spinner"></span>
+                            </button>
+                            <button type="reset"
+                                    class="btn btn_large btn_outline float_right small_right_margin ladda-button new_channel_cancel_btn">
+                                <span class="ladda-label">Cancel</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

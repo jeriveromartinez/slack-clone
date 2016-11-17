@@ -2,16 +2,17 @@
  * Created by julio on 20/10/16.
  */
 
-var item_channel_list = function (name) {
-    return '<li id=' + name.toLowerCase() + ' class="channel">' +
+var item_channel_list = function (data) {
+    var un_reader_msg = (data.un_reader_msg > 0) ? 'active' : 'hidden';
+    return '<li id=' + data.name.toLowerCase() + ' class="channel">' +
         '<div class="hotness_icon hidden">' +
         '<span class="emoji-outer emoji-sizer" style="background: url(/static/images/sheet_apple_64_indexed_256colors.png) 57.5% 65%;background-size:4100%"></span>' +
-        '</div><a href="#' + name + '"class="channel_name">' +
+        '</div><a href="#' + data.name + '"class="channel_name">' +
         '<ts-icon class="ts_icon_channel_pane_hash prefix"></ts-icon>' +
         '<span class="unread_msgs hidden">0</span>' +
-        '<span class="unread_highlights hidden">0</span>' +
+        '<span class="unread_highlights ' + un_reader_msg + '">' + data.un_reader_msg + '</span>' +
         '<span class="display_flex">' +
-        '<span class="overflow_ellipsis">' + name + '</span>' +
+        '<span class="overflow_ellipsis">' + data.name + '</span>' +
         '</span></a></li>'
 };
 
@@ -248,6 +249,29 @@ var item_member_token = function (user) {
         '</div>';
     return item;
 
+}
+
+var item_channel_browse = function (data, pos) {
+
+    var item = '<div class="channel_browser_row channel_link" data-long-list-item="1" style="position: absolute; top: 0px; transform: translateY(' + pos + 'px);" data-channel-id="' + data.name + '">' +
+        '<div class="channel_browser_row_header overflow_ellipsis">' +
+        '<ts-icon class="channel_browser_type_icon subtle_silver ts_icon_channel_pane_hash"></ts-icon><span class="channel_browser_channel_name bold">' + data.name + '</span> <ts-icon class="shared_channel_icon subtle_silver ts_icon_shared_channel hidden"></ts-icon> <span class="channel_browser_joined cloud_silver">JOINED</span>' +
+        '</div>' +
+        '<div class="overflow_ellipsis italic">' +
+        'Created <span class="channel_browser_created_by">by <span class="channel_browser_creator_name">' + data.usercreator.user.username + '</span></span> on <span class="channel_browser_created_on">' + moment(data.date_pub, moment.ISO - 8601).format("MMM Do hh:mm a") + '</span>' +
+        '</div>' +
+        '<div class="channel_browser_channel_purpose subtle_silver">' + data.purpose + '</div>' +
+
+        '<div class="channel_browser_member_count_container subtle_silver small_left_margin"><i class="ts_icon ts_icon_user"></i> <span class="channel_browser_member_count">' + data.users.length + '</span></div>' +
+        '<div class="channel_browser_open">' +
+        '<i class="ts_icon ts_icon_enter"></i>' +
+        '</div>' +
+        '<div class="channel_browser_preview align_center hidden">' +
+        '<i class="ts_icon ts_icon_enter"></i><br>preview' +
+        '</div>' +
+
+        '</div>';
+    return item;
 }
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';
