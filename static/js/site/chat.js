@@ -618,13 +618,43 @@ $(document).ready(function () {
                 $('#save_channel').attr('disabled', "disabled");
             }
         });
-        _$create_chanel.on("input click", ".lfs_input", function () {
+        _$create_chanel.on("input", ".lfs_input", function () {
             var input = $(".lfs_input").val();
-            $(".lazy_filter_select").addClass('list_invite')
-            $(".lfs_input_container").addClass('active')
-            $(".lfs_list_container").addClass('visible');
+            _filter(input);
+
 
         });
+        function _filter(input) {
+
+
+            function exc(data) {
+                if (data.length > 0) {
+                    $(".lazy_filter_select").addClass('list_invite')
+                    $(".lfs_input_container").addClass('active')
+                    $(".lfs_list_container").addClass('visible');
+                } else {
+                    $('.lfs_empty').addClass('active');
+                }
+
+                $('.list_items').empty();
+                $.each(data, function (index, item) {
+
+                    var pos = 64 * index;
+
+
+                    $('.lfs_list .list_items').append(item_search_user(item, parseInt(pos)));
+                  
+
+                });
+
+            }
+
+            var urlapi = apiUrl + 'usercomapny';
+            $.when(users_online()).done(function () {
+                request(urlapi, 'POST', null, {term: input}, exc, null);
+            });
+        }
+
         function _close() {
             modal_bg.removeClass("active");
             modal_bg.addClass("hidden");

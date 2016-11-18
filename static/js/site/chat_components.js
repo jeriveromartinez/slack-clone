@@ -274,4 +274,19 @@ var item_channel_browse = function (data, pos) {
     return item;
 }
 
+var item_search_user = function (data, pos) {
+    var avatar = "url('/static/images/roosty@2x.png')";
+    var item = '<div class="lfs_item" data-long-list-item="1" data-lfs-id="0" style="position: absolute; top: 0px;transform: translateY(' + pos + 'px)">' +
+        '<div class="channel_invite_member_small clearfix">' +
+        '<i class="enter_icon ts_icon ts_icon_enter sky_blue not_in_token float_right small_top_margin"></i>' +
+        '<span class=" member_preview_link member_image thumb_36" data-member-id="U2KQ35L2Z" data-thumb-size="36" style="background-image:' + avatar + '"aria-hidden="true"></span>' +
+        '<div class="name_container overflow_ellipsis">' +
+        '<div class="bold">' + data.user.username + '</div>' +
+        '<div class="subtle_silver not_in_token">' + data.user.username + '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
+    return item;
+}
+
 var itemLoad = '<div id="convo_loading_indicator"></div>';
