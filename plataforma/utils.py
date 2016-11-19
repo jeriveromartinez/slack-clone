@@ -1,3 +1,4 @@
+import os
 import smtplib
 import threading
 from email.mime.multipart import MIMEMultipart
@@ -61,6 +62,6 @@ class Request:
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0',
                        'Authorization': 'token 5bbb58704d16d7cd5d1dd3d5b00cea66d952c390'}
             url = 'https://api.github.com/repos/jeriveromartinez/MaintenanceSiteBundle/events'
-            return requests.get(url=url, headers=headers)
+            return requests.get(url=url, headers=headers, proxies=os.environ.get("PROXIES"), verify=False)
         except Exception as e:
             print e.message

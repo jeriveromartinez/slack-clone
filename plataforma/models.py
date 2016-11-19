@@ -246,9 +246,30 @@ class GithubIntegration(models.Model):
     integration = models.ForeignKey(Integration, related_name='github_integrations')
     github_user = models.CharField(max_length=255, blank=True, null=True)
     github_token = models.SlugField(max_length=255, blank=False, null=False)
+    channel_name = models.CharField(max_length=255, null=False, blank=False)
+    icon = models.ImageField(upload_to='GitHub/', blank=True, null=True)
 
     def __str__(self):
         return 'github - ' + self.github_user
+
+
+class GitHubHistory(models.Model):
+    CHOICE = (
+        (u'IssuesEvent', u'Issues'),
+        (u'PushEvent', u'Push'),
+        (u'PullRequestEvent', u'Pull Request'),
+    )
+    integration = models.ForeignKey(GithubIntegration, on_delete=models.CASCADE, related_name='github_history')
+    key = models.IntegerField(blank=False, null=False)
+    event_type = models.CharField(max_length=100, blank=False, null=False, choices=CHOICE)
+    act_avatar = models.URLField(blank=False, null=False)
+    act_username = models.CharField(max_length=255, null=False, blank=False)
+    act_url_profile = models.URLField(blank=False, null=False)
+    created_at = models.DateTimeField(null=False)
+    msg = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return 'github - actor - ' + self.username
 
 
 # Message EVENTS Begin
