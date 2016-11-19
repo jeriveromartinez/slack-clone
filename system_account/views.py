@@ -3,11 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
-from plataforma.forms import SnippetForm
-from plataforma.utils import Utils
 
-from system_account.forms import *
+from plataforma.forms import SnippetForm
 from plataforma.models import *
+from system_account.forms import *
 
 
 @login_required(login_url='/login/')
@@ -46,7 +45,7 @@ def setting_profile_edit(request):
         else:
             print formP.is_valid(), formP.errors, type(formP.errors)
     else:
-        formP = ProfileForm(instance=request.user.profile)
+        formP = ProfileForm(instance=request.user.user_profile)
         formU = UserForm(instance=request.user)
 
     return render_to_response('account/acc_edit_profile.html', {'formP': formP, 'formU': formU},
@@ -64,14 +63,12 @@ def deactivate_account(request, username):
 
 @login_required(login_url='/login/')
 def home_profile(request):
-    test = Utils
-    print vars(test.commit())
     return render_to_response('account/acc_home.html', context_instance=RequestContext(request))
 
 
 @login_required(login_url='/login/')
 def files_profile(request):
-    partners = Profile.objects.filter(company__slug=request.user.userprofile.company.slug).exclude(
+    partners = Profile.objects.filter(company__slug=request.user.user_profile.company.slug).exclude(
         user__username=request.user.username)
     return render_to_response('account/acc_files.html', {'partners': partners},
                               context_instance=RequestContext(request))

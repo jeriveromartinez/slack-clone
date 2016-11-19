@@ -1,13 +1,12 @@
 import json
 
-from django.core.mail import send_mail
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.mail.message import EmailMessage
 from django.http.response import JsonResponse
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
+from rest_framework.reverse import reverse
 
 from plataforma.forms import LoginForm
 from plataforma.serializers import *
@@ -74,13 +73,15 @@ def create(request):
 
         name_company = post.get("company")
         company = Company.objects.create(name=name_company)
+        site_info = {'protocol': request.is_secure() and 'https' or 'http'}
+        site_info['root'] = site_info['protocol'] + '://' + request.get_host()
 
         try:
-            email = Email
             for element in invite:
                 slug = slugify(datetime.now().__str__() + element)
                 UserInvited.objects.create(email=element, company=company, slug_activation=slug)
-                email.send('topic', element, slug)
+                invite_url = site_info['root']+reverse('app:register_create', kwargs={'slug': slug})
+                Email.send(element, 'topic', invite_url)
         except Exception as e:
             print e
 
