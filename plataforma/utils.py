@@ -1,43 +1,66 @@
 import smtplib
+import threading
 from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.utils import formatdate
-from conf.settings.base import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, EMAIL_USE_TLS, \
-    DEFAULT_FROM_EMAIL
-from pygithub3 import Github
+
+import requests
+
+from conf.settings.base import EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD, DEFAULT_FROM_EMAIL
 
 
 class Email:
-    _smtp = None
-
     def __init__(self):
-        Email._smtp = smtplib.SMTP(host=EMAIL_HOST, port=EMAIL_PORT)
+        pass
 
     @staticmethod
-    def send(_subject='', _to='', _body=''):
+    def send(_to='', _subject='', _body=''):
         try:
-
-            if EMAIL_USE_TLS:  # check the if and _smtp attr in the init definitions
-                Email._smtp.ehlo()
-                Email._smtp.starttls()
-                Email._smtp.ehlo()
-                Email._smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+            _smtp = smtplib.SMTP(host=EMAIL_HOST, port=EMAIL_PORT)
+            _smtp.ehlo()
+            _smtp.starttls()
+            _smtp.ehlo()
+            _smtp.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
             msg = MIMEMultipart()
             msg['From'] = DEFAULT_FROM_EMAIL
             msg['To'] = _to
             msg['Date'] = formatdate(localtime=True)
             msg['Subject'] = _subject
-            msg['body'] = _body
-            Email._smtp.sendmail(DEFAULT_FROM_EMAIL, _to, msg.as_string())
-            Email._smtp.close()
+            msg.attach(MIMEText(_body))
+            _smtp.sendmail(DEFAULT_FROM_EMAIL, _to, msg.as_string())
+            _smtp.close()
         except Exception as e:
             print e
 
 
-class Utils:
+class ThreadIntegration(threading.local):
+    thread = None
+
+    def __init__(self, token, username, repo):
+        self.token = token
+        self.username = username
+        self.repo = repo
+        self.thread = threading.Timer(3, self.run)
+        self.thread.daemon = True
+
+    def run(self):
+        self.thread.start()
+        print self.username + ' - ' + self.repo
+
+    def stop(self):
+        self.thread.cancel()
+
+
+class Request:
     def __init__(self):
         pass
 
     @staticmethod
-    def commit():
-        gh = Github(token="5bbb58704d16d7cd5d1dd3d5b00cea66d952c390", repo="MaintenanceSiteBundle")
-        return gh.repos.commits.list()
+    def test():
+        try:
+            headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.0; WOW64; rv:24.0) Gecko/20100101 Firefox/24.0',
+                       'Authorization': 'token 5bbb58704d16d7cd5d1dd3d5b00cea66d952c390'}
+            url = 'https://api.github.com/repos/jeriveromartinez/MaintenanceSiteBundle/events'
+            return requests.get(url=url, headers=headers)
+        except Exception as e:
+            print e.message

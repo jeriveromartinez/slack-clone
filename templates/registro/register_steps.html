@@ -8,6 +8,7 @@
                 <img id="slack_logo" src="{% static 'images/slack_logo_240.png' %}" title="Slack"></a>
 
             <form class="fs_split_flex_wrapper" onsubmit="return false;">
+                {% csrf_token %}
                 <div class="fs_split_body">
 
                     <div class="create_step_number_label">Step <span id="step"></span> of 5</div>

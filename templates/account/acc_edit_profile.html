@@ -7,9 +7,9 @@
     <link href="{% static 'css/client/rollup-client_secondary.css' %}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block body_style %}feature_channel_name_menu light_theme{% endblock %}
+{% block header %}{% endblock %}
 {% block container %}
     <div id="fs_modal" class="fs_modal_header fs_modal_footer active">
-
         <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
             <i class="ts_icon ts_icon_arrow_large_left"></i>
             <span class="key_label">back</span>
@@ -18,9 +18,7 @@
             <i class="ts_icon ts_icon_times"></i>
             <span class="key_label">esc</span>
         </a>
-
         <div id="fs_modal_header"><h3>Edit your profile</h3></div>
-
         <form method="post" accept-encoding="UTF-8" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="contents_container">
@@ -33,7 +31,7 @@
 
                         <section id="edit_member_profile_loading" class="hidden">
                             <div class="loading_hash_animation">
-                                <img src="{{ request.user.profile.image }}"
+                                <img src="{{ request.user.user_profile.image }}"
                                      alt="Loading"
                                      srcset="{% static 'images/loading_hash_animation.gif' %} 1x, {% static 'images/loading_hash_animation.gif' %} 2x">
                                 <br>loading...
@@ -54,8 +52,8 @@
                                         <ts-icon class="upload_camera_icon ts_icon_camera">
                                         <span class="member_preview_link member_image thumb_192"
                                               style="background-image:
-                                                      {% if request.user.profile.image %}
-                                                          url('{{ request.user.profile.image.url }}'),
+                                                      {% if request.user.user_profile.image %}
+                                                          url('{{ request.user.user_profile.image.url }}'),
                                                       {% endif %}
                                                       url({% static 'images/ava_0021-512.png' %})"></span>
                                         </ts-icon>

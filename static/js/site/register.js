@@ -68,7 +68,7 @@ $(document).ready(function () {
             url: hostUrl + urlSend,
             data: user,
             type: "POST",
-            headers: {"X-CSRFToken": getCookie("csrftoken")},
+            headers: {"X-CSRFToken": $('input[name="csrfmiddlewaretoken"]').val()},
             success: function (response) {
                 if (response.action == 'success')
                     window.location = hostUrl;

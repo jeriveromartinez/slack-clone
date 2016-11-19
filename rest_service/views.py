@@ -1,17 +1,14 @@
-from django.db.models import Q
-from datetime import datetime, timedelta
-from django.db.models.aggregates import Count
-from django.db.models.query import Prefetch
-from django.utils import timezone
-from plataforma.serializers import *
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.contrib.sessions.models import Session
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
 import json
 
-# Create your views here.
+from django.contrib.sessions.models import Session
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.db.models import Q
+from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from plataforma.serializers import *
 
 
 @api_view(['GET'])

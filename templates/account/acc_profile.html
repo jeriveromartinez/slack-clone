@@ -5,7 +5,7 @@
         <div id="member_preview_web_container">
             <div class="member_details clearfix display_flex flex_direction_column align_items_center">
                 <span class=" member_preview_link member_image thumb_512"
-                      style="background-image: {% if request.user.profile.image %}url('{{ request.user.profile.image.url }}'),{% endif %} url({% static 'images/ava_0022-48.png' %})">
+                      style="background-image: {% if request.user.user_profile.image %}url('{{ request.user.user_profile.image.url }}'),{% endif %} url({% static 'images/ava_0022-48.png' %})">
                 </span>
                 <div class="member_name_and_presence lato">
                     <span class="member_name">{{ request.user.name }}</span>
@@ -16,6 +16,7 @@
                 <div class="member_action_bar">
                     <a href="{% url 'account:profile_edit' %}" class="btn btn_outline">Edit Profile</a>
                     {#                    <a href="#/account/settings" class="btn btn_outline">Account Settings</a>#}
+                    {{ request.get_host }}
                 </div>
                 <hr class="member_details_divider">
                 <table class="member_data_table lato">

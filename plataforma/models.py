@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 from django.contrib.auth.models import User
+from django.contrib.auth.signals import user_logged_in
 from django.db import models
 from django.db.models import Count
-from datetime import datetime, timedelta
 from django.db.models.signals import post_delete, post_save
-from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
 from django_user_agents.utils import get_user_agent
@@ -65,7 +66,7 @@ class Room(models.Model):
 
 class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
-    author = models.ForeignKey(Profile, related_name='file_up_owner')
+    author = models.ForeignKey(Profile, related_name='file_up_owner',on_delete=models.CASCADE)
     shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
@@ -232,6 +233,22 @@ class UserInvited(models.Model):
     email = models.EmailField(max_length=255)
     company = models.ForeignKey(Company, related_name='invited_company')
     slug_activation = models.SlugField(null=True, blank=True)
+
+
+class Integration(models.Model):
+    user = models.ForeignKey(User, related_name='user_integration')
+
+    def __str__(self):
+        return 'integration'
+
+
+class GithubIntegration(models.Model):
+    integration = models.ForeignKey(Integration, related_name='github_integrations')
+    github_user = models.CharField(max_length=255, blank=True, null=True)
+    github_token = models.SlugField(max_length=255, blank=False, null=False)
+
+    def __str__(self):
+        return 'github - ' + self.github_user
 
 
 # Message EVENTS Begin
