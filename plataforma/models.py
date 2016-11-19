@@ -52,7 +52,8 @@ class Room(models.Model):
     usercreator = models.ForeignKey(Profile, related_name='creator')
     created = models.DateTimeField(auto_now_add=True)
     users = models.ManyToManyField(Profile, related_name='users_room')
-    purpose = models.TextField(max_length=255, null=False, default="public")
+    purpose = models.TextField(max_length=255, null=False)
+    visibility = models.BooleanField(default=True);
 
     class Meta:
         ordering = ('created',)
@@ -67,7 +68,7 @@ class Room(models.Model):
 
 class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
-    author = models.ForeignKey(Profile, related_name='file_up_owner',on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, related_name='file_up_owner', on_delete=models.CASCADE)
     shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
@@ -332,16 +333,15 @@ def delete_user_profile(sender, instance=None, **kwargs):  # no borrar nada de a
 @receiver(post_save, sender=MessageInstEvent)
 def delete_user(sender, instance=None, **kwargs):  # no borrar nada de aqui
     try:
+        messages = MessageEvent.objects.all().filter(readed=False,
+                                                     user_from__username=instance.messageevent_ptr.user_from.username) \
+            .values("user_from__username").annotate(total=Count('readed')).order_by('user_to')
 
-        communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_from,
-                                                     user_connect=instance.messageevent_ptr.user_to) \
-            .update(date_pub=datetime.now())
+        communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to,
+                                                     user_connect=instance.messageevent_ptr.user_from) \
+            .update(date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
 
         if not communication:
-            messages = MessageEvent.objects.all().filter(readed=False,
-                                                         user_to__username=instance.messageevent_ptr.user_to.username) \
-                .values("user_to__username").annotate(total=Count('readed')).order_by('user_to')
-
             Communication.objects.create(user_me=instance.messageevent_ptr.user_from,
                                          user_connect=instance.messageevent_ptr.user_to,
                                          un_reader_msg=messages[0]['total'])

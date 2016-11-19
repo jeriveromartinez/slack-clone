@@ -13,7 +13,7 @@ def on_connect(request, socket, context):
     Profile.objects.filter(user__username=request.user.username).update(socketsession=socket.session.session_id)
 
     profile = Profile.objects.get(user__username=request.user.username)
-
+    print profile.socketsession
     send(socket.session.session_id, {"action": "connected", "message": profile.user.username})
 
 

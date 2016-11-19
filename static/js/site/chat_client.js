@@ -48,6 +48,7 @@ $(document).ready(function () {
         }
 
     });
+
 });
 
 var messaged = function (data) {
@@ -177,6 +178,15 @@ var initScroll = function (name) {
     });
 
 };
+
+var CheckReaded = function (channel) {
+    var exc = function (response) {
+        window.get_comuncation_me();
+    };
+    var urlapi = apiUrl + 'checkreaded';
+    request(urlapi, 'POST', null, {channel: channel}, exc, null);
+
+};
 var Reload = function (name) {
     $("#msgs_div").empty();
 
@@ -194,6 +204,7 @@ var Reload = function (name) {
             console.log(data.message);
         }
     });
+
     var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
 
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);

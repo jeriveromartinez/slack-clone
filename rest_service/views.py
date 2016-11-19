@@ -50,14 +50,18 @@ def room_by_user_list(request, username):
     data = list(rooms)
 
     if len(data) > 1:
-        for key, room in data:
+        for key, room in enumerate(data):
             print room["name"]
-            messages = MessageEvent.objects.all().filter(readed=False, room__name=room.name). \
+            messages = MessageEvent.objects.all().filter(readed=False, room__name=room["name"]). \
                 values("room__name") \
                 .annotate(
                 total=Count('readed')) \
                 .order_by('room')
-            data[key]["un_reader_msg"] = messages[0]['total']
+            if len(messages) > 0:
+                data[key]["un_reader_msg"] = messages[0]['total']
+            else:
+                data[key]["un_reader_msg"] = 0
+
     else:
         messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"]). \
             values("room__name") \
@@ -97,18 +101,22 @@ def room_unsubcribe_user(request, roomname, username):
 @api_view(['POST'])  # TODO: falta notificar join y poner en url
 def create_room_by_company(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        prupose = request.POST.get("prupose")
-        users_invite = json.loads(request.POST.get("users_invite"))
-        if name and prupose:
+        name = request.POST.get("title")
+        purpose = request.POST.get("purpose")
+        visibility = request.POST.get("visibility")
+        users_invite = json.loads(request.POST.get("invites"))
+
+        if name and purpose:
             profile = Profile.objects.filter(user__username=request.user.username)[0]
-            room = Room.objects.create(name=name, company=profile.company, creator=profile, prupose=prupose)
+            room = Room.objects.create(name=name, company=profile.company, usercreator=profile, purpose=purpose,
+                                       visibility=visibility)
             room.users.add(profile)
+
             if len(users_invite) > 0:
                 for obj in users_invite:
                     user = Profile.objects.filter(user__username=obj)[0]
                     room.users.add(user)
-
+            room.save()
     return Response({"result": "ok"})
 
 
@@ -219,6 +227,19 @@ def get_comunicaton_me(request, username):
 
     serializer = CommunicationSerializer(users, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def check_readed_me(request):
+    if request.method == "POST":
+        username = request.POST.get("channel")
+        MessageEvent.objects.filter(readed=False, user_to__username=request.user.username, user_from__username=username) \
+            .update(readed=True)
+        communication = Communication.objects.all().filter(user_me__username=request.user.username,
+                                                           user_connect__username=username) \
+            .update(date_pub=datetime.now(), un_reader_msg=0)
+
+    return Response({"result": "ok"})
 
 
 @api_view(['GET'])  # TODO: poner en url

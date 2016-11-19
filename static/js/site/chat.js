@@ -8,11 +8,16 @@ $('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
+
     var socket;
     $(function () {
         initView();
         get_chanel();
-        get_comuncation_me();
+        window.get_comuncation_me();
+
+        setInterval(function () {
+            window.get_comuncation_me();
+        }, 3000);
         active_chat(userlogged, 'user');
     });
 
@@ -86,6 +91,7 @@ $(document).ready(function () {
         active_chat($(this).attr('data-name'), 'user');
         activeChannel = $(this).attr("data-name");
         Reload(activeChannel);
+        CheckReaded(activeChannel);
     });
 
     $('#member_account_item').on('click', function () {
@@ -144,7 +150,7 @@ $(document).ready(function () {
             request(urlapi, 'GET', null, null, exc, null);
         });
     };
-    var get_comuncation_me = function () {
+    window.get_comuncation_me = function () {
         var exc = function (response) {
             window.usercomunication = response;
 
@@ -304,7 +310,8 @@ $(document).ready(function () {
         var _MAX = 8;
 
 
-        _$im_browser.on("click", "#fs_modal_close_btn", function () {
+        $('#direct-message').on("click", "#fs_modal_close_btn", function () {
+
             _close();
 
         });
@@ -326,10 +333,9 @@ $(document).ready(function () {
             _$im_browser.off('click', '.member_token .remove_member_icon', function () {
 
             });
-            $("body").off("click", "#fs_modal_close_btn", function () {
+            _$im_browser.unbind().off("click", ".im_browser_go", function () {
 
             });
-
 
         }
 
@@ -358,6 +364,14 @@ $(document).ready(function () {
             var input = $("#im_browser_filter").val();
             _filterListView(input);
             _updateGo();
+        });
+        _$im_browser.on("click", ".im_browser_go", function () {
+
+            active_chat(_selected_members[0], 'user');
+            activeChannel = _selected_members[0];
+            Reload(activeChannel);
+            _selected_members.pop();
+            _close();
         });
 
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
@@ -424,6 +438,7 @@ $(document).ready(function () {
                     _filterListView(input);
 
                     $("#im_browser_tokens").prepend(item_member_token(member));
+                    $("#im_browser_filter").focus().val('').removeAttr('placeholder');
                 }
 
 
@@ -547,7 +562,7 @@ $(document).ready(function () {
 
             list.empty();
             $.each(data, function (index, item) {
-                var pos = 64 * index;
+                var pos = 100 * index;
 
                 list.append(item_channel_browse(item, parseInt(pos)));
 
@@ -585,7 +600,7 @@ $(document).ready(function () {
             btn_back.removeClass("hidden");
             btn_back.addClass("active");
         }
-        var public = true;
+        var visibility = true;
         var title = "";
         var purpose = "";
         var invites = [];
@@ -593,12 +608,12 @@ $(document).ready(function () {
 
         ts_toggle_button.click(function () {
             var ts_toggle = $('.ts_toggle');
-            if (public) {
-                public = false;
+            if (visibility) {
+                visibility = false;
                 ts_toggle.removeClass("checked");
             }
             else {
-                public = true;
+                visibility = true;
                 ts_toggle.addClass("checked");
             }
         });
@@ -610,7 +625,7 @@ $(document).ready(function () {
 
         _$create_chanel.on("input", "#channel_create_title", function () {
             var input = $("#channel_create_title").val();
-            console.log(input.length);
+
             if (input.length > 0) {
                 $('#save_channel').removeAttr('disabled');
             }
@@ -624,6 +639,47 @@ $(document).ready(function () {
 
 
         });
+        $('.list_items').on('click', ".lfs_item", function () {
+            _selectRow($(this));
+        });
+        _$create_chanel.on('click', '.channel_invite_member_token', function () {
+            var item = $(this);
+            var member = item.attr('data-member-id');
+            var index = invites.indexOf(member);
+            if (index > -1) {
+                invites.splice(index, 1);
+            }
+            item.remove();
+
+            var input = $(".lfs_input").val();
+            _filter(input);
+            $(".lfs_item").removeClass('lfs_token selected');
+            $('.lfs_input_container').addClass('empty');
+
+            $(".lfs_input").focus().val('').attr('placeholder', "Search by name");
+
+        });
+        $('#save_channel').click(function () {
+            title = $('#channel_create_title').val();
+            purpose = $('#channel_purpose_input').val();
+
+            var data = {title: title, purpose: purpose, visibility: visibility, invites: JSON.stringify(invites)};
+
+
+            function exc() {
+                alert(data.result);
+
+            }
+
+            var urlapi = apiUrl + 'create_room';
+            request(urlapi, 'POST', null, data, exc, null);
+
+        });
+        btn_back.click(function () {
+            _close();
+            openDirectBrowse();
+        });
+
         function _filter(input) {
 
 
@@ -637,22 +693,34 @@ $(document).ready(function () {
                 }
 
                 $('.list_items').empty();
+                var count = 0;
                 $.each(data, function (index, item) {
 
                     var pos = 64 * index;
 
 
-                    $('.lfs_list .list_items').append(item_search_user(item, parseInt(pos)));
-                  
+                    if ($.inArray(item.user.username, invites) == -1) {
+                        $('.lfs_list .list_items').append(item_search_user(item, parseInt(pos)));
+                        count += 1;
+                    }
+                    else {
+                        pos -= 64 * index;
+                        count -= 1;
+                    }
+
+                    if (count > 1)
+                        $('.list_items').css('height', '120px')
+                    else
+                        $('.list_items').css('height', '50px')
 
                 });
 
             }
 
             var urlapi = apiUrl + 'usercomapny';
-            $.when(users_online()).done(function () {
-                request(urlapi, 'POST', null, {term: input}, exc, null);
-            });
+
+            request(urlapi, 'POST', null, {term: input}, exc, null);
+
         }
 
         function _close() {
@@ -663,11 +731,46 @@ $(document).ready(function () {
             btn_back.removeClass("active");
             btn_back.addClass("hidden");
             $('html').removeClass("fs_modal_active");
-
-            _$channel_list_container.unbind().off("click", ".im_browser_row", function () {
+            $(".lazy_filter_select").removeClass('list_invite')
+            $(".lfs_input_container").removeClass('active')
+            $(".lfs_list_container").removeClass('visible');
+            invites = [];
+            $('.list_items').empty();
+            $(".lfs_item").empty();
+            $(".lfs_item").removeClass('lfs_token selected');
+            $('.lfs_input_container').addClass('empty');
+            $(".lfs_input").focus().val('').attr('placeholder', "Search by name");
+            $('#channel_create_title').val("");
+            $('#channel_purpose_input').val('');
+            _$create_chanel.unbind().off('click', '.channel_invite_member_token', function () {
 
 
             });
+            $('.list_items').unbind().off('click', ".lfs_item", function () {
+
+            });
+
+
+        }
+
+        function _selectRow(row) {
+            var member = row.attr('data-member-id');
+
+
+            if ($.inArray(member, invites) == -1) {
+                invites.push(member);
+
+                $('.list_items').empty();
+                $(".lazy_filter_select").removeClass('list_invite')
+                $(".lfs_input_container").removeClass('active')
+                $(".lfs_list_container").removeClass('visible');
+
+                $(".lfs_item").prepend(item_member_channel(member));
+                $(".lfs_item").addClass('lfs_token selected');
+                $('.lfs_input_container').removeClass('empty');
+
+                $(".lfs_input").focus().val('').removeAttr('placeholder');
+            }
 
 
         }
