@@ -17,7 +17,7 @@ $(document).ready(function () {
 
         setInterval(function () {
             window.get_comuncation_me();
-        }, 3000);
+        }, 10000);
         active_chat(userlogged, 'user');
     });
 
