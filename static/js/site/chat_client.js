@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    var socket = new io.Socket(document.domain, {transports: ['websocket', 'flashsocket', 'htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling'],});
+    var socket = new io.Socket(document.domain, {transports: ['websocket']});
 
 
     socket.connect();
@@ -15,6 +15,9 @@ $(document).ready(function () {
     });
 
     socket.on('message', messaged);
+    socket.on('disconnect', function () {
+        console.log(" disconnect")
+    });
 
     //input
     $("#message-input").keypress(function (e) {

@@ -10,10 +10,9 @@ from django.utils import timezone
 
 @events.on_connect
 def on_connect(request, socket, context):
-    Profile.objects.filter(user__username=request.user.username).update(socketsession=socket.session.session_id)
-
     profile = Profile.objects.get(user__username=request.user.username)
-    print profile.socketsession
+    profile.socketsession = socket.session.session_id
+    profile.save()
     send(socket.session.session_id, {"action": "connected", "message": profile.user.username})
 
 
@@ -22,20 +21,20 @@ def message(request, socket, context, message):
     user_to = User.objects.get(username=message["user_from"])
 
     if request.user.is_authenticated and user_to:
-        profile = Profile.objects.filter(user__username=message["user_to"])
-        msg = MessageInstEvent.objects.create(user_to=profile[0].user, user_from=request.user, msg=message["message"],
+        profile = Profile.objects.get(user__username=message["user_to"])
+        msg = MessageInstEvent.objects.create(user_to=profile.user, user_from=request.user, msg=message["message"],
                                               type="message_int_event")
 
         try:
             print user_to.username
-            print profile[0].user.username
-            print profile[0].socketsession
+            print profile.user.username
+            print profile.socketsession
 
             message["action"] = "message"
-            message["user_to"] = profile[0].user.username
+            message["user_to"] = profile.user.username
             message["user_from"] = user_to.username
             message["date_pub"] = str(msg.date_pub.isoformat())
-            send(profile[0].socketsession, message)
+            send(profile.socketsession, message)
         except NoSocket as e:
             send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
@@ -84,6 +83,7 @@ def disconect(request, socket, context):
 @events.on_disconnect
 def disconect(request, socket, context):
     Profile.objects.filter(user_id=request.user.id).update(socketsession="")
+    print 'deconect'
     left = {"action": "leave", "name": request.user.username, "id": request.user.id}
     try:
         socket.broadcast_channel(left)
