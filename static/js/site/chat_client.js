@@ -1,8 +1,13 @@
 $(document).ready(function () {
 
 
-    var socket = new io.Socket();
+    var socket = new io.Socket(document.domain, {transports: ['websocket', 'flashsocket', 'htmlfile', 'xhr-multipart', 'xhr-polling', 'jsonp-polling'],});
+
+
     socket.connect();
+    setInterval(function () {
+        socket.connect();
+    }, 5000);
 
     socket.on('connect', function () {
         console.log(" connected")

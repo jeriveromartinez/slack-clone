@@ -66,15 +66,16 @@ def room_by_user_list(request, username):
                 data[key]["un_reader_msg"] = 0
 
     else:
-        messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"]). \
-            values("room__name") \
-            .annotate(
-            total=Count('readed')) \
-            .order_by('room')
-        if len(messages) > 0:
-            data[0]["un_reader_msg"] = messages[0]['total']
-        else:
-            data[0]["un_reader_msg"] = 0
+        if len(data) == 1:
+            messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"]). \
+                values("room__name") \
+                .annotate(
+                total=Count('readed')) \
+                .order_by('room')
+            if len(messages) > 0:
+                data[0]["un_reader_msg"] = messages[0]['total']
+            else:
+                data[0]["un_reader_msg"] = 0
 
     result = {'items': data}
 
