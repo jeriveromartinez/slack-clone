@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
 
-from plataforma.forms import SnippetForm
+from plataforma.forms import SnippetForm, PostForm
 from plataforma.models import *
 from system_account.forms import *
 
@@ -72,6 +72,31 @@ def files_profile(request):
         user__username=request.user.username)
     return render_to_response('account/acc_files.html', {'partners': partners},
                               context_instance=RequestContext(request))
+
+
+@csrf_protect
+@login_required(login_url='/login/')
+def post(request, slug=None):
+    post_inst = Post.objects.filter(slug=slug)
+    if request.method == "POST":
+        if post_inst.__len__() > 0:
+            form = PostForm(data=request.POST or None, instance=post_inst[0] or None)
+        else:
+            form = PostForm(data=request.POST or None)
+        if form.is_valid():
+            data = form.save(commit=False)
+            author = Profile.objects.filter(user__username=request.user.username)[0]
+            data.author = author
+            data.save()
+            return redirect('account:file')
+        else:
+            print form.is_valid(), form.errors, type(form.errors)
+    else:
+        if post_inst.__len__() > 0:
+            form = PostForm(instance=post_inst[0] or None)
+        else:
+            form = PostForm()
+    return render_to_response('account/files/post.html', {'form': form}, context_instance=RequestContext(request))
 
 
 @csrf_protect

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from plataforma.models import *
 
 
@@ -68,7 +69,7 @@ class SlackFileSerializer(serializers.ModelSerializer):
 class PostSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = Post
-        fields = ('slug', 'title', 'code', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'text', 'uploaded', 'author', 'files_comments')
 
 
 class SnippetSerializer(SlackFileSerializer):
@@ -86,7 +87,7 @@ class FilesUpSerializer(SlackFileSerializer):
 class ImageUpSerializer(FilesUpSerializer):
     class Meta(FilesUpSerializer.Meta):
         model = ImageUp
-        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'image_up', 'uploaded', 'author', 'files_comments')
 
 
 class MessageEventSerializer(serializers.ModelSerializer):

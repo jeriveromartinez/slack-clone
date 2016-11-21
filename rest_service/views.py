@@ -1,17 +1,15 @@
-from django.db.models import Q
-from datetime import datetime, timedelta
-from django.db.models.aggregates import Count
-from django.db.models.query import Prefetch
-from django.utils import timezone
-from plataforma.serializers import *
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+import json
+from datetime import timedelta
+
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-import json
-
-# Create your views here.
+from django.db.models import Q
+from django.utils import timezone
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from rest_framework.reverse import reverse
+
+from plataforma.serializers import *
 
 
 @api_view(['GET'])
@@ -296,7 +294,7 @@ def save_files(request, type, from_user, to):
         for key in request.FILES:
             file = request.FILES[key]
             if "image" in file.content_type:
-                create = ImageUp.objects.create(title=file.name, file_up=file, author=author)
+                create = ImageUp.objects.create(title=file.name, image_up=file, author=author)
             else:
                 create = FilesUp.objects.create(title=file.name, file_up=file, author=author)
             create.shared_to.add(user)

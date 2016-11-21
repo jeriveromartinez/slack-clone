@@ -1,9 +1,7 @@
 /**
  * Created by julio on 12/10/16.
  */
-var menu = false, teams = false, userFileActive = null,
-    apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
-    hostUrl = window.location.protocol + '//' + window.location.host;
+var menu = false, teams = false, userFileActive = null;
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';
 $('body').prepend(itemLoad);
@@ -75,9 +73,10 @@ $(document).ready(function () {
         }
     });
 
-    $('.chosen-select').chosen({
-        no_results_text: "Oops, nothing found!",
-    });
+    if ($('.chosen-select').length > 0)
+        $('.chosen-select').chosen({
+            no_results_text: "Oops, nothing found!",
+        });
 
     $('#fromFile').bind('select change', function () {
         get_files();
@@ -140,13 +139,13 @@ window.isEmail = function (email) {
     return regex.test(email);
 };
 
-var get_files = function () { //TODO: verificar como funciona con los demas elementos.
+var get_files = function () {
     var exc = function (response) {
         var list = $('#files_list');
         $(list).html('');
         $.each(response, function (key, item) {
             var date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
-            $(list).append(fileComponent(item.title, item.slug, item.author, date));
+            $(list).append(fileComponent(item.title, item.slug, item.author, date, item));
         });
     };
     var from = $('#fromFile option:selected').val();

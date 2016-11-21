@@ -98,7 +98,7 @@ class SlackFile(PolymorphicModel):
 
 
 class Post(SlackFile):
-    code = models.TextField(blank=False, null=False)
+    text = models.TextField(blank=False, null=False)
 
     def __str__(self):
         return 'post - ' + self.uploaded.__str__()
@@ -199,7 +199,7 @@ class FilesUp(SlackFile):
 
 
 class ImageUp(SlackFile):
-    file_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
+    image_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
 
     def __str__(self):
         return 'images_up - ' + self.uploaded.__str__()

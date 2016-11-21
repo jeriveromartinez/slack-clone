@@ -8,12 +8,12 @@
 {% endblock %}
 {% block js_libraries %}
     {{ block.super }}
-    <script>
-        var cdn_url = window.location.protocol + '//' + window.location.host + '/static';
-    </script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror_load.js' %}"></script>
+{% endblock %}
+{% block js %}
     <script>
+        var cdn_url = window.location.protocol + '//' + window.location.host + '/static';
         var g_editor;
 
         $(function () {
@@ -65,10 +65,6 @@
             <div class="clear_both">
                 <p>
                     {{ form.code }}
-                    {#                    {{ form.code.value }}#}
-                    {% comment %}{% render_field form.code value=form.code.value %}{% endcomment %}
-                    {% comment %}<textarea name="content" id="file_create_textarea" class="full_width" style="display: none;"
-                                  wrap="virtual"></textarea>{% endcomment %}
                 </p>
 
                 <label class="checkbox normal float_left no_top_padding">
@@ -77,7 +73,7 @@
                 <p></p>
 
                 <input class="btn float_right" value="Create Snippet" type="submit">
-                <a href="https://blackmambasoft.slack.com/files/create/Are%20you%20sure%20you%20want%20to%20discard%20this%20snippet?%20This%20cannot%20be%20undone."
+                <a href="{% url 'account:file' %}"
                    class="btn btn_outline float_right small_right_margin">Discard</a>
             </div>
         </form>

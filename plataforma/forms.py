@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from plataforma.models import Snippet
+from django.contrib.auth.models import User
+
+from plataforma.models import Snippet, Post
 
 
 class LoginForm(forms.Form):
@@ -55,3 +56,13 @@ class SnippetForm(forms.ModelForm):
     class Meta:
         model = Snippet
         fields = ('title', 'type', 'code')
+
+
+class PostForm(forms.ModelForm):
+    title = forms.CharField()
+    text = forms.CharField(widget=forms.Textarea(
+        attrs={'autocorrect': 'off', 'autocapitalize': 'off', 'spellcheck': 'false', 'tabindex': '0', 'wrap': 'off'}))
+
+    class Meta:
+        model = Post
+        fields = ('title', 'text')
