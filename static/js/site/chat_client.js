@@ -1,8 +1,6 @@
 $(document).ready(function () {
 
-
     var socket = new io.Socket(document.domain, {transports: ['websocket']});
-
 
     socket.connect();
     setInterval(function () {
@@ -174,6 +172,7 @@ var onDataLoaded = function (data) {
     }
 
 };
+
 var initScroll = function (name) {
     var url = "/api/messages/" + name + "/";
 
@@ -195,6 +194,7 @@ var CheckReaded = function (channel) {
     request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
+
 var Reload = function (name) {
     $("#msgs_div").empty();
 
@@ -218,6 +218,7 @@ var Reload = function (name) {
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
 };
+
 var success = function (data) {
     onDataLoaded(data.items)
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);

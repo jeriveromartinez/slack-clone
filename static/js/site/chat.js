@@ -21,20 +21,19 @@ $(document).ready(function () {
         active_chat(userlogged, 'user');
     });
 
-    //actions methods
+    //show menu user logged
     $('#team_menu').on('click', function () {
-        $('#menu.slack_menu.team_menu').removeClass('hidden');
+        var value = $('#hiddenMenuUser').html();
+        positionMenu(this, value, 'right');
     });
 
-    //hidden all menus
+    //hide the menu
     $('.popover_mask').on('click', function () {
-        $('#menu.slack_menu.team_menu').addClass('hidden');
-        $('#menu.flex_menu').addClass('hidden');
-        $('#menu.menu_file_create').addClass('hidden');
-        $('#menu.menu_user_list').addClass('hidden');
+        $(this).parent().addClass('hidden');
         userFileStatus = false;
     });
 
+    //shows menu headers
     $('.channel_header_icon').on('click', function () {
         $('.channel_header_icon.active').removeClass('active');
 
@@ -51,7 +50,9 @@ $(document).ready(function () {
                 $('#' + arr + '_tab').addClass('active');
                 change_chat_size('65%');
             } else {
-                $('#menu.flex_menu').removeClass('hidden');
+                var value = $('#hiddenMenuFlexMenu').html();
+                var options = {style: 'menu flex_menu'};
+                positionMenu(this, value, 'left', options);//TODO: cuando sale el menu tomar las acciones por click
             }
         }
     });
@@ -67,7 +68,6 @@ $(document).ready(function () {
     });
 
     $('.panel').on('click', '.close_flexpane', function () {
-
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
         var closure = $(this).data('pannel');
@@ -109,11 +109,13 @@ $(document).ready(function () {
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
         openDirectModal();
     });
+
     $("#channels_header").on("click", function (e) {
         e.stopPropagation();
         $("#channels_header").find(".channel_list_header_label").tooltip("hide");
         openDirectBrowse();
     });
+
     $(".new_channel_btn").on("click", function (e) {
         e.stopPropagation();
         $(".channels_list_new_btn").tooltip("hide");
@@ -150,6 +152,7 @@ $(document).ready(function () {
             request(urlapi, 'GET', null, null, exc, null);
         });
     };
+
     window.get_comuncation_me = function () {
         var exc = function (response) {
             window.usercomunication = response;
@@ -290,7 +293,35 @@ $(document).ready(function () {
             container: "body",
             delay: {show: 400, hide: 150}
         });
-    }
+    };
+
+    window.positionMenu = function (instance, items, positionSide, options) {
+        var menu = $('#menu.menu');//.slack_menu
+        var position = $(instance).offset();
+        var height = $(instance).outerHeight();
+        if (options != undefined && options.style != undefined) {
+            $(menu).removeClass();
+            $(menu).addClass(options.style);
+        }
+
+        if (positionSide == 'right')
+            $(menu).css({
+                position: "absolute",
+                top: (position.top + height) + "px",
+                left: (position.left + 15) + "px",
+            });
+        else {
+            $(menu).css({
+                position: "absolute",
+                top: (position.top + height) + "px",
+                left: (position.left - 200) + "px", //TODO: buscar como coger tamanno primer elemento del dom
+            });
+        }
+
+        $('#menu .menu_body').html(items);
+        items = '';
+        $(menu).removeClass('hidden');
+    };
 
     //Direct message Modal
     function openDirectModal() {
@@ -492,6 +523,7 @@ $(document).ready(function () {
 
 
     };
+
     //Browse Channel Modal
     function openDirectBrowse() {
 

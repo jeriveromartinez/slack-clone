@@ -4,7 +4,7 @@
 $(document).ready(function () {
 
     //menu more items options
-    $('.flexpane_menu_item').on('click', function () {
+    $('#menu').on('click', '.flexpane_menu_item', function () {
         switch (this.id) {
             case 'list_team':
                 team_users(); //get list of users from team
@@ -52,28 +52,30 @@ $(document).ready(function () {
 
     //list documents by user select in All Files Type
     $('#file_list_toggle_user').on('click', function (event) {
+        var instance = this;
         if ($('#file_list_toggle_user').hasClass('active')) {
             if (!userFileStatus) {
+                var elements = '<ul id="menu_items" role="menu" no-bootstrap="1">';
                 var urlapi = apiUrl + companyuser + '/users/';
                 var exc = function (request) {
-                    var list = $('#menu_items[role="menu_users"]');
-                    $(list).html('');
+                    /*var list = $('#menu_items[role="menu_users"]');
+                     $(list).html('');*/
                     request.forEach(function (item) {
-                        list.append(item_user_menu(item.user.username, item.image));
+                        elements += item_user_menu(item.user.username, item.image);
+                        //list.append(item_user_menu(item.user.username, item.image));
                     });
+                    elements += '</ul>';
+                    positionMenu(instance, elements, 'right', 'menu menu_user_list');
                 };
 
                 request(urlapi, 'GET', null, null, exc, null);
-                $('.menu.menu_user_list.hidden').removeClass('hidden');
+                //$('.menu.menu_user_list.hidden').removeClass('hidden');
                 userFileStatus = true;
-            } else {
-                $('.menu.menu_user_list').addClass('hidden');
-                userFileStatus = false;
             }
         } else {
             user_files();
         }
-
+        userFileStatus = false;
         event.stopPropagation();
     });
 
@@ -83,6 +85,7 @@ $(document).ready(function () {
         user_files(user);
         $('#file_list_toggle_user.active').find('a').html((userFileActive == userlogged) ? 'Just You' : userFileActive);
         $('.menu.menu_user_list').addClass('hidden');
+        userFileStatus = false;
     });
 
     //launch files upload forms
@@ -128,6 +131,18 @@ $(document).ready(function () {
         request(urlapi, 'POST', 'json', comment, exc, null);
     });
 
+    $('#file_list_by_user').on('click', '.file_actions', function (event) {
+        var options = {
+            copyLink: 'copy',
+            opeNeWind: 'new Wind',
+            comment: 'open comment',
+            edit: 'edit file',
+            delete: 'delete file'
+        };
+        positionMenu(this, file_options($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
+        event.stopPropagation();
+    });
+
     //AUX
     var user_files = function (username) {
         clean_user_files();
@@ -149,7 +164,6 @@ $(document).ready(function () {
 
         var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
-        $('#menu.flex_menu').addClass('hidden');
     };
 
     var user_files_exc = function (response) {
@@ -158,8 +172,9 @@ $(document).ready(function () {
             var author = item.author.user.first_name + ' ' + item.author.user.last_name;
             var date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
             var pathProfile = getUserPath(item.author.user.username);
-            list.append(item_file(item.slug, author, date, item.title, item.files_comments.length, pathProfile));
+            list.append(item_file(item.slug, author, date, item.title, item.files_comments.length, pathProfile, item));
         });
+        $('[data-toggle="tooltip"]').tooltip({placement: "left", delay: {show: 500, hide: 150}});
     };
 
     var clean_user_files = function () {
@@ -171,3 +186,4 @@ $(document).ready(function () {
         $('#menu.menu_file_create').addClass('hidden');
     };
 });
+

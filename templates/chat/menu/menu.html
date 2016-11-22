@@ -1,0 +1,20 @@
+{% load staticfiles %}
+<div id="menu" class="menu slack_menu team_menu fade in hidden" style="opacity: 1;">
+    <div class="popover_mask"></div>
+    <div class="menu_content">
+        <div id="menu_header" class="hidden"></div>
+        <div id="monkey_scroll_wrapper_for_menu_items_scroller" class="monkey_scroll_wrapper ">
+            <div class="monkey_scroll_bar  hidden" {% comment %}style="margin-left: 258px;"{% endcomment %}>
+                <div class="monkey_scroll_handle " {% comment %}style="left: -3px;"{% endcomment %}>
+                    <div class="monkey_scroll_handle_inner "></div>
+                </div>
+            </div>
+            <div class="monkey_scroll_hider" style="width: 100%;">
+                <div id="menu_items_scroller" class="monkey_scroller">
+                    <div class="menu_body"></div>
+                </div>
+            </div>
+        </div>
+        <div id="menu_footer"></div>
+    </div>
+</div>
