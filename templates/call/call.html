@@ -1,0 +1,81 @@
+<script>
+
+    var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    if (w > 1440) document.querySelector('body').classList.add('widescreen');
+
+</script>
+
+
+<div id="spinner_container" class="centered_container active"></div>
+
+<div id="calls_conference_content">
+    <div id="call_title" class="show">
+
+    </div>
+
+    <div id="call_start_container" class="centered_container show">
+
+    </div>
+
+    <div id="info_container" class="show">
+        <div id="info_label" class="old_style_notification">
+
+        </div>
+    </div>
+
+
+    <div id="active_participant_container" class="centered_container show">
+        <div id="active_participant_content" class="centered_content">
+            <div id="callPage" class="call-page">
+                <video id="localVideo" autoplay></video>
+                <video id="remoteVideo" autoplay></video>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="call_controls_container" class="show">
+        <div id="call_controls">
+            <div id="mute_audio" class="ts_tip ts_tip_top">
+                <span class="ts_icon ts_icon_microphone_slash"></span>
+                <span class="ts_tip_tip">Mute microphone</span>
+            </div>
+            {#            <div id="settings_icon" class="sh_popover_trigger ts_tip ts_tip_top">#}
+            {#                <span class="ts_icon ts_icon_cog_o"></span>#}
+            {#                <span class="ts_tip_tip">Settings</span>#}
+            {#            </div>#}
+            {#            <div id="emoji_icon" class="sh_popover_trigger ts_tip ts_tip_top">#}
+            {#                <span class="ts_icon ts_icon_smile_o"></span>#}
+            {#                <span class="ts_tip_tip">Send reaction</span>#}
+            {#            </div>#}
+            <div id="end_call" class="ts_tip ts_tip_top">
+                <span class="ts_icon ts_icon_phone_flat"></span>
+                <span class="ts_tip_tip">Leave call</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="local_participant_container">
+    </div>
+
+    <div id="terminal_container" class="centered_container ">
+        <div id="terminal_content" class="centered_content">
+            <div id="terminal_line">
+                <p>We're having trouble connecting to the server. Please check out our <a
+                        href="https://get.slack.help/hc/en-us/articles/216771908" target="_blank">Help Center
+                    article</a> for troubleshooting assistance.</p>
+            </div>
+            <button class="btn cancel">Close</button>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    document.body.classList.add('calls_conference');
+</script>
+
+
+<div id="overlay"></div>
+

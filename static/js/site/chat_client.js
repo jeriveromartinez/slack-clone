@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    var socket = new io.Socket(document.domain, {transports: ['websocket']});
+    var socket = new io.Socket(document.domain, {reconnection: true});
 
 
     socket.connect();

@@ -1,0 +1,36 @@
+{% extends 'call/base_call.html' %}
+{% load staticfiles %}
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/call.css' %}">
+
+{% endblock %}
+
+{% block body_style %}feature_channel_name_menu light_theme{% endblock %}
+{% block id_container %}client-ui{% endblock %}
+{% block class_container %}container-fluid sidebar_theme_default {% endblock %}
+
+{% block container %}
+    <script>
+        var userFileActive = userlogged, localtime = {% now 'U' %}, sendTo = {type: '', to: ''};
+    </script>
+    <script>
+        var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.user_profile.company.slug }}';
+        apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
+                hostUrl = window.location.protocol + '//' + window.location.host;
+    </script>
+    {% load socketio_tags %}
+    {% socketio %}
+    {% include 'call/call.html' %}
+
+{% endblock %}
+
+{% block js_libraries %}
+    <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript" src="{% static 'js/site/chat_video.js' %}"></script>
+{% endblock %}

@@ -18,7 +18,9 @@ var item_channel_list = function (data) {
 
 var item_user_list = function (data) {
     var minutes = 30 * 60 * 1000;
-    var dif = new Date().getTime() - new Date(data.date_pub).getTime();
+    var now = new Date().getTime();
+    var old = new Date(data.date_pub).getTime()
+    var dif = now - old;
     var date = dif > minutes;
     var un_reader_msg = (data.un_reader_msg > 0) ? 'active' : 'hidden';
     var active = (date) ? 'away' : 'active';

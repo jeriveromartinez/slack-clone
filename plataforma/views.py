@@ -80,7 +80,7 @@ def create(request):
             for element in invite:
                 slug = slugify(datetime.now().__str__() + element)
                 UserInvited.objects.create(email=element, company=company, slug_activation=slug)
-                invite_url = site_info['root']+reverse('app:register_create', kwargs={'slug': slug})
+                invite_url = site_info['root'] + reverse('app:register_create', kwargs={'slug': slug})
                 Email.send(element, 'topic', invite_url)
         except Exception as e:
             print e
@@ -137,3 +137,7 @@ def invite_user(request, slug=None):
 
     return render_to_response('registro/register_user_invited.html', {'username': invitation.email.split("@")[0]},
                               context_instance=RequestContext(request))
+
+
+def call(request):
+    return render_to_response('call/template.html', context_instance=RequestContext(request))
