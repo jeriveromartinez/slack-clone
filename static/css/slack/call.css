@@ -1,5 +1,66 @@
-/* ::::: https://a.slack-edge.com/a23c/style/rollup-plastic_calls_new.css ::::: */
+@font-face {
+    font-family: Slack-Lato;
+    font-style: normal;
+    font-weight: 300;
+    src: local('☺'), url(/static/fonts/lato/lato-light.woff2) format('woff2'), url(/static/fonts/lato/lato-light.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
 
+@font-face {
+    font-family: Slack-Lato;
+    font-style: normal;
+    font-weight: 400;
+    src: local('☺'), url(/static/fonts/lato/lato-regular.woff2) format('woff2'), url(/static/fonts/lato/lato-regular.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: normal;
+    font-weight: 700;
+    src: local('☺'), url(/static/fonts/lato/lato-bold.woff2) format('woff2'), url(/static/fonts/lato/lato-bold.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: normal;
+    font-weight: 900;
+    src: local('☺'), url(/static/fonts/lato/lato-black.woff2) format('woff2'), url(/static/fonts/lato/lato-black.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: italic;
+    font-weight: 300;
+    src: local('☺'), url(/static/fonts/lato/lato-italic-light.woff2) format('woff2'), url(/static/fonts/lato/lato-italic-light.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: italic;
+    font-weight: 400;
+    src: local('☺'), url(/static/fonts/lato/lato-italic.woff2) format('woff2'), url(/static/fonts/lato/lato-italic.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: italic;
+    font-weight: 700;
+    src: local('☺'), url(/static/fonts/lato/lato-italic-bold.woff2) format('woff2'), url(/static/fonts/lato/lato-italic-bold.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
+
+@font-face {
+    font-family: Slack-Lato;
+    font-style: italic;
+    font-weight: 900;
+    src: local('☺'), url(/static/fonts/lato/lato-italic-black.woff2) format('woff2'), url(/static/fonts/lato/lato-italic-black.woff) format('woff');
+    unicode-range: U+0000-F8FE, U+F900-FFFF
+}
 .modal-footer::after, .modal-footer::before {
     display: table;
     line-height: 0;
@@ -20,7 +81,7 @@
     font-family: "Slack";
     font-style: normal;
     font-weight: 400;
-    src: url('slack-icons-regular.eot') format("embedded-opentype"), url('slack-icons-regular.woff') format("woff"), url('slack-icons-regular.ttf') format("truetype"), url('slack-icons-regular.svg') format("svg");
+    src: url('/static/fonts/slack/slack-icons-regular.eot') format("embedded-opentype"), url('/static/fonts/slack/slack-icons-regular.woff') format("woff"), url('/static/fonts/slack/slack-icons-regular.ttf') format("truetype"), url('/static/fonts/slack/slack-icons-regular.svg') format("svg");
 }
 
 .ts_icon::before, ts-icon::before {
@@ -3749,71 +3810,7 @@ body.calls_conference {
     margin-top: 22px;
 }
 
-/* ::::: https://a.slack-edge.com/1d9c/style/libs/lato-1-compressed.css ::::: */
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: normal;
-    font-weight: 300;
-    src: local("☺"), url('lato-light.woff2') format("woff2"), url('lato-light.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: normal;
-    font-weight: 400;
-    src: local("☺"), url('lato-regular.woff2') format("woff2"), url('lato-regular.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: normal;
-    font-weight: 700;
-    src: local("☺"), url('lato-bold.woff2') format("woff2"), url('lato-bold.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: normal;
-    font-weight: 900;
-    src: local("☺"), url('lato-black.woff2') format("woff2"), url('lato-black.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: italic;
-    font-weight: 300;
-    src: local("☺"), url('lato-italic-light.woff2') format("woff2"), url('lato-italic-light.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: italic;
-    font-weight: 400;
-    src: local("☺"), url('lato-italic.woff2') format("woff2"), url('lato-italic.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: italic;
-    font-weight: 700;
-    src: local("☺"), url('lato-italic-bold.woff2') format("woff2"), url('lato-italic-bold.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
-
-@font-face {
-    font-family: "Slack-Lato";
-    font-style: italic;
-    font-weight: 900;
-    src: local("☺"), url('lato-italic-black.woff2') format("woff2"), url('lato-italic-black.woff') format("woff");
-    unicode-range: U+0-F8FE, U+F900-FFFF;
-}
+/
 
 @media only screen and (max-height: 0px) {
 }

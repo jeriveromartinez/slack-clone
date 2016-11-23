@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block styles %}
     {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/lato.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/call.css' %}">
 
 {% endblock %}
@@ -18,6 +19,7 @@
         var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.user_profile.company.slug }}';
         apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
                 hostUrl = window.location.protocol + '//' + window.location.host;
+        var usersjoined = [];
     </script>
     {% load socketio_tags %}
     {% socketio %}
@@ -32,5 +34,5 @@
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript" src="{% static 'js/site/chat_video.js' %}"></script>
+    {#    <script type="text/javascript" src="{% static 'js/site/chat_call.js' %}"></script>#}
 {% endblock %}

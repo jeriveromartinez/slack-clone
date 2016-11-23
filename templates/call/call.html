@@ -10,30 +10,90 @@
 
 <div id="calls_conference_content">
     <div id="call_title" class="show">
-
     </div>
 
     <div id="call_start_container" class="centered_container show">
-
     </div>
 
     <div id="info_container" class="show">
-        <div id="info_label" class="old_style_notification">
+        <div id="info_label" class="old_style_notification"></div>
+    </div>
 
+    <div class="top_container">
+        <div id="share_container" class="show">
+            <div id="share_icon"
+                 class="sh_big_button open_share_ui_trigger sh_popover_trigger cursor_pointer ts_tip ts_tip_bottom">
+                <i class="ts_icon ts_icon_share_square_o"></i>
+                <span class="ts_tip_tip">Share call</span>
+            </div>
+            <div id="share_info_container">
+                <div id="call_name" class="open_share_ui_trigger sh_popover_trigger cursor_pointer hide"></div>
+                <div id="call_share_label" class="hide ts_tip ts_tip_bottom ts_tip_multiline display_flex">
+                    <span class="open_share_ui_trigger sh_popover_trigger cursor_pointer shared_channel_text overflow_ellipsis"></span>
+                    <span class="ts_tip_tip"><span class="ts_tip_multiline_inner"><span class="tip_text"></span></span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="participants_container show">
+            <div id="participants"></div>
+            <div class="participants_fade participants_fade_before participants_fade_invisible"></div>
+            <div class="participants_fade participants_fade_after participants_fade_invisible"></div>
         </div>
     </div>
 
+    <div id="invite_container" class="show">
+        <div id="invite_icon" class="sh_big_button open_invite_ui_trigger sh_popover_trigger ts_tip ts_tip_bottom">
+            <i class="ts_icon ts_icon_plus"></i>
+            <span class="ts_tip_tip">Invite people</span>
+        </div>
+    </div>
+
+    <div id="nobody_here_container" class="centered_container">
+        <div id="nobody_here_content" class="centered_content">
+            <p id="nobody_here_line1" class="is_creator">
+			<span class="shared_in_channel hide">
+				You've <span class="creator">started</span><span
+                    class="non_creator">joined</span> and shared a call <span
+                    class="shared_channel_label_prefix"></span> <span class="shared_channel_label"></span>
+			</span>
+			<span class="not_shared_in_channel">
+				You've <span class="creator">started</span><span class="non_creator">joined</span> a call.
+			</span>
+            </p>
+            <p id="nobody_here_line2">Waiting for some nice people to join…</p>
+            <p id="nobody_here_line3">You might <a class="open_share_ui_trigger sh_popover_trigger">share the call in
+                other channels</a> or <a class="open_invite_ui_trigger sh_popover_trigger">invite specific people</a>.
+            </p>
+        </div>
+    </div>
 
     <div id="active_participant_container" class="centered_container show">
         <div id="active_participant_content" class="centered_content">
-            <div id="callPage" class="call-page">
-                <video id="localVideo" autoplay></video>
-                <video id="remoteVideo" autoplay></video>
+            <div id="active_participant_avatar_holder" class="active_participant_content_container">
+                <div class="reaction_container"></div>
+                <div class="boomer"></div>
+                <div id="active_participant_avatar" class="avatar"></div>
+                <div class="spinner">
+                    <div class="infinite_spinner infinite_spinner_large">
+                        <svg class="infinite_spinner_spinner  " viewBox="0 0 100 100">
+                            <circle class="infinite_spinner_bg" cx="50%" cy="50%" r="35"></circle>
+                            <circle class="infinite_spinner_path infinite_spinner_white " cx="50%" cy="50%"
+                                    r="35"></circle>
+                        </svg>
+                        <svg class="infinite_spinner_spinner infinite_spinner_tail " viewBox="0 0 100 100">
+                            <circle class="infinite_spinner_path infinite_spinner_white" cx="50%" cy="50%"
+                                    r="35"></circle>
+                        </svg>
+                    </div>
+                </div>
             </div>
+            <div id="active_participant_avatar_name" class="active_participant_name_text"></div>
 
         </div>
     </div>
 
+    <div id="calls_video_beta_label" class="hidden">VIDEO BETA</div>
 
     <div id="call_controls_container" class="show">
         <div id="call_controls">
@@ -41,14 +101,14 @@
                 <span class="ts_icon ts_icon_microphone_slash"></span>
                 <span class="ts_tip_tip">Mute microphone</span>
             </div>
-            {#            <div id="settings_icon" class="sh_popover_trigger ts_tip ts_tip_top">#}
-            {#                <span class="ts_icon ts_icon_cog_o"></span>#}
-            {#                <span class="ts_tip_tip">Settings</span>#}
-            {#            </div>#}
-            {#            <div id="emoji_icon" class="sh_popover_trigger ts_tip ts_tip_top">#}
-            {#                <span class="ts_icon ts_icon_smile_o"></span>#}
-            {#                <span class="ts_tip_tip">Send reaction</span>#}
-            {#            </div>#}
+            <div id="settings_icon" class="sh_popover_trigger ts_tip ts_tip_top">
+                <span class="ts_icon ts_icon_cog_o"></span>
+                <span class="ts_tip_tip">Settings</span>
+            </div>
+            <div id="emoji_icon" class="sh_popover_trigger ts_tip ts_tip_top">
+                <span class="ts_icon ts_icon_smile_o"></span>
+                <span class="ts_tip_tip">Send reaction</span>
+            </div>
             <div id="end_call" class="ts_tip ts_tip_top">
                 <span class="ts_icon ts_icon_phone_flat"></span>
                 <span class="ts_tip_tip">Leave call</span>
@@ -75,7 +135,8 @@
 <script type="text/javascript">
     document.body.classList.add('calls_conference');
 </script>
-
-
+<div style="display: none;">
+    <audio id="localAudio" autoplay></audio>
+    <audio id="remoteAudio" autoplay></audio>
+</div>
 <div id="overlay"></div>
-

@@ -26,9 +26,6 @@ def message(request, socket, context, message):
                                               type="message_int_event")
 
         try:
-            print user_to.username
-            print profile.user.username
-            print profile.socketsession
 
             message["action"] = "message"
             message["user_to"] = profile.user.username
@@ -82,13 +79,7 @@ def disconect(request, socket, context):
 
 @events.on_disconnect
 def disconect(request, socket, context):
-    Profile.objects.filter(user_id=request.user.id).update(socketsession="")
     print 'deconect'
-    left = {"action": "leave", "name": request.user.username, "id": request.user.id}
-    try:
-        socket.broadcast_channel(left)
-    except NoSocket as e:
-        send(socket.session.session_id, {"error": "No connected sockets exist"})
 
 
 @events.on_finish(channel="^room-")
