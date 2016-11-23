@@ -1,15 +1,17 @@
 {% load staticfiles %}
 <div id="hiddenMenuFile">
     <ul id="menu_items" role="menu_file_option" no-bootstrap="1">
-        <li id="copy_file_link" role="menuitem"><a data-url="#URL_LINK#">Copy link</a></li>
-        <li id="comment_file" role="menuitem"><a data-url="#COMMENT#">Comment</a></li>
+        <li id="copy_file_link" role="menuitem"><a data-url="#URL_LINK#" data-action="copy">Copy link</a></li>
+        <li id="comment_file" role="menuitem"><a data-url="#COMMENT#" data-action="comment">Comment</a></li>
         <li id="open_new_window" role="menuitem">
-            <a href="#NEW_WINDOW_OPEN_FILE#" target="_blank"> Open in new window </a>
+            <a data-url="#NEW_WINDOW_OPEN_FILE#" data-action="open"> Open in new window </a>
         </li>
         <li class="divider"></li>
         <li id="edit_file_space" role="menuitem"><a href="#EDIT_FILE#" target="_blank"> Edit … </a></li>
         <li class="divider"></li>
-        <li id="delete_file" class="danger" role="menuitem"><a data-url="#URL_DELETE#"> Delete file </a></li>
+        <li id="delete_file" class="danger" role="menuitem">
+            <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
+        </li>
     </ul>
 </div>
 
@@ -46,7 +48,7 @@
             <ts-icon
                     class="team_icon small default">{{ request.user.user_profile.company.name|make_list|first|upper }}</ts-icon>
             <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.user_profile.company.name }}</span>
-            {% comment %}<span class="current_team_name slack_menu_header_secondary overflow_ellipsis">{{ request.host }}/{{ request.user.profile.company.name }}</span>{% endcomment %}
+            {% comment %}<span class="current_team_name slack_menu_header_secondary overflow_ellipsis">{{ request.host }}/{{ request.user.user_profile.company.name }}</span>{% endcomment %}
         </h2>
         <ul class="menu_list">
             <li id="team_invitations"><a href="{% url 'app:invite_user' %}">Invite people</a></li>
@@ -77,6 +79,37 @@
                 <i class="ts_icon ts_icon_emoji_celebration"></i>What's New
                 <span id="whats_new_count" class="badge candy_red_bg hidden"></span>
             </a>
+        </li>
+    </ul>
+</div>
+
+<div id="hiddenMenuFileUpload">
+    <ul id="menu_items" role="menu" no-bootstrap="1">
+        <div class="section_header">
+            <hr>
+            <span class="header_label menu_mini">New...</span></div>
+        <li data-which="snippet" class="file_menu_item">
+            <a target="_top" href="#/blackmambasoft.slack.com/files/create/snippet">
+                <i class="file_menu_icon ts_icon ts_icon_create_snippet"></i> Code or text snippet</a>
+        </li>
+        <li id="gdrive_create_submenu" class="file_menu_item has_submenu">
+            <a><i class="file_menu_icon ts_icon ts_icon_google_drive"></i> Google Docs file
+                <ts-icon class="ts_icon_caret_right submenu_caret"></ts-icon>
+            </a>
+        </li>
+        <li data-which="space" class="file_menu_item">
+            <a target="_top" href="#/blackmambasoft.slack.com/files/create/space">
+                <i class="file_menu_icon ts_icon ts_icon_create_post"></i> Post</a>
+        </li>
+        <div class="section_header">
+            <hr>
+            <span class="header_label menu_mini">Import a file from...</span></div>
+        <li role="menuitem" data-which="gdrive_import">
+            <a><i class="file_menu_icon ts_icon ts_icon_google_drive"></i> Google Drive</a>
+        </li>
+
+        <li class="file_menu_item"><a>
+            <i class="file_menu_icon ts_icon ts_icon_laptop"></i> Your computer</a>
         </li>
     </ul>
 </div>

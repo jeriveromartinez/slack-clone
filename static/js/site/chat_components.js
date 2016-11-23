@@ -194,9 +194,10 @@ var file_comments_msg = function (comments) {
 };
 
 var item_file = function (fileSlug, owner, dateCreate, title, comments, profileUrl, obj) {
-    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '"></button><!--<button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button>--></div>';
+    var url_file = obj.image_up ? obj.image_up : obj.file_up;
+    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '" data-file-url="' + url_file + '"></button><!--<button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button>--></div>';
     if (get_icon(obj) == 'filetype_image') {
-        item = '<div class="file_list_item file_item hosted has_image" id="' + fileSlug + '">' + item;
+        item = '<div class="file_list_item file_item hosted has_image" data-url="' + fileSlug + '">' + item;
         item += '<i class="' + get_icon(obj) + '" style="background-size:contain;background: url(\'' + obj.image_up + '\');"></i>';
     } else {
         item = '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '">' + item;

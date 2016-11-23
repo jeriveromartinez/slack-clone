@@ -336,9 +336,20 @@ def change_email(request, username):
             user.email = request.POST['email']
             user.save()
             return Response({'success': 'ok'})
-        except:
-            pass
+        except Exception as e:
+            print e
     return Response({'success': 'false'})
+
+
+@api_view(['DELETE'])
+def delete_file(request, slug):
+    file = SlackFile.objects.filter(slug=slug)[0]
+    try:
+        file.delete()
+        return Response({'success': 'ok'})
+    except Exception as e:
+        print e
+    return Response({'success': 'flase'})
 
 
 def type_file_by_user(type, username):

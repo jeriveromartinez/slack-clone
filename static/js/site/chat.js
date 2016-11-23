@@ -296,7 +296,7 @@ $(document).ready(function () {
     };
 
     window.positionMenu = function (instance, items, positionSide, options) {
-        var menu = $('#menu.menu');//.slack_menu
+        var menu = $('#menu.menu');
         var position = $(instance).offset();
         var height = $(instance).outerHeight();
         if (options != undefined && options.style != undefined) {
@@ -304,24 +304,33 @@ $(document).ready(function () {
             $(menu).addClass(options.style);
         }
 
-        if (positionSide == 'right')
-            $(menu).css({
-                position: "absolute",
-                top: (position.top + height) + "px",
-                left: (position.left + 15) + "px",
-            });
-        else {
-            $(menu).css({
-                position: "absolute",
-                top: (position.top + height) + "px",
-                left: (position.left - 200) + "px", //TODO: buscar como coger tamanno primer elemento del dom
-            });
-        }
+        var values = {
+            position: "absolute",
+            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 200) + "px",
+            top: (position.top + height) + "px",
+            'max-height': '45%'
+        };
 
+        if (options != undefined && options.bottom == true)
+            values['top'] = (position.top - 250) + "px";
+        else
+            values['top'] = (position.top + height) + "px";
+
+        $(menu).css(values);
+        var test = $(items).outerHeight();
+        console.log(test);
         $('#menu .menu_body').html(items);
         items = '';
         $(menu).removeClass('hidden');
     };
+
+    window.copyToClipboard = function (str) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(str).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
 
     //Direct message Modal
     function openDirectModal() {

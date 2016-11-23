@@ -22,20 +22,7 @@ $(document).ready(function () {
 
     // get file details form user and company
     $('#file_list_by_user').on('click', '.file_list_item', function () {
-        var exc = function (response) {
-            $('#file_preview_container').removeClass('hidden');
-            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html(''),
-                userurl = hostUrl + '/account/profile/' + response.author.user.username + '/';
-            item.append(item_file_detail(response.author.user.username, userurl, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
-        };
-
-        $('.panel.active').removeClass('active');
-        $('#files_tab').addClass('active');
-        $('#file_list_toggle_user').addClass('active');
-
-        var urlapi = apiUrl + 'files/detail/' + this.id;
-        request(urlapi, 'GET', null, null, exc, null);
-        $('#file_list_container').addClass('hidden');
+        detail_file($(this).attr('data-url'));
     });
 
     //go from details to user select files
@@ -90,11 +77,13 @@ $(document).ready(function () {
 
     //launch files upload forms
     $('#primary_file_button').on('click', function () {
-        $('.menu.menu_file_create').removeClass('hidden');
+        var value = $('#hiddenMenuFileUpload').html();
+        var options = {style: 'menu file_menu menu_file_create', bottom: true};
+        positionMenu(this, value, 'right', options);
     });
 
     //select files from pc
-    $('li.file_menu_item').on('click', function () {
+    $('#menu .menu_body').on('click', '.file_menu_item', function () {
         hide_menu_files();
         $('#file-upload').click();
     });
@@ -131,16 +120,24 @@ $(document).ready(function () {
         request(urlapi, 'POST', 'json', comment, exc, null);
     });
 
+    //show file's menu
     $('#file_list_by_user').on('click', '.file_actions', function (event) {
         var options = {
-            copyLink: 'copy',
-            opeNeWind: 'new Wind',
-            comment: 'open comment',
-            edit: 'edit file',
-            delete: 'delete file'
+            copyLink: $(this).attr('data-file-url'),
+            opeNeWind: $(this).attr('data-file-url'),
+            comment: $(this).attr('data-file'),
+            edit: $(this).attr('data-file'),
+            delete: $(this).attr('data-file'),
         };
         positionMenu(this, file_options($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
         event.stopPropagation();
+    });
+
+    //select action from file's menu
+    $('#menu .menu_body').on('click', 'a[data-url]', function () {
+        var options = {data: $(this).attr('data-url')};
+        $('#menu').addClass('hidden');
+        action($(this).attr('data-action'), options);
     });
 
     //AUX
@@ -183,7 +180,55 @@ $(document).ready(function () {
     };
 
     var hide_menu_files = function () {
-        $('#menu.menu_file_create').addClass('hidden');
+        $('#menu.menu').addClass('hidden');
+    };
+
+    var action = function (action, properties) {
+        switch (action) {
+            case 'copy':
+                copyToClipboard(hostUrl + properties.data);
+                break;
+            case 'open':
+                window.open(properties.data, '_blank');
+                break;
+            case 'comment':
+                detail_file(properties.data);
+                break;
+            case 'delete':
+                delete_file(properties.data);
+                break;
+        }
+    };
+
+    var detail_file = function (key) {
+        var exc = function (response) {
+            $('#file_preview_container').removeClass('hidden');
+            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html(''),
+                userurl = hostUrl + '/account/profile/' + response.author.user.username + '/';
+            item.append(item_file_detail(response.author.user.username, userurl, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
+        };
+
+        $('.panel.active').removeClass('active');
+        $('#files_tab').addClass('active');
+        $('#file_list_toggle_user').addClass('active');
+
+        var urlapi = apiUrl + 'files/detail/' + key;
+        request(urlapi, 'GET', null, null, exc, null);
+        $('#file_list_container').addClass('hidden');
+    };
+
+    var delete_file = function (key) {
+        var exc = function (response) {
+            console.log(response);
+            if (response.success == 'ok') {
+                if (userFileStatus)
+                    user_files(userFileActive);
+                else
+                    user_all_files();
+            }
+        };
+
+        var urlapi = apiUrl + 'files/delete/' + key + '/';
+        request(urlapi, 'DELETE', null, null, exc, null);
     };
 });
-
