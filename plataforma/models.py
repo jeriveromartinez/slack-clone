@@ -259,7 +259,7 @@ class MessageEvent(PolymorphicModel):
     date_pub = models.DateTimeField(auto_now_add=True)
     is_stared = models.BooleanField(default=False)
     room = models.ForeignKey(Room, blank=True, null=True, related_name='message_room')
-    user_to = models.ForeignKey(User, related_name='user_to')
+    user_to = models.ForeignKey(User, related_name='user_to', null=True)
     user_from = models.ForeignKey(User, related_name='user_from')
 
     class Meta:
@@ -274,7 +274,7 @@ class MessageInstEvent(MessageEvent):
 
 
 class FileSharedEvent(MessageEvent):
-    file_up = models.ForeignKey(FilesUp, related_name='files_comments_event_share')
+    file_up = models.ForeignKey(SlackFile, related_name='files_comments_event_share')
 
 
 class FileCommentEvent(MessageEvent):

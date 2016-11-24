@@ -1,7 +1,7 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = '', activeChannel = 'public', users = new Array();
+var panel = null, channels = [], activeChannel = 'public', users = [];
 window.users_logged = 0, window.userFileStatus = false;
 
 $('body').prepend(itemLoad);
@@ -19,6 +19,14 @@ $(document).ready(function () {
             window.get_comuncation_me();
         }, 10000);
         active_chat(userlogged, 'user');
+
+        var exc = function (response) {
+            response.forEach(function (item) {
+                users.push(item.user.username);
+            });
+        };
+        var urlapi = apiUrl + companyuser + '/users/';
+        request(urlapi, 'GET', 'json', null, exc, null, 'other');
     });
 
     //show menu user logged
@@ -128,6 +136,8 @@ $(document).ready(function () {
             var list = $('#channel-list').html('');
             $('#channel_header_count').html(response.items.length);
             response.items.forEach(function (item) {
+                var obj = {slug: item.slug, name: item.name};
+                channels.push(obj);
                 list.append(item_channel_list(item));
             });
         };
@@ -334,7 +344,6 @@ $(document).ready(function () {
 
     //Direct message Modal
     function openDirectModal() {
-
         var modal = $("#direct-message").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -349,11 +358,8 @@ $(document).ready(function () {
         var _selected_members = [];
         var _MAX = 8;
 
-
         $('#direct-message').on("click", "#fs_modal_close_btn", function () {
-
             _close();
-
         });
 
         function _close() {
@@ -365,33 +371,34 @@ $(document).ready(function () {
             $('html').removeClass("fs_modal_active");
 
             _$list_container.unbind().off("click", ".im_browser_row", function () {
-
                 _selected_members = [];
-
-
             });
+
             _$im_browser.off('click', '.member_token .remove_member_icon', function () {
 
             });
+
             _$im_browser.unbind().off("click", ".im_browser_go", function () {
 
             });
-
         }
 
         _startListView();
-        _clear();
-        if (!_selected_members)_selected_members = [];
 
+        _clear();
+
+        if (!_selected_members)_selected_members = [];
 
         _$list_container.on("click", ".im_browser_row", function () {
 
             _selectRow($(this));
         });
+
         _$im_browser.on("input", "#im_browser_filter", function () {
             var input = $("#im_browser_filter").val();
             _filterListView(input);
         });
+
         _$im_browser.on('click', '.member_token .remove_member_icon', function () {
             var item = $(this).parent();
             var member = item.attr('data-member-id');
@@ -399,6 +406,7 @@ $(document).ready(function () {
             if (index > -1) {
                 _selected_members.splice(index, 1);
             }
+
             item.remove();
 
             var input = $("#im_browser_filter").val();
@@ -406,7 +414,6 @@ $(document).ready(function () {
             _updateGo();
         });
         _$im_browser.on("click", ".im_browser_go", function () {
-
             active_chat(_selected_members[0], 'user');
             activeChannel = _selected_members[0];
             Reload(activeChannel);
@@ -414,12 +421,10 @@ $(document).ready(function () {
             _close();
         });
 
-        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide")
-
+        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
 
         function _filterListView(input) {
             var exc = function (data) {
-
                 list.empty();
 
                 $.each(data, function (index, item) {
@@ -433,25 +438,20 @@ $(document).ready(function () {
                         pos -= 64 * index;
                     }
                 });
-
-
             };
             var urlapi = apiUrl + 'usercomapny';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });
         };
+
         function _startListView() {
             var exc = function (data) {
-
                 list.empty();
                 $.each(data.items, function (index, item) {
                     var pos = 64 * index;
-
                     list.append(item_direct_message(item, parseInt(pos)));
-
                 });
-
             };
             var urlapi = apiUrl + 'resent/' + userlogged;
 
@@ -461,13 +461,10 @@ $(document).ready(function () {
         function _selectRow(row) {
             var member = row.attr('data-member-id');
 
-
             if (member == userlogged) {
-
                 active_chat(member, 'user');
                 activeChannel = member;
                 Reload(activeChannel);
-
                 _selected_members.pop();
                 _close();
             }
@@ -476,17 +473,13 @@ $(document).ready(function () {
                     _selected_members.push(member);
                     var input = $("#im_browser_filter").val();
                     _filterListView(input);
-
                     $("#im_browser_tokens").prepend(item_member_token(member));
                     $("#im_browser_filter").focus().val('').removeAttr('placeholder');
                 }
-
-
             }
             _updateGo();
+
             _updateParticipantCountHint();
-
-
         }
 
         function _updateGo() {
@@ -500,7 +493,6 @@ $(document).ready(function () {
             } else {
                 _$im_browser.removeClass("reached_maximum")
             }
-
         };
 
         function _updateParticipantCountHint() {
@@ -527,15 +519,11 @@ $(document).ready(function () {
                 item.parentNode.removeChild(item);
 
             });
-
         }
-
-
     };
 
     //Browse Channel Modal
     function openDirectBrowse() {
-
         var modal = $("#browse-chanel").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -546,22 +534,21 @@ $(document).ready(function () {
         var _$browse_chanel = $("#browse-chanel");
         var _$channel_list_container = $("#channel_list_container");
 
-
         $('html').addClass("fs_modal_active");
-
 
         _$browse_chanel.on("input", "#channel_browser_filter", function () {
             var input = $("#channel_browser_filter").val();
             _filterListView(input);
         });
-        _$channel_list_container.on("click", ".channel_browser_row", function () {
 
+        _$channel_list_container.on("click", ".channel_browser_row", function () {
             _selectRow($(this));
         });
+
         _$browse_chanel.on("click", "#fs_modal_close_btn", function () {
             _close();
-
         });
+
         _$browse_chanel.on("click", ".new_channel", function () {
             _close();
             $(".channels_list_new_btn").tooltip("hide")
@@ -577,55 +564,40 @@ $(document).ready(function () {
 
             _$channel_list_container.unbind().off("click", ".channel_browser_row", function () {
 
-
             });
-
-
         }
 
         _startListView();
+
         function _startListView() {
-
-
             var urlapi = apiUrl + companyuser + '/room/all/';
-
             request(urlapi, 'GET', null, null, render, null);
         };
-        function _filterListView(input) {
 
+        function _filterListView(input) {
             var urlapi = apiUrl + 'company_room';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, render, null);
             });
-        }
+        };
 
         function render(data) {
-
             list.empty();
             $.each(data, function (index, item) {
                 var pos = 100 * index;
-
                 list.append(item_channel_browse(item, parseInt(pos)));
-
             });
-
-        }
+        };
 
         function _selectRow(row) {
             var channel = row.attr('data-channel-id');
-
             alert("channel");
             //ReloadChanel(channel);
-
-
         }
-
     }
 
     //Create Channel Modal
     function openNewChannel(back) {
-
-
         var modal = $("#create-channel").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -637,15 +609,16 @@ $(document).ready(function () {
         var _$channel_list_container = $("#channel_list_container");
         var btn_back = $("#create-channel").find("#fs_modal_back_btn");
         var ts_toggle_button = $('.ts_toggle_button');
+
         if (back) {
             btn_back.removeClass("hidden");
             btn_back.addClass("active");
         }
+
         var visibility = true;
         var title = "";
         var purpose = "";
         var invites = [];
-
 
         ts_toggle_button.click(function () {
             var ts_toggle = $('.ts_toggle');
@@ -674,12 +647,12 @@ $(document).ready(function () {
                 $('#save_channel').attr('disabled', "disabled");
             }
         });
+
         _$create_chanel.on("input", ".lfs_input", function () {
             var input = $(".lfs_input").val();
             _filter(input);
-
-
         });
+
         $('.list_items').on('click', ".lfs_item", function () {
             _selectRow($(this));
         });
@@ -687,30 +660,27 @@ $(document).ready(function () {
             var item = $(this);
             var member = item.attr('data-member-id');
             var index = invites.indexOf(member);
+
             if (index > -1) {
                 invites.splice(index, 1);
             }
+
             item.remove();
 
             var input = $(".lfs_input").val();
             _filter(input);
             $(".lfs_item").removeClass('lfs_token selected');
             $('.lfs_input_container').addClass('empty');
-
             $(".lfs_input").focus().val('').attr('placeholder', "Search by name");
-
         });
         $('#save_channel').click(function () {
             title = $('#channel_create_title').val();
             purpose = $('#channel_purpose_input').val();
-
             var data = {title: title, purpose: purpose, visibility: visibility, invites: JSON.stringify(invites)};
-
 
             function exc() {
                 alert(data.result);
-
-            }
+            };
 
             var urlapi = apiUrl + 'create_room';
             request(urlapi, 'POST', null, data, exc, null);
@@ -722,8 +692,6 @@ $(document).ready(function () {
         });
 
         function _filter(input) {
-
-
             function exc(data) {
                 if (data.length > 0) {
                     $(".lazy_filter_select").addClass('list_invite')
@@ -736,9 +704,7 @@ $(document).ready(function () {
                 $('.list_items').empty();
                 var count = 0;
                 $.each(data, function (index, item) {
-
                     var pos = 64 * index;
-
 
                     if ($.inArray(item.user.username, invites) == -1) {
                         $('.lfs_list .list_items').append(item_search_user(item, parseInt(pos)));
@@ -755,13 +721,10 @@ $(document).ready(function () {
                         $('.list_items').css('height', '50px')
 
                 });
-
             }
 
             var urlapi = apiUrl + 'usercomapny';
-
             request(urlapi, 'POST', null, {term: input}, exc, null);
-
         }
 
         function _close() {
@@ -785,19 +748,14 @@ $(document).ready(function () {
             $('#channel_purpose_input').val('');
             _$create_chanel.unbind().off('click', '.channel_invite_member_token', function () {
 
-
             });
             $('.list_items').unbind().off('click', ".lfs_item", function () {
 
             });
-
-
         }
 
         function _selectRow(row) {
             var member = row.attr('data-member-id');
-
-
             if ($.inArray(member, invites) == -1) {
                 invites.push(member);
 
@@ -812,10 +770,6 @@ $(document).ready(function () {
 
                 $(".lfs_input").focus().val('').removeAttr('placeholder');
             }
-
-
         }
-
-
     }
 });

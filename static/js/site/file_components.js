@@ -12,6 +12,48 @@ var fileComponent = function (title, slug, profile, date, obj) {
     return item;
 };
 
+var uploadComponent = function (options) {
+    var upload = '<div id="upload_image_preview" class="bottom_margin"> \
+        <img id="img64" src=""> </div> <p>\
+        <label for="upload_file_title" class="inline_block">Title</label>\
+        <input id="upload_file_title" name="upload_file_title" class="small title_input" tabindex="1" type="text">\
+        <span class="modal_input_note">Titles are the easiest ways to search for files: it pays to be descriptive.</span>\
+        <input id="file-upload" name="file-upload" class="filename_input offscreen hidden" type="file">\
+        </p> <div id="file_sharing_div">\
+        <div class="small_bottom_margin">\
+            <label for="share_cb" class=" small_bottom_margin">\
+                <input id="share_cb" checked="checked" name="share_cb" class="no_top_margin small_right_margin "\
+                       tabindex="2" type="checkbox">Share\
+                <span id="share_context_label">in</span> </label>\
+            <div id="select_share_channels" class="file_share_select inline_block no_margin">\
+                <select id="share_to" class="chosen-select small" data-placeholder="Who do you want to share?">' + options + '</select></div> \
+            <span id="select_share_channels_note" class="modal_input_note ">\
+                        Files are private until they are shared in a public channel.\
+                <span id="select_share_channels_join_note" class="hidden">\
+                    <br><b>NOTE:</b> you will join this channel when you share the file into it.\
+                </span></span>\
+            <span id="select_share_ims_note" class="modal_input_note hidden"> This file will be private; the person you\'re sharing with will be able to see it. \
+                </span><span id="select_share_mpims_note" class="modal_input_note hidden"> \
+					    This file will be private; the members of the conversation you\'re sharing with will be able to see it.\
+                </span><span id="select_share_groups_note" class="modal_input_note hidden">\
+					    This file will be private; the members of the private channel you\'re sharing in will be able to see it.\
+                </span></div>\
+        <p class="no_bottom_margin">\
+            <label class="inline_block align_top">\
+                Add Comment <br>\
+                <span class="input_note normal">(optional)</span>\
+            </label>\
+            <textarea id="file_comment_textarea" class="comment_input no_bottom_margin" name="comment"\
+                      tabindex="4" wrap="virtual"></textarea>\
+            <span id="select_share_at_channel_blocked_note"\
+                  class="modal_input_note indifferent_grey hidden"></span>\
+            <span id="select_share_at_channel_note" class="modal_input_note indifferent_grey hidden"></span>\
+            <span id="select_share_at_channel_list" class="modal_input_note indifferent_grey"></span>\
+        </p>\
+    </div>';
+    return upload;
+};
+
 var get_icon = function (obj) {
     var style = 'filetype_icon s30 ';
     if (typeof(obj.code) !== 'undefined')

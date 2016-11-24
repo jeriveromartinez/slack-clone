@@ -1,6 +1,18 @@
 /**
  * Created by julio on 31/10/16.
  */
+
+File.prototype.convertToBase64 = function (callback) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        callback(e.target.result)
+    };
+    reader.onerror = function (e) {
+        callback(null);
+    };
+    reader.readAsDataURL(this);
+};
+
 $(document).ready(function () {
 
     //menu more items options
@@ -85,22 +97,56 @@ $(document).ready(function () {
     //select files from pc
     $('#menu .menu_body').on('click', '.file_menu_item', function () {
         hide_menu_files();
-        $('#file-upload').click();
-    });
+        this.options = '', instance = this;
+        this.options += '<optgroup label="Channels">';
+        channels.forEach(function (item) {
+            instance.options += '<option value="channel_' + item.slug + '"> # ' + item.name + '</option>';
+        });
+        this.options += '</optgroup>';
+        this.options += '<optgroup label="Direct Messages">';
+        users.forEach(function (item) {
+            instance.options += '<option value="user_' + item + '">' + item + '</option>';
+        });
+        this.options += '</optgroup>';
 
-    //save files uploaded
-    $('#file-upload').on('change', function () {
-        var data = new FormData();
-        $.each($(this)[0].files, function (key, file) {
-            data.append('file[' + key + ']', file);
+        var data = new FormData(),
+            modal = new Modal('Upload a file?', 'Upload', uploadComponent(this.options));
+
+        $('#file-upload').click();
+
+        $('#file-upload').on('change', function () {
+            var file = this.files[0];
+            $('#modal').find('#upload_file_title').val(file.name);
+            file.convertToBase64(function (img) {
+                $('#modal').find('#img64').attr('src', img);
+            });
+
+            if ($('select.chosen-select').length > 0)
+                $('#share_to.chosen-select').chosen({
+                    width: '24rem',
+                    no_results_text: "Oops, nothing found!",
+                });
+            data.append('file', file);
+            modal.show();
         });
 
-        var exc = function (response) {
-            console.log(response);//TODO: agregar aqui el archivo a la lista si esta activa 
-        };
+        $('#go.btn').on('click', function () {
+            data.append('title', $('.modal-body').find('#upload_file_title').val());
+            data.append('shared', $('.modal-body').find('#share_to').val());
+            data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
+            var exc = function (response) {
+                modal.destroy();
+                if (response.success == "ok") {
+                    if ($('#file_list_toggle_all.active').length > 0)
+                        user_all_files();
+                    if ($('#file_list_toggle_user.active').length > 0)
+                        user_files(userFileActive);
+                }
+            };
 
-        var urlapi = apiUrl + 'files/upload/' + userlogged + '/' + sendTo.type + '/' + sendTo.to + '/';
-        request(urlapi, 'POST', 'html', data, exc, null, 'file');
+            var urlapi = apiUrl + 'files/upload/' + userlogged + '/';
+            request(urlapi, 'POST', 'json', data, exc, null, 'file');
+        });
     });
 
     //add comment to the file
@@ -230,5 +276,31 @@ $(document).ready(function () {
 
         var urlapi = apiUrl + 'files/delete/' + key + '/';
         request(urlapi, 'DELETE', null, null, exc, null);
+    };
+
+    var Modal = function (title, btnGo, html, data) {
+        this.modal = $('#modal');
+        $(this.modal).find('#modal-title').html(title);
+        $(this.modal).find('.modal-body').html(html);
+        $(this.modal).find('#go.btn').html(btnGo);
+
+        var context = this;
+        $(this.modal).on('click', 'button[data-dismiss="modal"]', function () {
+            context.destroy();
+        });
+        $(this.modal).on('click', '#cancel', function () {
+            context.destroy();
+        });
+
+        this.show = function () {
+            $(this.modal).removeClass('hidden');
+        };
+
+        this.destroy = function () {
+            $(context.modal).addClass('hidden');
+            data = null;
+            if ($('select.chosen-select').length == 1)
+                $('select.chosen-select').chosen('destroy');
+        }
     };
 });

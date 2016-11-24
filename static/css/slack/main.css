@@ -585,6 +585,10 @@ li.member.cursor_pointer {
     position: absolute;
 }
 
+.modal-body {
+    overflow: visible !important;
+}
+
 #convo_loading_indicator {
     width: 5rem;
     height: 5rem;

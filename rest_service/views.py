@@ -22,17 +22,15 @@ def room_by_company(request, company, room_name):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def room_by_company_filter(request):
     name = Profile.objects.filter(user=request.user).values('company__name')
-    room = []
-    if request.method == "POST":
 
-        term = request.POST.get("term")
-        if term:
-            room = Room.objects.filter(company__name=name).filter(name__icontains=term)
-        else:
-            room = Room.objects.filter(company__name=name)
+    term = request.POST.get("term")
+    if term:
+        room = Room.objects.filter(company__name=name).filter(name__icontains=term)
+    else:
+        room = Room.objects.filter(company__name=name)
 
     serializer = RoomSerializer(room, many=True)
     return Response(serializer.data)
@@ -47,7 +45,7 @@ def room_by_user(request, username):
 
 @api_view(['GET'])
 def room_by_user_list(request, username):
-    rooms = Room.objects.filter(users__user__username=username).values("name")
+    rooms = Room.objects.filter(users__user__username=username).values("name", "slug")
     data = list(rooms)
 
     if len(data) > 1:
@@ -288,21 +286,42 @@ def get_url_user_path(request, username):
 
 
 @api_view(['POST', 'GET'])
-def save_files(request, type, from_user, to):
-    if type == "user":
-        user = User.objects.filter(username=to)[0]
+def save_files(request, from_user):
+    try:
         author = Profile.objects.filter(user__username=from_user)[0]
-        for key in request.FILES:
-            file = request.FILES[key]
-            if "image" in file.content_type:
-                create = ImageUp.objects.create(title=file.name, image_up=file, author=author)
+        post = request.POST
+        file = request.FILES['file']
+        title = file.name
+        if post['title']:
+            title = post['title']
+
+        if "image" in file.content_type:
+            create = ImageUp.objects.create(title=title, image_up=file, author=author)
+        else:
+            create = FilesUp.objects.create(title=title, file_up=file, author=author)
+
+        if post['shared']:
+            cond, channel = post['shared'].split('_')
+            if cond == "channel":
+                room = Room.objects.get(slug=channel)
+                for item in room.users.all():
+                    create.shared_to.add(item.user)
+                FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
+                                               file_up=create)  # TODO: enviar si esta logueado
+                create.save()
             else:
-                create = FilesUp.objects.create(title=file.name, file_up=file, author=author)
-            create.shared_to.add(user)
-            create.save()
-    else:
-        pass
-    return Response({'response': from_user + ' ' + type + ' ' + to})
+                user = User.objects.get(username=channel)
+                create.shared_to.add(user)
+                FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event',
+                                               file_up=create)
+                create.save()
+
+        if post['comment']:
+            FilesComment.objects.create(file_up=create, comment=post['comment'], user=author.user)
+        return Response({'success': 'ok'})
+    except Exception as e:
+        print e
+        return Response({'success': 'false'})
 
 
 @api_view(['POST'])
@@ -312,7 +331,8 @@ def change_user(request, username):
     try:
         user.save()
         return Response({'success': 'ok'})
-    except:
+    except Exception as e:
+        print e
         return Response({'success': 'false'})
 
 
