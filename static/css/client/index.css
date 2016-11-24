@@ -4247,6 +4247,37 @@ img#slack_logo {
     align-items: center;
 }
 
+.menu ul {
+    list-style-type: none;
+}
+
+a {
+    color: rgb(0, 136, 204);
+    text-decoration: none;
+}
+
+.menu ul li i {
+    margin-right: 0.5rem;
+    color: rgb(186, 187, 191);
+    float: left;
+}
+
+.menu ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 0px 1rem 0px 0.5rem;
+    margin: 0px 0.9375rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    outline: 0px none;
+    font-size: 0.9375rem;
+    line-height: 1.5625rem;
+    background: transparent none repeat scroll 0px 0px;
+    color: rgb(44, 45, 48);
+}
+
 #client-ui .file_list_item .actions, #files_list .file_list_item .actions {
     width: auto;
 }

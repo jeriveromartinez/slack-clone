@@ -7,6 +7,39 @@ body {
     background: transparent;
 }
 
+.menu_file_option {
+    position: absolute;
+    left: -14rem;
+}
+
+.menu_file_option li a {
+    width: 95% !important;
+    border-radius: 3px !important;
+    margin-left: .3rem !important;
+    border: none !important;
+}
+
+#client-ui:not(.feature_shrinkwrap_menus) .menu ul li a {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.menu ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 0px 1rem 0px 0.5rem;
+    margin: 0px 0.9375rem;
+    border-radius: 0.25rem;
+    white-space: nowrap;
+    outline: 0px none;
+    font-size: 0.9375rem;
+    line-height: 1.5625rem;
+    background: transparent none repeat scroll 0px 0px;
+    color: rgb(44, 45, 48);
+}
+
 p.bubble {
     color: #9e9ea6; /* @subtle_silver */
     background: #f0f0f0;
@@ -222,6 +255,28 @@ p.bubble.duration {
     color: #ccc;
     font-weight: normal;
     font-size: 10px;
+}
+
+.tab_container .file_list_item .filetype_icon, .tab_container .file_list_item .filetype_image {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.5625rem;
+    margin-top: -0.0625rem;
+}
+
+.tab_container .file_list_item .filetype_image {
+    width: 3.125rem;
+    height: 3.125rem;
+    background-size: cover !important;
+    background: rgb(243, 243, 243) no-repeat center center;
+    border-radius: 0.25rem;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) inset;
+}
+
+.tab_container .file_list_item.has_image .contents {
+    margin-left: 4.3125rem;
+    min-height: 3.75rem;
+    padding-left: 0px;
 }
 
 .color_9f69e7:not(.nuc) {
@@ -470,7 +525,7 @@ header#client_header {
 }
 
 li.member.cursor_pointer {
-   /*width: 12 rem;*/
+    /*width: 12 rem;*/
 }
 
 #col_channels_footer {
@@ -520,9 +575,6 @@ li.member.cursor_pointer {
 }
 
 .menu_user_list {
-    position: absolute;
-    top: 3rem;
-    left: 5rem;
     max-height: 15rem;
     overflow-y: auto;
 }

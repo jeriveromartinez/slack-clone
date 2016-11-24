@@ -24,8 +24,8 @@
     {% include 'chat/footer.html' %}
     {% include 'chat/body.html' %}
     {% include 'chat/view_right.html' %}
-    {% include 'chat/menu.html' %}
-    {% include 'chat/menu_right.html' %}
+    {% include 'chat/menu/menu.html' %}
+    {% comment %}{% include 'chat/menu/menu_more_options_header.html' %}{% endcomment %}
     {% include 'chat/modals.html' %}
 {% endblock %}
 
@@ -37,6 +37,7 @@
 {% endblock %}
 
 {% block js %}
+    <script type="text/javascript" src="{% static 'js/site/file_components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/chat_file.js' %}"></script>

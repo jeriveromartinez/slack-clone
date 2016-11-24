@@ -33,6 +33,7 @@ urlpatterns = [
     url(r'^files/detail/(?P<file>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_details_file', name='api-file-detail'),
     url(r'^files/detail/(?P<file>[0-9a-zA-Z_-]+)/(?P<user_post>[0-9a-zA-Z_-]+)/$',
         'rest_service.views.get_details_file', name='api-file-add-comment'),
+    url(r'^files/delete/(?P<slug>[0-9a-zA-Z_-]+)/$', 'rest_service.views.delete_file', name='api_file_delete'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/get/(?P<type>[a-z_]+)/$',
         'rest_service.views.get_files', name='api-files'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/(?P<type>[a-z_]+)/(?P<company>[0-9a-zA-Z_-]+)/$',
@@ -43,12 +44,10 @@ urlpatterns = [
         name='api-message'),
     url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
-    url(r'^checkreaded$', 'rest_service.views.check_readed_me',
-        name='api-checkread'),
-    url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_recente_message_user',
+    url(r'^checkreaded/$', 'rest_service.views.check_readed_me', name='api-checkread'),
+    url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_recente_message_user',
         name='api-recente_message_use'),
-    url(r'^usercomapny$', 'rest_service.views.get_user_by_company',
-        name='api-usercomapny$')
+    url(r'^usercomapny/$', 'rest_service.views.get_user_by_company', name='api-usercomapny$')
     ,
 
 ]

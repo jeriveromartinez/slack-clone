@@ -22,27 +22,19 @@ var get_icon = function (obj) {
         return style + 'post';
     else {
         var type = obj.title.split('.');
-        switch (type[type.length - 1]) {
-            case 'xlsx':
-                return style + 'xlsx';
-            case 'xls':
-                return style + 'xlsx';
-            case 'doc':
-                return style + 'docx';
-            case 'docx':
-                return style + 'docx';
-            case 'ppt':
-                return style + 'pptx';
-            case 'pptx':
-                return style + 'pptx';
-            case 'pdf':
-                return style + 'pdf';
-            case 'txt':
-                return style + 'snippet';
-            case 'mp3':
-                return style + 'mp3';
-        }
-        return style + 'pdf';
+        return type[type.length - 1] in icon ? style + icon[type[type.length - 1]] : '';
     }
 
+};
+
+var icon = {
+    'xlsx': 'xlsx',
+    'xls': 'xlsx',
+    'doc': 'docx',
+    'docx': 'docx',
+    'ppt': 'pptx',
+    'pptx': 'pptx',
+    'pdf': 'pdf',
+    'txt': 'snippet',
+    'mp3': 'mp3',
 };
