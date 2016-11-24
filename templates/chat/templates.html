@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_general.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_secondary.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/incoming_call.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/chosen/chosen.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/main.css' %}">
 {% endblock %}
 
@@ -25,8 +26,11 @@
     {% include 'chat/body.html' %}
     {% include 'chat/view_right.html' %}
     {% include 'chat/menu/menu.html' %}
-    {% comment %}{% include 'chat/menu/menu_more_options_header.html' %}{% endcomment %}
     {% include 'chat/modals.html' %}
+{% endblock %}
+
+{% block footer %}
+    {% include 'chat/modal/modal.html' %}
 {% endblock %}
 
 {% block js_libraries %}
@@ -34,6 +38,7 @@
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/jquery-infinite-scroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
 {% endblock %}
 
 {% block js %}

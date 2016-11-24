@@ -29,7 +29,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ProfileFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        exclude = ('id', 'socketsession', 'type', 'user', 'company',)
+        exclude = ('id', 'socketsession', 'type', 'company',)
 
 
 class UserFileSerializer(serializers.ModelSerializer):
@@ -46,7 +46,7 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        exclude = ('id',)
+        exclude = ('id', 'users')
 
 
 class FileCommentsSerializer(serializers.ModelSerializer):
