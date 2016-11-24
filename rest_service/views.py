@@ -119,7 +119,8 @@ def create_room_by_company(request):
                     user = Profile.objects.filter(user__username=obj)[0]
                     room.users.add(user)
             room.save()
-    return Response({"result": "ok"})
+
+    return Response({"result": room.name})
 
 
 @api_view(['GET'])

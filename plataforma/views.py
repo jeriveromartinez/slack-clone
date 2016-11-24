@@ -1,4 +1,5 @@
 import json
+import uuid
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -139,5 +140,15 @@ def invite_user(request, slug=None):
                               context_instance=RequestContext(request))
 
 
-def call(request):
-    return render_to_response('call/template.html', context_instance=RequestContext(request))
+def call(request, user):
+    profile = Profile.objects.filter(user__username=request.user.username)[0]
+    name = uuid.uuid4()
+    room = RoomCall.objects.get_or_create(name=name, usercreator=profile)[0]
+    room.users.add(profile)
+
+    invite = Profile.objects.filter(user__username=user)[0]
+    room.users.add(invite)
+
+    room.save()
+
+    return render_to_response('call/template.html', {'room': room}, RequestContext(request))

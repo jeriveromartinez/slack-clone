@@ -2,6 +2,7 @@ var yourConn;
 var stream;
 var name;
 var connectedUser;
+var room
 $(document).ready(function () {
 
 
@@ -14,15 +15,10 @@ $(document).ready(function () {
     }, 5000);
 
     socket.on('connect', function () {
-        var data = {title: title, purpose: purpose, visibility: visibility, invites: JSON.stringify(usersjoined)};
 
+        socket.subscribe(room);
+      
 
-        function exc() {
-            Begin();
-        }
-
-        var urlapi = apiUrl + 'create_room';
-        request(urlapi, 'POST', null, data, exc, null);
 
     });
 
@@ -66,8 +62,7 @@ $(document).ready(function () {
 
     function Begin() {
 
-        loginPage.style.display = "none";
-        callPage.style.display = "block";
+        
 
         //**********************
         //Starting a peer connection

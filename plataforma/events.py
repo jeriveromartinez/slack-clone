@@ -40,11 +40,11 @@ def message(request, socket, context, message):
 def subcribe(request, socket, context, channel):
     room = get_object_or_404(Room, name=channel)
     if room:
-        # RoomMessage.objects.create(room=room, user_msg=request.user, msg="User joined", date_pub=timezone.now())
+
         try:
             send(socket.session.session_id, {"message": "Welcome"})
             joined = {"action": "join", "name": request.user.username, "id": request.user.id}
-            socket.send_and_broadcast_channel(joined)
+            socket.send_and_broadcast_channel(joined, channel)
         except NoSocket as e:
             send(socket.session.session_id, {"error": "No connected sockets exist"})
     else:

@@ -66,6 +66,16 @@ class Room(models.Model):
         super(Room, self).save(*args, **kwargs)
 
 
+class RoomCall(models.Model):
+    name = models.CharField(max_length=255, null=False, )
+    usercreator = models.ForeignKey(Profile, related_name='creatorcall')
+    created = models.DateTimeField(auto_now_add=True)
+    users = models.ManyToManyField(Profile, related_name='users_call')
+
+    class Meta:
+        ordering = ('created',)
+
+
 class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
     author = models.ForeignKey(Profile, related_name='file_up_owner', on_delete=models.CASCADE)
