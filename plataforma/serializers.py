@@ -66,6 +66,10 @@ class SlackFileSerializer(serializers.ModelSerializer):
         fields = ('slug', 'title', 'uploaded', 'author', 'files_comments')
 
 
+class TypeSerializer(serializers.Serializer):
+    types = serializers.ChoiceField(choices=Snippet.CHOICE)
+
+
 class PostSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = Post

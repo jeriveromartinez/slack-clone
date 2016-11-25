@@ -599,3 +599,12 @@ li.member.cursor_pointer {
     background: url('../../images/loading_hash_animation_@2x.gif') no-repeat;
     display: none;
 }
+
+.chosen-container-single .chosen-single {
+    position: initial;
+    height: initial;
+}
+
+.chosen-container.chosen-container-single {
+    text-align: left;
+}

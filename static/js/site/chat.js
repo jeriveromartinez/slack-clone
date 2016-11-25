@@ -1,14 +1,13 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = 'public', users = [];
+var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [];
 window.users_logged = 0, window.userFileStatus = false;
 
 $('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
-
     var socket;
     $(function () {
         initView();
@@ -19,14 +18,8 @@ $(document).ready(function () {
             window.get_comuncation_me();
         }, 10000);
         active_chat(userlogged, 'user');
-
-        var exc = function (response) {
-            response.forEach(function (item) {
-                users.push(item.user.username);
-            });
-        };
-        var urlapi = apiUrl + companyuser + '/users/';
-        request(urlapi, 'GET', 'json', null, exc, null, 'other');
+        getUsersCompany();
+        getTypesLanguage();
     });
 
     //show menu user logged
@@ -340,7 +333,7 @@ $(document).ready(function () {
         $temp.val(str).select();
         document.execCommand("copy");
         $temp.remove();
-    }
+    };
 
     //Direct message Modal
     function openDirectModal() {
@@ -594,7 +587,7 @@ $(document).ready(function () {
             alert("channel");
             //ReloadChanel(channel);
         }
-    }
+    };
 
     //Create Channel Modal
     function openNewChannel(back) {
@@ -771,5 +764,26 @@ $(document).ready(function () {
                 $(".lfs_input").focus().val('').removeAttr('placeholder');
             }
         }
-    }
+    };
+
+    var getUsersCompany = function () {
+        var exc = function (response) {
+            response.forEach(function (item) {
+                users.push(item.user.username);
+            });
+        };
+        var urlapi = apiUrl + companyuser + '/users/';
+        request(urlapi, 'GET', 'json', null, exc, null, 'other');
+    };
+
+    var getTypesLanguage = function () {
+        var exc = function (response) {
+            response.forEach(function (item) {
+                obj = {key: item[0], value: item[1]};
+                typesL.push(obj);
+            });
+        };
+        var urlapi = apiUrl + 'snippet/languages/';
+        request(urlapi, 'GET', 'json', null, exc, null, 'other');
+    };
 });

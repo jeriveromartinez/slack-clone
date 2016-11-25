@@ -14,7 +14,6 @@ File.prototype.convertToBase64 = function (callback) {
 };
 
 $(document).ready(function () {
-
     //menu more items options
     $('#menu').on('click', '.flexpane_menu_item', function () {
         switch (this.id) {
@@ -32,9 +31,19 @@ $(document).ready(function () {
         change_chat_size('65%');
     });
 
-    // get file details form user and company
+    // get file details form user and company //show file's menu
     $('#file_list_by_user').on('click', '.file_list_item', function () {
         detail_file($(this).attr('data-url'));
+    }).on('click', '.file_actions', function (event) {
+        var options = {
+            copyLink: $(this).attr('data-file-url'),
+            opeNeWind: $(this).attr('data-file-url'),
+            comment: $(this).attr('data-file'),
+            edit: $(this).attr('data-file'),
+            delete: $(this).attr('data-file'),
+        };
+        positionMenu(this, file_options($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
+        event.stopPropagation();
     });
 
     //go from details to user select files
@@ -94,20 +103,34 @@ $(document).ready(function () {
         positionMenu(this, value, 'right', options);
     });
 
+    //add comment to the file
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', '#file_comment_submit_btn', function () {
+        var exc = function (request) {
+            if (request.data == "save") {
+                $('.file_body.post_body').append('<p>' + comment.comment + '</p>')
+                $('#file_comment').val('');
+            }
+        };
+
+        var comment = {comment: $('#file_comment').val()};
+        var file = $('#file_preview_head_section').attr("data-file"),
+            owner = $('#file_preview_head_section').attr("data-owner");
+
+        var urlapi = apiUrl + 'files/detail/' + file + '/' + userlogged + '/';
+        request(urlapi, 'POST', 'json', comment, exc, null);
+    });
+
+    //select action from file's menu
+    $('#menu .menu_body').on('click', 'a[data-url]', function () {
+        var options = {data: $(this).attr('data-url')};
+        $('#menu').addClass('hidden');
+        action($(this).attr('data-action'), options);//TODO: falta el edit del archivo.
+    });
+
     //select files from pc
-    $('#menu .menu_body').on('click', '.file_menu_item', function () {
+    $('#menu .menu_body').on('click', '#create-file', function () {
         hide_menu_files();
-        this.options = '', instance = this;
-        this.options += '<optgroup label="Channels">';
-        channels.forEach(function (item) {
-            instance.options += '<option value="channel_' + item.slug + '"> # ' + item.name + '</option>';
-        });
-        this.options += '</optgroup>';
-        this.options += '<optgroup label="Direct Messages">';
-        users.forEach(function (item) {
-            instance.options += '<option value="user_' + item + '">' + item + '</option>';
-        });
-        this.options += '</optgroup>';
+        this.options = userListForModal(channels, users), instance = this;
 
         var data = new FormData(),
             modal = new Modal('Upload a file?', 'Upload', uploadComponent(this.options));
@@ -146,44 +169,53 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'files/upload/' + userlogged + '/';
             request(urlapi, 'POST', 'json', data, exc, null, 'file');
+        });//TODO: if file is not a image, show the icon
+    });
+
+    //create snippet from chat
+    $('#menu .menu_body').on('click', '#create-snippet', function () {
+        hide_menu_files();
+        var optionsType = '';
+
+        typesL.forEach(function (item) {
+            optionsType += '<option value="' + item.key + '">' + item.value + '</option>';
         });
-    });
 
-    //add comment to the file
-    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', '#file_comment_submit_btn', function () {
-        var exc = function (request) {
-            if (request.data == "save") {
-                $('.file_body.post_body').append('<p>' + comment.comment + '</p>')
-                $('#file_comment').val('');
-            }
-        };
+        var data = new FormData(),
+            modal = new Modal('Create Snippet', 'Create Snippet', createSnippet(optionsType, userListForModal(channels, users)));
 
-        var comment = {comment: $('#file_comment').val()};
-        var file = $('#file_preview_head_section').attr("data-file"),
-            owner = $('#file_preview_head_section').attr("data-owner");
+        codeMirror('client_file_snippet_textarea');
 
-        var urlapi = apiUrl + 'files/detail/' + file + '/' + userlogged + '/';
-        request(urlapi, 'POST', 'json', comment, exc, null);
-    });
+        var select = $('#modal .modal-body').find('#client_file_snippet_select.chosen-select');
+        if ($(select).length > 0)
+            $(select).chosen({
+                width: '11rem',
+                no_results_text: "Oops, nothing found!",
+            });
+        select = $('#modal .modal-body').find('#client_chared_select.chosen-select');
+        if ($(select).length > 0)
+            $(select).chosen({
+                width: '11rem',
+                no_results_text: "Oops, nothing found!",
+            });
 
-    //show file's menu
-    $('#file_list_by_user').on('click', '.file_actions', function (event) {
-        var options = {
-            copyLink: $(this).attr('data-file-url'),
-            opeNeWind: $(this).attr('data-file-url'),
-            comment: $(this).attr('data-file'),
-            edit: $(this).attr('data-file'),
-            delete: $(this).attr('data-file'),
-        };
-        positionMenu(this, file_options($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
-        event.stopPropagation();
-    });
+        modal.show();
 
-    //select action from file's menu
-    $('#menu .menu_body').on('click', 'a[data-url]', function () {
-        var options = {data: $(this).attr('data-url')};
-        $('#menu').addClass('hidden');
-        action($(this).attr('data-action'), options);
+        $('#go.btn').on('click', function () {
+            data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
+            data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
+            data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
+            data.append('shared', $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#client_chared_select').val() : '');
+            data.append('code', $('#modal .modal-body').find('#client_file_snippet_textarea').val());
+            console.log($('#modal .modal-body').find('#client_file_snippet_textarea').val());//TODO: ver por que conno esta vacio el textarea
+            /*var exc = function (response) {
+             modal.destroy();
+             console.log(response);
+             };
+
+             var urlapi = apiUrl + 'snippet/create/';
+             request(urlapi, 'POST', 'json', data, exc, null, 'file');*/
+        });
     });
 
     //AUX
@@ -278,6 +310,32 @@ $(document).ready(function () {
         request(urlapi, 'DELETE', null, null, exc, null);
     };
 
+    var codeMirror = function (id) {
+        var wrap_long_lines = true;
+        var g_editor;
+        g_editor = CodeMirror.fromTextArea($('#modal .modal-body').find('#' + id)[0], {
+                lineNumbers: true,
+                matchBrackets: true,
+                indentUnit: 4,
+                indentWithTabs: true,
+                enterMode: "keep",
+                tabMode: "shift",
+                viewportMargin: 10,
+                lineWrapping: wrap_long_lines,
+            }
+        );
+
+        $('select#client_file_snippet_select').change(function (evt) {
+            CodeMirror.switchSlackMode(g_editor, $(this).val());
+        }).change();
+
+        // setup wrap checkbox
+        $('.modal-body').find('#file_create_wrap_cb').bind('change', function (e) {
+            var wrap = $(this).is(":checked");
+            g_editor.setOption('lineWrapping', wrap);
+        });
+    };
+
     var Modal = function (title, btnGo, html, data) {
         this.modal = $('#modal');
         $(this.modal).find('#modal-title').html(title);
@@ -288,6 +346,7 @@ $(document).ready(function () {
         $(this.modal).on('click', 'button[data-dismiss="modal"]', function () {
             context.destroy();
         });
+
         $(this.modal).on('click', '#cancel', function () {
             context.destroy();
         });
@@ -302,5 +361,19 @@ $(document).ready(function () {
             if ($('select.chosen-select').length == 1)
                 $('select.chosen-select').chosen('destroy');
         }
+    };
+
+    var userListForModal = function (listGroup, listUser) {
+        var options = '<optgroup label="Channels">';
+        listGroup.forEach(function (item) {
+            options += '<option value="channel_' + item.slug + '"> # ' + item.name + '</option>';
+        });
+        options += '</optgroup>';
+        options += '<optgroup label="Direct Messages">';
+        listUser.forEach(function (item) {
+            options += '<option value="user_' + item + '">' + item + '</option>';
+        });
+        options += '</optgroup>';
+        return options;
     };
 });

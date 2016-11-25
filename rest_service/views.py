@@ -373,6 +373,48 @@ def delete_file(request, slug):
     return Response({'success': 'flase'})
 
 
+@api_view(['GET'])
+def snippet_languages(request):
+    return Response(Snippet.CHOICE)
+
+
+@api_view(['POST'])
+def snippet_create(request):
+    try:
+        author = Profile.objects.filter(user__username=request.user.username)[0]
+        if request.POST['title'] is not None and request.POST['title'] != "":
+            title = request.POST['title']
+        else:
+            title = "Snippet created by " + request.user.username
+        type = request.POST['type']
+        code = request.POST['code']
+        shared = request.POST['shared']
+        comment = request.POST['comment']
+
+        create = Snippet.objects.create(title=title, type=type, code=code, author=author)
+
+        if shared is not None and shared != "":
+            cond, channel = shared.split('_')
+            if cond == "channel":
+                room = Room.objects.get(slug=channel)
+                for item in room.users.all():
+                    create.shared_to.add(item.user)
+                FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
+                                               file_up=create)  # TODO: enviar si esta logueado
+                create.save()
+            else:
+                user = User.objects.get(username=channel)
+                create.shared_to.add(user)
+                FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event',
+                                               file_up=create)
+                create.save()
+        if comment is not None and comment != "":
+            FilesComment.objects.create(file_up=create, comment=comment, user=author.user)
+
+    except Exception as e:
+        print e
+
+
 def type_file_by_user(type, username):
     files = None
     if type == "post":
