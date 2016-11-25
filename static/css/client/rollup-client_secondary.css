@@ -1503,15 +1503,11 @@ html:not(.font_size_adjusted) #details_tab .heading #details_tab_header {
 .pinned_item {
     position: relative;
     cursor: pointer;
-    border-top: 1px solid rgba(0, 0, 0, .09);
-    border-right: 1px solid rgba(0, 0, 0, .1);
-    border-left: 1px solid rgba(0, 0, 0, .1);
-    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-top-color: rgba(0, 0, 0, .09);
+    border-bottom-color: rgba(0, 0, 0, .12);
     border-radius: .375rem;
-    padding-top: .75rem;
-    padding-bottom: .75rem;
-    padding-left: .75rem;
-    padding-right: 1.5625rem;
+    padding: .75rem 1.5625rem .75rem .75rem;
     font-size: .9375rem;
     line-height: 1.125rem;
     margin-bottom: .625rem;
@@ -1720,12 +1716,9 @@ html.is_electron_mac #rxn_toast_div {
 
 .mentions_reply.highlighted {
     background: #fffce0;
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     margin-left: -.5rem;
-    padding-left: 3.3125rem;
     margin-right: -.5rem;
-    padding-right: .5rem
+    padding: .5rem .5rem .5rem 3.3125rem;
 }
 
 .mentions_reply.highlighted .mentions_reply_avatar .member_image, .mentions_reply.highlighted .mentions_reply_icon {
@@ -2110,10 +2103,7 @@ body.incremental_boot #col_channels .header_count {
     display: block;
     height: 1.5rem;
     padding: 0 .25rem 0 1rem;
-    border-top-right-radius: .25rem;
-    border-bottom-right-radius: .25rem;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    border-radius: 0 .25rem .25rem 0;
     background-clip: padding-box;
     text-decoration: none !important
 }
@@ -7754,7 +7744,7 @@ a:hover .file_inline_icon {
     border: none;
     white-space: pre-wrap;
     word-wrap: normal;
-    word-break: break-word
+    word-break: break-word;
 }
 
 .file_list_item #share_dialog, .file_list_item.active, .file_list_item:active, .file_list_item:hover {
@@ -8923,33 +8913,33 @@ img.orientation_8 {
     margin-top: -.125rem
 }
 
-.file_container.snippet_container .CodeMirror .CodeMirror-code {
+/*.file_container.snippet_container .CodeMirror .CodeMirror-code {
     border-radius: .5rem;
     border: none;
     margin-bottom: 0;
     font-size: .8125rem;
     line-height: 1rem
-}
+}*/
 
-.file_container.snippet_container .CodeMirror.CodeMirrorServer {
+/*.file_container.snippet_container .CodeMirror.CodeMirrorServer {
     border: none;
     background: 0 0
-}
+}*/
 
-.file_container.snippet_container.snippet_wrap .CodeMirror .CodeMirror-code > div pre, .file_container.snippet_container.snippet_wrap .sssh-code .sssh-line pre, .message .file_container.snippet_container .CodeMirror .CodeMirror-code > div pre, .message .file_container.snippet_container .sssh-code .sssh-line pre {
+/*.file_container.snippet_container.snippet_wrap .CodeMirror .CodeMirror-code > div pre, .file_container.snippet_container.snippet_wrap .sssh-code .sssh-line pre, .message .file_container.snippet_container .CodeMirror .CodeMirror-code > div pre, .message .file_container.snippet_container .sssh-code .sssh-line pre {
     white-space: pre-wrap;
     word-wrap: break-word
-}
+}*/
 
-.file_container .CodeMirror .CodeMirror-code, .file_container .sssh-code .CodeMirror-code {
+/*.file_container .CodeMirror .CodeMirror-code, .file_container .sssh-code .CodeMirror-code {
     overflow: auto;
     font-size: .8125rem !important;
     line-height: 1;
     color: #555459;
     counter-reset: snippet
-}
+}*/
 
-html.is_mac .file_container .CodeMirror .CodeMirror-code, html.is_mac .file_container .sssh-code .CodeMirror-code {
+/*html.is_mac .file_container .CodeMirror .CodeMirror-code, html.is_mac .file_container .sssh-code .CodeMirror-code {
     font-size: .75rem !important
 }
 
@@ -9022,7 +9012,7 @@ html.is_mac .file_container .CodeMirror .CodeMirror-code, html.is_mac .file_cont
 
 .file_container .CodeMirror .CodeMirror-code > div:nth-child(n+999), .file_container .CodeMirror .sssh-line:nth-child(n+999), .file_container .sssh-code .CodeMirror-code > div:nth-child(n+999), .file_container .sssh-code .sssh-line:nth-child(n+999) {
     display: none
-}
+}*/
 
 .file_container.post_container:after {
     height: 52px;

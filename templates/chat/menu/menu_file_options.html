@@ -27,34 +27,22 @@
             <span class="current_user_name slack_menu_header_primary overflow_ellipsis">{{ request.user.username }}</span>
             <span class="current_name slack_menu_header_secondary overflow_ellipsis">@{{ request.user.username }}</span>
         </h2>
-
         <ul class="menu_list">
             <li id="member_account_item" data-user="{{ request.user.username }}"
                 onclick="showProfile(this);">
                 <a tabindex="0">Profile &amp; account</a>
             </li>
             <li id="member_prefs_item"><a href="{% url 'account:settings' %}">Preferences</a></li>
-            {% comment %}<li id="member_presence">
-                                    <a>
-                                        <span class="menu_item_label">[Away] Set yourself to <strong>active</strong></span>
-                                    </a>
-                                </li>
-                                <li id="team_help"><a href="#/help">Help &amp; feedback</a></li>{% endcomment %}
         </ul>
     </section>
-
     <section class="slack_menu_current_team slack_menu_section" aria-label="current team">
         <h2 class="slack_menu_header">
             <ts-icon
                     class="team_icon small default">{{ request.user.user_profile.company.name|make_list|first|upper }}</ts-icon>
             <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.user_profile.company.name }}</span>
-            {% comment %}<span class="current_team_name slack_menu_header_secondary overflow_ellipsis">{{ request.host }}/{{ request.user.user_profile.company.name }}</span>{% endcomment %}
         </h2>
         <ul class="menu_list">
             <li id="team_invitations"><a href="{% url 'app:invite_user' %}">Invite people</a></li>
-            {% comment %}<li id="team_services"><a href="#/apps">Apps &amp; integrations</a></li>
-                                <li id="team_customize" role="menuitem"><a href="#/customize">Customize Slack</a></li>
-                                <li id="team_statistics" role="menuitem"><a href="#/stats">Statistics</a></li>{% endcomment %}
             <li id="logout" class="logout_url">
                 <a href="{% url 'app:logout' %}">Sign out of
                     <strong>{{ request.user.user_profile.company.name }}</strong></a>
@@ -71,7 +59,7 @@
                 class="ts_icon ts_icon_all_files_alt"></i>All Files</a></li>
         <li id="list_team" class="flexpane_menu_item" data-tab-id="team" role="menuitem"><a><i
                 class="ts_icon ts_icon_team_directory"></i>Team Directory</a></li>
-        <li id="help" class="flexpane_menu_item" role="menuitem"><a><i
+        {% comment %}<li id="help" class="flexpane_menu_item" role="menuitem"><a><i
                 class="ts_icon ts_icon_question_circle"></i>Help<span
                 class="badge candy_red_bg hidden help_icon_circle_count">0</span></a></li>
         <li id="whats_new" class="flexpane_menu_item" data-tab-id="whats_new" role="menuitem">
@@ -79,7 +67,7 @@
                 <i class="ts_icon ts_icon_emoji_celebration"></i>What's New
                 <span id="whats_new_count" class="badge candy_red_bg hidden"></span>
             </a>
-        </li>
+        </li>{% endcomment %}
     </ul>
 </div>
 
@@ -88,27 +76,26 @@
         <div class="section_header">
             <hr>
             <span class="header_label menu_mini">New...</span></div>
-        <li data-which="snippet" class="file_menu_item">
-            <a target="_top" href="#/blackmambasoft.slack.com/files/create/snippet">
-                <i class="file_menu_icon ts_icon ts_icon_create_snippet"></i> Code or text snippet</a>
+        <li id="create-snippet" class="file_menu_item">
+            <a><i class="file_menu_icon ts_icon ts_icon_create_snippet"></i> Code or text snippet</a>
         </li>
-        <li id="gdrive_create_submenu" class="file_menu_item has_submenu">
+        {% comment %}<li id="gdrive_create_submenu" class="file_menu_item has_submenu">
             <a><i class="file_menu_icon ts_icon ts_icon_google_drive"></i> Google Docs file
                 <ts-icon class="ts_icon_caret_right submenu_caret"></ts-icon>
             </a>
-        </li>
-        <li data-which="space" class="file_menu_item">
-            <a target="_top" href="#/blackmambasoft.slack.com/files/create/space">
-                <i class="file_menu_icon ts_icon ts_icon_create_post"></i> Post</a>
+        </li>{% endcomment %}
+        <li id="create-post" class="file_menu_item">
+            <a target="_blank" href="{% url 'account:file_post' %}"><i
+                    class="file_menu_icon ts_icon ts_icon_create_post"></i> Post</a>
         </li>
         <div class="section_header">
             <hr>
             <span class="header_label menu_mini">Import a file from...</span></div>
-        <li role="menuitem" data-which="gdrive_import">
+        {% comment %}<li role="menuitem" data-which="gdrive_import">
             <a><i class="file_menu_icon ts_icon ts_icon_google_drive"></i> Google Drive</a>
-        </li>
+        </li>{% endcomment %}
 
-        <li class="file_menu_item"><a>
+        <li id="create-file" class="file_menu_item"><a>
             <i class="file_menu_icon ts_icon ts_icon_laptop"></i> Your computer</a>
         </li>
     </ul>
