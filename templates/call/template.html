@@ -21,6 +21,7 @@
                 hostUrl = window.location.protocol + '//' + window.location.host;
         var usersjoined = [];
         var roomname = '{{room}}';
+        var usercall = '{{ usercall }}';
     </script>
     {% load socketio_tags %}
     {% socketio %}
@@ -35,5 +36,5 @@
 {% endblock %}
 
 {% block js %}
-    {#    <script type="text/javascript" src="{% static 'js/site/chat_call.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'js/site/chat_call.js' %}"></script>
 {% endblock %}

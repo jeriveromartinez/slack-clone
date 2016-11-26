@@ -51,18 +51,19 @@
             <div class="channel_title_info">
                 <!-- calls button -->
                 <div id="channel_calls_container" class="channel_calls_container">
-                    <button class="channel_header_icon channel_calls_button video_call hidden btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
+                    <button class="channel_header_icon channel_calls_button video_call  btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
 		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
 			Only paid teams can start calls from channels.
 		</span></span>
-                        <ts-icon class="call_icon call_window_offline ts_icon_video_camera"
+                        {#                        call_window_offline#}
+                        <ts-icon class="call_icon  ts_icon_video_camera"
                                  aria-hidden="true"></ts-icon>
                     </button>
                     <button class="channel_header_icon channel_calls_button voice_call btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
 		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
 			Only paid teams can start calls from channels.
 		</span></span>
-                        <ts-icon class="call_icon call_window_offline ts_icon_phone" aria-hidden="true"></ts-icon>
+                        <ts-icon class="call_icon  ts_icon_phone" aria-hidden="true"></ts-icon>
                     </button>
                 </div>
                 <button id="channel_actions_toggle"

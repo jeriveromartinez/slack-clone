@@ -43,10 +43,11 @@ class UserFileSerializer(serializers.ModelSerializer):
 class RoomSerializer(serializers.ModelSerializer):
     company = CompanySerializer()
     usercreator = ProfileSerializer()
+    users = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Room
-        exclude = ('id', 'users')
+        exclude = ('id',)
 
 
 class FileCommentsSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    var socket = new io.Socket(document.domain, {transports: ['websocket']});
+    var socket = new io.Socket();
 
 
     socket.connect();
@@ -59,6 +59,7 @@ $(document).ready(function () {
 
 });
 
+
 var messaged = function (data) {
 
     switch (data.action) {
@@ -73,6 +74,11 @@ var messaged = function (data) {
             break;
         case 'leave':
             console.log('leave', data);
+            break;
+        case 'call_join_request':
+            console.log('call_join_request', data);
+            openIncomingCall(data);
+
             break;
         case 'message':
             console.log('message', data);
@@ -221,5 +227,22 @@ var Reload = function (name) {
 var success = function (data) {
     onDataLoaded(data.items)
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
+}
+function openIncomingCall(data) {
+    var modal = $('#incoming_call');
+
+    var image = ' url(' + data.avatar + ')';
+    var avatar = '<span  class="member_preview_link member_image thumb_512" style="background-image: ' + image + '" aria-hidden="true"></span>';
+
+
+    init();
+    function init() {
+        modal.removeClass("hidden");
+        modal.addClass("active");
+        modal.find('.avatar_holder').append(avatar);
+        modal.find('.name').text(data.user_from);
+    }
+
+
 }
 

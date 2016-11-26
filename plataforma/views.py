@@ -12,6 +12,7 @@ from rest_framework.reverse import reverse
 from plataforma.forms import LoginForm
 from plataforma.serializers import *
 from plataforma.utils import Email
+import shortuuid
 
 
 def login_page(request):
@@ -140,15 +141,21 @@ def invite_user(request, slug=None):
                               context_instance=RequestContext(request))
 
 
-def call(request, user):
-    profile = Profile.objects.filter(user__username=request.user.username)[0]
-    name = uuid.uuid4()
-    room = RoomCall.objects.get_or_create(name=name, usercreator=profile)[0]
-    room.users.add(profile)
+def call(request, roomname):
+    if request.method == "POST":
+        usercall = request.POST['usercall']
+        profile = Profile.objects.filter(user__username=request.user.username)[0]
+        name = shortuuid.uuid()
+        room = RoomCall.objects.get_or_create(name=name, usercreator=profile)[0]
+        room.users.add(profile)
+        room.save()
 
-    invite = Profile.objects.filter(user__username=user)[0]
-    room.users.add(invite)
-
-    room.save()
-
-    return render_to_response('call/template.html', {'room': room}, RequestContext(request))
+        return render_to_response('call/template.html', {'room': room.name, 'usercall': usercall},
+                                  RequestContext(request))
+    if request.method == "GET":
+        room = RoomCall.objects.get(name=roomname)
+        profile = Profile.objects.filter(user__username=request.user.username)[0]
+        room.users.add(profile)
+        room.save()
+        return render_to_response('call/template.html', {'room': room.name, 'usercall': room.users},
+                                  RequestContext(request))

@@ -122,6 +122,13 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
+    $("button.voice_call").on("click", function (e) {
+        e.stopPropagation();
+
+        var urlapi = hostUrl + '/call/aa';
+        $.redirect(urlapi, {usercall: activeChannel, csrfmiddlewaretoken: getCookie("csrftoken")}, 'POST', '_blank');
+
+    });
 
     //aux methods
     var get_chanel = function () {

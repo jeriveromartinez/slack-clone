@@ -39,7 +39,7 @@ urlpatterns = [
         name='api-message'),
     url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
-    url(r'^checkreaded/$', 'rest_service.views.check_readed_me', name='api-checkread'),
+    url(r'^checkreaded$', 'rest_service.views.check_readed_me', name='api-checkread'),
     url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_recente_message_user',
         name='api-recente_message_use'),
     url(r'^usercomapny/$', 'rest_service.views.get_user_by_company', name='api-usercomapny$')
