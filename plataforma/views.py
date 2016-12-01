@@ -150,12 +150,17 @@ def call(request, roomname):
         room.users.add(profile)
         room.save()
 
-        return render_to_response('call/template.html', {'room': room.name, 'usercall': usercall},
+        return render_to_response('call/template.html', {'room': room.name, 'usercall': usercall, 'action': "created"},
                                   RequestContext(request))
     if request.method == "GET":
         room = RoomCall.objects.get(name=roomname)
         profile = Profile.objects.filter(user__username=request.user.username)[0]
         room.users.add(profile)
         room.save()
-        return render_to_response('call/template.html', {'room': room.name, 'usercall': room.users},
-                                  RequestContext(request))
+        if request.user == room.usercreator:
+            return render_to_response('call/template.html',
+                                      {'room': room.name, 'usercall': room.users, 'action': "created"},
+                                      RequestContext(request))
+        else:
+            return render_to_response('call/template.html', {'room': room.name, 'action': "joined"},
+                                      RequestContext(request))

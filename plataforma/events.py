@@ -26,93 +26,70 @@ def message(request, socket, context, message):
 
 def call(request, socket, context, message):
     profile = Profile.objects.get(user__username=message["user_to"])
-    print profile.image.url
+    room = RoomCall.objects.get(name=message['room'])
+
     if profile:
         send(profile.socketsession,
              {"action": "call_join_request", "user_from": message["user_from"], "user_to": message["user_to"],
-              'avatar': profile.image.url})
+              'avatar': profile.image.url, "room": room.name})
     else:
         send(socket.session.session_id,
              {"action": "call_failed", "message": "No connected sockets exist"})
 
 
 def callaccept(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_to"])
+    room = RoomCall.objects.get(name=message['room'])
 
-    if profile:
-        send(profile.socketsession,
-             {"action": "call_begin", "user_from": message["user_from"], "user_to": message["user_to"]
-                 , "socket": profile.socketsession})
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    socket.send_and_broadcast_channel(
+        {"action": "call_begin", "user_from": message["user_from"], "room": room.name})
 
 
 def calldecline(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_to"])
-    if profile:
-        send(profile.socketsession,
-             {"action": "call_decline", "user_from": message["user_from"], "user_to": message["user_to"],
-              "socket": profile.socketsession})
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    room = RoomCall.objects.get(name=message['room'])
+
+    socket.send_and_broadcast_channel(
+        {"action": "call_decline", "user_from": message["user_from"], "room": room.name})
 
 
 def offer(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_to"])
-    if profile:
-        send(profile.socketsession, {
-            'action': "offer",
-            'offer': message['offer'],
-            'user_to': message['user_to'],
-            'user_from': request.user.username
-        })
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    room = RoomCall.objects.get(name=message['room'])
+
+    socket.send_and_broadcast_channel({
+        'action': "offer",
+        'offer': message['offer'],
+        'user_from': request.user.username,
+        "room": room.name
+
+    })
 
 
 def answer(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_from"])
-    if profile:
-        send(profile.socketsession, {
-            'action': "answer",
-            'answer': message['answer'],
-            'user_to': message['user_to'],
-            'user_from': request.user.username
-        })
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    room = RoomCall.objects.get(name=message['room'])
+
+    socket.send_and_broadcast_channel({
+        'action': "answer",
+        'answer': message['answer'],
+        'user_from': request.user.username,
+        "room": room.name
+    })
 
 
 def candidate(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_from"])
-    if profile:
-        send(profile.socketsession, {
-            'action': "candidate",
-            'candidate': message['candidate'],
-            'user_to': message['user_to'],
-            'user_from': request.user.username
-        })
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    socket.send_and_broadcast_channel({
+        'action': "candidate",
+        'candidate': message['candidate'],
+        'user_to': message['user_to'],
+        'user_from': request.user.username
+    })
 
 
 def leave(request, socket, context, message):
-    profile = Profile.objects.get(user__username=message["user_from"])
-    if profile:
-        send(profile.socketsession, {
-            'action': "leave",
-            'user_to': message['user_to'],
-            'user_from': request.user.username
+    socket.send_and_broadcast_channel({
+        'action': "leave",
+        'user_to': message['user_to'],
+        'user_from': request.user.username
 
-        })
-    else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+    })
 
 
 optionchannel = {'message': message,
@@ -179,11 +156,7 @@ def messagechanel(request, socket, context, message):
 
 @events.on_disconnect(channel="^[0-9a-zA-Z_-]+$")
 def disconect(request, socket, context):
-    left = {"action": "leave", "name": request.user.username, "id": request.user.id}
-    try:
-        socket.broadcast(left)
-    except NoSocket as e:
-        send(socket.session.session_id, {"error": "No connected sockets exist"})
+    print 'deconect channel'
 
 
 @events.on_disconnect

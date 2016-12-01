@@ -10,14 +10,16 @@ $(document).ready(function () {
 
 
         socket.connect();
-        setInterval(function () {
-            socket.connect();
-        }, 5000);
 
         socket.on('connect', function () {
 
             socket.subscribe(roomname);
-            socket.send({action: "call", user_from: userlogged, user_to: usercall, room: roomname});
+            if (action == "created") {
+                socket.send({action: "call", user_from: userlogged, user_to: usercall, room: roomname});
+            }
+            else if (action == "joined") {
+                socket.send({action: "callaccept", user_from: userlogged, room: roomname});
+            }
 
 
         });
@@ -43,10 +45,10 @@ $(document).ready(function () {
                     alert("se fue");
                     break;
                 case "offer":
-                    handleOffer(data.offer, data.user_from);
+                    handleOffer(msg);
                     break;
                 case "answer":
-                    handleAnswer(data.answer);
+                    handleAnswer(msg);
                     break;
                 //when a remote peer sends an ice candidate to us
                 case "candidate":
@@ -167,7 +169,7 @@ $(document).ready(function () {
         function Offer(data) {
 
 
-            if (data.user_from.length > 0) {
+            if (data.length > 0) {
 
 
                 // create an offer
@@ -176,7 +178,7 @@ $(document).ready(function () {
                         type: "offer",
                         offer: offer,
                         user_from: userlogged,
-                        user_to: data.user_from
+                        room: data.room
                     });
 
                     yourConn.setLocalDescription(offer);
@@ -189,10 +191,10 @@ $(document).ready(function () {
 
 
 //when somebody sends us an offer
-        function handleOffer(offer, name) {
+        function handleOffer(data) {
 
             connectedUser = name;
-            yourConn.setRemoteDescription(new RTCSessionDescription(offer));
+            yourConn.setRemoteDescription(new RTCSessionDescription(data.offer));
 
             //create an answer to an offer
             yourConn.createAnswer(function (answer) {
@@ -202,7 +204,8 @@ $(document).ready(function () {
                     type: "answer",
                     answer: answer,
                     user_from: userlogged,
-                    user_to: data.user_from
+                    user_to: data.user_from,
+                    room: data.room
                 });
 
             }, function (error) {
@@ -211,8 +214,8 @@ $(document).ready(function () {
         };
 
 //when we got an answer from a remote user
-        function handleAnswer(answer) {
-            yourConn.setRemoteDescription(new RTCSessionDescription(answer));
+        function handleAnswer(data) {
+            yourConn.setRemoteDescription(new RTCSessionDescription(data.answer));
         };
 
 //when we got an ice candidate from a remote user

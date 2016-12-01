@@ -5,9 +5,7 @@ $(document).ready(function () {
 
 
     socket.connect();
-    setInterval(function () {
-        socket.connect();
-    }, 5000);
+
 
     socket.on('connect', function () {
         console.log(" connected")
@@ -229,18 +227,50 @@ var success = function (data) {
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
 }
 function openIncomingCall(data) {
+    var room = data.room;
     var modal = $('#incoming_call');
+    var div_avatar = modal.find('.avatar_holder');
+    var div_name = modal.find('.name');
+    var accept = modal.find('a.accept');
+    var reject = modal.find('a.reject');
 
     var image = ' url(' + data.avatar + ')';
     var avatar = '<span  class="member_preview_link member_image thumb_512" style="background-image: ' + image + '" aria-hidden="true"></span>';
 
 
     init();
+
+    accept.on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("room", room);
+        var urlapi = hostUrl + '/call/' + room;
+        window.open(urlapi, '_blank');
+        
+
+        _close();
+    });
+
+    reject.on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("room", room);
+        socket.send({action: "calldecline", user_from: userlogged, room: data.roomname});
+
+        _close();
+    });
     function init() {
         modal.removeClass("hidden");
         modal.addClass("active");
-        modal.find('.avatar_holder').append(avatar);
-        modal.find('.name').text(data.user_from);
+        div_avatar.append(avatar);
+        div_name.text(data.user_from);
+    }
+
+    function _close() {
+        modal.removeClass("active");
+        modal.addClass("hidden");
+        div_avatar.empty();
+        div_name.empty();
     }
 
 
