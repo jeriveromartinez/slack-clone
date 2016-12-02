@@ -316,15 +316,13 @@ $(document).ready(function () {
 
         var values = {
             position: "absolute",
-            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 200) + "px",
-            top: (position.top + height) + "px",
+            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
+            top: ((position.top + height) < 471) ? (position.top + height) + "px" : 471 + "px",//471px
             'max-height': '45%'
         };
 
         if (options != undefined && options.bottom == true)
             values['top'] = (position.top - 250) + "px";
-        else
-            values['top'] = (position.top + height) + "px";
 
         $(menu).css(values);
         var test = $(items).outerHeight();

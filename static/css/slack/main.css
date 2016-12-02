@@ -608,3 +608,14 @@ li.member.cursor_pointer {
 .chosen-container.chosen-container-single {
     text-align: left;
 }
+
+.my-scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 35rem;
+    padding-right: 5px;
+}
+
+.flexpane_file_title .title a {
+    cursor: pointer;
+}

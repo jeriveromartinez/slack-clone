@@ -20,7 +20,8 @@
 {% block container %}
     <script>
         var userFileActive = userlogged, localtime = {% now 'U' %},
-                sendTo = {type: '', to: ''}, cdn_url = hostUrl + '/static';
+                sendTo = {type: '', to: ''},
+                userImage = '{{ request.user.user_profile.image.url }}';
     </script>
     {% load socketio_tags %}
     {% socketio %}

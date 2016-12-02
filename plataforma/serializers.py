@@ -61,10 +61,11 @@ class FileCommentsSerializer(serializers.ModelSerializer):
 class SlackFileSerializer(serializers.ModelSerializer):
     files_comments = FileCommentsSerializer(many=True, read_only=False)
     author = ProfileSerializer()
+    count_comment = serializers.IntegerField(source='files_comments.count', read_only=True)
 
     class Meta:
         model = SlackFile
-        fields = ('slug', 'title', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'uploaded', 'author', 'count_comment')
 
 
 class TypeSerializer(serializers.Serializer):
@@ -74,25 +75,25 @@ class TypeSerializer(serializers.Serializer):
 class PostSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = Post
-        fields = ('slug', 'title', 'text', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'text', 'uploaded', 'author', 'count_comment')
 
 
 class SnippetSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = Snippet
-        fields = ('slug', 'title', 'code', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'type', 'code', 'uploaded', 'author', 'count_comment')
 
 
 class FilesUpSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = FilesUp
-        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'count_comment')
 
 
 class ImageUpSerializer(FilesUpSerializer):
     class Meta(FilesUpSerializer.Meta):
         model = ImageUp
-        fields = ('slug', 'title', 'image_up', 'uploaded', 'author', 'files_comments')
+        fields = ('slug', 'title', 'image_up', 'uploaded', 'author', 'count_comment')
 
 
 class MessageEventSerializer(serializers.ModelSerializer):

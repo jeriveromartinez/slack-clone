@@ -222,7 +222,7 @@ class FilesComment(models.Model):
     user = models.ForeignKey(User, related_name='comment_user')
 
     class Meta:
-        ordering = ('published',)
+        ordering = ('-published',)
 
     def __str__(self):
         return 'Comment by ' + self.user.username + ' - ' + self.published.__str__()

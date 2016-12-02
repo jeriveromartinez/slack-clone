@@ -1,0 +1,169 @@
+<div class="panel" id="details_tab">
+    <div class="heading" tabindex="-1">
+                <span id="details_tab_header">About <span class="channel_name"><ts-icon
+                        class="ts_icon_channel"></ts-icon><strong>announcements</strong></span></span>
+        <a class="close_flexpane" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+    </div>
+    <div id="monkey_scroll_wrapper_for_channel_page_scroller" class="monkey_scroll_wrapper ">
+        <div class="monkey_scroll_bar  hidden">
+            <div class="monkey_scroll_handle ">
+                <div class="monkey_scroll_handle_inner "></div>
+            </div>
+        </div>
+        <div class="monkey_scroll_hider">
+            <div id="monkey_scroll_wrapper_for_channel_page_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar  hidden">
+                    <div class="monkey_scroll_handle ">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider">
+                    <div id="channel_page_scroller" class="flex_content_scroller monkey_scroller">
+                        <div class="selectable_flex_pane_padder no_top_margin">
+                            <div class="conversation_details"></div>
+                            <div class="channel_page_about channel_page_section ">
+                                <div class="section_header no_bottom_margin display_flex align_items_center">
+                                    <i class="ts_icon ts_icon_info channel_page_blue small_right_margin"></i>
+                                    <a id="channel_page_title" title="Click to expand or collapse"
+                                       class="flex_one">Channel Details</a>
+                                    <div class="disclosure_triangle inline_block left_margin">
+                                        <i class="ts_icon ts_icon_caret_right"></i>
+                                        <i class="ts_icon ts_icon_caret_down"></i>
+                                    </div>
+                                </div>
+                                <div class="section_content channel_purpose">
+                                    <div class="channel_purpose_section">
+                                        <div class="bold subtle_silver purpose_label mini">Purpose</div>
+                                        <div class="bold subtle_silver edit_purpose_label hidden mini tiny_bottom_margin">
+                                            Set a new purpose
+                                        </div>
+                                        <div class="channel_purpose_text no_jumbomoji">
+                                            This channel is for team-wide communication and announcements. All
+                                            team members are in this channel.
+                                            <a class="edit_purpose mini">edit</a>
+                                        </div>
+                                        <textarea type="text" id="channel_purpose_input" class="hidden small"
+                                                  maxlength="250" tabindex="1">This channel is for team-wide communication and announcements. All team members are in this channel.</textarea>
+
+                                        <button class="hidden btn btn_outline btn_small purpose_cancel tiny_right_margin"
+                                                tabindex="3">Cancel
+                                        </button>
+                                        <button class="hidden btn btn_small purpose_done" tabindex="2">Done</button>
+                                    </div>
+                                    <div class="creator italic subtle_silver top_margin">
+                                        <a class="creator_link subtle_silver"> Created by vbuilvicente today </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="channel_page_pinned_items channel_page_section "
+                                 data-section-name="pinned_items">
+
+                                <div class="section_header no_bottom_margin display_flex align_items_center">
+                                    <i class="ts_icon ts_icon_thumb_tack pin_orange small_right_margin"></i>
+                                    <a title="Click to expand or collapse" class="flex_one"
+                                       id="pinned_items_title">Pinned Items</a>
+                                    <div class="disclosure_triangle inline_block left_margin">
+                                        <i class="ts_icon ts_icon_caret_right"></i>
+                                        <i class="ts_icon ts_icon_caret_down"></i>
+                                    </div>
+                                </div>
+                                <div class="section_content pinned_items"></div>
+                            </div>
+                            <div class="channel_page_members channel_page_section " data-section-name="members">
+                                <div class="channel_page_member_tabs section_header"></div>
+                                <div class="channel_page_member_lists section_content"></div>
+                            </div>
+                            <div class="channel_page_shared_files channel_page_section "
+                                 data-section-name="shared_files">
+                                <div class="section_header no_bottom_margin display_flex align_items_center">
+                                    <i class="ts_icon ts_icon_all_files mustard_yellow small_right_margin"></i>
+                                    <a title="Click to expand or collapse" class="flex_one"
+                                       id="channel_files_title">Shared Files</a>
+                                    <div class="disclosure_triangle inline-block left_margin">
+                                        <i class="ts_icon ts_icon_caret_right"></i>
+                                        <i class="ts_icon ts_icon_caret_down"></i>
+                                    </div>
+                                </div>
+                                <div class="section_content bottom_margin"></div>
+                            </div>
+                            <div class="channel_page_notif_prefs channel_page_section "
+                                 data-section-name="notif_prefs">
+                                <div class="section_header no_bottom_margin display_flex align_items_center">
+                                            <span class="channel_page_notif_prefs_mute_state"><i
+                                                    class="ts_icon ts_icon_bell_o moscow_red small_right_margin"></i></span>
+                                    <a id="channel_notif_prefs_title" title="Click to expand or collapse"
+                                       class="flex_one">Notification Preferences</a>
+                                    <div class="disclosure_triangle inline_block left_margin">
+                                        <i class="ts_icon ts_icon_caret_right"></i>
+                                        <i class="ts_icon ts_icon_caret_down"></i>
+                                    </div>
+                                </div>
+                                <div class="section_content"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="channel_page_scroller" class="flex_content_scroller">
+        <div class="selectable_flex_pane_padder no_top_margin">
+            <div class="conversation_details"></div>
+            <div class="channel_page_about channel_page_section">
+                <div class="section_header no_bottom_margin display_flex align_items_center">
+                    <i class="ts_icon ts_icon_info channel_page_blue small_right_margin"></i>
+                    <a id="channel_page_title" title="Click to expand or collapse" class="flex_one"></a>
+                    <div class="disclosure_triangle inline_block left_margin">
+                        <i class="ts_icon ts_icon_caret_right"></i>
+                        <i class="ts_icon ts_icon_caret_down"></i>
+                    </div>
+                </div>
+                <div class="section_content channel_purpose"></div>
+            </div>
+
+            <div class="channel_page_pinned_items channel_page_section">
+                <div class="section_header no_bottom_margin display_flex align_items_center">
+                    <i class="ts_icon ts_icon_thumb_tack pin_orange small_right_margin"></i>
+                    <a title="Click to expand or collapse" class="flex_one" id="pinned_items_title"></a>
+                    <div class="disclosure_triangle inline_block left_margin">
+                        <i class="ts_icon ts_icon_caret_right"></i>
+                        <i class="ts_icon ts_icon_caret_down"></i>
+                    </div>
+                </div>
+                <div class="section_content pinned_items"></div>
+            </div>
+            <div class="channel_page_members channel_page_section">
+                <div class="channel_page_member_tabs section_header"></div>
+                <div class="channel_page_member_lists section_content"></div>
+            </div>
+            <div class="channel_page_shared_files channel_page_section">
+                <div class="section_header no_bottom_margin display_flex align_items_center">
+                    <i class="ts_icon ts_icon_all_files mustard_yellow small_right_margin"></i>
+                    <a title="Click to expand or collapse" class="flex_one" id="channel_files_title">Shared Files</a>
+                    <div class="disclosure_triangle inline-block left_margin">
+                        <i class="ts_icon ts_icon_caret_right"></i>
+                        <i class="ts_icon ts_icon_caret_down"></i>
+                    </div>
+                </div>
+                <div class="section_content bottom_margin"></div>
+            </div>
+
+            <div class="channel_page_notif_prefs channel_page_section">
+                <div class="section_header no_bottom_margin display_flex align_items_center">
+					<span class="channel_page_notif_prefs_mute_state">
+						<i class="ts_icon ts_icon_bell_o moscow_red small_right_margin"></i>
+					</span>
+                    <a id="channel_notif_prefs_title" title="Click to expand or collapse" class="flex_one">Notification
+                        Preferences</a>
+                    <div class="disclosure_triangle inline_block left_margin">
+                        <i class="ts_icon ts_icon_caret_right"></i>
+                        <i class="ts_icon ts_icon_caret_down"></i>
+                    </div>
+                </div>
+                <div class="section_content"></div>
+            </div>
+        </div>
+    </div>
+</div>

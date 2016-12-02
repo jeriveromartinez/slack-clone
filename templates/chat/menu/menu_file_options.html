@@ -15,6 +15,19 @@
     </ul>
 </div>
 
+<div id="hiddenMenuFileDetails">
+    <ul id="menu_items" role="menu_file_option" no-bootstrap="1">
+        <li id="comment_file" role="menuitem"><a data-url="#SHARE#" data-action="share">Share</a></li>
+        <li id="copy_file_link" role="menuitem"><a data-url="#URL_LINK#" data-action="copy">Copy link</a></li>
+        {% comment %}<li class="divider"></li>
+        <li id="edit_file_title" role="menuitem"><a>Rename …</a></li>{% endcomment %}
+        <li class="divider"></li>
+        <li id="delete_file" class="danger" role="menuitem">
+            <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
+        </li>
+    </ul>
+</div>
+
 <div id="hiddenMenuUser">
     <section class="slack_menu_you slack_menu_section" aria-label="you">
         <h2 class="slack_menu_header">
