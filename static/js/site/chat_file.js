@@ -13,6 +13,15 @@ File.prototype.convertToBase64 = function (callback) {
     reader.readAsDataURL(this);
 };
 
+window.getArrayByObject = function (arrayObjects) {
+    var ret = [];
+    arrayObjects.forEach(function (item) {
+        ret[item.key] = item.value;
+    });
+
+    return ret;
+};
+
 $(document).ready(function () {
     //menu more items options
     $('#menu').on('click', '.flexpane_menu_item', function () {
@@ -24,7 +33,7 @@ $(document).ready(function () {
                 user_all_files(); //get all company's files
                 break;
             case 'files_user':
-                user_files(); //get all user's files
+                user_files(userFileActive); //get all user's files
                 break;
         }
         $('#client-ui').addClass('flex_pane_showing');
@@ -33,7 +42,7 @@ $(document).ready(function () {
 
     // get file details form user and company //show file's menu
     $('#file_list_by_user').on('click', '.file_list_item', function () {
-        detail_file($(this).attr('data-url'));
+        detail_file(this.id);
     }).on('click', '.file_actions', function (event) {
         var options = {
             copyLink: $(this).attr('data-file-url'),
@@ -42,7 +51,7 @@ $(document).ready(function () {
             edit: $(this).attr('data-file'),
             delete: $(this).attr('data-file'),
         };
-        positionMenu(this, file_options($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
+        positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
         event.stopPropagation();
     });
 
@@ -66,22 +75,18 @@ $(document).ready(function () {
                 var elements = '<ul id="menu_items" role="menu" no-bootstrap="1">';
                 var urlapi = apiUrl + companyuser + '/users/';
                 var exc = function (request) {
-                    /*var list = $('#menu_items[role="menu_users"]');
-                     $(list).html('');*/
                     request.forEach(function (item) {
                         elements += item_user_menu(item.user.username, item.image);
-                        //list.append(item_user_menu(item.user.username, item.image));
                     });
                     elements += '</ul>';
                     positionMenu(instance, elements, 'right', 'menu menu_user_list');
                 };
 
                 request(urlapi, 'GET', null, null, exc, null);
-                //$('.menu.menu_user_list.hidden').removeClass('hidden');
                 userFileStatus = true;
             }
         } else {
-            user_files();
+            user_files(userFileActive);
         }
         userFileStatus = false;
         event.stopPropagation();
@@ -107,14 +112,16 @@ $(document).ready(function () {
     $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', '#file_comment_submit_btn', function () {
         var exc = function (request) {
             if (request.data == "save") {
-                $('.file_body.post_body').append('<p>' + comment.comment + '</p>')
+                var userUrl = '/account/profile/' + userlogged + '/',
+                    date = moment(new Date(), moment.ISO - 8601).format("MMM Do \\at h:mm a");
+                $('#monkey_scroll_wrapper_for_file_preview_scroller').find('#file_preview_comments_section .comments')
+                    .prepend(item_file_comment(userlogged, userUrl, userImage, date, comment.comment));
                 $('#file_comment').val('');
             }
         };
 
         var comment = {comment: $('#file_comment').val()};
-        var file = $('#file_preview_head_section').attr("data-file"),
-            owner = $('#file_preview_head_section').attr("data-owner");
+        var file = $('#file_preview_head_section').attr("data-file");
 
         var urlapi = apiUrl + 'files/detail/' + file + '/' + userlogged + '/';
         request(urlapi, 'POST', 'json', comment, exc, null);
@@ -184,7 +191,7 @@ $(document).ready(function () {
         var data = new FormData(),
             modal = new Modal('Create Snippet', 'Create Snippet', createSnippet(optionsType, userListForModal(channels, users)));
 
-        codeMirror('client_file_snippet_textarea');
+        var editor = 'lol'//codeMirror('client_file_snippet_textarea');
 
         var select = $('#modal .modal-body').find('#client_file_snippet_select.chosen-select');
         if ($(select).length > 0)
@@ -206,16 +213,31 @@ $(document).ready(function () {
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
             data.append('shared', $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#client_chared_select').val() : '');
-            data.append('code', $('#modal .modal-body').find('#client_file_snippet_textarea').val());
-            console.log($('#modal .modal-body').find('#client_file_snippet_textarea').val());//TODO: ver por que conno esta vacio el textarea
-            /*var exc = function (response) {
-             modal.destroy();
-             console.log(response);
-             };
+            data.append('code', editor/*editor.getValue()*/);
 
-             var urlapi = apiUrl + 'snippet/create/';
-             request(urlapi, 'POST', 'json', data, exc, null, 'file');*/
+            var exc = function (response) {
+                modal.destroy();
+                if (response.success == "ok") {
+                    if ($('#file_list_toggle_all.active').length > 0)
+                        user_all_files();
+                    if ($('#file_list_toggle_user.active').length > 0)
+                        user_files(userFileActive);
+                }
+            };
+
+            var urlapi = apiUrl + 'snippet/create/';
+            request(urlapi, 'POST', 'json', data, exc, null, 'file');
         });
+    });
+
+    //show menu in details files
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', 'li[data-action="more"]', function () {
+        var options = {
+            copyLink: $(this).attr('data-url'),
+            share: 'edit',
+            delete: $(this).attr('data-slug')
+        };
+        positionMenu(this, file_options_file_detail($('#hiddenMenuFileDetails').prop('innerHTML'), options), 'left');
     });
 
     //AUX
@@ -247,7 +269,7 @@ $(document).ready(function () {
             var author = item.author.user.first_name + ' ' + item.author.user.last_name;
             var date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
             var pathProfile = getUserPath(item.author.user.username);
-            list.append(item_file(item.slug, author, date, item.title, item.files_comments.length, pathProfile, item));
+            list.append(item_file(item.slug, author, date, item.title, item.count_comment, pathProfile, item));
         });
         $('[data-toggle="tooltip"]').tooltip({placement: "left", delay: {show: 500, hide: 150}});
     };
@@ -281,9 +303,15 @@ $(document).ready(function () {
     var detail_file = function (key) {
         var exc = function (response) {
             $('#file_preview_container').removeClass('hidden');
-            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html(''),
-                userurl = hostUrl + '/account/profile/' + response.author.user.username + '/';
-            item.append(item_file_detail(response.author.user.username, userurl, response.author.image, response.title, response.slug, file_comments_msg(response.files_comments)));
+            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
+            item.append(item_file_detail(response));
+            var comments = function (response) {
+                var comm = file_comments_msg(response);
+                $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
+            };
+            //codeMirrorReadOnly('csharp', response.code);
+            var urlapi = apiUrl + 'files/comment/' + key;
+            request(urlapi, 'GET', null, null, comments, null);
         };
 
         $('.panel.active').removeClass('active');
@@ -299,6 +327,8 @@ $(document).ready(function () {
         var exc = function (response) {
             console.log(response);
             if (response.success == 'ok') {
+                $('#file_preview_container').addClass('hidden');
+                $('#file_list_container').removeClass('hidden');
                 if (userFileStatus)
                     user_files(userFileActive);
                 else
@@ -308,6 +338,28 @@ $(document).ready(function () {
 
         var urlapi = apiUrl + 'files/delete/' + key + '/';
         request(urlapi, 'DELETE', null, null, exc, null);
+    };
+
+    var codeMirrorReadOnly = function (type, value) {
+        var wrap_long_lines = true;
+
+        var g_editor = CodeMirror.fromTextArea(document.getElementById("read-only-code"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            indentUnit: 4,
+            indentWithTabs: true,
+            enterMode: "keep",
+            tabMode: "shift",
+            viewportMargin: 10,
+            mode: type,
+            readOnly: true
+        });
+
+        // setup wrap checkbox
+        $('#file_create_wrap_cb').bind('change', function (e) {
+            var wrap = $(this).is(":checked");
+            g_editor.setOption('lineWrapping', wrap);
+        });
     };
 
     var codeMirror = function (id) {
@@ -334,6 +386,7 @@ $(document).ready(function () {
             var wrap = $(this).is(":checked");
             g_editor.setOption('lineWrapping', wrap);
         });
+        return g_editor;
     };
 
     var Modal = function (title, btnGo, html, data) {

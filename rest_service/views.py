@@ -188,6 +188,13 @@ def get_details_file(request, file, user_post=None):
 
 
 @api_view(['GET'])
+def get_comments_files(request, file_slug):
+    comments = FilesComment.objects.filter(file_up__slug=file_slug)[:10:1]
+    serializer = FileCommentsSerializer(comments, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def get_message_by_user_recent(request, username, page):
     messages = MessageEvent.objects.all().filter(
         ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
@@ -370,7 +377,7 @@ def delete_file(request, slug):
         return Response({'success': 'ok'})
     except Exception as e:
         print e
-    return Response({'success': 'flase'})
+    return Response({'success': 'false'})
 
 
 @api_view(['GET'])
@@ -410,9 +417,10 @@ def snippet_create(request):
                 create.save()
         if comment is not None and comment != "":
             FilesComment.objects.create(file_up=create, comment=comment, user=author.user)
-
+        return Response({'success': 'ok'})
     except Exception as e:
         print e
+        return Response({'success': 'false'})
 
 
 def type_file_by_user(type, username):

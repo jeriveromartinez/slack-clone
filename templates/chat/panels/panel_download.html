@@ -1,0 +1,34 @@
+{% load staticfiles %}
+<div class="panel" id="downloads_tab" style="height: 615px;">
+            <div class="heading" tabindex="-1">
+                <span id="downloads_tab_header">Downloads</span>
+                <a class="close_flexpane left_margin" title="Close Flexpane"><i class="ts_icon ts_icon_times"></i></a>
+                <a id="downloads_tab_clear" class="float_right right_padding">Clear all</a>
+            </div>
+            <div id="downloads_empty">
+                <img src="{% static 'images/downloads_empty.png' %}"
+                     srcset="{% static 'images/downloads_empty.png' %} 1x, {% static 'images/downloads_empty.png' %} 2x">
+                <p>You can download files by clicking the <i class="ts_icon ts_icon_cloud_download"></i> button.</p>
+            </div>
+            <div id="monkey_scroll_wrapper_for_downloads_scroller" class="monkey_scroll_wrapper ">
+                <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                    <div class="monkey_scroll_handle " style="left: -3px;">
+                        <div class="monkey_scroll_handle_inner "></div>
+                    </div>
+                </div>
+                <div class="monkey_scroll_hider" style="width: 100%;">
+                    <div id="monkey_scroll_wrapper_for_downloads_scroller" class="monkey_scroll_wrapper ">
+                        <div class="monkey_scroll_bar  hidden" style="margin-left: 4.5px;">
+                            <div class="monkey_scroll_handle " style="left: -3px;">
+                                <div class="monkey_scroll_handle_inner "></div>
+                            </div>
+                        </div>
+                        <div class="monkey_scroll_hider" style="width: 100%;">
+                            <div id="downloads_scroller" class="flex_content_scroller monkey_scroller"
+                                 style="width: 0px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="downloads_shift_hint">Hold <span class="key">Shift</span> to open the file.</div>
+        </div>

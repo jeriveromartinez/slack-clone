@@ -95,7 +95,7 @@ var item_user_profile = function (object, localtime) {
 };
 
 var item_user_menu = function (username, avatar) {
-    return '<li id="' + username + '" class="member_item active"><a href="#"><span class="wrapper"><span class="lazy member_preview_link member_image thumb_24" style="background: rgb(246, 246, 246) url(\'' + avatar + '\');background-size: cover;" aria-hidden="true"></span></span><span class="name">' + username + '</span></a></li>';
+    return '<li id="' + username + '" class="member_item active"><a href="#"><span class="wrapper"><span class="lazy member_preview_link member_image thumb_24" style="background: rgb(246, 246, 246) url(' + avatar + ');background-size: cover;" aria-hidden="true"></span></span><span class="name">' + username + '</span></a></li>';
 };
 
 var date_divider = function (date) {
@@ -190,17 +190,18 @@ var ts_message_shared_file = function (avatar, from, fileTitle, fileComments) {
 var file_comments_msg = function (comments) {
     var fileComments = '';
     comments.forEach(function (element) {
-        fileComments += '<p>' + element.comment + '</p>';
+        var userUrl = '/acount/profile/' + element.user.username + '/',
+            date = moment(element.published, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+        fileComments += item_file_comment(element.user.username, userUrl, element.user.user_profile.image, date, element.comment);
     });
     return fileComments;
 };
 
 var item_file = function (fileSlug, owner, dateCreate, title, comments, profileUrl, obj) {
-    var url_file = obj.image_up ? obj.image_up : obj.file_up;
-    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '" data-file-url="' + url_file + '"></button><!--<button class="file_star btn_icon btn btn_outline ts_tip_btn ts_tip ts_tip_top"><span class="star ts_icon ts_icon_star_o ts_icon_inherit star_file"></span><div class="star_message ts_tip_tip">Star</div><div class="unstar_message ts_tip_tip">Unstar</div></button>--></div>';
+    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '" data-file-url="' + urlFile(obj)[0] + '"></button></div>';
     if (get_icon(obj) == 'filetype_image') {
-        item = '<div class="file_list_item file_item hosted has_image" data-url="' + fileSlug + '">' + item;
-        item += '<i class="' + get_icon(obj) + '" style="background-size:contain;background: url(\'' + obj.image_up + '\');"></i>';
+        item = '<div id="' + fileSlug + '" class="file_list_item file_item hosted has_image" data-url="' + fileSlug + '">' + item;
+        item += '<i class="' + get_icon(obj) + '" style="background-size:contain;background: url(' + obj.image_up + ');"></i>';
     } else {
         item = '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '">' + item;
         item += '<i class="' + get_icon(obj) + '"></i>';
@@ -209,8 +210,158 @@ var item_file = function (fileSlug, owner, dateCreate, title, comments, profileU
     return item;
 };
 
-var item_file_detail = function (username, userUrl, picture, filename, slug, comments) {
-    return '<div id="file_preview_head_section" data-file="' + slug + '" data-owner="' + username + '"><div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title"><a target="_blank" href="' + userUrl + '" style="background-image: url(\'' + picture + '\'),url(\'/static/images/ava_0022-48.png\')" class="member_preview_link member_image thumb_36"></a><span class="color_9f69e7"><a target="_blank" href="' + userUrl + '" class="message_sender member member_preview_link color_9f69e7 ">' + username + '</a></span><!--<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_new_window_link">Private post</a><span class="no_wrap"><button class="star ts_icon ts_icon_star_o ts_icon_inherit star_file ts_tip ts_tip_top ts_tip_float ts_tip_hidden btn_unstyle"><span class="ts_tip_tip">Star this file</span></button></span></span>--><ul class="file_action_list no_bullets no_bottom_margin float_right"><li class="file_action_item inline_block"><a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf"><span class="ts_tip_btn ts_icon ts_icon_external_link"></span><span class="ts_tip_tip">Open in new window</span></a></li></ul></div></div><div id="file_edit_title_container" class="hidden"><!--<form action="" id="file_edit_title_form" class="small_bottom_margin" method="post" onsubmit="return false;">--><p class="no_bottom_margin"><input id="file_edit_title_input" class="small" name="file_edit_title_input" type="text"></p><p class="no_bottom_margin align_right"><button type="button" class="btn btn_small btn_outline">Cancel</button><button type="submit" class="btn btn_small">Save Changes</button></p><!--</form>--></div></div><div class="file_preview_file"><div class="file_container post_container"><div class="file_header post_header"><i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post_small"></i><h4 class="file_header_title post_header_title overflow_ellipsis">' + filename + '</h4><!--<p class="file_header_meta post_header_meta">Last edited <span class="file_time_ago">8 days ago</span></p></div>--><div class="file_body post_body"><!--<p>fdsfsdfdsfdsfds</p>-->' + comments + '</div></div><div class="clear_both"></div></div><div class="file_preview_meta"><!--<form action="" id="file_comment_form" class="comment_form" method="post">--><a href="#/blackmambasoft.slack.com/team/jeriverom" class="member_preview_link"><span class="member_image thumb_36" style="background-image: url(\'IMAGE2\')"></span></a><textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" name="comment" autocorrect="off" autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual"></textarea><span class="mini float_left cloud_silver file_comment_tip">shift+enter to add a new line</span><button id="file_comment_submit_btn" type="submit" class="btn  btn_small float_right  ladda-button"><span class="ladda-label">Add Comment</span></button><!--</form>--></div></div>';
+var item_file_detail = function (item) {
+    var file = '<div id="file_preview_head_section" data-file="' + item.slug + '">' + urlFile(item)[1] + '\
+    <div id="file_preview_comments_section" ' + urlFile(item)[2] + '><div class="comments"></div></div><div class="comment_form"><a href="https://blackmambasoft.slack.com/team/jeriverom" class="member_preview_link" target="_blank">\
+			<span class="member_image thumb_36" style="background-image: url();"></span></a>\
+	<textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" autocorrect="off" autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual">\
+</textarea><button id="file_comment_submit_btn" class="btn btn_small float_right ladda-button" ><span class="ladda-label">Add Comment</span></button></div>';
+    return file;
+};
+
+var item_code_file_detail = function (username, userUrl, picture, filename, dateCreate, code, urlFile, slug) {
+    return '<div class="file_preview_title">\
+	<div id="file_title_container"><div class="flexpane_file_title">\
+		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + picture + ');" class="member_image thumb_36 member_preview_link  "></a>\
+		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
+		<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/jeriverom/F34T6SPPC/test.cs" class="">' + filename + '</a>\
+			<span class="no_wrap"></span></span>\
+		<ul class="file_action_list no_bullets no_bottom_margin float_right">\
+			<li class="file_action_item inline_block" data-action="more" data-url="' + urlFile + '" data-slug="' + slug + '">\
+				<a class="ts_tip ts_tip_bottom ts_tip_right file_actions ts_tip_hide">\
+					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
+					<span class="ts_tip_tip">More actdions</span>\
+				</a></li></ul></div></div>\
+</div><div class="file_preview_file"><div class="file_container">\
+	<div class="file_body snippet_body"><textarea id="read-only-code">' + code + '</textarea> \
+			</div></div><label class="checkbox normal mini" for="snippet_wrap">\
+		<input id="snippet_wrap" checked="checked" type="checkbox">wrap</label>\
+	<div class="clear_both"></div></div><div class="file_preview_meta">\
+	<p class="file_meta snippet"><span class="date">' + dateCreate + '</span>\
+		</span></p><div class="rxn_panel"></div></div></div>';
+};
+
+var item_image_file_detail = function (title, slug, username, userurl, userimage, image, date) {
+    return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
+		<a href="' + userurl + '" target="_blank" style="background-image: url(' + userimage + ');" class="member_image thumb_36 member_preview_link"></a>\
+		<span class="color_4bbe2e"><a href="' + userurl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
+		<span class="title break_word">\
+				<a href="' + image + '" target="_blank" class="file_viewer_channel_link file_viewer_link">' + title + '</a>\
+			<span class="no_wrap">\
+			</span></span>\
+		<ul class="file_action_list no_bullets no_bottom_margin float_right"><li class="file_action_item inline_block">\
+					<a class="ts_tip ts_tip_bottom file_ssb_download_link" href="' + image + '" download="' + title + '">\
+						<span class="ts_tip_btn ts_icon ts_icon_cloud_download"></span><span class="ts_tip_tip">Download</span>\
+					</a></li><li class="file_action_item inline_block">\
+							<a class="ts_tip ts_tip_bottom ts_tip_rightish" href="' + image + '" target="_blank">\
+								<span class="ts_tip_btn ts_icon ts_icon_external_link"></span>\
+								<span class="ts_tip_tip">Open original</span></a></li>\
+			<li class="file_action_item inline_block" data-action="more" data-url="' + image + '" data-slug="' + slug + '">\
+				<a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
+					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
+					<span class="ts_tip_tip">More actions</span></a></li></ul></div></div>\
+	<div id="file_edit_title_container" class="hidden">\
+		<div id="file_edit_title_form" class="small_bottom_margin">\
+			<p class="no_bottom_margin"><input id="file_edit_title_input" class="small" name="file_edit_title_input" value="" type="text"></p>\
+			<p class="no_bottom_margin align_right">\
+				<button type="button" class="btn btn_small btn_outline">Cancel</button>\
+				<button type="submit" class="btn btn_small">Save Changes</button></p></div></div></div><div class="file_preview_file">\
+		<div class="file_container image_container">\
+	<a href="#/files.slack.com/files-pri/T2KQ0HR61-F347ANL9X/caribbean-vacation.jpg" target="_blank" class="file_body image_body image_jpg\
+			file_viewer_channel_link file_viewer_link" title="ctrl+click to open original in new tab">\
+		<div class="image_preserve_aspect_ratio">\
+			<figure class="image_bg" style="background-image: url(' + image + '); padding-top: calc(0.663889 * 100%);">\
+				</figure></div></a></div>\
+	<div class="clear_both"></div></div><div class="file_preview_meta"><p class="file_meta hosted">\
+		<span class="date">' + date + '</span><span class="bullet">•</span>\
+			<a href="' + image + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link">437KB <span>JPEG</span></a>\
+			<span class="bullet">•</span>\
+			</span>\
+		<span class="file_share_private_label inline_block hidden">\
+			<i class="ts_icon ts_icon_eye ts_icon_inherit"></i>\
+		</span></p><div class="rxn_panel"></div></div>';
+};
+
+var item_file_file_detail = function (username, userPicture, userUrl, fileTitle, date, fileUrl, slug) {
+    return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
+		<a href="/team/jeriverom" target="_blank" style="background-image: url(' + userPicture + ')" class="member_image thumb_36 member_preview_link"></a>\
+		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link" >' + username + '</a></span>\
+		<span class="title break_word">\
+				<a href="' + fileUrl + '" target="_blank">' + fileTitle + '</a>\
+			<span class="no_wrap"></span></span>\
+		<ul class="file_action_list no_bullets no_bottom_margin float_right">\
+				<li class="file_action_item inline_block">\
+					<a class="ts_tip ts_tip_bottom file_ssb_download_link" href="' + fileUrl + '" download="' + fileTitle + '">\
+						<span class="ts_tip_btn ts_icon ts_icon_cloud_download"></span><span class="ts_tip_tip">Download</span></a></li>\
+				<li class="file_action_item inline_block">\
+							<a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="' + fileUrl + '" target="_blank">\
+								<span class="ts_tip_btn ts_icon ts_icon_external_link"></span>\
+								<span class="ts_tip_tip">Open in new window</span></a></li>\
+			<li class="file_action_item inline_block" data-action="more" data-url="' + fileUrl + '" data-slug="' + slug + '"><a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
+					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
+					<span class="ts_tip_tip">More actions</span></a></li></ul></div></div>\
+	<div id="file_edit_title_container" class="hidden">\
+		<div action="" id="file_edit_title_form" class="small_bottom_margin">\
+			<p class="no_bottom_margin"><input type="text" id="file_edit_title_input" class="small" name="file_edit_title_input"></p>\
+			<p class="no_bottom_margin align_right">\
+				<button type="button" class="btn btn_small btn_outline">Cancel</button>\
+				<button type="submit" class="btn btn_small">Save Changes</button></p></div></div>\
+</div><div class="file_preview_file"><div class="file_container generic_container">\
+	<a class="file_header generic_header file_ssb_download_link " href="' + fileUrl + '" download="' + fileTitle + '">\
+		<i class="file_header_icon generic_header_icon filetype_icon binary s48">\
+				<i class="ts_icon ts_icon_arrow_down binary"></i></i>\
+		<h4 class="file_header_title generic_header_title overflow_ellipsis">' + fileTitle + '</h4>\
+		<p class="file_header_meta generic_header_meta">\
+				<span class="meta_size">16MB</span><span class="meta_hover_placement">\
+				<span class="meta_type overflow_ellipsis">Binary</span><span class="meta_hover overflow_ellipsis">\
+						Click to download</span></span></p></a></div><div class="clear_both"></div></div>\
+<div class="file_preview_meta"><p class="file_meta hosted"><span class="date">' + date + '</span>\
+		<span class="bullet">•</span><a href="' + fileUrl + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link">16MB <span>Binary</span></a>\
+			<span class="bullet">•</span><span class="file_share_public_label inline_block">\
+			<span class="file_share_unshared_label hidden">Team file</span></span>\
+	</p><div class="rxn_panel"></div></div></div>';
+};
+
+var item_post_file_detail = function () {
+    return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
+		<a href="/team/jeriverom" target="_blank" style="background-image: url()" class="member_image thumb_36 member_preview_link"></a>\
+		<span class="color_4bbe2e"><a href="/team/jeriverom" target="_blank" class="message_sender color_4bbe2e member member_preview_link">jeriverom</a></span>\
+		<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/jeriverom/F352EDYQJ/-" target="_blank" class="file_new_window_link">Draft post</a>\
+			<span class="no_wrap"></span></span>\
+		<ul class="file_action_list no_bullets no_bottom_margin float_right">\
+				<li class="file_action_item inline_block">\
+					<a class="ts_tip ts_tip_bottom file file_new_window_link ts_tip_rightish" href="#/blackmambasoft.slack.com/files/jeriverom/F352EDYQJ/-" target="_blank">\
+						<span class="ts_tip_btn ts_icon ts_icon_external_link"></span>\
+						<span class="ts_tip_tip">Edit in new window</span></a></li>\
+			<li class="file_action_item inline_block" data-action="more">\
+				<a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
+					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
+					<span class="ts_tip_tip">More actions</span></a></li></ul></div></div>\
+	<div id="file_edit_title_container" class="hidden">\
+		<div class="small_bottom_margin">\
+			<p class="no_bottom_margin"><input type="text" id="file_edit_title_input" class="small" name="file_edit_title_input"></p>\
+			<p class="no_bottom_margin align_right">\
+				<button type="button" class="btn btn_small btn_outline">Cancel</button>\
+				<button type="submit" class="btn btn_small">Save Changes</button></p></div></div>\
+</div><div class="file_preview_file"><div class="file_container post_container\
+	<div class="file_header post_header">\
+		<i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post_small"></i>\
+		<h4 class="file_header_title post_header_title overflow_ellipsis">Untitled</h4>\
+		<p class="file_header_meta post_header_meta">\
+				Last edited <span class="file_time_ago">6 days ago</span></p></div>\
+	<div class="file_body post_body"><p>jkhjkhjkhjkhjkdfgdfg</p></div></div><div class="clear_both"></div>\
+</div><div class="file_preview_meta"><p class="file_meta space"><span class="date">Nov 20th at 10:06 PM</span>\
+		<span class="file_share_private_label inline_block">\
+			<i class="ts_icon ts_icon_eye ts_icon_inherit"></i>Draft</span></p>\
+	<div class="rxn_panel"></div></div></div>';
+};
+
+var item_file_comment = function (username, userUrl, picture, dateCreate, comment) {
+    return '<div class="comment"><span class="no_print"><a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: url(' + picture + ');" aria-hidden="true"></a>\
+</span><p class="comment_meta"><span class="no_print"><a href="/account/profile/' + username + '/" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
+		<span class="print_only_inline"><strong>' + username + '</strong> • </span>\
+		<span class="comment_date_star_cog">' + dateCreate + '<span class="no_print"></span><a class="comment_actions"><i class="comment_cog ts_icon ts_icon_cog ts_icon_inherit"></i></a>\
+		</span></p><div class="comment_body">' + comment + '</div><div class="rxn_panel"></div></div>';
 };
 
 var item_direct_message = function (data, pos) {
@@ -315,7 +466,7 @@ var item_member_channel = function (data) {
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';
 
-var file_options = function (str, options) {
+var file_options_file = function (str, options) {
     var mapObj = {
         '#URL_LINK#': options.copyLink,
         '#NEW_WINDOW_OPEN_FILE#': options.opeNeWind,
@@ -328,3 +479,38 @@ var file_options = function (str, options) {
     });
     return str;
 };
+
+var file_options_file_detail = function (str, options) {
+    var mapObj = {
+        '#URL_LINK#': options.copyLink,
+        '#SHARE#': options.share,
+        '#URL_DELETE#': options.delete,
+    };
+    str = str.replace(/#URL_LINK#|#SHARE#|#URL_DELETE#/gi, function (matched) {
+        return mapObj[matched];
+    });
+    return str;
+};
+
+var urlFile = function (item) {
+    var userurl = '/account/profile/' + item.author.user.username + '/',
+        date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
+        username = item.author.user.username,
+        imageUser = item.author.image;
+
+    if (item.code != undefined) {
+        var type = getArrayByObject(typesL)[item.type],
+            url = '/account/file/snippet/' + item.slug + '/';
+        return [url, item_code_file_detail(username, userurl, imageUser, item.title, date, item.code, url, item.slug), 'data-type="code"'];
+    }
+    if (item.text != undefined) {
+        var url = '/account/file/post/' + item.slug + '/';
+        return [url, item_post_file_detail(), 'data-type="post"'];
+    }
+    if (item.image_up != undefined)
+        return [item.image_up, item_image_file_detail(item.title, item.slug, username, userurl, imageUser, item.image_up, date), 'data-type="image"'];
+    if (item.file_up != undefined)
+        return [item.file_up, item_file_file_detail(username, imageUser, userurl, item.title, date, item.file_up, item.slug), 'data-type="file"'];
+};
+
+
