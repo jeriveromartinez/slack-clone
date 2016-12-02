@@ -8860,16 +8860,18 @@ img.orientation_8 {
 }
 
 .file_container .file_header .file_header_title {
+
     margin: 0 0 .125rem;
     font-size: 1rem;
     line-height: 1.2375;
     font-weight: 700;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    display: block !important;
     text-overflow: ellipsis !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 2 !important;
-    -webkit-box-orient: vertical !important;
     overflow: hidden !important;
-    white-space: inherit
+    white-space: nowrap !important;
 }
 
 .file_container .file_header .file_header_meta {

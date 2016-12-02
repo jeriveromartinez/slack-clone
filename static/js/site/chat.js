@@ -52,7 +52,7 @@ $(document).ready(function () {
                 change_chat_size('65%');
             } else {
                 var value = $('#hiddenMenuFlexMenu').html();
-                var options = {style: 'menu flex_menu'};
+                var options = {style: 'menu flex_menu',height:'32%'};
                 positionMenu(this, value, 'left', options);//TODO: cuando sale el menu tomar las acciones por click
             }
         }
@@ -318,17 +318,14 @@ $(document).ready(function () {
             position: "absolute",
             left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
             top: ((position.top + height) < 471) ? (position.top + height) + "px" : 471 + "px",//471px
-            'max-height': '45%'
+            'max-height': (options != undefined && options.height != undefined) ? options.height : '46%'
         };
 
         if (options != undefined && options.bottom == true)
-            values['top'] = (position.top - 250) + "px";
+            values['top'] = (position.top - 200) + "px";
 
         $(menu).css(values);
-        var test = $(items).outerHeight();
-        console.log(test);
         $('#menu .menu_body').html(items);
-        items = '';
         $(menu).removeClass('hidden');
     };
 

@@ -14,5 +14,5 @@ django-socketio
 django-ipware
 django-user-agents
 pygithub3
+shortuuid
 Pillow
-import shortuuid

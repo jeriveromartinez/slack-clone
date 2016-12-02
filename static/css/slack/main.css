@@ -619,3 +619,8 @@ li.member.cursor_pointer {
 .flexpane_file_title .title a {
     cursor: pointer;
 }
+
+#messages-input-container.offline:not(.recent-incremental-boot) #primary_file_button:hover {
+    border-color: #56B68B;
+    background: #56B68B !important;
+}

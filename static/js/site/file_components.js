@@ -106,6 +106,20 @@ var get_icon = function (obj) {
 
 };
 
+var get_icon_details = function (obj) {
+    var style = 'file_header_icon generic_header_icon filetype_icon ';
+    if (typeof(obj.code) !== 'undefined')
+        return style + 'csharp s48';
+    else if (typeof(obj.image_up) !== 'undefined')
+        return 'filetype_image';
+    else if (typeof(obj.text) !== 'undefined')
+        return style + 'post';
+    else {
+        var type = obj.title.split('.');
+        return type[type.length - 1] in icon ? style + icon[type[type.length - 1]]+' s48' : style + 'file s48';
+    }
+};
+
 var icon = {
     'xlsx': 'xlsx',
     'xls': 'xlsx',

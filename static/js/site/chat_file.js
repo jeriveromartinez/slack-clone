@@ -24,7 +24,7 @@ window.getArrayByObject = function (arrayObjects) {
 
 $(document).ready(function () {
     //menu more items options
-    $('#menu').on('click', '.flexpane_menu_item', function () {
+    $('#menu').on('click.menu_items', 'li[role="menuitem"]', function () {
         switch (this.id) {
             case 'list_team':
                 team_users(); //get list of users from team
@@ -41,17 +41,18 @@ $(document).ready(function () {
     });
 
     // get file details form user and company //show file's menu
-    $('#file_list_by_user').on('click', '.file_list_item', function () {
+    $('#file_list_by_user').on('click.file_detail', '.file_list_item', function () {
         detail_file(this.id);
-    }).on('click', '.file_actions', function (event) {
+    }).on('click.file_action', '.file_actions', function (event) {
         var options = {
-            copyLink: $(this).attr('data-file-url'),
-            opeNeWind: $(this).attr('data-file-url'),
-            comment: $(this).attr('data-file'),
-            edit: $(this).attr('data-file'),
-            delete: $(this).attr('data-file'),
-        };
-        positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left');
+                copyLink: $(this).attr('data-file-url'),
+                opeNeWind: $(this).attr('data-file-url'),
+                comment: $(this).attr('data-file'),
+                edit: $(this).attr('data-file'),
+                delete: $(this).attr('data-file'),
+            },
+            optionMenu = {height: '32%'};
+        positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
         event.stopPropagation();
     });
 
@@ -68,7 +69,7 @@ $(document).ready(function () {
     });
 
     //list documents by user select in All Files Type
-    $('#file_list_toggle_user').on('click', function (event) {
+    $('#file_list_toggle_user').on('click', function () {
         var instance = this;
         if ($('#file_list_toggle_user').hasClass('active')) {
             if (!userFileStatus) {
@@ -89,11 +90,10 @@ $(document).ready(function () {
             user_files(userFileActive);
         }
         userFileStatus = false;
-        event.stopPropagation();
     });
 
     //get files by user selected 
-    $('.menu.menu_user_list').on('click', 'li.member_item', function () {
+    $('#menu.menu').on('click', 'li.member_item', function () {
         var user = this.id;
         user_files(user);
         $('#file_list_toggle_user.active').find('a').html((userFileActive == userlogged) ? 'Just You' : userFileActive);
@@ -104,12 +104,12 @@ $(document).ready(function () {
     //launch files upload forms
     $('#primary_file_button').on('click', function () {
         var value = $('#hiddenMenuFileUpload').html();
-        var options = {style: 'menu file_menu menu_file_create', bottom: true};
+        var options = {style: 'menu file_menu menu_file_create', bottom: true, height: '26%'};
         positionMenu(this, value, 'right', options);
     });
 
     //add comment to the file
-    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', '#file_comment_submit_btn', function () {
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click.add_comment', '#file_comment_submit_btn', function () {
         var exc = function (request) {
             if (request.data == "save") {
                 var userUrl = '/account/profile/' + userlogged + '/',
@@ -128,42 +128,50 @@ $(document).ready(function () {
     });
 
     //select action from file's menu
-    $('#menu .menu_body').on('click', 'a[data-url]', function () {
+    $('#menu.menu').on('click.action', 'a[data-url]', function () {
         var options = {data: $(this).attr('data-url')};
         $('#menu').addClass('hidden');
         action($(this).attr('data-action'), options);//TODO: falta el edit del archivo.
     });
 
     //select files from pc
-    $('#menu .menu_body').on('click', '#create-file', function () {
+    $('#menu.menu').off('click.upload_file').on('click.upload_file', '#create-file', function () {
         hide_menu_files();
-        this.options = userListForModal(channels, users), instance = this;
+        var instance = this;
+        this.options = userListForModal(channels, users),
+            this.data = null;
 
-        var data = new FormData(),
-            modal = new Modal('Upload a file?', 'Upload', uploadComponent(this.options));
+        var modal = new Modal('Upload a file?', 'Upload', uploadComponent(this.options), this.data);
 
         $('#file-upload').click();
 
-        $('#file-upload').on('change', function () {
+        $('#file-upload').on('change.file', function () {
+            instance.data = new FormData();
             var file = this.files[0];
+
+            if (file.type.indexOf('image') !== -1)
+                file.convertToBase64(function (img) {
+                    $('#modal').find('#img64').attr('src', img);
+                });
+            else
+                $('#upload_image_preview').remove();
+
             $('#modal').find('#upload_file_title').val(file.name);
-            file.convertToBase64(function (img) {
-                $('#modal').find('#img64').attr('src', img);
-            });
 
             if ($('select.chosen-select').length > 0)
                 $('#share_to.chosen-select').chosen({
                     width: '24rem',
                     no_results_text: "Oops, nothing found!",
                 });
-            data.append('file', file);
+            instance.data.append('file', file);
             modal.show();
         });
 
-        $('#go.btn').on('click', function () {
-            data.append('title', $('.modal-body').find('#upload_file_title').val());
-            data.append('shared', $('.modal-body').find('#share_to').val());
-            data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
+        $('#go.btn').off('click.file_send').on('click.file_send', function () {
+            instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
+            instance.data.append('shared', $('.modal-body').find('#share_to').val());
+            instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
+
             var exc = function (response) {
                 modal.destroy();
                 if (response.success == "ok") {
@@ -175,12 +183,12 @@ $(document).ready(function () {
             };
 
             var urlapi = apiUrl + 'files/upload/' + userlogged + '/';
-            request(urlapi, 'POST', 'json', data, exc, null, 'file');
-        });//TODO: if file is not a image, show the icon
+            request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
+        });
     });
 
     //create snippet from chat
-    $('#menu .menu_body').on('click', '#create-snippet', function () {
+    $('#menu.menu').off('click.snippet_create').on('click.snippet_create', '#create-snippet', function () {
         hide_menu_files();
         var optionsType = '';
 
@@ -208,7 +216,7 @@ $(document).ready(function () {
 
         modal.show();
 
-        $('#go.btn').on('click', function () {
+        $('#go.btn').off('click.snippet_send').on('click.snippet_send', function () {
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
@@ -231,12 +239,13 @@ $(document).ready(function () {
     });
 
     //show menu in details files
-    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click', 'li[data-action="more"]', function () {
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click.file_action', 'li[data-action="more"]', function (e) {
         var options = {
             copyLink: $(this).attr('data-url'),
             share: 'edit',
             delete: $(this).attr('data-slug')
         };
+        var menu = $('#menu.menu').css('max-height', '32%');
         positionMenu(this, file_options_file_detail($('#hiddenMenuFileDetails').prop('innerHTML'), options), 'left');
     });
 
@@ -250,7 +259,7 @@ $(document).ready(function () {
         userFileActive = username = (username) ? username : userlogged;
         var urlapi = apiUrl + 'files/' + username + '/get/all_files/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
-        $('#menu.flex_menu').addClass('hidden');
+        $('#menu.menu').addClass('hidden');
     };
 
     var user_all_files = function () {
@@ -261,6 +270,7 @@ $(document).ready(function () {
 
         var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
+        $('#menu.menu').addClass('hidden');
     };
 
     var user_files_exc = function (response) {
@@ -325,7 +335,6 @@ $(document).ready(function () {
 
     var delete_file = function (key) {
         var exc = function (response) {
-            console.log(response);
             if (response.success == 'ok') {
                 $('#file_preview_container').addClass('hidden');
                 $('#file_list_container').removeClass('hidden');
@@ -410,8 +419,8 @@ $(document).ready(function () {
 
         this.destroy = function () {
             $(context.modal).addClass('hidden');
-            data = null;
-            if ($('select.chosen-select').length == 1)
+            data = new FormData();
+            if ($('select.chosen-select').length > 0)
                 $('select.chosen-select').chosen('destroy');
         }
     };

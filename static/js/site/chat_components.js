@@ -282,22 +282,22 @@ var item_image_file_detail = function (title, slug, username, userurl, userimage
 		</span></p><div class="rxn_panel"></div></div>';
 };
 
-var item_file_file_detail = function (username, userPicture, userUrl, fileTitle, date, fileUrl, slug) {
+var item_file_file_detail = function (item, userUrl, date) {
     return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="/team/jeriverom" target="_blank" style="background-image: url(' + userPicture + ')" class="member_image thumb_36 member_preview_link"></a>\
-		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link" >' + username + '</a></span>\
+		<a href="/team/jeriverom" target="_blank" style="background-image: url(' + item.author.image + ')" class="member_image thumb_36 member_preview_link"></a>\
+		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link" >' + item.author.user.username + '</a></span>\
 		<span class="title break_word">\
-				<a href="' + fileUrl + '" target="_blank">' + fileTitle + '</a>\
+				<a href="' + item.file_up + '" target="_blank">' + item.title + '</a>\
 			<span class="no_wrap"></span></span>\
 		<ul class="file_action_list no_bullets no_bottom_margin float_right">\
 				<li class="file_action_item inline_block">\
-					<a class="ts_tip ts_tip_bottom file_ssb_download_link" href="' + fileUrl + '" download="' + fileTitle + '">\
+					<a class="ts_tip ts_tip_bottom file_ssb_download_link" href="' + item.file_up + '" download="' + item.title + '">\
 						<span class="ts_tip_btn ts_icon ts_icon_cloud_download"></span><span class="ts_tip_tip">Download</span></a></li>\
 				<li class="file_action_item inline_block">\
-							<a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="' + fileUrl + '" target="_blank">\
+							<a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="' + item.file_up + '" target="_blank">\
 								<span class="ts_tip_btn ts_icon ts_icon_external_link"></span>\
 								<span class="ts_tip_tip">Open in new window</span></a></li>\
-			<li class="file_action_item inline_block" data-action="more" data-url="' + fileUrl + '" data-slug="' + slug + '"><a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
+			<li class="file_action_item inline_block" data-action="more" data-url="' + item.file_up + '" data-slug="' + item.slug + '"><a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
 					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
 					<span class="ts_tip_tip">More actions</span></a></li></ul></div></div>\
 	<div id="file_edit_title_container" class="hidden">\
@@ -307,16 +307,16 @@ var item_file_file_detail = function (username, userPicture, userUrl, fileTitle,
 				<button type="button" class="btn btn_small btn_outline">Cancel</button>\
 				<button type="submit" class="btn btn_small">Save Changes</button></p></div></div>\
 </div><div class="file_preview_file"><div class="file_container generic_container">\
-	<a class="file_header generic_header file_ssb_download_link " href="' + fileUrl + '" download="' + fileTitle + '">\
-		<i class="file_header_icon generic_header_icon filetype_icon binary s48">\
+	<a class="file_header generic_header file_ssb_download_link " href="' + item.file_up + '" download="' + item.title + '">\
+		<i class="' + get_icon_details(item) + '">\
 				<i class="ts_icon ts_icon_arrow_down binary"></i></i>\
-		<h4 class="file_header_title generic_header_title overflow_ellipsis">' + fileTitle + '</h4>\
+		<h4 class="file_header_title generic_header_title overflow_ellipsis">' + item.title + '</h4>\
 		<p class="file_header_meta generic_header_meta">\
-				<span class="meta_size">16MB</span><span class="meta_hover_placement">\
-				<span class="meta_type overflow_ellipsis">Binary</span><span class="meta_hover overflow_ellipsis">\
+				<span class="meta_size"><!--16MB--></span><span class="meta_hover_placement">\
+				<span class="meta_type overflow_ellipsis"><!--Binary--></span><span class="meta_hover overflow_ellipsis">\
 						Click to download</span></span></p></a></div><div class="clear_both"></div></div>\
 <div class="file_preview_meta"><p class="file_meta hosted"><span class="date">' + date + '</span>\
-		<span class="bullet">•</span><a href="' + fileUrl + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link">16MB <span>Binary</span></a>\
+		<span class="bullet">•</span><a href="' + item.file_up + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link"><!--16MB--> <span><!--Binary--></span></a>\
 			<span class="bullet">•</span><span class="file_share_public_label inline_block">\
 			<span class="file_share_unshared_label hidden">Team file</span></span>\
 	</p><div class="rxn_panel"></div></div></div>';
@@ -510,7 +510,7 @@ var urlFile = function (item) {
     if (item.image_up != undefined)
         return [item.image_up, item_image_file_detail(item.title, item.slug, username, userurl, imageUser, item.image_up, date), 'data-type="image"'];
     if (item.file_up != undefined)
-        return [item.file_up, item_file_file_detail(username, imageUser, userurl, item.title, date, item.file_up, item.slug), 'data-type="file"'];
+        return [item.file_up, item_file_file_detail(item, userurl, date), 'data-type="file"'];
 };
 
 
