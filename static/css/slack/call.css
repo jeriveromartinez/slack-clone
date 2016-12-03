@@ -61,6 +61,7 @@
     src: local('☺'), url(/static/fonts/lato/lato-italic-black.woff2) format('woff2'), url(/static/fonts/lato/lato-italic-black.woff) format('woff');
     unicode-range: U+0000-F8FE, U+F900-FFFF
 }
+
 .modal-footer::after, .modal-footer::before {
     display: table;
     line-height: 0;
@@ -16673,4 +16674,17 @@ video {
 #remoteVideo {
     width: 500px;
     height: 500px;
+}
+
+.call_member {
+
+    top: 24px;
+    position: fixed;
+    right: 75px;
+    border-radius: 20px;
+}
+
+.call_member .member {
+    background-color: #FFFFFF;;
+    margin-right: 5px;
 }

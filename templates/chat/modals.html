@@ -474,3 +474,63 @@
         </div>
     </div>
 </div>
+
+
+<div id="channel_invite">
+    <div id="fs_modal" class="">
+
+        <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
+            <i class="ts_icon ts_icon_arrow_large_left"></i>
+            <span class="key_label">back</span>
+        </a>
+        <a id="fs_modal_close_btn" class="fs_modal_btn">
+            <i class="ts_icon ts_icon_times"></i>
+            <span class="key_label">esc</span>
+        </a>
+
+
+        <div class="contents_container">
+
+            <div class="contents">
+                <div id="channel_invite_modal" class="channel_modal_with_list channel_modal"><h1
+                        class="large_bottom_margin channel_modal_header"> Invite others to <i
+                        class="ts_icon ts_icon_lock"></i>{{ else }}<i class="ts_icon ts_icon_channel"></i>sadsa
+                </h1>
+                    <div id="private_channel_invite_step_one" class=""><p class="bold">Should new members be allowed to
+                        see the
+                        channel's message history?</p>
+                        <p><span class="bold">If Yes</span>, new members will be invited and will have access to this
+                            channel's entire
+                            message history.</p>
+                        <p><span class="bold">If No</span>, this channel will be renamed and archived. A new channel
+                            will be created
+                            with all current members plus the new ones you invite. You and other current members will
+                            see a link back to
+                            the original channel's archives. </p>
+                        <div>
+                            <button class="btn btn_info right_margin no_create_channel">No, start a new channel</button>
+                            <button class="btn btn_primary yes_show_history">Yes, show channel history</button>
+                        </div>
+                    </div>
+
+                    <div class="channel_invite_filter_container full_width hidden">
+                        <div class="float_right left_margin">
+                            <button class="btn btn_primary btn_large  preselected disabled invite_go ladda-button"
+                                    data-style="zoom-in"><span class="ladda-label">Invite</span></button>
+                            <div class="subtle_silver mini align_right tiny_right_margin return_hint">Return <i
+                                    class="ts_icon ts_icon_enter ts_icon_inherit"></i></div>
+                        </div>
+                    </div>
+                    <div id="filter_invite_empty"
+                         class="hidden align_center margin_auto display_flex align_items_center justify_content_center"><span
+                            class="filter_invite_empty_message"></span></div>
+
+                    <div id="channel_invite_container" class="page_needs_enterprise channel_modal_list
+             is_private hidden"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
