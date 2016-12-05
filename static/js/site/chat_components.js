@@ -406,14 +406,14 @@ var item_direct_filter = function (data, pos) {
 
 };
 
-var item_member_token = function (user) {
-    var avatar = "url('/static/images/roosty@2x.png')";
-    var item = '<div class="member_token " data-member-id="' + user + '">' +
-        '<span class=" member_preview_link member_image thumb_24" style="background-image: ' + avatar + '" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
+var item_member_token = function (member, avatar) {
+
+    var result = '<div class="member_token " data-member-id="' + member + '">' +
+        '<span class=" member_preview_link member_image thumb_24" style="background-image:  url(' + avatar + ')" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
         user +
         '<i class="ts_icon ts_icon_times ts_icon_inherit remove_member_icon"></i>' +
         '</div>';
-    return item;
+    return result;
 
 };
 
@@ -551,6 +551,16 @@ var calls_popover_invite = function () {
         '</div> </div> </div> </div>';
     return result;
 }
+var filter_select_container = function () {
+    var result = '<div class="lfs_input_container empty"> ' +
+        // '<ts-icon class="ts_icon_search ts_icon search_icon subtle_silver">' +
+        '</ts-icon> <div class="lfs_value"></div> ' +
+        '<input type="text" class="lfs_input" size="1" placeholder="Invite people to this call" >' +
+        '</div> <div class="lfs_list_container"> ' +
+        '<div class="lfs_list"></div> ' +
+        '</div> <div class="lfs_empty hidden"></div>';
+    return result;
+}
 var calls_popover_invite_error = function () {
     var result = '<div class="invite_menu sh_popover sh_popover_error" tabindex="-1"> ' +
         '<div class="content_wrapper">' +
@@ -561,7 +571,18 @@ var calls_popover_invite_error = function () {
     return result;
 }
 var calls_invitee = function (item) {
-    var result = '<div class="calls_invite_member"> {{{makeMemberPreviewLinkImage member.id 32 false true}}} <span class="name_container"> <span class="bold overflow_ellipsis"> {{#feature flag="feature_name_tagging_client"}} {{getMemberFullName member}} {{else}} {{getMemberDisplayName member}} {{/feature}} <span class="not_in_token">{{{makeMemberPresenceIcon member}}}</span> </span> {{#if member.profile.title}} <span class="subtle_silver not_in_token overflow_ellipsis">{{member.profile.title}}</span> {{/if}} </span> </div>';
+    var result = '<div class="calls_invite_member" data-member-id="' + item.user.username + '" data-img="' + item.image + '"> ' +
+        '<span class=" member_preview_link member_image thumb_32" ' +
+
+        ' style="background-image:url(' + item.image + ')"></span>' +
+        ' <span class="name_container"> <span class="bold overflow_ellipsis"> ' +
+        '' + item.user.first_name + item.user.last_name + ' ' +
+        '<span class="not_in_token"> <span class="presence active " title="active"><i class="ts_icon ts_icon_presence presence_icon"></i></span></span> ' +
+        '</span> ' +
+
+        '<span class="subtle_silver not_in_token overflow_ellipsis">' +
+        '' + item.user.username + ' </span>  </span> ' +
+        '</div>';
     return result;
 }
 var calls_popover_settings = function () {

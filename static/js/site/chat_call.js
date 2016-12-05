@@ -1,12 +1,11 @@
-var yourConn;
-var stream;
-var name;
-var connectedUser;
-
 $(document).ready(function () {
 
         window.history.replaceState("slack call ", "slack call ", "/call/" + roomname);
         var socket = new io.Socket(document.domain, {reconnection: true});
+        var yourConn;
+        var stream;
+        var name;
+        var connectedUser;
 
         userAuteticated();
         initView();
@@ -23,7 +22,7 @@ $(document).ready(function () {
             else if (action == "joined") {
                 socket.send({action: "callaccept", user_from: userlogged, room: roomname});
             }
-
+            Begin();
 
         });
 
@@ -35,14 +34,15 @@ $(document).ready(function () {
         var remoteVideo = $('#remoteVideo');
 
         function onmessage(msg) {
-
+            console.log("Got message", msg);
 
             switch (msg.action) {
 
                 //when somebody wants to call us
                 case "call_begin":
-                    Begin();
+
                     Offer(msg);
+
                     break;
                 case "call_decline":
                     alert("se fue");
@@ -76,9 +76,6 @@ $(document).ready(function () {
             updateView();
 
 
-            //**********************
-            //Starting a peer connection
-            //**********************
             if (hasUserMedia()) {
                 navigator.getMedia = (navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
@@ -100,7 +97,9 @@ $(document).ready(function () {
 
 
                         if (navigator.webkitGetUserMedia) {
+
                             yourConn = new webkitRTCPeerConnection(null);
+                            console.log(yourConn);
                         }
 
                         // setup stream listening
@@ -115,7 +114,7 @@ $(document).ready(function () {
                         yourConn.onicecandidate = function (event) {
                             if (event.candidate) {
                                 socket.send({
-                                    type: "candidate",
+                                    action: "candidate",
                                     candidate: event.candidate
                                 });
                             }
@@ -124,6 +123,7 @@ $(document).ready(function () {
                     }).catch(function (error) {
                         console.log(error);
                     });
+
                 }
                 else {
                     navigator.getMedia({video: false, audio: true},
@@ -139,7 +139,7 @@ $(document).ready(function () {
                             };
 
                             yourConn = new RTCPeerConnection(null);
-
+                            console.log(yourConn);
                             // setup stream listening
                             yourConn.addStream(stream);
 
@@ -150,9 +150,10 @@ $(document).ready(function () {
 
                             // Setup ice handling
                             yourConn.onicecandidate = function (event) {
+                                console.log('candidate');
                                 if (event.candidate) {
                                     socket.send({
-                                        type: "candidate",
+                                        action: "candidate",
                                         candidate: event.candidate
                                     });
                                 }
@@ -166,31 +167,31 @@ $(document).ready(function () {
 
             }
 
+
         }
 
 
         function Offer(data) {
 
             members(data.users);
-            if (data.length > 0) {
 
 
-
-                // create an offer
-                yourConn.createOffer(function (offer) {
-                    socket.send({
-                        type: "offer",
-                        offer: offer,
-                        user_from: userlogged,
-                        room: data.room
-                    });
-
-                    yourConn.setLocalDescription(offer);
-                }, function (error) {
-                    alert("Error when creating an offer");
+            // create an offer
+            yourConn.createOffer(function (offer) {
+                console.log('offer');
+                socket.send({
+                    action: "offer",
+                    offer: offer,
+                    user_from: userlogged,
+                    room: data.room
                 });
 
-            }
+                yourConn.setLocalDescription(offer);
+            }, function (error) {
+                alert("Error when creating an offer");
+            });
+
+
         }
 
 
@@ -199,28 +200,32 @@ $(document).ready(function () {
             members(data.users);
 
             connectedUser = name;
-            yourConn.setRemoteDescription(new RTCSessionDescription(data.offer));
+            yourConn.setRemoteDescription(new RTCSessionDescription(data.offer), function () {
+                yourConn.createAnswer(function (answer) {
+                    console.log(answer)
+                    yourConn.setLocalDescription(answer);
 
-            //create an answer to an offer
-            yourConn.createAnswer(function (answer) {
-                yourConn.setLocalDescription(answer);
+                    socket.send({
+                        action: "answer",
+                        answer: answer,
+                        user_from: userlogged,
+                        user_to: data.user_from,
+                        room: data.room
+                    });
 
-                socket.send({
-                    type: "answer",
-                    answer: answer,
-                    user_from: userlogged,
-                    user_to: data.user_from,
-                    room: data.room
+                }, function (error) {
+                    console.log(error);
+                    alert("Error when creating an answer", error);
                 });
-
-            }, function (error) {
-                alert("Error when creating an answer");
             });
+
+
         };
 
 //when we got an answer from a remote user
         function handleAnswer(data) {
             members(data.users);
+            console.log(data);
             yourConn.setRemoteDescription(new RTCSessionDescription(data.answer));
         };
 
@@ -347,15 +352,18 @@ var initView = function () {
     $("#calls_conference_content").append(calls_popover_settings());
     $("#calls_conference_content").append(calls_emoji_panel());
     $('#invite_icon').on('click', function () {
+        var invitemenu = new inviteMenu();
         if (!clicked) {
             $(this).addClass('active');
             $('.invite_menu').addClass('show');
             clicked = true;
+            invitemenu.startView();
         }
         else {
             $(this).removeClass('active');
             $('.invite_menu').removeClass('show');
             clicked = false;
+            invitemenu.close();
         }
 
     });
@@ -407,4 +415,118 @@ var initView = function () {
 
     });
 
+};
+
+function inviteMenu() {
+    var $invite_list_holder = $("#invite_list_holder");
+    var invite_users = [];
+    var $input_container;
+    var $lfs_value;
+    var i$input;
+    var $list_container;
+    var $list;
+    var $empty;
+
+
+    inviteMenu.prototype.startView = function () {
+
+        $invite_list_holder.append(filter_select_container());
+        $input_container = $invite_list_holder.find(".lfs_input_container");
+        $lfs_value = $invite_list_holder.find(".lfs_value");
+        i$input = $invite_list_holder.find(".lfs_input");
+        $list_container = $invite_list_holder.find(".lfs_list_container");
+        $list = $invite_list_holder.find(".lfs_list");
+        $empty = $invite_list_holder.find(".lfs_empty");
+        filterView('');
+        $list_container.on("input", "#lfs_input", function () {
+            var input = $("#lfs_input").val();
+            filterView(input);
+        });
+        $list_container.on("click", ".calls_invite_member", function () {
+            _selectRow($(this))
+
+        });
+        $("#invite_button").on("click", function () {
+
+
+        });
+        $(".invite_menu .open_share_ui_trigger").on("click", function () {
+            if (!$(".share_menu").length)
+                initSharePopover();
+
+        });
+
+    };
+
+    inviteMenu.prototype.close = function () {
+        $invite_list_holder.empty();
+        $list_container.unbind('input').off("input", "#lfs_input", function () {
+
+        });
+        $list_container.unbind('click').off("click", ".calls_invite_member", function () {
+
+
+        });
+        $("#invite_button").unbind('click').off("click", function () {
+
+
+        });
+    };
+
+    function _selectRow(row) {
+        var member = row.attr('data-member-id');
+        var avatar = row.attr('data-img');
+
+        invite_users.push(member);
+        $(".lfs_input_container .lfs_value ").append(item_member_token(member, avatar));
+        $(".lfs_input_container .lfs_input").focus().val('').removeAttr('placeholder');
+        var input = $("#lfs_input").val();
+        filterView(input);
+        _updateGo();
+
+
+    }
+
+    function filterView(input) {
+
+
+        var exc = function (data) {
+            $list.empty();
+
+            $.each(data, function (index, item) {
+                if ($.inArray(item.user.username, invite_users) == -1) {
+                    $list.append(calls_invitee(item));
+                }
+
+
+            });
+        };
+        var urlapi = apiUrl + 'usercomapny';
+        $.when(users_online()).done(function () {
+            request(urlapi, 'POST', null, {term: input}, exc, null);
+        });
+    }
+
+    function _updateGo() {
+        if (invite_users.length) {
+            $("#invite_button").removeAttr("disabled")
+        } else {
+            $("#invite_button").attr("disabled")
+        }
+
+    };
+
+}
+function initSharePopover() {
+
+};
+
+var users_online = function () {
+    var exc = function (response) {
+        $('#active_members_count_value').html(response.length);
+        window.users_logged = response.length;
+    };
+
+    var urlapi = apiUrl + companyuser + '/users-logged/';
+    request(urlapi, 'GET', null, null, exc, null);
 };
