@@ -16,7 +16,8 @@
         var userFileActive = userlogged, localtime = {% now 'U' %}, sendTo = {type: '', to: ''};
     </script>
     <script>
-        var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.user_profile.company.slug }}';
+        var userlogged = '{{ request.user.username }}', companyuser = '{{ request.user.user_profile.company.slug }}',
+                image = '{{ request.user.user_profile.image}}';
         apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
                 hostUrl = window.location.protocol + '//' + window.location.host;
         var usersjoined = [];
@@ -38,4 +39,5 @@
 
 {% block js %}
     <script type="text/javascript" src="{% static 'js/site/chat_call.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/chat_components.js' %}"></script>
 {% endblock %}

@@ -24,7 +24,12 @@ $(document).ready(function () {
             if (msg) {
                 var message = $(this).val();
 
-                socket.send({user_to: activeChannel, message: $(this).val().trim(), user_from: userlogged});
+                socket.send({
+                    action: "message",
+                    user_to: activeChannel,
+                    message: $(this).val().trim(),
+                    user_from: userlogged
+                });
                 $("#message-input").val("");
                 e.preventDefault();
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');

@@ -6,6 +6,9 @@ from django.utils.html import strip_tags
 from django_socketio import events, send, broadcast, broadcast_channel, NoSocket
 from plataforma.models import *
 from django.utils import timezone
+import json
+
+from plataforma.serializers import ProfileSerializer
 
 
 def message(request, socket, context, message):
@@ -39,9 +42,12 @@ def call(request, socket, context, message):
 
 def callaccept(request, socket, context, message):
     room = RoomCall.objects.get(name=message['room'])
+    users = ProfileSerializer(room.users.all(), many=True)
 
     socket.send_and_broadcast_channel(
-        {"action": "call_begin", "user_from": message["user_from"], "room": room.name})
+        {"action": "call_begin", "user_from": message["user_from"], "room": room.name,
+         "users": users.data
+         })
 
 
 def calldecline(request, socket, context, message):
@@ -52,29 +58,35 @@ def calldecline(request, socket, context, message):
 
 
 def offer(request, socket, context, message):
+    print 'ower'
     room = RoomCall.objects.get(name=message['room'])
 
+    users = ProfileSerializer(room.users.all(), many=True)
     socket.send_and_broadcast_channel({
         'action': "offer",
         'offer': message['offer'],
         'user_from': request.user.username,
-        "room": room.name
+        "room": room.name,
+        "users": users.data
 
     })
 
 
 def answer(request, socket, context, message):
+    print 'answer'
     room = RoomCall.objects.get(name=message['room'])
-
+    users = ProfileSerializer(room.users.all(), many=True)
     socket.send_and_broadcast_channel({
         'action': "answer",
         'answer': message['answer'],
         'user_from': request.user.username,
-        "room": room.name
+        "room": room.name,
+        "users": users.data
     })
 
 
 def candidate(request, socket, context, message):
+    print 'candidate'
     socket.send_and_broadcast_channel({
         'action': "candidate",
         'candidate': message['candidate'],
@@ -114,22 +126,23 @@ def on_connect(request, socket, context):
 
 @events.on_message
 def message(request, socket, context, message):
-    user_to = User.objects.get(username=message["user_from"])
+    print message
+    if message['action'] == "message":
+        user_to = User.objects.get(username=message["user_from"])
+        if request.user.is_authenticated and user_to:
+            profile = Profile.objects.get(user__username=message["user_to"])
+            msg = MessageInstEvent.objects.create(user_to=profile.user, user_from=request.user, msg=message["message"],
+                                                  type="message_int_event")
 
-    if request.user.is_authenticated and user_to:
-        profile = Profile.objects.get(user__username=message["user_to"])
-        msg = MessageInstEvent.objects.create(user_to=profile.user, user_from=request.user, msg=message["message"],
-                                              type="message_int_event")
+            try:
 
-        try:
-
-            message["action"] = "message"
-            message["user_to"] = profile.user.username
-            message["user_from"] = user_to.username
-            message["date_pub"] = str(msg.date_pub.isoformat())
-            send(profile.socketsession, message)
-        except NoSocket as e:
-            send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+                message["action"] = "message"
+                message["user_to"] = profile.user.username
+                message["user_from"] = user_to.username
+                message["date_pub"] = str(msg.date_pub.isoformat())
+                send(profile.socketsession, message)
+            except NoSocket as e:
+                send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 @events.on_subscribe
@@ -149,7 +162,8 @@ def subcribe(request, socket, context, channel):
 
 @events.on_message(channel="^[0-9a-zA-Z_-]+$")
 def messagechanel(request, socket, context, message):
-    action = message["action"]
+    print 'inchannel'
+    action = message['action']
     func = optionchannel.get(action, lambda: "nothing")
     func(request, socket, context, message)
 
@@ -166,6 +180,8 @@ def disconect(request, socket, context):
 
 @events.on_finish(channel="^[0-9a-zA-Z_-]+$")
 def finish(request, socket, context):
-    """
-    Algo
-    """
+    RoomCall.objects.filter(usercreator__user__username=request.user.username).delete()
+    socket.send_and_broadcast_channel({
+        'action': "finish",
+
+    })

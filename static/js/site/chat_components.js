@@ -406,14 +406,14 @@ var item_direct_filter = function (data, pos) {
 
 };
 
-var item_member_token = function (user) {
-    var avatar = "url('/static/images/roosty@2x.png')";
-    var item = '<div class="member_token " data-member-id="' + user + '">' +
-        '<span class=" member_preview_link member_image thumb_24" style="background-image: ' + avatar + '" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
+var item_member_token = function (member, avatar) {
+
+    var result = '<div class="member_token " data-member-id="' + member + '">' +
+        '<span class=" member_preview_link member_image thumb_24" style="background-image:  url(' + avatar + ')" data-member-id="U2KQ35L2Z" data-thumb-size="24" ></span>' +
         user +
         '<i class="ts_icon ts_icon_times ts_icon_inherit remove_member_icon"></i>' +
         '</div>';
-    return item;
+    return result;
 
 };
 
@@ -513,4 +513,84 @@ var urlFile = function (item) {
         return [item.file_up, item_file_file_detail(item, userurl, date), 'data-type="file"'];
 };
 
+var item_participan = function (image, name) {
+    //audio_muted  screen_share poor_connection invite_cancel selected user_selected
+    var result = '<div  data-participant-id="' + name + '"' +
+        'class="participant  connected selected  ts_tip ts_tip_bottom ts_tip_float ts_tip_multiline playing ts_tip_hidden">' +
+        '<div class="reaction_container"></div>' +
+        '<div class="calls_participant_">' +
+        '<div class="boomer"' +
+        'style="transform: scale(1, 1); transition-duration: 508.34ms; transition-timing-function: cubic-bezier(0.665, -0.065, 0.852, 0.616);"></div>' +
+        '<div class="participant_avatar_container participant_content_container">' +
+        '<span class=" member_preview_link member_image thumb_192" data-member-id="U2KQ0HRD3"' +
+        'data-thumb-size="192"' +
+        ' style="background-image:' + image + '"></span>' +
+
+        '</div>' +
+        '<i class="ts_icon ts_icon_share_screen screen_share"></i>' +
+        '<i class="ts_icon ts_icon_microphone_slash mute_audio"></i>' +
+        '<i class="ts_icon ts_icon_exclamation_circle poor_connection_indicator"></i>' +
+        '<i class="ts_icon ts_icon_times invite_cancel_indicator"></i>' +
+
+        '<div class="participant_video_container participant_content_container">' +
+        '<video class="video" muted="true" autoplay=""></video>' +
+        '</div>' +
+        '<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">' + name + '</span></span></div>';
+    return result;
+}
+var calls_popover_invite = function () {
+    var result = ' <div class="invite_menu sh_popover menu" role="menu" no-bootstrap="1"> ' +
+        '<div id="invite_popover" class="content_wrapper"> ' +
+        '<div id="invite_menu" class="content"> ' +
+        '<div id="invite_header" class="clearfix"> ' +
+        '<span id="invite_people">Invite people</span> ' +
+        '<a id="share_link" class="open_share_ui_trigger sh_popover_trigger">Share link instead</a>' +
+        ' </div> <div id="invite_list_holder"> ' +
+        '</div> <div id="invite_button_holder"> ' +
+        '<button id="invite_button" class="btn sh_popover_trigger" disabled>Invite</button> ' +
+        '</div> </div> </div> </div>';
+    return result;
+}
+var filter_select_container = function () {
+    var result = '<div class="lfs_input_container empty"> ' +
+        // '<ts-icon class="ts_icon_search ts_icon search_icon subtle_silver">' +
+        '</ts-icon> <div class="lfs_value"></div> ' +
+        '<input type="text" class="lfs_input" size="1" placeholder="Invite people to this call" >' +
+        '</div> <div class="lfs_list_container"> ' +
+        '<div class="lfs_list"></div> ' +
+        '</div> <div class="lfs_empty hidden"></div>';
+    return result;
+}
+var calls_popover_invite_error = function () {
+    var result = '<div class="invite_menu sh_popover sh_popover_error" tabindex="-1"> ' +
+        '<div class="content_wrapper">' +
+        ' <div class="content align_center"> ' +
+        '<div class="sh_popover_error_text indifferent_grey">Only paid teams can share calls between more than two people at a time.</div> ' +
+        '<div class="top_margin"><a href="https://get.slack.help/hc/en-us/articles/216771908" target="_blank" class="btn btn_outline">Learn more</a' +
+        '></div> </div> </div> </div>  ';
+    return result;
+}
+var calls_invitee = function (item) {
+    var result = '<div class="calls_invite_member" data-member-id="' + item.user.username + '" data-img="' + item.image + '"> ' +
+        '<span class=" member_preview_link member_image thumb_32" ' +
+
+        ' style="background-image:url(' + item.image + ')"></span>' +
+        ' <span class="name_container"> <span class="bold overflow_ellipsis"> ' +
+        '' + item.user.first_name + item.user.last_name + ' ' +
+        '<span class="not_in_token"> <span class="presence active " title="active"><i class="ts_icon ts_icon_presence presence_icon"></i></span></span> ' +
+        '</span> ' +
+
+        '<span class="subtle_silver not_in_token overflow_ellipsis">' +
+        '' + item.user.username + ' </span>  </span> ' +
+        '</div>';
+    return result;
+}
+var calls_popover_settings = function () {
+    var result = '<div class="settings_menu sh_popover audio_not_supported {{#if video_enabled}}video_enabled{{/if}} {{#if screen_sharing_enabled}}screen_sharing_enabled{{/if}}"> <div id="settings_popover" class="content_wrapper"> <div id="settings_menu" class="content clearfix menu" role="menu"> <div id="settings_audio"> <h4>Audio settings</h4> <div id="settings_audio_input_devices_holder" class="settings_select_holder"> <select id="settings_audio_input_devices"> </select> <i class="ts_icon ts_icon_microphone"></i> <i class="ts_icon ts_icon_caret_down"></i> </div> <div id="settings_audio_output_meter" class=""> {{#repeat 13 ~}} <span></span> {{~/repeat}} </div> <div id="settings_audio_output_devices_holder" class="settings_select_holder"> <select id="settings_audio_output_devices"> </select> <i class="ts_icon ts_icon_volume_up"></i> <i class="ts_icon ts_icon_caret_down"></i> </div> <div id="settings_audio_test_playback"> <a>Play test sound</a> </div> <div id="settings_audio_not_supported"> Slack will choose your mic & speaker based on what set in your system settings. To select a specific audio device, please install the Mac or Windows desktop app. </div> </div> {{#if video_enabled}} <div id="settings_video"> <h4>Video settings</h4> <div id="settings_video_input_devices_holder" class="settings_select_holder"> <select id="settings_video_input_devices"> </select> <i class="ts_icon ts_icon_video_camera"></i> <i class="ts_icon ts_icon_caret_down"></i> </div> <div id="settings_video_output_display" class=""> </div> {{#if screen_sharing_enabled}} <h4>Screen sharing settings</h4> <div id="settings_screens_holder" class="settings_select_holder"> <select id="settings_screens"> </select> <i class="ts_icon ts_icon_share_screen"></i> <i class="ts_icon ts_icon_caret_down"></i> </div> {{/if}} </div> {{/if}} </div> </div> </div>';
+    return result;
+}
+var calls_emoji_panel = function () {
+    var result = '<div class="emoji_panel sh_popover {{#if video_enabled}}video_enabled{{/if}} {{#if screen_sharing_enabled}}screen_sharing_enabled{{/if}}" tabindex="-1"> <div id="emoji_popover" class="content_wrapper"> <div class="content normal_padding menu" role="menu"> <h3 class="no_bottom_margin">Send reaction</h3> <div class="emojis top_margin bottom_margin"> {{#each emoji}} <div class="emoji_container"> {{this}} </div> {{/each}} </div> <p class="no_bottom_margin">Send a reaction to everyone on the call, just like that!</p> </div> </div> </div>';
+    return result;
+}
 

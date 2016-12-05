@@ -36,13 +36,53 @@
         </div>
 
         <div class="participants_container show">
-            <div id="participants"></div>
+            <div id="participants">
+                <div data-slack-id="U2KQ0HRD3" data-participant-id="1844504326"
+                     class="participant   publisher  ts_tip ts_tip_bottom ts_tip_float ts_tip_multiline playing ts_tip_hidden">
+                    <div class="reaction_container"></div>
+                    <div class="calls_participant_">
+                        <div class="boomer"
+                             style="transform: scale(1, 1); transition-duration: 508.34ms; transition-timing-function: cubic-bezier(0.665, -0.065, 0.852, 0.616);"></div>
+                        <div class="participant_avatar_container participant_content_container">
+                    <span class=" member_preview_link member_image thumb_192" data-member-id="U2KQ0HRD3"
+                          data-thumb-size="192"
+                          style="background-image: url('/static/images/ava_0022-48.png')"
+                          aria-hidden="true"></span>
+
+                        </div>
+                        <i class="ts_icon ts_icon_share_screen screen_share"></i>
+                        <i class="ts_icon ts_icon_microphone_slash mute_audio"></i>
+                        <i class="ts_icon ts_icon_exclamation_circle poor_connection_indicator"></i>
+                        <i class="ts_icon ts_icon_times invite_cancel_indicator"></i>
+                        <div class="spinner">
+                            <div class="infinite_spinner infinite_spinner_small">
+                                <svg class="infinite_spinner_spinner  " viewBox="0 0 100 100">
+                                    <circle class="infinite_spinner_bg" cx="50%" cy="50%" r="35"></circle>
+                                    <circle class="infinite_spinner_path infinite_spinner_white " cx="50%" cy="50%"
+                                            r="35"></circle>
+                                </svg>
+                                <svg class="infinite_spinner_spinner infinite_spinner_tail " viewBox="0 0 100 100">
+                                    <circle class="infinite_spinner_path infinite_spinner_white" cx="50%" cy="50%"
+                                            r="35"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="participant_video_container participant_content_container">
+                        <video class="video" muted="true" autoplay=""></video>
+                    </div>
+                    <span class="ts_tip_tip"><span class="ts_tip_multiline_inner">You</span></span></div>
+            </div>
             <div class="participants_fade participants_fade_before participants_fade_invisible"></div>
-            <div class="participants_fade participants_fade_after participants_fade_invisible"></div>
+            <div class="participants_fade participants_fade_after participants_fade_invisible ">
+
+
+            </div>
         </div>
     </div>
 
     <div id="invite_container" class="show">
+
         <div id="invite_icon" class="sh_big_button open_invite_ui_trigger sh_popover_trigger ts_tip ts_tip_bottom">
             <i class="ts_icon ts_icon_plus"></i>
             <span class="ts_tip_tip">Invite people</span>
@@ -70,7 +110,7 @@
 
     <div id="active_participant_container" class="centered_container show">
         <div id="active_participant_content" class="centered_content">
-            <div id="active_participant_avatar_holder" class="active_participant_content_container">
+            <div id="active_participant_avatar_holder" class="active_participant_content_container ">
                 <div class="reaction_container"></div>
                 <div class="boomer"></div>
                 <div id="active_participant_avatar" class="avatar"></div>
@@ -115,8 +155,42 @@
             </div>
         </div>
     </div>
+    <div class="local_participant_container show">
+        <div data-slack-id="U2KQ0HRD3" data-participant-id="1844504326"
+             class="participant connected  publisher  ts_tip ts_tip_bottom ts_tip_float ts_tip_multiline playing ts_tip_hidden">
+            <div class="reaction_container"></div>
+            <div class="calls_participant_">
+                <div class="boomer"
+                     style="transform: scale(1, 1); transition-duration: 508.34ms; transition-timing-function: cubic-bezier(0.665, -0.065, 0.852, 0.616);"></div>
+                <div class="participant_avatar_container participant_content_container">
+                    <span class=" member_preview_link member_image thumb_192" data-member-id="U2KQ0HRD3"
+                          data-thumb-size="192"
+                          style="background-image: url('/static/images/ava_0022-48.png')"
+                          aria-hidden="true"></span>
 
-    <div class="local_participant_container">
+                </div>
+                <i class="ts_icon ts_icon_share_screen screen_share"></i>
+                <i class="ts_icon ts_icon_microphone_slash mute_audio"></i>
+                <i class="ts_icon ts_icon_exclamation_circle poor_connection_indicator"></i>
+                <i class="ts_icon ts_icon_times invite_cancel_indicator"></i>
+                <div class="spinner">
+                    <div class="infinite_spinner infinite_spinner_small">
+                        <svg class="infinite_spinner_spinner  " viewBox="0 0 100 100">
+                            <circle class="infinite_spinner_bg" cx="50%" cy="50%" r="35"></circle>
+                            <circle class="infinite_spinner_path infinite_spinner_white " cx="50%" cy="50%"
+                                    r="35"></circle>
+                        </svg>
+                        <svg class="infinite_spinner_spinner infinite_spinner_tail " viewBox="0 0 100 100">
+                            <circle class="infinite_spinner_path infinite_spinner_white" cx="50%" cy="50%"
+                                    r="35"></circle>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="participant_video_container participant_content_container">
+                <video class="video" muted="true" autoplay=""></video>
+            </div>
+            <span class="ts_tip_tip"><span class="ts_tip_multiline_inner">You</span></span></div>
     </div>
 
     <div id="terminal_container" class="centered_container ">
@@ -129,17 +203,7 @@
             <button class="btn cancel">Close</button>
         </div>
     </div>
-    <div class="invite_menu sh_popover sh_popover_error show" tabindex="-1">
-        <div class="content_wrapper">
-            <div class="content align_center">
-                <div class="sh_popover_error_text indifferent_grey">Only paid teams can share calls between more than
-                    two people at a time.
-                </div>
-                <div class="top_margin"><a href="https://get.slack.help/hc/en-us/articles/216771908" target="_blank"
-                                           class="btn btn_outline">Learn more</a></div>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 
