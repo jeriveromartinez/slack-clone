@@ -198,7 +198,9 @@ var file_comments_msg = function (comments) {
 };
 
 var item_file = function (fileSlug, owner, dateCreate, title, comments, profileUrl, obj) {
-    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '" data-file-url="' + urlFile(obj)[0] + '"></button></div>';
+    var item = '<div class="actions"><button class="file_actions btn_icon btn_outline btn ts_icon ts_icon_ellipsis ts_tip_btn ts_tip ts_tip_top" ' +
+        'data-placement="bottom" data-toggle="tooltip" data-original-title="More actions" data-file="' + fileSlug + '" ' +
+        'data-owner="' + obj.author.user.username + '" data-file-url="' + urlFile(obj)[0] + '"></button></div>';
     if (get_icon(obj) == 'filetype_image') {
         item = '<div id="' + fileSlug + '" class="file_list_item file_item hosted has_image" data-url="' + fileSlug + '">' + item;
         item += '<i class="' + get_icon(obj) + '" style="background-size:contain;background: url(' + obj.image_up + ');"></i>';
@@ -206,23 +208,26 @@ var item_file = function (fileSlug, owner, dateCreate, title, comments, profileU
         item = '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '">' + item;
         item += '<i class="' + get_icon(obj) + '"></i>';
     }
-    item += '<div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' + comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
+    item += '<div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' + comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
     return item;
 };
 
 var item_file_detail = function (item) {
-    var file = '<div id="file_preview_head_section" data-file="' + item.slug + '">' + urlFile(item)[1] + '\
-    <div id="file_preview_comments_section" ' + urlFile(item)[2] + '><div class="comments"></div></div><div class="comment_form"><a href="https://blackmambasoft.slack.com/team/jeriverom" class="member_preview_link" target="_blank">\
-			<span class="member_image thumb_36" style="background-image: url();"></span></a>\
-	<textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" autocorrect="off" autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual">\
-</textarea><button id="file_comment_submit_btn" class="btn btn_small float_right ladda-button" ><span class="ladda-label">Add Comment</span></button></div>';
-    return file;
+    var userUrl = '/account/profile/' + item.author.user.username + '/', file = urlFile(item);
+    return '<div id="file_preview_head_section" data-file="' + item.slug + '">' + file[1] + '\
+    <div id="file_preview_comments_section" ' + file[2] + '><div class="comments"></div></div><div class="comment_form">\
+    <a href="' + userUrl + '" class="member_preview_link" target="_blank">\
+			<span class="member_image thumb_36" style="background-image: url(' + item.author.image + '), url(/static/images/ava_0022-48.png)"></span></a>\
+	<textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" autocorrect="off" \
+	autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual">\
+</textarea><button id="file_comment_submit_btn" class="btn btn_small float_right ladda-button" ><span \
+class="ladda-label">Add Comment</span></button></div>';
 };
 
 var item_code_file_detail = function (username, userUrl, picture, filename, dateCreate, code, urlFile, slug) {
     return '<div class="file_preview_title">\
 	<div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + picture + ');" class="member_image thumb_36 member_preview_link  "></a>\
+		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + picture + '), url(/static/images/ava_0022-48.png);" class="member_image thumb_36 member_preview_link  "></a>\
 		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
 		<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/jeriverom/F34T6SPPC/test.cs" class="">' + filename + '</a>\
 			<span class="no_wrap"></span></span>\
@@ -243,7 +248,7 @@ var item_code_file_detail = function (username, userUrl, picture, filename, date
 
 var item_image_file_detail = function (title, slug, username, userurl, userimage, image, date) {
     return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="' + userurl + '" target="_blank" style="background-image: url(' + userimage + ');" class="member_image thumb_36 member_preview_link"></a>\
+		<a href="' + userurl + '" target="_blank" style="background-image: url(' + userimage + '), url(/static/images/ava_0022-48.png);" class="member_image thumb_36 member_preview_link"></a>\
 		<span class="color_4bbe2e"><a href="' + userurl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
 		<span class="title break_word">\
 				<a href="' + image + '" target="_blank" class="file_viewer_channel_link file_viewer_link">' + title + '</a>\
@@ -284,8 +289,9 @@ var item_image_file_detail = function (title, slug, username, userurl, userimage
 
 var item_file_file_detail = function (item, userUrl, date) {
     return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="/team/jeriverom" target="_blank" style="background-image: url(' + item.author.image + ')" class="member_image thumb_36 member_preview_link"></a>\
-		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link" >' + item.author.user.username + '</a></span>\
+		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + item.author.image + '), url(/static/images/ava_0022-48.png)" class="member_image thumb_36 member_preview_link"></a>\
+		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link" >'
+        + item.author.user.username + '</a></span>\
 		<span class="title break_word">\
 				<a href="' + item.file_up + '" target="_blank">' + item.title + '</a>\
 			<span class="no_wrap"></span></span>\
@@ -297,7 +303,8 @@ var item_file_file_detail = function (item, userUrl, date) {
 							<a class="ts_tip ts_tip_bottom ts_tip_rightish file_new_window_link" href="' + item.file_up + '" target="_blank">\
 								<span class="ts_tip_btn ts_icon ts_icon_external_link"></span>\
 								<span class="ts_tip_tip">Open in new window</span></a></li>\
-			<li class="file_action_item inline_block" data-action="more" data-url="' + item.file_up + '" data-slug="' + item.slug + '"><a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
+			<li class="file_action_item inline_block" data-action="more" data-url="' + item.file_up + '" data-slug="' + item.slug + '">\
+			<a class="ts_tip ts_tip_bottom ts_tip_right file_actions">\
 					<span class="ts_tip_btn ts_icon ts_icon_ellipsis_o"></span>\
 					<span class="ts_tip_tip">More actions</span></a></li></ul></div></div>\
 	<div id="file_edit_title_container" class="hidden">\
@@ -312,8 +319,8 @@ var item_file_file_detail = function (item, userUrl, date) {
 				<i class="ts_icon ts_icon_arrow_down binary"></i></i>\
 		<h4 class="file_header_title generic_header_title overflow_ellipsis">' + item.title + '</h4>\
 		<p class="file_header_meta generic_header_meta">\
-				<span class="meta_size"><!--16MB--></span><span class="meta_hover_placement">\
-				<span class="meta_type overflow_ellipsis"><!--Binary--></span><span class="meta_hover overflow_ellipsis">\
+				<span class="meta_size">' + (Number(item.size) / 1048576).toFixed(2) + 'MB</span><span class="meta_hover_placement">\
+				<span class="meta_type overflow_ellipsis">' + item.type + '</span><span class="meta_hover overflow_ellipsis">\
 						Click to download</span></span></p></a></div><div class="clear_both"></div></div>\
 <div class="file_preview_meta"><p class="file_meta hosted"><span class="date">' + date + '</span>\
 		<span class="bullet">•</span><a href="' + item.file_up + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link"><!--16MB--> <span><!--Binary--></span></a>\
@@ -324,7 +331,7 @@ var item_file_file_detail = function (item, userUrl, date) {
 
 var item_post_file_detail = function () {
     return '<div class="file_preview_title"><div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="/team/jeriverom" target="_blank" style="background-image: url()" class="member_image thumb_36 member_preview_link"></a>\
+		<a href="/team/jeriverom" target="_blank" style="background-image: url(), url(/static/images/ava_0022-48.png)" class="member_image thumb_36 member_preview_link"></a>\
 		<span class="color_4bbe2e"><a href="/team/jeriverom" target="_blank" class="message_sender color_4bbe2e member member_preview_link">jeriverom</a></span>\
 		<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/jeriverom/F352EDYQJ/-" target="_blank" class="file_new_window_link">Draft post</a>\
 			<span class="no_wrap"></span></span>\
@@ -357,10 +364,14 @@ var item_post_file_detail = function () {
 };
 
 var item_file_comment = function (username, userUrl, picture, dateCreate, comment) {
-    return '<div class="comment"><span class="no_print"><a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: url(' + picture + ');" aria-hidden="true"></a>\
-</span><p class="comment_meta"><span class="no_print"><a href="/account/profile/' + username + '/" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
+    return '<div class="comment"><span class="no_print"><a href="' + userUrl + '" target="_blank" ' +
+        'class=" member_preview_link member_image thumb_36" style="background-image: url(' + picture + '), url(/static/images/ava_0022-48.png);" \
+        aria-hidden="true"></a>\
+</span><p class="comment_meta"><span class="no_print"><a href="/account/profile/' + username + '/" target="_blank" ' +
+        'class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
 		<span class="print_only_inline"><strong>' + username + '</strong> • </span>\
-		<span class="comment_date_star_cog">' + dateCreate + '<span class="no_print"></span><a class="comment_actions"><i class="comment_cog ts_icon ts_icon_cog ts_icon_inherit"></i></a>\
+		<span class="comment_date_star_cog">' + dateCreate + '<span class="no_print"></span><a class="comment_actions">\
+		<i class="comment_cog ts_icon ts_icon_cog ts_icon_inherit"></i></a>\
 		</span></p><div class="comment_body">' + comment + '</div><div class="rxn_panel"></div></div>';
 };
 

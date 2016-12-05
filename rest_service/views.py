@@ -165,9 +165,9 @@ def users_logged(request, company):
 @api_view(['GET'])
 def get_files(request, username, type, company=None):
     if company is None:
-        files = type_file_by_user(type=type, username=username)
+        files = type_file_by_user(type=type, me=request.user.username, user=username)
     else:
-        files = type_file_by_company(type=type, company_slug=company)
+        files = type_file_by_company(type=type, user=username)
 
     data = []
     for file in files:
@@ -192,6 +192,33 @@ def get_comments_files(request, file_slug):
     comments = FilesComment.objects.filter(file_up__slug=file_slug)[:10:1]
     serializer = FileCommentsSerializer(comments, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def share_file(request, slug):
+    post = request.POST
+    try:
+        file = SlackFile.objects.get(slug=slug)
+
+        cond, shrared_to = post['shared'].split('_')
+        if cond == "channel":
+            room = Room.objects.get(slug=shrared_to)
+            for item in room.users.all():
+                file.shared_to.add(item.user)
+            FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event', file_up=file)
+            file.save()  # TODO: send notifications if user is connect
+        else:
+            user = User.objects.get(username=shrared_to)
+            file.shared_to.add(user)
+            FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event', file_up=file)
+            file.save()
+
+        if post['comment']:
+            FilesComment.objects.create(file_up=file, comment=post['comment'], user=request.user)
+        return Response({'success': 'ok'})
+    except Exception as e:
+        print e.message
+        return Response({'success': 'false'})
 
 
 @api_view(['GET'])
@@ -423,37 +450,56 @@ def snippet_create(request):
         return Response({'success': 'false'})
 
 
-def type_file_by_user(type, username):
+def type_file_by_user(type, me, user):
     files = None
     if type == "post":
-        files = Post.objects.filter(author__user__username=username)
+        files = Post.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+            author__user__username__exact=user))
     if type == "snippets":
-        files = Snippet.objects.filter(author__user__username=username)
+        files = Snippet.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+            author__user__username__exact=user))
     if type == "gdocs":
-        files = GoogleDocs.objects.filter(author__user__username=username)
+        files = GoogleDocs.objects.filter(
+            (Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+                author__user__username__exact=user))
     if type == "docs":
-        files = FilesUp.objects.filter(author__user__username=username)
+        files = FilesUp.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+            author__user__username__exact=user))
     if type == "images":
-        files = ImageUp.objects.filter(author__user__username=username)
+        files = ImageUp.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+            author__user__username__exact=user))
     if files is None:
-        files = SlackFile.objects.filter(author__user__username=username)
+        files = SlackFile.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
+            author__user__username__exact=user))
     return files
 
 
-def type_file_by_company(type, company_slug):
+def type_file_by_company(type, user):
     files = None
     if type == "post":
-        files = Post.objects.filter(author__company__slug=company_slug)
+        files = Post.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     if type == "snippets":
-        files = Snippet.objects.filter(author__company__slug=company_slug)
+        files = Snippet.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     if type == "gdocs":
-        files = GoogleDocs.objects.filter(author__company__slug=company_slug)
+        files = GoogleDocs.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     if type == "docs":
-        files = FilesUp.objects.filter(author__company__slug=company_slug)
+        files = FilesUp.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     if type == "images":
-        files = ImageUp.objects.filter(author__company__slug=company_slug)
+        files = ImageUp.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     if files is None:
-        files = SlackFile.objects.filter(author__company__slug=company_slug)
+        files = SlackFile.objects.filter(
+            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
+            'slug')
     return files
 
 

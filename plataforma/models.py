@@ -79,7 +79,7 @@ class RoomCall(models.Model):
 class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
     author = models.ForeignKey(Profile, related_name='file_up_owner', on_delete=models.CASCADE)
-    shared_to = models.ManyToManyField(User, related_name='file_up_shared_to')
+    shared_to = models.ManyToManyField(User)
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
 
@@ -203,9 +203,16 @@ class GoogleDocs(SlackFile):
 
 class FilesUp(SlackFile):
     file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return 'files_up - ' + self.uploaded.__str__()
+
+    def save(self, *args, **kwargs):
+        self.type = self.file_up.name.lower().split('.')[-1]
+        self.size = self.file_up.size
+        super(FilesUp, self).save(*args, **kwargs)
 
 
 class ImageUp(SlackFile):

@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^files/upload/(?P<from_user>[0-9a-zA-Z_-]+)/$', 'rest_service.views.save_files', name='api-files-save'),
     url(r'^files/comment/(?P<file_slug>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_comments_files',
         name='api_file_comment'),
+    url(r'^files/share/(?P<slug>[0-9a-zA-Z_-]+)/$', 'rest_service.views.share_file',
+        name='api_file_share'),
     url(r'^files/detail/(?P<file>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_details_file', name='api-file-detail'),
     url(r'^files/detail/(?P<file>[0-9a-zA-Z_-]+)/(?P<user_post>[0-9a-zA-Z_-]+)/$',
         'rest_service.views.get_details_file', name='api-file-add-comment'),

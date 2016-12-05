@@ -8,10 +8,12 @@
         </li>
         <li class="divider"></li>
         <li id="edit_file_space" role="menuitem"><a href="#EDIT_FILE#" target="_blank"> Edit … </a></li>
-        <li class="divider"></li>
-        <li id="delete_file" class="danger" role="menuitem">
-            <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
-        </li>
+        <div id="element_delete">
+            <li class="divider"></li>
+            <li id="delete_file" class="danger" role="menuitem">
+                <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
+            </li>
+        </div>
     </ul>
 </div>
 
@@ -21,10 +23,12 @@
         <li id="copy_file_link" role="menuitem"><a data-url="#URL_LINK#" data-action="copy">Copy link</a></li>
         {% comment %}<li class="divider"></li>
         <li id="edit_file_title" role="menuitem"><a>Rename …</a></li>{% endcomment %}
-        <li class="divider"></li>
-        <li id="delete_file" class="danger" role="menuitem">
-            <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
-        </li>
+        <div id="element_delete">
+            <li class="divider"></li>
+            <li id="delete_file" class="danger" role="menuitem">
+                <a data-url="#URL_DELETE#" data-action="delete"> Delete file </a>
+            </li>
+        </div>
     </ul>
 </div>
 

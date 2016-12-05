@@ -22,6 +22,8 @@ window.getArrayByObject = function (arrayObjects) {
     return ret;
 };
 
+var isCompany = true;
+
 $(document).ready(function () {
     //menu more items options
     $('#menu').on('click.menu_items', 'li[role="menuitem"]', function () {
@@ -31,9 +33,11 @@ $(document).ready(function () {
                 break;
             case 'files_all':
                 user_all_files(); //get all company's files
+                isCompany = true;
                 break;
             case 'files_user':
                 user_files(userFileActive); //get all user's files
+                isCompany = false;
                 break;
         }
         $('#client-ui').addClass('flex_pane_showing');
@@ -53,6 +57,8 @@ $(document).ready(function () {
             },
             optionMenu = {height: '32%'};
         positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
+        if (userlogged != $(this).attr('data-owner'))
+            $($('#menu.menu').find('#element_delete')[0]).hide();
         event.stopPropagation();
     });
 
@@ -60,12 +66,16 @@ $(document).ready(function () {
     $('#back_from_file_preview').on('click', function () {
         $('#file_preview_container').addClass('hidden');
         $('#file_list_container').removeClass('hidden');
-        user_files(userFileActive);
+        if (!isCompany)
+            user_files(userFileActive);
+        else
+            user_all_files();
     });
 
     //get all files from company
     $('#file_list_toggle_all').on('click', function () {
         user_all_files();
+        isCompany = true;
     });
 
     //list documents by user select in All Files Type
@@ -89,7 +99,7 @@ $(document).ready(function () {
         } else {
             user_files(userFileActive);
         }
-        userFileStatus = false;
+        userFileStatus = isCompany = false;
     });
 
     //get files by user selected 
@@ -239,14 +249,16 @@ $(document).ready(function () {
     });
 
     //show menu in details files
-    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click.file_action', 'li[data-action="more"]', function (e) {
+    $('#monkey_scroll_wrapper_for_file_preview_scroller').on('click.file_action', 'li[data-action="more"]', function () {
         var options = {
             copyLink: $(this).attr('data-url'),
-            share: 'edit',
+            share: $(this).attr('data-slug'),
             delete: $(this).attr('data-slug')
         };
         var menu = $('#menu.menu').css('max-height', '32%');
         positionMenu(this, file_options_file_detail($('#hiddenMenuFileDetails').prop('innerHTML'), options), 'left');
+        if (userlogged != $(this).attr('data-owner'))
+            $($('#menu.menu').find('#element_delete')[0]).hide();
     });
 
     //AUX
@@ -306,6 +318,9 @@ $(document).ready(function () {
                 break;
             case 'delete':
                 delete_file(properties.data);
+                break;
+            case 'share':
+                share(properties.data)
                 break;
         }
     };
@@ -396,7 +411,7 @@ $(document).ready(function () {
             g_editor.setOption('lineWrapping', wrap);
         });
         return g_editor;
-    };
+    };//TODO: fixed code mirror
 
     var Modal = function (title, btnGo, html, data) {
         this.modal = $('#modal');
@@ -437,5 +452,43 @@ $(document).ready(function () {
         });
         options += '</optgroup>';
         return options;
+    };
+
+    var share = function (slug) {
+        var exc = function (response) {
+            console.log(response);
+            var userUrl = '/account/profile/' + userlogged + '/',
+                date = moment(response.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+            modal = new Modal('Share file', 'Share', sharedFile(response, date, userUrl), instance.data);
+            if ($('select.chosen-select').length > 0)
+                $('#share_to.chosen-select').chosen({
+                    width: '24rem',
+                    no_results_text: "Oops, nothing found!",
+                });
+            modal.show();
+        };
+        var modal = null;
+        hide_menu_files();
+        var instance = this;
+        this.options = userListForModal(channels, users),
+            this.data = new FormData();
+
+        var urlapi = apiUrl + 'files/detail/' + slug + '/';
+        request(urlapi, 'GET', 'json', null, exc, null, null);
+
+        $('#go.btn').off('click.share_send').on('click.share_send', function () {
+            instance.data.append('shared', $('.modal-body').find('#share_to').val());
+            instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
+
+            var exc = function (response) {
+                modal.destroy();
+                if (response.success == "ok") {
+                    console.log('shared');
+                }
+            };
+
+            var urlapi = apiUrl + 'files/share/' + $($('.modal-body [data-file-id]')).attr('id') + '/';
+            request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
+        });
     };
 });

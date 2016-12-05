@@ -87,7 +87,7 @@ class SnippetSerializer(SlackFileSerializer):
 class FilesUpSerializer(SlackFileSerializer):
     class Meta(SlackFileSerializer.Meta):
         model = FilesUp
-        fields = ('slug', 'title', 'file_up', 'uploaded', 'author', 'count_comment')
+        fields = ('slug', 'title', 'file_up', 'type', 'size', 'uploaded', 'author', 'count_comment')
 
 
 class ImageUpSerializer(FilesUpSerializer):

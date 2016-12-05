@@ -21,7 +21,7 @@
     <script>
         var userFileActive = userlogged, localtime = {% now 'U' %},
                 sendTo = {type: '', to: ''},
-                userImage = '{{ request.user.user_profile.image.url }}';
+                userImage = '{% if request.user.user_profile.image %}{{ request.user.user_profile.image.url }}{% endif %}';
     </script>
     {% load socketio_tags %}
     {% socketio %}
