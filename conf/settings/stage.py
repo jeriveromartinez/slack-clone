@@ -54,6 +54,4 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 
-SECRET_KEY = 'j2lz^0_c8&aoat9!bh*kf%6$iickatff585yxjm&#a!v@-c$_$'
-
 ########## END Email configuration
