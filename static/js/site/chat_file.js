@@ -168,18 +168,18 @@ $(document).ready(function () {
 
             $('#modal').find('#upload_file_title').val(file.name);
 
-            if ($('select.chosen-select').length > 0)
-                $('#share_to.chosen-select').chosen({
-                    width: '24rem',
-                    no_results_text: "Oops, nothing found!",
-                });
+            /*if ($('select.chosen-select').length > 0)
+             $('#share_to.chosen-select').chosen({
+             width: '24rem',
+             no_results_text: "Oops, nothing found!",
+             });*/
             instance.data.append('file', file);
             modal.show();
         });
 
         $('#go.btn').off('click.file_send').on('click.file_send', function () {
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
-            instance.data.append('shared', $('.modal-body').find('#share_to').val());
+            instance.data.append('shared', $('.modal-body').find('#shared_to').val());
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
 
             var exc = function (response) {
@@ -207,17 +207,11 @@ $(document).ready(function () {
         });
 
         var data = new FormData(),
-            modal = new Modal('Create Snippet', 'Create Snippet', createSnippet(optionsType, userListForModal(channels, users)));
+            modal = new Modal('Create Snippet', 'Create Snippet', createSnippet(optionsType, userListForModal(channels, users)), data);
 
-        var editor = 'lol'//codeMirror('client_file_snippet_textarea');
+        var editor = codeMirror('client_file_snippet_textarea');
 
         var select = $('#modal .modal-body').find('#client_file_snippet_select.chosen-select');
-        if ($(select).length > 0)
-            $(select).chosen({
-                width: '11rem',
-                no_results_text: "Oops, nothing found!",
-            });
-        select = $('#modal .modal-body').find('#client_chared_select.chosen-select');
         if ($(select).length > 0)
             $(select).chosen({
                 width: '11rem',
@@ -230,8 +224,8 @@ $(document).ready(function () {
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
-            data.append('shared', $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#client_chared_select').val() : '');
-            data.append('code', editor/*editor.getValue()*/);
+            data.append('shared', $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#shared_to').val() : '');
+            data.append('code', editor.getValue());
 
             var exc = function (response) {
                 modal.destroy();
@@ -334,7 +328,10 @@ $(document).ready(function () {
                 var comm = file_comments_msg(response);
                 $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
             };
-            //codeMirrorReadOnly('csharp', response.code);
+            if (response.code != undefined) {
+                highlightCode(response.code, response.type);
+            }
+
             var urlapi = apiUrl + 'files/comment/' + key;
             request(urlapi, 'GET', null, null, comments, null);
         };
@@ -364,28 +361,6 @@ $(document).ready(function () {
         request(urlapi, 'DELETE', null, null, exc, null);
     };
 
-    var codeMirrorReadOnly = function (type, value) {
-        var wrap_long_lines = true;
-
-        var g_editor = CodeMirror.fromTextArea(document.getElementById("read-only-code"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            indentUnit: 4,
-            indentWithTabs: true,
-            enterMode: "keep",
-            tabMode: "shift",
-            viewportMargin: 10,
-            mode: type,
-            readOnly: true
-        });
-
-        // setup wrap checkbox
-        $('#file_create_wrap_cb').bind('change', function (e) {
-            var wrap = $(this).is(":checked");
-            g_editor.setOption('lineWrapping', wrap);
-        });
-    };
-
     var codeMirror = function (id) {
         var wrap_long_lines = true;
         var g_editor;
@@ -411,7 +386,7 @@ $(document).ready(function () {
             g_editor.setOption('lineWrapping', wrap);
         });
         return g_editor;
-    };//TODO: fixed code mirror
+    };
 
     var Modal = function (title, btnGo, html, data) {
         this.modal = $('#modal');
@@ -432,11 +407,26 @@ $(document).ready(function () {
             $(this.modal).removeClass('hidden');
         };
 
+        $('#modal').off('click.shared_option').on('click.shared_option', '#share_cb', function () {
+            data.set('isShared', this.checked);
+            if (this.checked)
+                $("#client_chared_select").attr('disabled', false).trigger("liszt:updated");
+            else
+                $("#client_chared_select").attr('disabled', false).trigger("liszt:updated");
+        });
+
+        this.select = $('#modal .modal-body').find('#shared_to.chosen-select');
+        if ($(this.select).length > 0)
+            $(this.select).chosen({
+                width: '24em',
+                no_results_text: "Oops, nothing found!",
+            });
+
         this.destroy = function () {
             $(context.modal).addClass('hidden');
             data = new FormData();
-            if ($('select.chosen-select').length > 0)
-                $('select.chosen-select').chosen('destroy');
+            if ($(this.select).length > 0)
+                $(this.select).chosen('destroy');
         }
     };
 
@@ -490,5 +480,14 @@ $(document).ready(function () {
             var urlapi = apiUrl + 'files/share/' + $($('.modal-body [data-file-id]')).attr('id') + '/';
             request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
         });
+    };
+
+    var highlightCode = function (codeString, type) {
+        var code = CodeMirror();
+        CodeMirror.switchSlackMode(code, type);
+        setTimeout(
+            function () {
+                CodeMirror.runMode(codeString, CodeMirror.type_map[type][0], document.getElementById('code_snippet_view'));
+            }, 250);
     };
 });

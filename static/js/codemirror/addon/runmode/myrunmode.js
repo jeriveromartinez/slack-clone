@@ -1,3 +1,6 @@
+/**
+ * Created by julio on 6/12/16.
+ */
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -43,15 +46,17 @@
                         col += size;
                         for (var i = 0; i < size; ++i) content += " ";
                         pos = idx + 1;
+                        style = 'tab';
                     }
                 }
 
                 if (style) {
-                    var sp = node.appendChild(document.createElement("span"));
+                    var sp = document.createElement("span");
                     sp.className = "cm-" + style.replace(/ +/g, " cm-");
                     sp.appendChild(document.createTextNode(content));
+                    return sp;
                 } else {
-                    node.appendChild(document.createTextNode(content));
+                    return document.createTextNode(content);
                 }
             };
         }
@@ -61,11 +66,14 @@
             if (i) callback("\n");
             var stream = new CodeMirror.StringStream(lines[i]);
             if (!stream.string && mode.blankLine) mode.blankLine(state);
+            var div = document.createElement('div');
             while (!stream.eol()) {
                 var style = mode.token(stream, state);
-                callback(stream.current(), style, i, stream.start, state);
+                div.appendChild(callback(stream.current(), style, i, stream.start, state));
                 stream.start = stream.pos;
             }
+
+            node.appendChild(div);
         }
     };
 

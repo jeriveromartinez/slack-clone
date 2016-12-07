@@ -178,7 +178,7 @@
             </div>
 
             <div id="member_preview_container" class="hidden">
-                <div class="heading">
+                {% comment %}<div class="heading">
                     <a onclick="return false;" id="back_from_member_preview"><i
                             class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>
                     <a class="close_flexpane" title="Close Flexpane" data-pannel="member_preview_container">
@@ -214,10 +214,10 @@
                                                 <i class="ts_icon ts_icon_presence presence_icon"></i></span>
                                         </div>
                                         <div class="member_action_bar">
-                                            <a href="{% url 'account:profile_edit' %}" class="btn btn_outline">Edit
-                                                Profile</a>
-                                            <a href="{% url 'account:settings' %}" class="btn btn_outline">Account
-                                                Settings</a>
+                                            <a href="{% url 'account:profile_edit' %}" target="_blank"
+                                               class="btn btn_outline">Edit Profile</a>
+                                            <a href="{% url 'account:settings' %}" target="_blank"
+                                               class="btn btn_outline">Account Settings</a>
                                             <a class="member_preview_menu_target btn btn_outline"><i
                                                     class="ts_icon ts_icon_chevron_large_down"></i></a>
                                         </div>
@@ -256,7 +256,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>{% endcomment %}
             </div>
         </div>
 

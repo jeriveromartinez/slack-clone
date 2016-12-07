@@ -624,3 +624,44 @@ li.member.cursor_pointer {
     border-color: #56B68B;
     background: #56B68B !important;
 }
+
+.CodeMirror .CodeMirror-gutters {
+    margin-left: 2em;
+}
+
+.CodeMirror .CodeMirror-lines {
+    margin-left: 2.5em;
+}
+
+.CodeMirror .CodeMirror-gutter-wrapper {
+    left: -36px !important;
+}
+
+.file_container .CodeMirror .CodeMirror-code > div:first-child:nth-last-child(2), .file_container .CodeMirror .CodeMirror-code > div:first-child:nth-last-child(2):before, .file_container .CodeMirror .sssh-line:first-child:nth-last-child(2), .file_container .CodeMirror .sssh-line:first-child:nth-last-child(2):before, .file_container .sssh-code .CodeMirror-code > div:first-child:nth-last-child(2), .file_container .sssh-code .CodeMirror-code > div:first-child:nth-last-child(2):before, .file_container .sssh-code .sssh-line:first-child:nth-last-child(2), .file_container .sssh-code .sssh-line:first-child:nth-last-child(2):before {
+    padding-top: .6875rem;
+}
+
+.file_container .CodeMirror .CodeMirror-code > div, .file_container .CodeMirror .sssh-line, .file_container .sssh-code .CodeMirror-code > div, .file_container .sssh-code .sssh-line {
+    counter-increment: snippet;
+    position: relative;
+    margin-left: 2.5rem;
+    padding-right: .625rem;
+}
+
+.file_container .CodeMirror .CodeMirror-code > div:before, .file_container .CodeMirror .sssh-line:before, .file_container .sssh-code .CodeMirror-code > div:before, .file_container .sssh-code .sssh-line:before {
+    content: counter(snippet);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -2.5rem;
+    border-right: 1px solid rgba(0, 0, 0, .1);
+    background-color: #fbfbfb;
+    text-align: right;
+    padding-right: .25rem;
+    width: 1.625rem;
+    color: #9e9ea6;
+    font-size: .72rem;
+    line-height: 1rem;
+    white-space: nowrap;
+    user-select: none;
+}

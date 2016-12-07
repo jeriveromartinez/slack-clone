@@ -8881,8 +8881,7 @@ img.orientation_8 {
 }
 
 .file_container .file_body {
-    display: block;
-    min-height: 2.625rem
+    display: block
 }
 
 .file_container .file_header + .file_body {

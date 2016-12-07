@@ -26,6 +26,7 @@ $(document).ready(function () {
     $('#team_menu').on('click', function () {
         var value = $('#hiddenMenuUser').html();
         positionMenu(this, value, 'right');
+        $('#menu.menu').find('.member_preview_link.member_image.thumb_36')[0].href = userProfile;
     });
 
     //hide the menu
@@ -52,10 +53,19 @@ $(document).ready(function () {
                 change_chat_size('65%');
             } else {
                 var value = $('#hiddenMenuFlexMenu').html();
-                var options = {style: 'menu flex_menu',height:'32%'};
+                var options = {style: 'menu flex_menu', height: '32%'};
                 positionMenu(this, value, 'left', options);//TODO: cuando sale el menu tomar las acciones por click
             }
         }
+    });
+
+    //show profile right view
+    $('#menu.menu').off('click.right_menu').on('click.right_menu', '#member_account_item', function () {
+        showProfile($(this).data('user'));
+    });
+
+    $('#menu.menu').on('click', '#member_prefs_item', function () {
+        $('#menu.menu').addClass('hidden');
     });
 
     $('input#search_terms').on('focus', function () {
@@ -101,6 +111,11 @@ $(document).ready(function () {
         change_chat_size('65%');
     });
 
+    //show user detail
+    $('#active_members_list').on('click', '[data-user]', function () {
+        showProfile($(this).attr('data-user'));
+    });
+
     $('#active_members_list').on('click', '.member_preview_link', function () {
         showProfile(this);
     });
@@ -122,6 +137,7 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
+
     $("button.voice_call").on("click", function (e) {
         e.stopPropagation();
 
@@ -201,22 +217,6 @@ $(document).ready(function () {
 
         var urlapi = apiUrl + companyuser + '/users-logged/';
         request(urlapi, 'GET', null, null, exc, null);
-    };
-
-    window.showProfile = function (object) {
-        var exc = function (response) {
-            var list = $('#member_preview_container').html('');
-            var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
-            list.append(item_user_profile(response[0], date));
-        };
-
-        $('.panel.active').removeClass('active');
-        $('#team_list_container').addClass('hidden');
-        var urlapi = apiUrl + 'profile/' + $(object).data('user');
-        request(urlapi, 'GET', null, null, exc, null);
-        $('#member_preview_container').removeClass('hidden');
-        $('#client-ui').addClass('flex_pane_showing');
-        $('#team_tab').addClass('active');
     };
 
     window.change_chat_size = function (size) {
@@ -787,5 +787,24 @@ $(document).ready(function () {
         };
         var urlapi = apiUrl + 'snippet/languages/';
         request(urlapi, 'GET', 'json', null, exc, null, 'other');
+    };
+
+    var showProfile = function (id) {
+        var exc = function (response) {
+            var list = $('#member_preview_container').html('');
+            var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
+            list.append(item_user_profile(response[0], date));
+        };
+
+        $('.panel.active').removeClass('active');
+        $('#team_list_container').addClass('hidden');
+
+        var urlapi = apiUrl + 'profile/' + id;
+        request(urlapi, 'GET', null, null, exc, null);
+
+        $('#member_preview_container').removeClass('hidden');
+        $('#client-ui').addClass('flex_pane_showing');
+        $('#team_tab').addClass('active');
+        $('#menu.menu').addClass('hidden');
     };
 });

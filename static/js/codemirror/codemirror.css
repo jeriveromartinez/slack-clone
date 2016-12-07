@@ -117,6 +117,7 @@
 .cm-tab {
     display: inline-block;
     text-decoration: inherit;
+    padding-left: 2em;
 }
 
 .CodeMirror-rulers {

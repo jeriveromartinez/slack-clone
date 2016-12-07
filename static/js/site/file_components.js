@@ -26,7 +26,7 @@ var uploadComponent = function (options) {
                        tabindex="2" type="checkbox">Share\
                 <span id="share_context_label">in</span> </label>\
             <div id="select_share_channels" class="file_share_select inline_block no_margin">\
-                <select id="share_to" class="chosen-select small" data-placeholder="Who do you want to share?">' + options + '</select></div> \
+                <select id="shared_to" class="chosen-select small" data-placeholder="Who do you want to share?">' + options + '</select></div> \
             <span id="select_share_channels_note" class="modal_input_note ">\
                         Files are private until they are shared in a public channel.\
                 <span id="select_share_channels_join_note" class="hidden">\
@@ -68,9 +68,8 @@ var createSnippet = function (optionLanguages, optionShare) {
 			</div><div id="file_sharing_div">\
 		<div class="small_bottom_margin">\
 			<label for="share_cb" class=" small_bottom_margin">\
-				<input id="share_cb" checked="checked" name="share_cb" class="no_top_margin small_right_margin " tabindex="2" type="checkbox">Share\
-				<span id="share_context_label">in</span></label>\
-			<div id="select_share_channels" class="file_share_select inline_block no_margin"><select name="filetype" id="client_chared_select" class="chosen-select">' + optionShare + '</select></div>\
+				<input id="share_cb" checked="checked" name="share_cb" class="no_top_margin small_right_margin " tabindex="2" type="checkbox">Share</label>\
+			<div id="select_share_channels" class="file_share_select inline_block no_margin"><select id="shared_to" class="chosen-select">' + optionShare + '</select></div>\
 			<span id="select_share_channels_note" class="modal_input_note ">\
 				Files are private until they are shared in a public channel.\
 				<span id="select_share_channels_join_note" class="hidden"><br><b>NOTE:</b> you will join this channel when you share the file into it.</span>\

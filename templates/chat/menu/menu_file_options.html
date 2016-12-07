@@ -35,8 +35,7 @@
 <div id="hiddenMenuUser">
     <section class="slack_menu_you slack_menu_section" aria-label="you">
         <h2 class="slack_menu_header">
-            <a href="#/team/jeriverom"
-               class="member_preview_link member_image thumb_36"
+            <a class="member_preview_link member_image thumb_36" target="_blank"
                style="background-image:
                        url({{ MEDIA_URL }}{{ request.user.user_profile.image }}),
                        url({% static 'images/default_avatar.jpg' %})"></a>
@@ -45,11 +44,10 @@
             <span class="current_name slack_menu_header_secondary overflow_ellipsis">@{{ request.user.username }}</span>
         </h2>
         <ul class="menu_list">
-            <li id="member_account_item" data-user="{{ request.user.username }}"
-                onclick="showProfile(this);">
+            <li id="member_account_item" data-user="{{ request.user.username }}">
                 <a tabindex="0">Profile &amp; account</a>
             </li>
-            <li id="member_prefs_item"><a href="{% url 'account:settings' %}">Preferences</a></li>
+            <li id="member_prefs_item"><a href="{% url 'account:settings' %}" target="_blank">Preferences</a></li>
         </ul>
     </section>
     <section class="slack_menu_current_team slack_menu_section" aria-label="current team">

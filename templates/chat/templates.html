@@ -21,7 +21,8 @@
     <script>
         var userFileActive = userlogged, localtime = {% now 'U' %},
                 sendTo = {type: '', to: ''},
-                userImage = '{% if request.user.user_profile.image %}{{ request.user.user_profile.image.url }}{% endif %}';
+                userImage = '{% if request.user.user_profile.image %}{{ request.user.user_profile.image.url }}{% endif %}',
+                userProfile = "{% url 'account:profile' username=request.user.username %}";
     </script>
     {% load socketio_tags %}
     {% socketio %}
@@ -47,6 +48,7 @@
     <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror_load.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/codemirror/addon/runmode/myrunmode.js' %}"></script>
 {% endblock %}
 
 {% block js %}

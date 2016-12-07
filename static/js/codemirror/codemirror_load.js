@@ -1,72 +1,9 @@
 (function () {
     "use strict";
     CodeMirror.switchSlackMode = function (editor, mode) {
-        var type_map = {
-            c: ["clike", "text/x-csrc"],
-            clojure: ["clojure", "text/x-clojure"],
-            coffeescript: ["coffeescript", "text/x-coffeescript"],
-            commonlisp: ["commonlisp", "text/x-commonlisp"],
-            cpp: ["clike", "text/x-c++src"],
-            crystal: ["crystal", "text/x-crystal"],
-            csharp: ["clike", "text/x-csharp"],
-            css: ["css", "text/css"],
-            cypher: ["cypher", "x-cypher-query"],
-            d: ["d", "text/x-d"],
-            dart: ["dart", "text/x-dart"],
-            diff: ["diff", "text/x-diff"],
-            dockerfile: ["dockerfile", "text/x-dockerfile"],
-            erlang: ["erlang", "text/x-erlang"],
-            fortran: ["fortran", "text/x-fortran"],
-            fsharp: ["mllike", "text/x-fsharp"],
-            gherkin: ["gherkin", "text/x-feature"],
-            go: ["go", "text/x-go"],
-            groovy: ["groovy", "text/x-groovy"],
-            handlebars: ["handlebars", "text/x-handlebars"],
-            haskell: ["haskell", "text/x-haskell"],
-            haxe: ["haxe", "text/x-haxe"],
-            html: ["htmlmixed", "text/html"],
-            java: ["clike", "text/x-java"],
-            javascript: ["javascript", "text/javascript"],
-            json: ["javascript", "application/json"],
-            julia: ["julia", "text/x-julia"],
-            kotlin: ["clike", "text/x-kotlin"],
-            latex: ["stex", "text/x-stex"],
-            lisp: ["commonlisp", "text/x-lisp"],
-            lua: ["lua", "text/x-lua"],
-            markdown: ["markdown", "text/x-markdown"],
-            mathematica: ["mathematica", "text/x-mathematica"],
-            matlab: ["octave", "text/x-octave"],
-            mumps: ["mumps", "text/x-mumps"],
-            mysql: ["sql", "text/x-mysql"],
-            objc: ["clike", "text/x-objectivec"],
-            ocaml: ["mllike", "text/x-ocaml"],
-            pascal: ["pascal", "text/x-pascal"],
-            perl: ["perl", "text/x-perl"],
-            php: ["php", "application/x-httpd-php"],
-            pig: ["pig", "text/x-pig"],
-            powershell: ["powershell", "text/x-powershell"],
-            puppet: ["puppet", "text/x-puppet"],
-            python: ["python", "text/x-python"],
-            r: ["r", "text/x-rsrc"],
-            ruby: ["ruby", "text/x-ruby"],
-            rust: ["rust", "text/x-rustsrc"],
-            sass: ["sass", "text/x-sass"],
-            scala: ["clike", "text/x-scala"],
-            scheme: ["scheme", "text/x-scheme"],
-            shell: ["shell", "text/x-sh"],
-            smalltalk: ["smalltalk", "text/x-stsrc"],
-            sql: ["sql", "text/x-sql"],
-            swift: ["swift", "text/x-swift"],
-            vb: ["vb", "text/x-vb"],
-            vbscript: ["vbscript", "text/vbscript"],
-            velocity: ["velocity", "text/x-velocity"],
-            verilog: ["verilog", "text/x-verilog"],
-            xml: ["xml", "text/xml"],
-            yaml: ["yaml", "text/x-yaml"]
-        };
-        if (type_map[mode]) {
-            editor.setOption("mode", type_map[mode][1]);
-            CodeMirror.autoLoadMode(editor, type_map[mode][0])
+        if (CodeMirror.type_map[mode]) {
+            editor.setOption("mode", CodeMirror.type_map[mode][1]);
+            CodeMirror.autoLoadMode(editor, CodeMirror.type_map[mode][0])
         } else {
             editor.setOption("mode", null)
         }
@@ -342,11 +279,76 @@
             }
         }, 200)
     };
+
     CodeMirror.autoLoadMode = function (instance, mode) {
         if (!CodeMirror.modes.hasOwnProperty(mode)) {
             CodeMirror.requireMode(mode, function () {
                 instance.setOption("mode", instance.getOption("mode"))
             })
         }
-    }
+    };
+
+    CodeMirror.type_map = {
+        c: ["clike", "text/x-csrc"],
+        clojure: ["clojure", "text/x-clojure"],
+        coffeescript: ["coffeescript", "text/x-coffeescript"],
+        commonlisp: ["commonlisp", "text/x-commonlisp"],
+        cpp: ["clike", "text/x-c++src"],
+        crystal: ["crystal", "text/x-crystal"],
+        csharp: ["clike", "text/x-csharp"],
+        css: ["css", "text/css"],
+        cypher: ["cypher", "x-cypher-query"],
+        d: ["d", "text/x-d"],
+        dart: ["dart", "text/x-dart"],
+        diff: ["diff", "text/x-diff"],
+        dockerfile: ["dockerfile", "text/x-dockerfile"],
+        erlang: ["erlang", "text/x-erlang"],
+        fortran: ["fortran", "text/x-fortran"],
+        fsharp: ["mllike", "text/x-fsharp"],
+        gherkin: ["gherkin", "text/x-feature"],
+        go: ["go", "text/x-go"],
+        groovy: ["groovy", "text/x-groovy"],
+        handlebars: ["handlebars", "text/x-handlebars"],
+        haskell: ["haskell", "text/x-haskell"],
+        haxe: ["haxe", "text/x-haxe"],
+        html: ["htmlmixed", "text/html"],
+        java: ["clike", "text/x-java"],
+        javascript: ["javascript", "text/javascript"],
+        json: ["javascript", "application/json"],
+        julia: ["julia", "text/x-julia"],
+        kotlin: ["clike", "text/x-kotlin"],
+        latex: ["stex", "text/x-stex"],
+        lisp: ["commonlisp", "text/x-lisp"],
+        lua: ["lua", "text/x-lua"],
+        markdown: ["markdown", "text/x-markdown"],
+        mathematica: ["mathematica", "text/x-mathematica"],
+        matlab: ["octave", "text/x-octave"],
+        mumps: ["mumps", "text/x-mumps"],
+        mysql: ["sql", "text/x-mysql"],
+        objc: ["clike", "text/x-objectivec"],
+        ocaml: ["mllike", "text/x-ocaml"],
+        pascal: ["pascal", "text/x-pascal"],
+        perl: ["perl", "text/x-perl"],
+        php: ["php", "application/x-httpd-php"],
+        pig: ["pig", "text/x-pig"],
+        powershell: ["powershell", "text/x-powershell"],
+        puppet: ["puppet", "text/x-puppet"],
+        python: ["python", "text/x-python"],
+        r: ["r", "text/x-rsrc"],
+        ruby: ["ruby", "text/x-ruby"],
+        rust: ["rust", "text/x-rustsrc"],
+        sass: ["sass", "text/x-sass"],
+        scala: ["clike", "text/x-scala"],
+        scheme: ["scheme", "text/x-scheme"],
+        shell: ["shell", "text/x-sh"],
+        smalltalk: ["smalltalk", "text/x-stsrc"],
+        sql: ["sql", "text/x-sql"],
+        swift: ["swift", "text/x-swift"],
+        vb: ["vb", "text/x-vb"],
+        vbscript: ["vbscript", "text/vbscript"],
+        velocity: ["velocity", "text/x-velocity"],
+        verilog: ["verilog", "text/x-verilog"],
+        xml: ["xml", "text/xml"],
+        yaml: ["yaml", "text/x-yaml"]
+    };
 })();

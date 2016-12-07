@@ -454,23 +454,23 @@ def type_file_by_user(type, me, user):
     files = None
     if type == "post":
         files = Post.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-            author__user__username__exact=user))
+            author__user__username__exact=user)).order_by('-uploaded')
     if type == "snippets":
         files = Snippet.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-            author__user__username__exact=user))
+            author__user__username__exact=user)).order_by('-uploaded')
     if type == "gdocs":
         files = GoogleDocs.objects.filter(
             (Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-                author__user__username__exact=user))
+                author__user__username__exact=user)).order_by('-uploaded')
     if type == "docs":
         files = FilesUp.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-            author__user__username__exact=user))
+            author__user__username__exact=user)).order_by('-uploaded')
     if type == "images":
         files = ImageUp.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-            author__user__username__exact=user))
+            author__user__username__exact=user)).order_by('-uploaded')
     if files is None:
         files = SlackFile.objects.filter((Q(shared_to__username__exact=me) & Q(author__user__username__exact=user)) | Q(
-            author__user__username__exact=user))
+            author__user__username__exact=user)).order_by('-uploaded')
     return files
 
 
@@ -478,28 +478,28 @@ def type_file_by_company(type, user):
     files = None
     if type == "post":
         files = Post.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     if type == "snippets":
         files = Snippet.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     if type == "gdocs":
         files = GoogleDocs.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     if type == "docs":
         files = FilesUp.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     if type == "images":
         files = ImageUp.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct('uploaded', 'slug')
     if files is None:
         files = SlackFile.objects.filter(
-            Q(shared_to__username__exact=user) | Q(author__user__username__exact=user)).order_by('slug').distinct(
-            'slug')
+            Q(shared_to__username__exact=user) |
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     return files
 
 
