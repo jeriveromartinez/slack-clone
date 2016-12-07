@@ -455,6 +455,7 @@ $(document).ready(function () {
 
         function _selectRow(row) {
             var member = row.attr('data-member-id');
+            var avatar = row.attr('data-img');
 
             if (member == userlogged) {
                 active_chat(member, 'user');
@@ -468,7 +469,7 @@ $(document).ready(function () {
                     _selected_members.push(member);
                     var input = $("#im_browser_filter").val();
                     _filterListView(input);
-                    $("#im_browser_tokens").prepend(item_member_token(member));
+                    $("#im_browser_tokens").prepend(item_member_token(member, avatar));
                     $("#im_browser_filter").focus().val('').removeAttr('placeholder');
                 }
             }

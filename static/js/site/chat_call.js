@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
         window.history.replaceState("slack call ", "slack call ", "/call/" + roomname);
+        console.log("server", document.domain);
         var socket = new io.Socket(document.domain, {reconnection: true});
         var yourConn;
         var stream;
@@ -16,15 +17,19 @@ $(document).ready(function () {
         socket.on('connect', function () {
 
             socket.subscribe(roomname);
+
             if (action == "created") {
+
                 socket.send({action: "call", user_from: userlogged, user_to: usercall, room: roomname});
             }
             else if (action == "joined") {
                 socket.send({action: "callaccept", user_from: userlogged, room: roomname});
             }
-            Begin();
+
 
         });
+        Begin();
+
 
         socket.on('message', onmessage);
         socket.on('disconnect', function () {
@@ -34,28 +39,29 @@ $(document).ready(function () {
         var remoteVideo = $('#remoteVideo');
 
         function onmessage(msg) {
-            console.log("Got message", msg);
 
+            console.log("Got message", msg);
             switch (msg.action) {
 
                 //when somebody wants to call us
                 case "call_begin":
-
                     Offer(msg);
-
                     break;
                 case "call_decline":
                     alert("se fue");
                     break;
                 case "offer":
+
                     handleOffer(msg);
+
                     break;
                 case "answer":
                     handleAnswer(msg);
+
                     break;
                 //when a remote peer sends an ice candidate to us
                 case "candidate":
-                    handleCandidate(data.candidate);
+                    handleCandidate(msg.candidate);
                     break;
                 case "leave":
                     handleLeave();
@@ -92,13 +98,18 @@ $(document).ready(function () {
 
                         //using Google public stun server
                         var configuration = {
-                            "iceServers": [{"url": "stun:stun2.1.google.com:19302"}]
+                            "iceServers": [{"urls": "stun:stun2.1.google.com:19302"},
+                                {
+                                    "urls": "turn:10.51.7.63:3478",
+                                    "username": "test",
+                                    "credential": "test"
+                                }]
                         };
 
 
                         if (navigator.webkitGetUserMedia) {
 
-                            yourConn = new webkitRTCPeerConnection(null);
+                            yourConn = new webkitRTCPeerConnection(configuration);
                             console.log(yourConn);
                         }
 
@@ -113,9 +124,11 @@ $(document).ready(function () {
                         // Setup ice handling
                         yourConn.onicecandidate = function (event) {
                             if (event.candidate) {
+
                                 socket.send({
                                     action: "candidate",
-                                    candidate: event.candidate
+                                    candidate: event.candidate,
+                                    room: roomname
                                 });
                             }
                         };
@@ -135,10 +148,15 @@ $(document).ready(function () {
 
                             //using Google public stun server
                             var configuration = {
-                                "iceServers": [{"url": "stun:stun2.1.google.com:19302"}]
+                                "iceServers": [{"urls": "stun:stun2.1.google.com:19302"},
+                                    {
+                                        "urls": "turn:10.51.7.63:3478",
+                                        "username": "test",
+                                        "credential": "test"
+                                    }]
                             };
 
-                            yourConn = new RTCPeerConnection(null);
+                            yourConn = new RTCPeerConnection(configuration);
                             console.log(yourConn);
                             // setup stream listening
                             yourConn.addStream(stream);
@@ -154,7 +172,9 @@ $(document).ready(function () {
                                 if (event.candidate) {
                                     socket.send({
                                         action: "candidate",
-                                        candidate: event.candidate
+                                        candidate: event.candidate,
+                                        room: roomname
+
                                     });
                                 }
                             };
@@ -178,7 +198,7 @@ $(document).ready(function () {
 
             // create an offer
             yourConn.createOffer(function (offer) {
-                console.log('offer');
+
                 socket.send({
                     action: "offer",
                     offer: offer,
@@ -197,12 +217,13 @@ $(document).ready(function () {
 
 //when somebody sends us an offer
         function handleOffer(data) {
+
             members(data.users);
 
             connectedUser = name;
             yourConn.setRemoteDescription(new RTCSessionDescription(data.offer), function () {
                 yourConn.createAnswer(function (answer) {
-                    console.log(answer)
+
                     yourConn.setLocalDescription(answer);
 
                     socket.send({
@@ -225,7 +246,7 @@ $(document).ready(function () {
 //when we got an answer from a remote user
         function handleAnswer(data) {
             members(data.users);
-            console.log(data);
+
             yourConn.setRemoteDescription(new RTCSessionDescription(data.answer));
         };
 

@@ -42,12 +42,16 @@ def call(request, socket, context, message):
 
 def callaccept(request, socket, context, message):
     room = RoomCall.objects.get(name=message['room'])
-    users = ProfileSerializer(room.users.all(), many=True)
 
-    socket.send_and_broadcast_channel(
-        {"action": "call_begin", "user_from": message["user_from"], "room": room.name,
-         "users": users.data
-         })
+    profile = Profile.objects.get(user__username=message["user_from"])
+    users = ProfileSerializer(room.users.all(), many=True)
+    try:
+        print 'Sending begin to: ' + profile.user.username + " " + profile.socketsession
+        send(profile.socketsession, {"action": "call_begin", "user_from": message["user_from"], "room": room.name,
+                                     "users": users.data
+                                     })
+    except NoSocket as e:
+        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 def calldecline(request, socket, context, message):
@@ -58,47 +62,64 @@ def calldecline(request, socket, context, message):
 
 
 def offer(request, socket, context, message):
-    print 'ower'
     room = RoomCall.objects.get(name=message['room'])
-
+    print message['offer']
     users = ProfileSerializer(room.users.all(), many=True)
-    socket.send_and_broadcast_channel({
-        'action': "offer",
-        'offer': message['offer'],
-        'user_from': request.user.username,
-        "room": room.name,
-        "users": users.data
+    for item in room.users.all():
+        if item.user.username != request.user.username:
+            try:
+                print 'Sending offer to: ' + item.user.username + " " + item.socketsession
+                send(item.socketsession, {
+                    'action': "offer",
+                    'offer': message['offer'],
+                    'user_from': request.user.username,
+                    "room": room.name,
+                    "users": users.data
 
-    })
+                })
+            except NoSocket as e:
+                send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 def answer(request, socket, context, message):
-    print 'answer'
+    print message['answer']
     room = RoomCall.objects.get(name=message['room'])
     users = ProfileSerializer(room.users.all(), many=True)
-    socket.send_and_broadcast_channel({
-        'action': "answer",
-        'answer': message['answer'],
-        'user_from': request.user.username,
-        "room": room.name,
-        "users": users.data
-    })
+    for item in room.users.all():
+        if item.user.username != request.user.username:
+            try:
+                print 'Sending answer to: ' + item.user.username + " " + item.socketsession
+                send(item.socketsession, {
+                    'action': "answer",
+                    'answer': message['answer'],
+                    'user_from': request.user.username,
+                    "room": room.name,
+                    "users": users.data
+                })
+            except NoSocket as e:
+                send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 def candidate(request, socket, context, message):
     print 'candidate'
-    socket.send_and_broadcast_channel({
-        'action': "candidate",
-        'candidate': message['candidate'],
-        'user_to': message['user_to'],
-        'user_from': request.user.username
-    })
+    room = RoomCall.objects.get(name=message['room'])
+    users = ProfileSerializer(room.users.all(), many=True)
+    for item in room.users.all():
+        if item.user.username != request.user.username:
+            try:
+                send(item.socketsession, {
+                    'action': "candidate",
+                    'candidate': message['candidate'],
+                    'user_from': request.user.username
+                })
+            except NoSocket as e:
+                send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 def leave(request, socket, context, message):
     socket.send_and_broadcast_channel({
         'action': "leave",
-        'user_to': message['user_to'],
+
         'user_from': request.user.username
 
     })
@@ -177,11 +198,11 @@ def disconect(request, socket, context):
 def disconect(request, socket, context):
     print 'deconect'
 
-
-@events.on_finish(channel="^[0-9a-zA-Z_-]+$")
-def finish(request, socket, context):
-    RoomCall.objects.filter(usercreator__user__username=request.user.username).delete()
-    socket.send_and_broadcast_channel({
-        'action': "finish",
-
-    })
+#
+# @events.on_finish(channel="^[0-9a-zA-Z_-]+$")
+# def finish(request, socket, context):
+#     RoomCall.objects.filter(usercreator__user__username=request.user.username).delete()
+#     socket.send_and_broadcast_channel({
+#         'action': "finish",
+#
+#     })
