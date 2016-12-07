@@ -495,7 +495,7 @@ def type_file_by_company(type, user):
     if type == "images":
         files = ImageUp.objects.filter(
             Q(shared_to__username__exact=user) |
-            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct('uploaded', 'slug')
+            Q(author__user__username__exact=user)).order_by('-uploaded', 'slug').distinct()
     if files is None:
         files = SlackFile.objects.filter(
             Q(shared_to__username__exact=user) |
