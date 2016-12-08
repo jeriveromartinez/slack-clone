@@ -29,18 +29,18 @@
         </div>
         <ul id="header_team_nav">
             <li class="active">
-                <a href="#home" target="#blackmambasoft.slack.com">
+                <a>
                     <i class="ts_icon small ts_icon_check_circle_o active_icon s"></i>
-                    <i class="team_icon small default">{{ request.user.profile.company.name|make_list|first|upper }}</i>
-                    <span class="switcher_label team_name">{{ request.user.profile.company.name }}</span>
+                    <i class="team_icon small default">{{ request.user.user_profile.company.name|make_list|first|upper }}</i>
+                    <span class="switcher_label team_name">{{ request.user.user_profile.company.name }}</span>
                 </a>
             </li>
-            <li id="add_team_option">
+            {% comment %}<li id="add_team_option">
                 <a href="#signin" target="_top">
                     <i class="ts_icon ts_icon_plus team_icon small"></i>
                     <span class="switcher_label">Sign in to another team...</span>
                 </a>
-            </li>
+            </li>{% endcomment %}
         </ul>
     </div>
 </header>

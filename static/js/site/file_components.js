@@ -3,12 +3,16 @@
  */
 
 var fileComponent = function (title, slug, profile, date, obj) {
-    var item = '';
+    var urlFile = hostUrl + '/account/file/detail/' + slug + '/';
     if (get_icon(obj) == 'filetype_image')
-        item = '<div id="' + slug + '" class="file_list_item file_item hosted has_image"><i class="' + get_icon(obj) + '" style="background-size:contain;background: url(' + obj.image_up + ');"></i>';
+        item = '<div id="' + slug + '" class="file_list_item file_item hosted has_image"><a href="' + urlFile + '"><i class="' + get_icon(obj) + '" style="background-size:contain;background: url(' + obj.image_up + ');"></i></a>';
     else
-        item = '<div id="' + slug + '" class="file_list_item file_item space has_icon"><i class="' + get_icon(obj) + '"></i>';
-    item += '<div class="contents"><span class="author"><a class="message_sender color_9f69e7 member member_preview_link">' + profile.user.username + '</a></span><span class="time">' + date + '</span><h4 class="title overflow_ellipsis no_preview"><a>' + title + '</a></h4><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared <span class="file_share_label"></span></span></span><span class="file_share_private_label">Private file <span class="file_share_label"></span></span></span></div></div>';
+        item = '<div id="' + slug + '" class="file_list_item file_item space has_icon"><a href="' + urlFile + '"><i class="' + get_icon(obj) + '"></i></a>';
+    item += '<div class="contents"><span class="author"><a class="message_sender color_9f69e7 member member_preview_link">' +
+        profile.user.username + '</a></span><span class="time">' + date + '</span><h4 class="title overflow_ellipsis no_preview"><a href="' +
+        urlFile + '">' + title + '</a></h4><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">' +
+        'Shared <span class="file_share_label"></span></span></span><span class="file_share_private_label">Private file ' +
+        '<span class="file_share_label"></span></span></span></div></div>';
     return item;
 };
 
@@ -102,7 +106,7 @@ var sharedFile = function (item, date, userUrl) {
 			<input id="share_model_ob_id" value="C2KPUV3P0" type="hidden">\
 			<label for="share_cb" class=" small_bottom_margin">Share</label>\
 			<div id="select_share_channels" class="file_share_select inline_block no_margin">\
-			<select id="share_to" class="chosen-select small" data-placeholder="Who do you want to share?">' + options + '</select>\
+			<select id="shared_to" class="chosen-select small" data-placeholder="Who do you want to share?">' + options + '</select>\
 			<!--<div class="lazy_filter_select default_style single value"><div class="lfs_input_container empty">\
 	<ts-icon class="ts_icon_search ts_icon search_icon subtle_silver"></ts-icon>\
 	<div class="lfs_value"><div class="lfs_item selected single"><i class="ts_icon ts_icon_channel"></i>announcements</div></div>\
