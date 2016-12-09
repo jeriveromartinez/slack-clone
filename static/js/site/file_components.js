@@ -57,6 +57,29 @@ var uploadComponent = function (options) {
     </div>';
 };
 
+var userTeamComponent = function (userUrl, avatar, email, names, username) {
+    return '<div class="team_list_item member_item cursor_pointer active expanded clearfix">\
+                            <div class="member_details member_item_inset col span_5_of_12 no_bottom_margin">\
+                                <a href="' + userUrl + '" class="lazy member_preview_link member_image thumb_72"\
+                                   style="background-size:contain;background: rgb(246, 246, 246) url(' + avatar + ');" aria-hidden="true"></a>\
+                                <div class="member_name_and_title"><div class="color_4bbe2e">\
+                                        <a href="' + userUrl + '"\
+                                           class="bold member_preview_link member_name no_bottom_margin">' + names + '</a>\
+                                    </div><div>@' + username + '<span class="presence active" title="active">\
+                                        <i aria-hidden="true" class="ts_icon ts_icon_presence presence_icon"></i></span>\
+                                    </div></div></div><div class="expanded_member_details small_top_padding col span_6_of_12 no_bottom_margin">\
+                                <table class="member_data_table"><tbody><tr><td><span class="small_right_padding old_petunia_grey"\
+                                                  title="Email">Email</span></td><td><a class="overflow_ellipsis" href="mailto:' + email + '"\
+                                               title="Email ' + username + '">' + email + '</a></td>\
+                                    </tr></tbody></table></div>\
+                            <div class="col span_1_of_12 no_bottom_margin no_right_padding">\
+                                <a class="member_preview_menu_target member_action_button btn btn_outline float_right top_margin hide_on_mobile">\
+                                    <div class="team_directory_icon more_icon inline_block no_right_margin"></div></a>\
+                                <a class="member_preview_menu_target member_action_button btn btn_outline bottom_margin top_margin show_on_mobile subtle_silver">\
+                                    <div class="team_directory_icon more_icon inline_block small_right_margin"></div>\
+                                    More</a></div></div>';
+};
+
 var createSnippet = function (optionLanguages, optionShare) {
     return '<div class="top_margin">\
 				<label id="client_file_snippet_select_label" class="small float_right no_right_padding">\
@@ -139,7 +162,7 @@ var get_icon = function (obj, iconS) {
     else if (typeof(obj.text) !== 'undefined')
         return style + 'post';
     else
-        return obj.type in icon ? style + icon[obj.type] : style + 'file';
+        return obj.extension in icon ? style + icon[obj.extension] : style + 'file';
 };
 
 var get_icon_details = function (obj) {
@@ -151,7 +174,7 @@ var get_icon_details = function (obj) {
     else if (typeof(obj.text) !== 'undefined')
         return style + 'post';
     else
-        return obj.type in icon ? style + icon[obj.type] + ' s48' : style + 'file s48';
+        return obj.extension in icon ? style + icon[obj.extension] + ' s48' : style + 'file s48';
 };
 
 var sharedFileType = function (type, item) {

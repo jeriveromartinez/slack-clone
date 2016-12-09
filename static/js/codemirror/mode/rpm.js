@@ -130,7 +130,6 @@
                     return "def";
                 }
 
-                //TODO: Include bash script sub-parser (CodeMirror supports that)
                 stream.next();
                 return null;
             }

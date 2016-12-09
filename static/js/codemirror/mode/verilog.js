@@ -451,7 +451,7 @@
     // Type is one of: "indent", "scope-ident", "before-scope-ident".
     function tlvScopeStyle(state, indentation, type) {
         // Begin scope.
-        var depth = indentation / tlvIndentUnit;  // TODO: Pass this in instead.
+        var depth = indentation / tlvIndentUnit;
         return "tlv-" + state.tlvIndentationStyle[depth] + "-" + type;
     }
 

@@ -55,7 +55,7 @@ class SnippetForm(forms.ModelForm):
 
     class Meta:
         model = Snippet
-        fields = ('title', 'type', 'code')
+        fields = ('title', "extension", 'code')
 
 
 class PostForm(forms.ModelForm):

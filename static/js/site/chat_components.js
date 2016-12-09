@@ -281,7 +281,7 @@ var item_image_file_detail = function (title, slug, username, userurl, userimage
 				<button type="button" class="btn btn_small btn_outline">Cancel</button>\
 				<button type="submit" class="btn btn_small">Save Changes</button></p></div></div></div><div class="file_preview_file">\
 		<div class="file_container image_container">\
-	<a href="#/files.slack.com/files-pri/T2KQ0HR61-F347ANL9X/caribbean-vacation.jpg" target="_blank" class="file_body image_body image_jpg\
+	<a href="#/files.slack.com/files-pri/T2KQ0HR61-F347ANL9X/" target="_blank" class="file_body image_body image_jpg\
 			file_viewer_channel_link file_viewer_link" title="ctrl+click to open original in new tab">\
 		<div class="image_preserve_aspect_ratio">\
 			<figure class="image_bg" style="background-image: url(' + image + '); padding-top: calc(0.663889 * 100%);">\
@@ -329,7 +329,7 @@ var item_file_file_detail = function (item, userUrl, date) {
 		<h4 class="file_header_title generic_header_title overflow_ellipsis">' + item.title + '</h4>\
 		<p class="file_header_meta generic_header_meta">\
 				<span class="meta_size">' + (Number(item.size) / 1048576).toFixed(2) + 'MB</span><span class="meta_hover_placement">\
-				<span class="meta_type overflow_ellipsis">' + item.type + '</span><span class="meta_hover overflow_ellipsis">\
+				<span class="meta_type overflow_ellipsis">' + item.extension + '</span><span class="meta_hover overflow_ellipsis">\
 						Click to download</span></span></p></a></div><div class="clear_both"></div></div>\
 <div class="file_preview_meta"><p class="file_meta hosted"><span class="date">' + date + '</span>\
 		<span class="bullet">•</span><a href="' + item.file_up + '" target="_blank" title="Download this file" class="subtle_silver file_ssb_download_link"><!--16MB--> <span><!--Binary--></span></a>\
@@ -519,7 +519,7 @@ var urlFile = function (item) {
         imageUser = item.author.image;
 
     if (item.code != undefined) {
-        var type = getArrayByObject(typesL)[item.type],
+        var type = getArrayByObject(typesL)[item.extension],
             url = '/account/file/snippet/' + item.slug + '/';
         return [url, item_code_file_detail(username, userurl, imageUser, item.title, date, item.code, url, item.slug), 'data-type="code"'];
     }

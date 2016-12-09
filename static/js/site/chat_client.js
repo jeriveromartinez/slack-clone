@@ -139,7 +139,7 @@ var onDataLoaded = function (data) {
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
                 var day_msgs = $("<div class='day_msgs'></div>");
-                switch (item.type) {
+                switch (item.extension) {
                     case 'message_int_event':
                         day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
                         break;
@@ -159,7 +159,7 @@ var onDataLoaded = function (data) {
                 var day_msgs = $("<div class='day_msgs'></div>");
                 day_msgs = $(".day_container:first").find('.day_msgs');
 
-                switch (item.type) {
+                switch (item.extension) {
                     case 'message_int_event':
                         day_msgs.prepend(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub)).fadeIn('slow');
                         break;

@@ -133,7 +133,7 @@
             if (/[\[\]]/.test(ch) && stream.match(ch)) // check for [[..]]
                 return 'brace';
 
-            if (ch == "@") {    // check for space link. TODO fix @@...@@ highlighting
+            if (ch == "@") {
                 stream.eatWhile(isSpaceName);
                 return "link";
             }

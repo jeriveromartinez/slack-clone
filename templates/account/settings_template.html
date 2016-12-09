@@ -5,7 +5,7 @@
     <script type="text/javascript" src="{% static 'js/site/settings.js' %}"></script>
     <script>
         var userlogged = '{{ request.user.username }}',
-                companyuser = '{{ request.user.profile.company.slug }}',
+                companyuser = '{{ request.user.user_profile.company.slug }}',
                 localtime = {% now 'U' %};
         var apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
                 hostUrl = window.location.protocol + '//' + window.location.host;

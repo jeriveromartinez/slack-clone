@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^room_user/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.room_by_user', name='api-room_room_user'),
     url(r'^create_room/$', 'rest_service.views.create_room_by_company', name='api-createroom'),
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/users/$', 'rest_service.views.users_by_company', name='api-company-profile'),
+    url(r'^(?P<company>[0-9a-zA-Z_-]+)/users/(?P<search>[0-9a-zA-Z_-]+)/$', 'rest_service.views.users_by_company',
+        name='api-company-profile-search'),
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/users-logged/$', 'rest_service.views.users_logged', name='api-user-logged'),
 
     url(r'^profile/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.profile_by_username', name='api-profile'),

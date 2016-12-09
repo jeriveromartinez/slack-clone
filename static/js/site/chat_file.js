@@ -7,7 +7,7 @@ File.prototype.convertToBase64 = function (callback) {
     reader.onload = function (e) {
         callback(e.target.result)
     };
-    reader.onerror = function (e) {
+    reader.onerror = function () {
         callback(null);
     };
     reader.readAsDataURL(this);
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 opeNeWind: $(this).attr('data-file-url'),
                 comment: $(this).attr('data-file'),
                 edit: $(this).attr('data-file'),
-                delete: $(this).attr('data-file'),
+                delete: $(this).attr('data-file')
             },
             optionMenu = {height: '32%'};
         positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
@@ -83,7 +83,7 @@ $(document).ready(function () {
         var instance = this;
         if ($('#file_list_toggle_user').hasClass('active')) {
             if (!userFileStatus) {
-                var elements = '<ul id="menu_items" role="menu" no-bootstrap="1">';
+                var elements = '<ul id="menu_items" role="menu">';
                 var urlapi = apiUrl + companyuser + '/users/';
                 var exc = function (request) {
                     request.forEach(function (item) {
@@ -176,6 +176,7 @@ $(document).ready(function () {
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
             instance.data.append('shared', $('.modal-body').find('#shared_to').val());
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
+            instance.data.set('isShared', $('.modal-body').find('#share_cb')[0].checked);
 
             var exc = function (response) {
                 modal.destroy();
@@ -324,7 +325,7 @@ $(document).ready(function () {
                 $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
             };
             if (response.code != undefined) {
-                highlightCode(response.code, response.type);
+                highlightCode(response.code, response.extension);
             }
 
             var urlapi = apiUrl + 'files/comment/' + key;
@@ -404,7 +405,6 @@ $(document).ready(function () {
 
         $('#modal').off('click.shared_option').on('click.shared_option', '#share_cb', function () {
             data.set('isShared', this.checked);
-            console.log(this.checked);
             if (this.checked)
                 $("#client_chared_select").attr('disabled', false).trigger("liszt:updated");
             else

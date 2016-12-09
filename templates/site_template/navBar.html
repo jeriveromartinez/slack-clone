@@ -28,18 +28,18 @@
                 </li>
                 <li><a href="{% url 'account:settings' %}" data-qa="account_profile"><i
                         class="ts_icon ts_icon_user"></i>Account &amp; Profile</a></li>
-                <li><a href="#/apps/manage" data-qa="configure_apps" target="_blank"><i
-                        class="ts_icon ts_icon_plug"></i>Configure Apps</a></li>
+                {% comment %}<li><a href="#/apps/manage" data-qa="configure_apps" target="_blank"><i
+                        class="ts_icon ts_icon_plug"></i>Configure Apps</a></li>{% endcomment %}
                 <li><a href="#/archives" data-qa="archives"><i
                         class="ts_icon ts_icon_archive"></i>Message Archives</a></li>
                 <li><a href="{% url 'account:file' %}"><i
                         class="ts_icon ts_icon_all_files clear_blue"></i>Files</a></li>
-                <li><a href="#/team" data-qa="team_directory"><i
+                <li><a href="{% url 'account:team_directory' %}" data-qa="team_directory"><i
                         class="ts_icon ts_icon_team_directory"></i>Team Directory</a></li>
-                <li><a href="#/stats" data-qa="statistics"><i
+                {% comment %}<li><a href="#/stats" data-qa="statistics"><i
                         class="ts_icon ts_icon_dashboard"></i>Statistics</a></li>
                 <li><a href="#/customize" data-qa="customize"><i
-                        class="ts_icon ts_icon_magic"></i>Customize</a></li>
+                        class="ts_icon ts_icon_magic"></i>Customize</a></li>{% endcomment %}
                 {% if request.user.profile.type == "owner" %}
                     <li><a href="#/account/team" data-qa="team_settings"><i
                             class="ts_icon ts_icon_cog_o"></i>Team Settings</a></li>

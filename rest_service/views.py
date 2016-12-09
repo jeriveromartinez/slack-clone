@@ -129,9 +129,15 @@ def profile_by_username(request, username):
 
 
 @api_view(['GET'])
-def users_by_company(request, company):
-    profiles = Profile.objects.all().filter(company__slug=company)
-    serializer = ProfileSerializer(profiles, many=True)
+def users_by_company(request, company, search=None):
+    if search is None:
+        profiles = Profile.objects.all().filter(company__slug=company)
+        serializer = ProfileSerializer(profiles, many=True)
+    else:
+        profile = Profile.objects.filter(
+            Q(company__slug=company) & (Q(user__username__contains=search) | Q(user__first_name__contains=search) | Q(
+                user__last_name__contains=search))).order_by('user__username').distinct()
+        serializer = ProfileSerializer(profile, many=True)
     return Response(serializer.data)
 
 
@@ -341,8 +347,8 @@ def save_files(request, from_user):
             create = ImageUp.objects.create(title=title, image_up=file, author=author)
         else:
             create = FilesUp.objects.create(title=title, file_up=file, author=author)
-
-        if post['isShared'] is True and post['shared']:
+        shared = (post['isShared'] == 'true')
+        if shared and post['shared']:
             cond, channel = post['shared'].split('_')
             if cond == "channel":
                 room = Room.objects.get(slug=channel)

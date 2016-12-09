@@ -1,0 +1,16 @@
+{% extends 'site_template/template.html' %}
+{% load staticfiles %}
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/chosen/chosen.min.css' %}">
+{% endblock %}
+{% block js_libraries %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/file_components.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
+{% endblock %}
+{% block main_container %}
+    hola
+{% endblock %}

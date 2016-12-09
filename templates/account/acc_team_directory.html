@@ -1,0 +1,114 @@
+{% extends 'account/settings_template.html' %}
+{% load staticfiles %}
+{% block styles %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/index_team_directory.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'js/chosen/chosen.min.css' %}">
+{% endblock %}
+{% block js_libraries %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site/file_components.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
+{% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/site/team_directory.js' %}"></script>
+{% endblock %}
+{% block main_container %}
+    <h1><i class="ts_icon ts_icon_team_directory candy_red"></i> Team Directory</h1>
+    <p> You are signed in as <strong>{{ request.user.username }}</strong>. <br>
+        Your team is administered by <a
+                href="{% url 'account:profile' request.user.user_profile.company.owner.username %}">
+            {{ request.user.user_profile.company.owner.first_name }} {{ request.user.user_profile.company.owner.last_name }}
+        </a> (owner).
+    </p>
+    <div id="team_tabs">
+        <div class="tab_set on_neutral_grey">
+            <a id="active_members_tab" data-tab="active" class="selected">Full Members <span
+                    id="active_members_count" class="normal">(<span id="active_members_count_value">2</span>)</span></a>
+        </div>
+    </div>
+
+    <div class="tab_actions">
+        <div id="team_filter"
+             class="position_relative position_relative float_right small_top_margin small_right_margin"
+             data-list-items-id="#team_list">
+            <i class="icon_search ts_icon ts_icon_search"></i>
+            <a class="ts_icon ts_icon_times_circle icon_close hidden"></a>
+            <input class="member_filter no_margin small" name="team_filter" placeholder="Search team directory"
+                   value="" type="text">
+        </div>
+        <div class="clear_both"></div>
+    </div>
+
+    <div id="members_div">
+        <div id="team_list">
+            <div class="tab_panels large_bottom_margin">
+                <div class="tab_pane selected active" id="active_members" data-tab="active">
+                    <div id="active_members_list">
+                        {% comment %}<div class="team_list_item member_item cursor_pointer active expanded clearfix"
+                             data-member-id="U2KQ35L2Z">
+                            <div class="member_details member_item_inset col span_5_of_12 no_bottom_margin">
+                                <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                   class="lazy member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
+                                   data-thumb-size="72"
+                                   data-original="url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                                   style="background-color: rgb(246, 246, 246); background-image: url('53efb3a0c90e50818529f825ff34f343_001.jpg');"
+                                   aria-hidden="true"></a>
+
+
+                                <div class="member_name_and_title">
+                                    <div class="color_U2KQ35L2Z color_4bbe2e">
+                                        <a href="https://blackmambasoft.slack.com/team/jeriverom"
+                                           class="bold member_preview_link member_name no_bottom_margin"
+                                           data-member-id="U2KQ35L2Z">Julio Rivero</a>
+                                    </div>
+                                    <div>
+                                        @jeriverom
+                                        <span data-member-presence="U2KQ35L2Z"
+                                              class="presence active member_presence_U2KQ35L2Z" title="active"><i
+                                                aria-hidden="true"
+                                                class="ts_icon ts_icon_presence presence_icon"></i></span>
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="expanded_member_details small_top_padding col span_6_of_12 no_bottom_margin">
+
+                                <table class="member_data_table">
+                                    <tbody>
+                                    <tr>
+                                        <td><span class="small_right_padding old_petunia_grey"
+                                                  title="Email">Email</span></td>
+                                        <td><a class="overflow_ellipsis" href="mailto:jeriveromartinez@gmail.com"
+                                               title="Email jeriverom">jeriveromartinez@gmail.com</a></td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="col span_1_of_12 no_bottom_margin no_right_padding">
+                                <a class="member_preview_menu_target member_action_button btn btn_outline float_right top_margin hide_on_mobile">
+                                    <div class="team_directory_icon more_icon inline_block no_right_margin"></div>
+                                </a>
+                                <a class="member_preview_menu_target member_action_button btn btn_outline bottom_margin top_margin show_on_mobile subtle_silver">
+                                    <div class="team_directory_icon more_icon inline_block small_right_margin"></div>
+                                    More
+                                </a>
+                            </div>
+                        </div>{% endcomment %}
+                    </div>
+                    <div class="no_results"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

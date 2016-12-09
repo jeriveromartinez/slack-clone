@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'^file/post/$', 'system_account.views.post', name='file_post'),
     url(r'^file/post/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.post', name='file_post_edit'),
     url(r'^file/detail/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.file_detail', name='file_detail'),
+    url(r'^file/delete/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.delete_file', name='file_delete'),
+    url(r'^file/public/(?P<slug>[0-9a-zA-Z_-]+)/$', 'system_account.views.get_file', name='file_public'),
+    url(r'^messages/$', 'system_account.views.get_messages', name='msg'),
+    url(r'^team-directory/$', 'system_account.views.get_team_directory', name='team_directory'),
 ]

@@ -74,7 +74,7 @@ def create(request):
         user.save()
 
         name_company = post.get("company")
-        company = Company.objects.create(name=name_company)
+        company = Company.objects.create(name=name_company, owner=user)
         site_info = {'protocol': request.is_secure() and 'https' or 'http'}
         site_info['root'] = site_info['protocol'] + '://' + request.get_host()
 

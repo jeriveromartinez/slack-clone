@@ -10,7 +10,6 @@
 // tokenizer maintains a parse stack
 // indenter uses the parse stack
 
-// TODO indenter:
 //   bit syntax
 //   old guard/bif/conversion clashes (e.g. "float/1")
 //   type/spec/opaque

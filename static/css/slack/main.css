@@ -29,14 +29,14 @@ body {
 .menu ul li a {
     display: block;
     text-decoration: none;
-    padding: 0px 1rem 0px 0.5rem;
-    margin: 0px 0.9375rem;
+    padding: 0 1rem 0 0.5rem;
+    margin: 0 0.9375rem;
     border-radius: 0.25rem;
     white-space: nowrap;
-    outline: 0px none;
+    outline: 0 none;
     font-size: 0.9375rem;
     line-height: 1.5625rem;
-    background: transparent none repeat scroll 0px 0px;
+    background: transparent none repeat scroll 0 0;
     color: rgb(44, 45, 48);
 }
 
@@ -86,15 +86,15 @@ p.bubble.duration {
 
 .sidebar .slack-name {
     background: #3E313C;
-    padding: 15px 0px 15px 15px;
+    padding: 15px 0 15px 15px;
 }
 
 .sidebar .slack-name h2 {
     color: #fff;
     font-size: 18px;
     font-weight: bold;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .sidebar .channel-list {
@@ -106,7 +106,7 @@ p.bubble.duration {
 .sidebar .channel-list .channel a {
     display: block;
     color: rgba(255, 255, 255, 0.6);
-    padding: 3px 0px 3px 15px;
+    padding: 3px 0 3px 15px;
     width: 90%;
     font-weight: 300;
 
@@ -212,8 +212,8 @@ p.bubble.duration {
 
 .message-pane .header h1 {
     padding: 12px 0 10px 0;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
     font-size: 24px;
     color: #555459;
     font-weight: 900;
@@ -270,13 +270,13 @@ p.bubble.duration {
     background-size: cover !important;
     background: rgb(243, 243, 243) no-repeat center center;
     border-radius: 0.25rem;
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
 .tab_container .file_list_item.has_image .contents {
     margin-left: 4.3125rem;
     min-height: 3.75rem;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 .color_9f69e7:not(.nuc) {
@@ -664,4 +664,122 @@ li.member.cursor_pointer {
     line-height: 1rem;
     white-space: nowrap;
     user-select: none;
+}
+
+img#file_page_image {
+    max-height: 12rem;
+    padding-bottom: 1em;
+}
+
+.comment {
+    margin: 0 0 1rem;
+    padding-left: 2.875rem;
+    font-family: Slack-Lato, appleLogo, sans-serif;
+    -moz-user-select: text;
+}
+
+.comment .member_image, .comment_form .member_image {
+    float: left;
+    margin: 0 0 0 -2.875rem;
+}
+
+.member_image.thumb_36 {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+a, a:link, a:visited {
+    color: rgb(58, 163, 227);
+    text-decoration: none;
+}
+
+.member_image {
+    border-radius: 0.2rem;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: relative;
+}
+
+.comment_meta {
+    font-size: 0.8rem;
+    line-height: 1.1rem ! important;
+    margin-bottom: 0;
+    color: rgb(186, 187, 191);
+}
+
+.comment .member {
+    font-weight: 900;
+    padding-right: 0.25rem;
+    color: rgb(61, 60, 64) ! important;
+    font-size: 0.9375rem;
+}
+
+.no_touch a:hover, a.active {
+    text-decoration: underline;
+}
+
+.file_header_container {
+    min-height: 35px;
+    margin-bottom: 0.5rem;
+}
+
+.flexpane_file_title .member_image {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.member_image.thumb_36 {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+a:not([href]) {
+    cursor: pointer;
+}
+
+.member_image {
+    border-radius: 0.2rem;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    display: inline-block;
+    position: relative;
+}
+
+.flexpane_file_title {
+    position: relative;
+    z-index: 5;
+    padding-left: 2.875rem;
+    padding-right: 6rem;
+    min-height: 2.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9375rem;
+    line-height: 1.1rem;
+}
+
+.flexpane_file_title .member, .flexpane_file_title .service_link {
+    color: rgb(85, 84, 89) ! important;
+    font-weight: 500 ! important;
+    font-family: Slack-Lato, appleLogo, sans-serif;
+}
+
+.flexpane_file_title .title {
+    display: block;
+    color: rgb(85, 84, 89);
+    font-weight: 900;
+    font-family: Slack-Lato, appleLogo, sans-serif;
+}
+
+.break_word {
+    overflow-wrap: break-word;
+}
+
+.flexpane_file_title .title a {
+    color: rgb(85, 84, 89);
+}
+
+a, a.btn{
+    color: #fff;
+    text-decoration: none;
 }

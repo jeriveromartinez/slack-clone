@@ -17,6 +17,7 @@ class Company(models.Model):
     name = models.CharField(max_length=255, default="Company name", null=False)
     slug = models.SlugField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    owner = models.OneToOneField(User, related_name='owner')
 
     class Meta:
         ordering = ('created',)
@@ -82,6 +83,7 @@ class SlackFile(PolymorphicModel):
     shared_to = models.ManyToManyField(User)
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
+    extension = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         ordering = ('-uploaded',)
@@ -203,14 +205,13 @@ class GoogleDocs(SlackFile):
 
 class FilesUp(SlackFile):
     file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True)
-    type = models.CharField(max_length=20, blank=True, null=True)
     size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return 'files_up - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.type = self.file_up.name.lower().split('.')[-1]
+        self.extension = self.file_up.name.lower().split('.')[-1]
         self.size = self.file_up.size
         super(FilesUp, self).save(*args, **kwargs)
 
@@ -224,6 +225,7 @@ class ImageUp(SlackFile):
 
     def save(self, *args, **kwargs):
         self.size = self.image_up.size
+        self.extension = self.image_up.name.lower().split('.')[-1]
         super(ImageUp, self).save(*args, **kwargs)
 
 

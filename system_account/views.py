@@ -1,12 +1,19 @@
+from __future__ import print_function
+import tempfile
+from rexec import FileWrapper
+
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.http.response import HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_protect
+from django.db.models import Q
 
 from plataforma.forms import SnippetForm, PostForm
 from plataforma.models import *
 from system_account.forms import *
+from conf.settings.base import SITE_ROOT
 
 
 @login_required(login_url='/login/')
@@ -43,7 +50,7 @@ def setting_profile_edit(request):
             formP.save()
             return redirect('account:profile', username=request.user.username)
         else:
-            print formP.is_valid(), formP.errors, type(formP.errors)
+            print(formP.is_valid(), formP.errors, type(formP.errors))
     else:
         formP = ProfileForm(instance=request.user.user_profile)
         formU = UserForm(instance=request.user)
@@ -90,7 +97,7 @@ def post(request, slug=None):
             data.save()
             return redirect('account:file')
         else:
-            print form.is_valid(), form.errors, type(form.errors)
+            print(form.is_valid(), form.errors, type(form.errors))
     else:
         if post_inst.__len__() > 0:
             form = PostForm(instance=post_inst[0] or None)
@@ -115,7 +122,7 @@ def snippet(request, slug=None):
             data.save()
             return redirect('account:file')
         else:
-            print form.is_valid(), form.errors, type(form.errors)
+            print(form.is_valid(), form.errors, type(form.errors))
     else:
         if snippet_inst.__len__() > 0:
             form = SnippetForm(instance=snippet_inst[0] or None)
@@ -135,4 +142,60 @@ def file_detail(request, slug):
         isFile = True
     return render_to_response('account/files/details.html',
                               {'file': file, 'isImage': isImage, 'isFile': isFile, 'comments': comments},
+                              context_instance=RequestContext(request))
+
+
+@login_required(login_url='/login/')
+def delete_file(request, slug):
+    file = get_object_or_404(SlackFile, slug=slug)
+    file.delete()
+    return redirect('account:file')
+
+
+def get_file(request, slug):
+    item = get_object_or_404(SlackFile, slug=slug)
+    if item is not None:
+        if isinstance(item, Snippet):
+            try:
+                name = item.title + ".txt"
+                temp = tempfile.TemporaryFile()
+                temp.write(item.code)
+                temp.flush()
+                temp.seek(0)
+                wrapper = FileWrapper(temp)
+            except Exception as e:
+                print(e)
+        elif isinstance(item, FilesUp):
+            wrapper = FileWrapper(file(SITE_ROOT + item.file_up.url))
+            name = item.title + "." + item.extension
+        elif isinstance(item, ImageUp):
+            wrapper = FileWrapper(file(SITE_ROOT + item.image_up.url))
+            name = item.title + "." + item.extension
+        elif isinstance(item, Post):
+            try:
+                name = item.title + ".txt"
+                temp = tempfile.TemporaryFile()
+                temp.write(item.code)
+                temp.flush()
+                temp.seek(0)
+                wrapper = FileWrapper(temp)
+            except Exception as e:
+                print(e)
+
+        response = HttpResponse(wrapper, content_type='application/force-download')
+        response['Content-Disposition'] = 'attachment; filename=' + name
+        return response
+
+
+@login_required(login_url='/login/')
+def get_messages(request):
+    msg = MessageEvent.objects.filter(Q(user_to=request.user) | Q(user_from=request.user)).order_by(
+        'date_pub').distinct()[:10]
+    return render_to_response('account/acc_conversations.html', {'msg': msg}, context_instance=RequestContext(request))
+
+
+@login_required(login_url='/login/')
+def get_team_directory(request):
+    profiles = Profile.objects.filter(company=request.user.user_profile.company)
+    return render_to_response('account/acc_team_directory.html', {'team': profiles},
                               context_instance=RequestContext(request))

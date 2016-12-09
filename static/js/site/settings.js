@@ -3,12 +3,7 @@
  */
 $(document).ready(function () {
     $('.accordion_expand.btn.btn_outline').on('click', function () {
-        defaultExpands();
-        var toExc = this.id.split('-')[1];
-        $(this).addClass('hidden');
-        $('#h-' + toExc).addClass('hidden');
-        $('#accordion-' + toExc).css({display: 'initial'});
-        $('#accordion-' + toExc).attr("data-active", 'activate');
+        showEdits(this.id);
     });
 
     $('button.btn').on('click', function () {
@@ -66,6 +61,15 @@ $(document).ready(function () {
         request(urlapi, 'POST', 'json', data, exc, null);
     });
 
+    $('a.bold[href="#email"]').on('click.mail', function () {
+        showEdits($(this).attr('data-id'));
+    });
+
+    $('a.bold[href="#username"]').on('click.mail', function () {
+        showEdits($(this).attr('data-id'));
+    });
+
+
     //AUX
     var defaultExpands = function () {
         $('.accordion_expand.hidden').removeClass('hidden');
@@ -74,4 +78,15 @@ $(document).ready(function () {
         $(accordion).css('display', 'none');
         $(accordion).attr('data-active', 'deactivated');
     };
+
+    var showEdits = function (id) {
+        defaultExpands();
+        var toExc = id.split('-')[1];
+        $('#' + id).addClass('hidden');
+        $('#h-' + toExc).addClass('hidden');
+        $('#accordion-' + toExc).css({display: 'initial'});
+        $('#accordion-' + toExc).attr("data-active", 'activate');
+    };
+
+
 });

@@ -899,7 +899,6 @@
             this._shortMonthsParse = [];
         }
 
-        // TODO: add sorting
         // Sorting makes sure if one month (or abbr) is a prefix of another
         // see sorting in computeMonthsParse
         for (i = 0; i < 12; i++) {

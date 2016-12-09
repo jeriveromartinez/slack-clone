@@ -5,7 +5,6 @@
 // SAS mode copyright (c) 2016 Jared Dean, SAS Institute
 // Created by Jared Dean
 
-// TODO
 // indent and de-indent
 // identify macro variables
 

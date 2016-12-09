@@ -85,6 +85,57 @@ $(document).ready(function () {
     $('#typeFile').bind('select change', function () {
         get_files();
     });
+
+    $('#file_action_cog').on('click', function () {
+        positionMenu(this);
+    });
+
+    $('[data-action]').on('click', function () {
+        var action = $(this).attr('data-action');
+        switch (action) {
+            case 'share':
+                break;
+            case 'copy-link':
+                copyToClipboard(hostUrl + $(this).attr('data-info'));
+                break;
+            case 'print':
+                break;
+        }
+        $('#menu.menu').addClass('hidden');
+    });
+
+    var copyToClipboard = function (str) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(str).select();
+        document.execCommand("copy");
+        $temp.remove();
+    };
+
+    //AUX
+    var positionMenu = function (instance, positionSide, options) {
+        var menu = $('#menu.menu');
+        var position = $(instance).offset();
+        var height = $(instance).outerHeight();
+        if (options != undefined && options.style != undefined) {
+            $(menu).removeClass();
+            $(menu).addClass(options.style);
+        }
+
+        var values = {
+            position: "absolute",
+            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
+            top: ((position.top + height) < 471) ? (position.top + height) + "px" : 471 + "px",//471px
+            'max-height': (options != undefined && options.height != undefined) ? options.height : '46%'
+        };
+
+        if (options != undefined && options.bottom == true)
+            values['top'] = (position.top - 200) + "px";
+
+        $(menu).css(values);
+        //$('#menu .menu_body').html(items);
+        $(menu).removeClass('hidden');
+    };
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
