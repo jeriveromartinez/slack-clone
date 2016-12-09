@@ -292,12 +292,17 @@ def get_recente_message_user(request, username):
     # .exclude(**{'user_from__username' + '__exact': username}) \
 
     messages = MessageEvent.objects.all().filter(
+        ((Q(messageinstevent__user_to__username=username) |
+          Q(messageinstevent__user_from__username=username))) |
+        Q(filesharedevent__user_from__username=username),
+
         date_pub__gte=datetime.now() - timedelta(days=8)) \
-        .distinct('user_from__username').order_by('user_from__username', 'date_pub')
+        .distinct().order_by('user_from__username', 'date_pub')
 
     reponse = {}
     result = []
     for inst in messages:
+
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSerializer(inst.messageinstevent)
             result.append(serializer.data)
@@ -307,8 +312,11 @@ def get_recente_message_user(request, username):
         if isinstance(inst, FileCommentEvent):
             serializer = FileCommentEventSerializer(inst)
             result.append(serializer.data)
+        profile = Profile.objects.get(user__username=inst.user_from.username)
 
-    reponse['items'] = result
+        result[(len(result) - 1)]['image'] = profile.image.url
+
+        reponse['items'] = result
 
     return Response(reponse)
 

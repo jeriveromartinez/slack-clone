@@ -149,18 +149,24 @@ def call(request, roomname):
         room = RoomCall.objects.get_or_create(name=name, usercreator=profile)[0]
         room.users.add(profile)
         room.save()
-
-        return render_to_response('call/template.html', {'room': room.name, 'usercall': usercall, 'action': "created"},
+        serializer = ProfileSerializer(room.users.all(), many=True)
+        users = json.dumps(serializer.data)
+        return render_to_response('call/template.html',
+                                  {'room': room.name, 'users': users, 'usercall': usercall, 'action': "created"},
                                   RequestContext(request))
     if request.method == "GET":
         room = RoomCall.objects.get(name=roomname)
-        profile = Profile.objects.filter(user__username=request.user.username)[0]
-        room.users.add(profile)
-        room.save()
+
+        serializer = ProfileSerializer(room.users.all(), many=True)
+        users = json.dumps(serializer.data)
         if request.user == room.usercreator:
             return render_to_response('call/template.html',
-                                      {'room': room.name, 'usercall': room.users, 'action': "created"},
+                                      {'room': room.name, 'users': users, 'action': "created"},
                                       RequestContext(request))
         else:
-            return render_to_response('call/template.html', {'room': room.name, 'action': "joined"},
+            profile = Profile.objects.filter(user__username=request.user.username)[0]
+            room.users.add(profile)
+            room.save()
+            return render_to_response('call/template.html',
+                                      {'room': room.name, 'users': users, 'action': "joined"},
                                       RequestContext(request))

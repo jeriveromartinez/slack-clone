@@ -22,7 +22,8 @@
                 hostUrl = window.location.protocol + '//' + window.location.host;
         var usersjoined = [];
         var roomname = '{{room}}';
-        var usercall = '{{ usercall }}';
+        var usercall = '{{usercall}}';
+        var users = JSON.parse('{{ users | escapejs}}');
         var action = '{{ action }}';
     </script>
     {% load socketio_tags %}

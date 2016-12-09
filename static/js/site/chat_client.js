@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
-
-    var socket = new io.Socket(document.domain, {reconnection: true, secure: true});
+    //, secure: true
+    var socket = new io.Socket(document.domain, {reconnection: true});
 
 
     socket.connect();
