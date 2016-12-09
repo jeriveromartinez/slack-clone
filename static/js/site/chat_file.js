@@ -145,18 +145,17 @@ $(document).ready(function () {
     });
 
     //select files from pc
-    $('#menu.menu').off('click.upload_file').on('click.upload_file', '#create-file', function () {
+    $('#menu.menu').unbind('click.upload_file').on('click.upload_file', '#create-file', function () {
         hide_menu_files();
         var instance = this;
         this.options = userListForModal(channels, users),
-            this.data = null;
+            this.data = new FormData();
 
         var modal = new Modal('Upload a file?', 'Upload', uploadComponent(this.options), this.data);
 
         $('#file-upload').click();
 
-        $('#file-upload').on('change.file', function () {
-            instance.data = new FormData();
+        $('#file-upload').off('change.file').on('change.file', function () {
             var file = this.files[0];
 
             if (file.type.indexOf('image') !== -1)
@@ -168,16 +167,12 @@ $(document).ready(function () {
 
             $('#modal').find('#upload_file_title').val(file.name);
 
-            /*if ($('select.chosen-select').length > 0)
-             $('#share_to.chosen-select').chosen({
-             width: '24rem',
-             no_results_text: "Oops, nothing found!",
-             });*/
             instance.data.append('file', file);
             modal.show();
         });
 
-        $('#go.btn').off('click.file_send').on('click.file_send', function () {
+        $('#go.btn').unbind('click.file_send').unbind('click.share_send').on('click.file_send', function (e) {
+            e.preventDefault();
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
             instance.data.append('shared', $('.modal-body').find('#shared_to').val());
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
@@ -194,11 +189,12 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'files/upload/' + userlogged + '/';
             request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
+            e.stopPropagation();
         });
     });
 
     //create snippet from chat
-    $('#menu.menu').off('click.snippet_create').on('click.snippet_create', '#create-snippet', function () {
+    $('#menu.menu').unbind('click.snippet_create').on('click.snippet_create', '#create-snippet', function () {
         hide_menu_files();
         var optionsType = '';
 
@@ -220,7 +216,7 @@ $(document).ready(function () {
 
         modal.show();
 
-        $('#go.btn').off('click.snippet_send').on('click.snippet_send', function () {
+        $('#go.btn').unbind('click.snippet_send').on('click.snippet_send', function () {
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
@@ -249,8 +245,7 @@ $(document).ready(function () {
             share: $(this).attr('data-slug'),
             delete: $(this).attr('data-slug')
         };
-        var menu = $('#menu.menu').css('max-height', '32%');
-        positionMenu(this, file_options_file_detail($('#hiddenMenuFileDetails').prop('innerHTML'), options), 'left');
+        positionMenu(this, file_options_file_detail($('#hiddenMenuFileDetails').prop('innerHTML'), options), 'left', {height: '13%'});
         if (userlogged != $(this).attr('data-owner'))
             $($('#menu.menu').find('#element_delete')[0]).hide();
     });
@@ -409,6 +404,7 @@ $(document).ready(function () {
 
         $('#modal').off('click.shared_option').on('click.shared_option', '#share_cb', function () {
             data.set('isShared', this.checked);
+            console.log(this.checked);
             if (this.checked)
                 $("#client_chared_select").attr('disabled', false).trigger("liszt:updated");
             else
@@ -417,10 +413,7 @@ $(document).ready(function () {
 
         this.select = $('#modal .modal-body').find('#shared_to.chosen-select');
         if ($(this.select).length > 0)
-            $(this.select).chosen({
-                width: '24em',
-                no_results_text: "Oops, nothing found!",
-            });
+            $(this.select).chosen({width: '24em', no_results_text: "Oops, nothing found!"});
 
         this.destroy = function () {
             $(context.modal).addClass('hidden');
@@ -438,7 +431,8 @@ $(document).ready(function () {
         options += '</optgroup>';
         options += '<optgroup label="Direct Messages">';
         listUser.forEach(function (item) {
-            options += '<option value="user_' + item + '">' + item + '</option>';
+            if (item != userlogged)
+                options += '<option value="user_' + item + '">' + item + '</option>';
         });
         options += '</optgroup>';
         return options;
@@ -446,17 +440,13 @@ $(document).ready(function () {
 
     var share = function (slug) {
         var exc = function (response) {
-            console.log(response);
             var userUrl = '/account/profile/' + userlogged + '/',
                 date = moment(response.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+
             modal = new Modal('Share file', 'Share', sharedFile(response, date, userUrl), instance.data);
-            if ($('select.chosen-select').length > 0)
-                $('#share_to.chosen-select').chosen({
-                    width: '24rem',
-                    no_results_text: "Oops, nothing found!",
-                });
             modal.show();
         };
+
         var modal = null;
         hide_menu_files();
         var instance = this;
@@ -466,19 +456,20 @@ $(document).ready(function () {
         var urlapi = apiUrl + 'files/detail/' + slug + '/';
         request(urlapi, 'GET', 'json', null, exc, null, null);
 
-        $('#go.btn').off('click.share_send').on('click.share_send', function () {
-            instance.data.append('shared', $('.modal-body').find('#share_to').val());
+        $('#go.btn').unbind('click.share_send').unbind('click.file_send').unbind('click.snippet_send').on('click.share_send', function (e) {
+            e.preventDefault();
+            instance.data.append('shared', $('.modal-body').find('#shared_to').val());
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
 
             var exc = function (response) {
-                modal.destroy();
                 if (response.success == "ok") {
-                    console.log('shared');
+                    modal.destroy();
                 }
             };
 
             var urlapi = apiUrl + 'files/share/' + $($('.modal-body [data-file-id]')).attr('id') + '/';
             request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
+            e.stopPropagation();
         });
     };
 

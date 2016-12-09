@@ -1,115 +1,112 @@
 {% extends 'site_template/template.html' %}
 {% load staticfiles %}
 {% block main_container %}
-    <div id="page_contents">
-        <h1 id="welcome_user" class="flat_grey">
+    <h1 id="welcome_user" class="flat_grey">
             <span class="member_image thumb_32"
                   style="background-image: url('{% static 'images/ava_0022-48.png' %}');"></span>
-            Hey there {{ request.user.first_name }} {{ request.user.last_name }}!
-        </h1>
+        Hey there {{ request.user.first_name }} {{ request.user.last_name }}!
+    </h1>
 
-        <div class="card home_card clearfix">
-            <a href="{% url 'account:settings' %}" class="plastic_row">
+    <div class="card home_card clearfix">
+        <a href="{% url 'account:settings' %}" class="plastic_row">
+            <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+            <i class="ts_icon ts_icon_cog_o clear_blue_bg icon"></i>
+            <h3>Account Settings</h3>
+            <span class="description">Edit your profile, update your username and password, and manage other account settings.</span>
+        </a>
+        <a href="#/blackmambasoft.slack.com/account/notifications" class="plastic_row">
+            <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+            <i class="ts_icon ts_icon_bell_o yolk_orange_bg icon"></i>
+            <h3>Notification Settings</h3>
+            <span class="description">Set your preferences for desktop, mobile, and email notifications.</span>
+        </a>
+
+    </div>
+
+    <div class="card home_card clearfix">
+        {% if request.user.profile.type == "owner" %}
+            <a href="#/blackmambasoft.slack.com/admin/settings" class="plastic_row">
                 <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                <i class="ts_icon ts_icon_cog_o clear_blue_bg icon"></i>
-                <h3>Account Settings</h3>
-                <span class="description">Edit your profile, update your username and password, and manage other account settings.</span>
+                <i class="ts_icon ts_icon_cogs clear_blue_bg icon"></i>
+                <h3>Settings &amp; Permissions</h3>
+                <span class="description">Configure your team settings, permissions, and authentication preferences.</span>
             </a>
-            <a href="#/blackmambasoft.slack.com/account/notifications" class="plastic_row">
+            <a href="#/blackmambasoft.slack.com/admin" class="plastic_row">
                 <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                <i class="ts_icon ts_icon_bell_o yolk_orange_bg icon"></i>
-                <h3>Notification Settings</h3>
-                <span class="description">Set your preferences for desktop, mobile, and email notifications.</span>
+                <i class="ts_icon ts_icon_user yolk_orange_bg icon"></i>
+                <h3>Manage Your Team</h3>
+                <span class="description">Invite new team members and manage user permissions.</span>
             </a>
+            <div class="plastic_row cursor_pointer" {% comment %}onclick="window.location = '/admin/billing';"{% endcomment %}>
+                <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+                <i class="ts_icon ts_icon_credit_card seafoam_green_bg icon"></i>
+                <h3>Billing</h3>
 
-        </div>
-
-        <div class="card home_card clearfix">
-            {% if request.user.profile.type == "owner" %}
-                <a href="#/blackmambasoft.slack.com/admin/settings" class="plastic_row">
-                    <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                    <i class="ts_icon ts_icon_cogs clear_blue_bg icon"></i>
-                    <h3>Settings &amp; Permissions</h3>
-                    <span class="description">Configure your team settings, permissions, and authentication preferences.</span>
-                </a>
-                <a href="#/blackmambasoft.slack.com/admin" class="plastic_row">
-                    <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                    <i class="ts_icon ts_icon_user yolk_orange_bg icon"></i>
-                    <h3>Manage Your Team</h3>
-                    <span class="description">Invite new team members and manage user permissions.</span>
-                </a>
-                <div class="plastic_row cursor_pointer" {% comment %}onclick="window.location = '/admin/billing';"{% endcomment %}>
-                    <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                    <i class="ts_icon ts_icon_credit_card seafoam_green_bg icon"></i>
-                    <h3>Billing</h3>
-
-					<span class="description indifferent_grey small_bottom_margin">
+                <span class="description indifferent_grey small_bottom_margin">
                         Your team is on the <strong>Free plan</strong>.
                     </span>
-					<span class="description indifferent_grey small_bottom_margin">
+                <span class="description indifferent_grey small_bottom_margin">
                         Upgrade to the <strong>Standard plan</strong> or
                         <a href="#/blackmambasoft.slack.com/pricing/plus"><strong>Plus plan</strong></a>
                         for additional features, including:
                     </span>
-					<span class="description indifferent_grey bottom_margin">
+                <span class="description indifferent_grey bottom_margin">
 						• Unlimited message archives and search<br>
 						• Unlimited integrations with external services<br>
 						• Premium support<br>
 						• Guest accounts
 					</span>
 
-                    <form action="#/blackmambasoft.slack.com/checkout" method="post">
-                        <button type="submit" class="btn small_right_margin inline_block">Upgrade your team</button>
-                        <a href="#/blackmambasoft.slack.com/pricing/" class="btn btn_outline inline_block">
-                            Compare Plans
-                        </a>
-                    </form>
+                <form action="#/blackmambasoft.slack.com/checkout" method="post">
+                    <button type="submit" class="btn small_right_margin inline_block">Upgrade your team</button>
+                    <a href="#/blackmambasoft.slack.com/pricing/" class="btn btn_outline inline_block">
+                        Compare Plans
+                    </a>
+                </form>
 
-                </div>
-
-                <hr class="small_right_margin small_left_margin">
-            {% endif %}
-
-            <a href="#/blackmambasoft.slack.com/team" class="plastic_row">
-                <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                <i class="ts_icon ts_icon_team_directory candy_red_bg icon"></i>
-                <h3>Team Directory</h3>
-                <span class="description">Browse and view profiles for members of your team.</span>
-            </a>
-            <a href="#/blackmambasoft.slack.com/customize" class="plastic_row">
-                <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                <i class="ts_icon ts_icon_magic seafoam_green_bg icon"></i>
-                <h3>Customize Slack</h3>
-                <span class="description">Use these settings to make Slack your own.</span>
-            </a>
-            <a href="#/blackmambasoft.slack.com/stats" class="plastic_row">
-                <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
-                <i class="ts_icon ts_icon_dashboard burnt_violet_bg icon"></i>
-                <h3>Statistics</h3>
-                <span class="description">View stats for your team, including activity, files, and integrations.</span>
-            </a>
-
-        </div>
-
-        <div class="card home_card">
-            <a href="#/blackmambasoft.slack.com/apps" class="btn float_right hide_on_mobile"><i
-                    class="ts_icon ts_icon_plus_circle"></i> Add Applications</a>
-            <h3><i class="ts_icon ts_icon_plug yolk_orange small_right_margin"></i> Recently Added Applications</h3>
-            <div class="clearfix plastic_row">
-                <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P"><i
-                        class="ts_icon ts_icon_chevron_medium_right chevron"></i></a>
-                <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P">
-                    <img src="{% static 'images/service_google_docs.png' %}" class="icon"></a>
-                <h4><a href="#/blackmambasoft.slack.com/apps/A0F7YS32P">Google Drive</a></h4>
-                <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P" class="description overflow_ellipsis">
-                    Online document and file storage.
-                </a>
             </div>
-            <p class="top_margin no_bottom_margin small_left_margin small_bottom_margin">
-                <a href="#/blackmambasoft.slack.com/apps/manage" class="subtle_silver">
-                    View all installed applications</a>
-            </p>
-        </div>
+
+            <hr class="small_right_margin small_left_margin">
+        {% endif %}
+
+        <a href="#/blackmambasoft.slack.com/team" class="plastic_row">
+            <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+            <i class="ts_icon ts_icon_team_directory candy_red_bg icon"></i>
+            <h3>Team Directory</h3>
+            <span class="description">Browse and view profiles for members of your team.</span>
+        </a>
+        <a href="#/blackmambasoft.slack.com/customize" class="plastic_row">
+            <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+            <i class="ts_icon ts_icon_magic seafoam_green_bg icon"></i>
+            <h3>Customize Slack</h3>
+            <span class="description">Use these settings to make Slack your own.</span>
+        </a>
+        <a href="#/blackmambasoft.slack.com/stats" class="plastic_row">
+            <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
+            <i class="ts_icon ts_icon_dashboard burnt_violet_bg icon"></i>
+            <h3>Statistics</h3>
+            <span class="description">View stats for your team, including activity, files, and integrations.</span>
+        </a>
+
     </div>
-    {#    <div id="overlay"></div>#}
+
+    <div class="card home_card">
+        <a href="#/blackmambasoft.slack.com/apps" class="btn float_right hide_on_mobile"><i
+                class="ts_icon ts_icon_plus_circle"></i> Add Applications</a>
+        <h3><i class="ts_icon ts_icon_plug yolk_orange small_right_margin"></i> Recently Added Applications</h3>
+        <div class="clearfix plastic_row">
+            <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P"><i
+                    class="ts_icon ts_icon_chevron_medium_right chevron"></i></a>
+            <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P">
+                <img src="{% static 'images/service_google_docs.png' %}" class="icon"></a>
+            <h4><a href="#/blackmambasoft.slack.com/apps/A0F7YS32P">Google Drive</a></h4>
+            <a href="#/blackmambasoft.slack.com/apps/A0F7YS32P" class="description overflow_ellipsis">
+                Online document and file storage.
+            </a>
+        </div>
+        <p class="top_margin no_bottom_margin small_left_margin small_bottom_margin">
+            <a href="#/blackmambasoft.slack.com/apps/manage" class="subtle_silver">
+                View all installed applications</a>
+        </p>
+    </div>
 {% endblock %}

@@ -127,4 +127,12 @@ def snippet(request, slug=None):
 @login_required(login_url='/login/')
 def file_detail(request, slug):
     file = get_object_or_404(SlackFile, slug=slug)
-    return render_to_response('account/files/details.html', {'file': file}, context_instance=RequestContext(request))
+    comments = FilesComment.objects.filter(file_up=file).order_by('-published')[:10]
+    isImage = isFile = False
+    if isinstance(file, ImageUp):
+        isImage = True
+    if isinstance(file, FilesUp):
+        isFile = True
+    return render_to_response('account/files/details.html',
+                              {'file': file, 'isImage': isImage, 'isFile': isFile, 'comments': comments},
+                              context_instance=RequestContext(request))

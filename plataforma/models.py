@@ -217,9 +217,14 @@ class FilesUp(SlackFile):
 
 class ImageUp(SlackFile):
     image_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
+    size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return 'images_up - ' + self.uploaded.__str__()
+
+    def save(self, *args, **kwargs):
+        self.size = self.image_up.size
+        super(ImageUp, self).save(*args, **kwargs)
 
 
 class FilesComment(models.Model):

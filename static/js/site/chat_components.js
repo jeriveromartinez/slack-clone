@@ -54,6 +54,7 @@ var item_directory_list = function (username, name, imageUrl, currentUsername) {
 };
 
 var item_user_profile = function (object, localtime) {
+    var userUrl = '/account/profile/' + object.user.username + '/'
     var item = '<div class="heading">' +
         '<a onclick="return false;" id="back_from_member_preview"><i class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>' +
         '<a class="close_flexpane" title="Close Flexpane" data-pannel="member_preview_container"><i class="ts_icon ts_icon_times"></i></a></div>' +
@@ -69,7 +70,7 @@ var item_user_profile = function (object, localtime) {
         '<div class="member_details clearfix display_flex flex_direction_column align_items_center cropped_preview">' +
         '<span class=" member_preview_link member_image thumb_512" style="background-image:  url(' + object.image + '),  url(/static/images/ava_0022-48.png)"></span>' +
         '<div class="member_name_and_presence lato">' +
-        '<a class="member_name">' + object.user.first_name + ' ' + object.user.last_name + '</a>' +
+        '<a href="' + userUrl + '" class="member_name">' + object.user.first_name + ' ' + object.user.last_name + '</a>' +
         '<span class="presence away" title="away">' +
         '<i class="ts_icon ts_icon_presence presence_icon"></i></span></div>';
 
@@ -210,7 +211,11 @@ var item_file = function (fileSlug, owner, dateCreate, title, comments, profileU
         item = '<div class="file_list_item file_item space has_icon" id="' + fileSlug + '">' + item;
         item += '<i class="' + get_icon(obj) + '"></i>';
     }
-    item += '<div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' + owner + '</a></span><span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' + title + '</h4><!--<div class="preview post_body overflow_ellipsis">COMMENTS</div>--><a class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' + comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments <!--<span class="file_share_label">shared with you</span>--></span></span></div></div>';
+    item += '<div class="contents"><span class="author"><a href="' + profileUrl + '" class="message_sender member member_preview_link color_9f69e7">' +
+        owner + '</a></span>•<span class="time">' + dateCreate + '</span><h4 class="title overflow_ellipsis ">' +
+        title + '</h4><a class="file_preview_link file_comment_link no_wrap tiny_right_margin"><i class="ts_icon ts_icon_comment"></i>' +
+        comments + '</a><span class="share_info"><span class="file_share_public_label hidden"><span class="file_share_shared_label hidden">Shared' +
+        '<span class="file_share_label">shared with you</span></span></span><span class="file_share_private_label">Comments</span></span></div></div>';
     return item;
 };
 
