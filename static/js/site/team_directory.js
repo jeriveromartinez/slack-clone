@@ -3,6 +3,13 @@
  */
 $(document).ready(function () {
     loadPage();
+
+    $('input[name="team_filter"]').bind('keypress', function (e) {
+        if (e.keyCode == 13) {
+            loadPage($(this).val());
+            $(this).val('');
+        }
+    });
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
@@ -52,7 +59,7 @@ window.getCookie = function (c_name) {
     return "";
 };
 
-var loadPage = function () {
+var loadPage = function (search) {
     var exc = function (response) {
         var list = $('#active_members_list');
         $(list).html('');
@@ -66,5 +73,6 @@ var loadPage = function () {
     };
 
     var urlapi = apiUrl + companyuser + '/users/';
+    (search != undefined && search != '') ? urlapi += search + '/' : '';
     request(urlapi, 'GET', null, null, exc, null);
 };

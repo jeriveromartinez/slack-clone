@@ -17,8 +17,8 @@
 {% block main_container %}
     <div class="file_header_container no_print">
         <div class="flexpane_file_title">
-            <a style="background-image: url('{{ request.user.user_profile.image }}'),url('{% static 'images/ava_0022-48.png' %}')"
-               class="member_image thumb_36 member_preview_link  "></a>
+            <a style="background-image: {% if request.user.user_profile.image %}url('{{ request.user.user_profile.image.url }}'),{% endif %}url('{% static 'images/ava_0022-48.png' %}')"
+               class="member_image thumb_36 member_preview_link"></a>
             <span class="color_4bbe2e">
                 <a href="{% url 'account:profile' request.user.username %}"
                    class="message_sender color_4bbe2e member member_preview_link">{{ request.user.username }}</a></span>
@@ -79,7 +79,7 @@
                                 <span class="no_print">
                                     <a href="{% url 'account:profile' comm.user.username %}"
                                        class=" member_preview_link member_image thumb_36"
-                                       style="background-image: url('{{ comm.user.user_profile.image.url }}'),url('{% static 'images/ava_0022-48.png' %}')"
+                                       style="background-image: {% if comm.user.user_profile.image %}url('{{ comm.user.user_profile.image.url }}'),{% endif %}url('{% static 'images/ava_0022-48.png' %}')"
                                        aria-hidden="true"></a>
                                 </span>
                                 <p class="comment_meta">
@@ -153,8 +153,10 @@
                         <div class="menu_body">
                         </div>
                         <ul id="menu_items" role="menu" no-bootstrap="1">
-                            <li id="share_file" role="menuitem" data-action="share" data-info="{{ file.slug }}"><a>Share</a></li>
-                            <li id="copy_file_link" role="menuitem" data-action="copy-link" data-info="{{ file.slug }}"><a>Copy link</a></li>
+                            <li id="share_file" role="menuitem" data-action="share" data-info="{{ file.slug }}">
+                                <a>Share</a></li>
+                            <li id="copy_file_link" role="menuitem" data-action="copy-link" data-info="{{ file.slug }}">
+                                <a>Copy link</a></li>
                             {% comment %}<li id="open_original_file" role="menuitem">
                                 <a href="#/files.slack.com/files-pri/T2KQ0HR61-F3BUZ26BZ/python.py"> View raw </a>
                             </li>{% endcomment %}

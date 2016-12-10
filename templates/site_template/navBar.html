@@ -24,13 +24,14 @@
 
         <div class="nav_contents">
             <ul class="primary_nav">
+                <li><a href="{% url 'app:homepage' %}" data-qa="app"><i class="ts_icon ts_icon_angle_arrow_up_left"></i>Back to Slack</a></li>
                 <li><a href="{% url 'account:profile_home' %}"><i class="ts_icon ts_icon_home"></i>Home</a>
                 </li>
                 <li><a href="{% url 'account:settings' %}" data-qa="account_profile"><i
                         class="ts_icon ts_icon_user"></i>Account &amp; Profile</a></li>
                 {% comment %}<li><a href="#/apps/manage" data-qa="configure_apps" target="_blank"><i
                         class="ts_icon ts_icon_plug"></i>Configure Apps</a></li>{% endcomment %}
-                <li><a href="#/archives" data-qa="archives"><i
+                <li><a href="{% url 'account:msg' %}" data-qa="archives"><i
                         class="ts_icon ts_icon_archive"></i>Message Archives</a></li>
                 <li><a href="{% url 'account:file' %}"><i
                         class="ts_icon ts_icon_all_files clear_blue"></i>Files</a></li>

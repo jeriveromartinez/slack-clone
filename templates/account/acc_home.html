@@ -44,38 +44,37 @@
 
                 <span class="description indifferent_grey small_bottom_margin">
                         Your team is on the <strong>Free plan</strong>.
-                    </span>
+                </span>
                 <span class="description indifferent_grey small_bottom_margin">
                         Upgrade to the <strong>Standard plan</strong> or
                         <a href="#/blackmambasoft.slack.com/pricing/plus"><strong>Plus plan</strong></a>
                         for additional features, including:
-                    </span>
+                </span>
                 <span class="description indifferent_grey bottom_margin">
 						• Unlimited message archives and search<br>
 						• Unlimited integrations with external services<br>
 						• Premium support<br>
 						• Guest accounts
-					</span>
+				</span>
 
-                <form action="#/blackmambasoft.slack.com/checkout" method="post">
+                {% comment %}<form action="#/blackmambasoft.slack.com/checkout" method="post">
                     <button type="submit" class="btn small_right_margin inline_block">Upgrade your team</button>
                     <a href="#/blackmambasoft.slack.com/pricing/" class="btn btn_outline inline_block">
                         Compare Plans
                     </a>
-                </form>
-
+                </form>{% endcomment %}
             </div>
 
             <hr class="small_right_margin small_left_margin">
         {% endif %}
 
-        <a href="#/blackmambasoft.slack.com/team" class="plastic_row">
+        <a href="{% url 'account:team_directory' %}" class="plastic_row">
             <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
             <i class="ts_icon ts_icon_team_directory candy_red_bg icon"></i>
             <h3>Team Directory</h3>
             <span class="description">Browse and view profiles for members of your team.</span>
         </a>
-        <a href="#/blackmambasoft.slack.com/customize" class="plastic_row">
+        {% comment %}<a href="#/blackmambasoft.slack.com/customize" class="plastic_row">
             <i class="ts_icon ts_icon_chevron_medium_right chevron"></i>
             <i class="ts_icon ts_icon_magic seafoam_green_bg icon"></i>
             <h3>Customize Slack</h3>
@@ -86,11 +85,11 @@
             <i class="ts_icon ts_icon_dashboard burnt_violet_bg icon"></i>
             <h3>Statistics</h3>
             <span class="description">View stats for your team, including activity, files, and integrations.</span>
-        </a>
+        </a>{% endcomment %}
 
     </div>
 
-    <div class="card home_card">
+    {% comment %}<div class="card home_card">
         <a href="#/blackmambasoft.slack.com/apps" class="btn float_right hide_on_mobile"><i
                 class="ts_icon ts_icon_plus_circle"></i> Add Applications</a>
         <h3><i class="ts_icon ts_icon_plug yolk_orange small_right_margin"></i> Recently Added Applications</h3>
@@ -108,5 +107,5 @@
             <a href="#/blackmambasoft.slack.com/apps/manage" class="subtle_silver">
                 View all installed applications</a>
         </p>
-    </div>
+    </div>{% endcomment %}
 {% endblock %}

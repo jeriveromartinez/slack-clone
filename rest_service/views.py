@@ -50,7 +50,6 @@ def room_by_user_list(request, username):
 
     if len(data) > 1:
         for key, room in enumerate(data):
-            print room["name"]
             messages = MessageEvent.objects.all().filter(readed=False, room__name=room["name"]). \
                 values("room__name") \
                 .annotate(
@@ -352,6 +351,7 @@ def save_files(request, from_user):
             cond, channel = post['shared'].split('_')
             if cond == "channel":
                 room = Room.objects.get(slug=channel)
+                create.shared_in.add(room)
                 for item in room.users.all():
                     create.shared_to.add(item.user)
                 FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
@@ -392,8 +392,8 @@ def change_pass(request, username):
             user.set_password(request.POST['change'])
             user.save()
             return Response({'success': 'ok'})
-        except:
-            pass
+        except Exception as e:
+            print e.message
     return Response({'success': 'false'})
 
 
@@ -445,6 +445,7 @@ def snippet_create(request):
             cond, channel = shared.split('_')
             if cond == "channel":
                 room = Room.objects.get(slug=channel)
+                create.shared_to.add(room)
                 for item in room.users.all():
                     create.shared_to.add(item.user)
                 FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',

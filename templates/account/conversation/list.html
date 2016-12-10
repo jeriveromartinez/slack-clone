@@ -1,0 +1,102 @@
+{% comment %}<a href="/services/export" class="btn btn_outline float_right small_top_margin hide_on_mobile"><i
+        class="ts_icon ts_icon_cloud_download small_right_margin"></i> Export Data</a>{% endcomment %}
+{% load staticfiles %}
+<h1><i class="ts_icon ts_icon_archive thrills_purple"></i> Message Archives</h1>
+<div id="channel_archives_tabs" class="tab_set on_neutral_grey">
+    <a class="archives_channel_tab " href="/archives">Channels</a>
+    <a href="/direct-messages" class="selected">Direct Messages</a>
+    {% comment %}<a href="/archives/archived" class="secondary ">Archived Channels</a>{% endcomment %}
+    <i class="tab_caret ts_icon ts_icon_caret_down"></i>
+    <i class="tab_caret ts_icon ts_icon_caret_up"></i>
+</div>
+<div class="hide_on_mobile tab_actions clearfix">
+    <div class="subtle_silver col span_4_of_6 left_padding small_top_padding no_bottom_margin">You have 3 active
+        conversations
+    </div>
+    <div id="im_filter" class="position_relative float_right">
+        <i class="icon_search_input ts_icon ts_icon_search"></i>
+        <a class="icon_search_close ts_icon ts_icon_times_circle hidden"></a>
+        <input type="text" class="small search_input" placeholder="Filter by name">
+    </div>
+</div>
+
+<section class="tab_pane selected" data-tab="direct-messages">
+    <div class="hide_on_mobile">
+        <div class="col span_4_of_6"><h5>Name</h5></div>
+        <div class="col span_2_of_6"><h5>Last active on</h5></div>
+        <div class="clear_both"></div>
+    </div>
+    <div id="im_list" class="no_margin">
+        <div class=" bottom_border">
+            <div class="position_relative">
+				<span class="avatar">
+                    <span class=" member_preview_link member_image thumb_48"
+                          style="background-image: url('{% static 'images/ava_0022-48.png' %}')" aria-hidden="true">
+                    </span>
+                </span>
+            </div>
+            <h4 class="no_bottom_margin">
+                <a href="/archives/D2KQ7LY23" class="slate_blue"> jeriverom </a>
+            </h4>
+            <div class="col span_4_of_6 subtle_silver">
+                <p class="small no_bottom_margin"> Julio: ooe locols </p>
+            </div>
+            <div class="col span_2_of_6 subtle_silver hide_on_mobile">
+                Dec 9th, 2016
+            </div>
+            <div class="clear_both"></div>
+        </div>
+        <div class="top_padding bottom_border">
+            <div class="position_relative">
+				<span class="avatar">
+                    <span class=" member_preview_link member_image thumb_48"
+                          style="background-image: url('{% static 'images/ava_0022-48.png' %}')"
+                          aria-hidden="true"></span>
+                </span>
+            </div>
+            <h4 class="no_bottom_margin">
+                <a href="/archives/D2KNC4UE7" class="slate_blue">
+                    vbuilvicente
+                </a>
+            </h4>
+            <div class="col span_4_of_6 subtle_silver">
+                <p class="small no_bottom_margin">
+                    You: df
+                </p>
+            </div>
+            <div class="col span_2_of_6 subtle_silver hide_on_mobile">
+                Nov 13th, 2016
+            </div>
+            <div class="clear_both"></div>
+        </div>
+        <div class="top_padding ">
+            <div class="position_relative">
+				<span class="avatar">
+                    <span class=" member_preview_link member_image thumb_48"
+                          style="background-image: url('{% static 'images/ava_0022-48.png' %}')"
+                          aria-hidden="true"></span>
+                </span>
+            </div>
+            <h4 class="no_bottom_margin" style="padding-left: 4rem;">
+                <a href="/archives/D2KPUGGE4" class="slate_blue">
+                    slackbot
+                </a>
+            </h4>
+            <div class="col span_4_of_6 subtle_silver" style="padding-left: 4rem">
+                <p class="small no_bottom_margin">
+                    slackbot: I'm sorry, I don't understand! Sometimes I have an easier time with a few simple keywords.
+                    <span class="para_break"><i class="copy_only"><br></i></span>Or you can head to our wonderful <a
+                        href="https://get.slack.help" data-referer-safe="1"
+                        onclick="this.href=&quot;https://slack-redir.net/link?url=https%3A%2F%2Fget.slack.help&quot;"
+                        onmouseover="this.href=TS.utility.referer_safe_url_map[&quot;https%3A%2F%2Fget.slack.help&quot;]"
+                        data-referer-original-href="https://get.slack.help" rel="noreferrer" target="_blank">Help
+                    Center</a> for more assistance!
+                </p>
+            </div>
+            <div class="col span_2_of_6 subtle_silver hide_on_mobile">
+                Oct 29th, 2016
+            </div>
+            <div class="clear_both"></div>
+        </div>
+    </div>
+</section>

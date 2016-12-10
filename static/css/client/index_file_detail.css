@@ -3523,7 +3523,7 @@ html.no_touch header .header_btns .btn_link:hover .label, html.no_touch header .
     display: block;
     float: left;
     margin: 0 0 2%;
-    padding-right: 2%;
+    padding-right: 2px;
 }
 
 .col + .col {

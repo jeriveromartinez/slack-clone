@@ -81,6 +81,7 @@ class SlackFile(PolymorphicModel):
     title = models.CharField(null=True, blank=True, max_length=255)
     author = models.ForeignKey(Profile, related_name='file_up_owner', on_delete=models.CASCADE)
     shared_to = models.ManyToManyField(User)
+    shared_in = models.ManyToManyField(Room)
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False)
     extension = models.CharField(max_length=20, blank=True, null=True)

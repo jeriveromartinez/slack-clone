@@ -2109,13 +2109,13 @@ h1 .ts_icon:not(.ts_icon_base_size)::before, h1 ts-icon:not(.ts_icon_base_size):
 .filetype_icon.s24::before {
     content: "";
     font-size: 2.5rem;
-    margin: 2px 0px 0px -8px;
+    margin: 2px 0 0 -8px;
 }
 
 .filetype_icon.s30::before, .filetype_icon.s48::before {
     content: "";
     font-size: 3.125rem;
-    margin: 4px 0px 0px -10px;
+    margin: 4px 0 0 -10px;
 }
 
 .filetype_icon.rtf.s24::before, .filetype_icon.rtf.s30::before, .filetype_icon.rtf.s48::before, .filetype_icon.text.s24::before, .filetype_icon.text.s30::before, .filetype_icon.text.s48::before, .filetype_icon.txt.s24::before, .filetype_icon.txt.s30::before, .filetype_icon.txt.s48::before {
@@ -2139,9 +2139,9 @@ h1 .ts_icon:not(.ts_icon_base_size)::before, h1 ts-icon:not(.ts_icon_base_size):
 }
 
 .ts_tip .ts_tip_multiline_inner, .ts_tip:not(.ts_tip_multiline) .ts_tip_tip {
-    margin: 0px;
+    margin: 0;
     padding: 8px 12px;
-    background: rgb(0, 0, 0) none repeat scroll 0% 0%;
+    background: rgb(0, 0, 0) none repeat scroll 0 0;
     border-radius: 6px;
 }
 
@@ -2160,8 +2160,8 @@ h1 .ts_icon:not(.ts_icon_base_size)::before, h1 ts-icon:not(.ts_icon_base_size):
     top: 50%;
     left: 50%;
     content: "";
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     margin: -6px;
     border: 6px solid transparent;
 }
@@ -2321,7 +2321,7 @@ h1 .ts_icon:not(.ts_icon_base_size)::before, h1 ts-icon:not(.ts_icon_base_size):
 }
 
 .no_margin {
-    margin: 0px ! important;
+    margin: 0 ! important;
 }
 
 .bottom_margin {
@@ -2351,7 +2351,7 @@ img {
     max-width: 100%;
     height: auto;
     vertical-align: middle;
-    border: 0px none;
+    border: 0 none;
 }
 
 .clearfix::after, .clearfix::before {
@@ -2393,9 +2393,9 @@ table.gray_header_border tr:first-child th:not(:only-of-type) {
     display: block;
     background-color: rgb(232, 232, 232);
     position: absolute;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
     width: 4px;
 }
 
@@ -2443,7 +2443,7 @@ body {
 h1, h2, h3, h4, h5 {
     font-weight: 700;
     font-family: Slack-Lato, appleLogo, sans-serif;
-    margin: 0px 0px 1rem;
+    margin: 0 0 1rem;
 }
 
 h1 {
@@ -2470,7 +2470,7 @@ a:active {
 }
 
 p {
-    margin: 0px 0px 1rem;
+    margin: 0 0 1rem;
 }
 
 @media not all {
@@ -2487,8 +2487,8 @@ p {
 
 dl::before {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     height: 100%;
     width: 3px;
     display: block;
@@ -2504,9 +2504,9 @@ dl.purple_bar::before {
 s::after {
     border-bottom: 2px solid rgb(85, 84, 89);
     content: "";
-    left: 0px;
+    left: 0;
     position: absolute;
-    right: 0px;
+    right: 0;
     top: 47%;
 }
 
@@ -2538,7 +2538,7 @@ body, html {
 }
 
 body {
-    margin: 0px;
+    margin: 0;
     background: rgb(249, 249, 249) none repeat scroll 0% 0%;
     font-size: 1.125rem;
 }
@@ -2570,8 +2570,8 @@ body {
 
 @media only screen and (min-width: 1441px) {
     .widescreen:not(.nav_open) nav#site_nav {
-        transform: translate3d(0px, 0px, 0px);
-        background: transparent none repeat scroll 0px 0px;
+        transform: translate3d(0px, 0, 0);
+        background: transparent none repeat scroll 0 0;
         margin-top: 5.5rem;
         position: absolute;
         z-index: 100;
@@ -2592,7 +2592,7 @@ body {
     }
 
     html.no_touch .widescreen:not(.nav_open) nav#site_nav #user_menu_contents:hover {
-        background: transparent none repeat scroll 0px 0px;
+        background: transparent none repeat scroll 0 0;
     }
 
     html.no_touch .widescreen:not(.nav_open) nav#site_nav #user_menu_contents:hover .member_type_badge .member_type_badge_background_ra #badge_bg, html.no_touch .widescreen:not(.nav_open) nav#site_nav #user_menu_contents:hover .member_type_badge .member_type_badge_background_ura #badge_bg {
@@ -2608,12 +2608,12 @@ body {
     }
 
     .widescreen:not(.nav_open) header #menu_toggle {
-        transform: translate3d(-146px, 0px, 0px);
+        transform: translate3d(-146px, 0, 0);
         transition: transform 0.15s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
     }
 
     .widescreen:not(.nav_open) header #header_team_name {
-        transform: translate3d(-146px, 0px, 0px);
+        transform: translate3d(-146px, 0, 0);
         transition: transform 0.15s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
     }
 
@@ -2628,11 +2628,11 @@ body {
     }
 
     .widescreen:not(.nav_open) header #header_team_name {
-        transform: translate3d(-124px, 0px, 0px);
+        transform: translate3d(-124px, 0, 0);
     }
 
     .widescreen:not(.nav_open) header i {
-        margin: 0px 0.25rem 0px 0px;
+        margin: 0 0.25rem 0 0;
     }
 }
 
@@ -2665,9 +2665,9 @@ body {
 
 @media only screen and (max-width: 767px) {
     .col:not(.mobile_col) {
-        margin: 0px 0px 2%;
+        margin: 0 0 2%;
         width: 100% ! important;
-        padding-right: 0px;
+        padding-right: 0;
     }
 }
 
@@ -2686,7 +2686,7 @@ body {
     -moz-user-select: none;
     text-decoration: none;
     cursor: pointer;
-    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     border: medium none;
     border-radius: 0.25rem;
     box-shadow: none;
@@ -2695,21 +2695,21 @@ body {
     vertical-align: bottom;
     text-align: center;
     white-space: nowrap;
-    margin: 0px;
+    margin: 0;
 }
 
 .btn::after {
     position: absolute;
     content: "";
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     border-radius: 0.25rem;
 }
 
 .no_touch .btn.hover, .no_touch .btn:focus, .no_touch .btn:hover {
-    outline: 0px none;
+    outline: 0 none;
     text-decoration: none;
 }
 
@@ -2719,7 +2719,7 @@ body {
 }
 
 .btn.hover::after, .btn:focus::after, .btn:hover::after {
-    box-shadow: 0px -2px rgba(0, 0, 0, 0.25) inset;
+    box-shadow: 0 -2px rgba(0, 0, 0, 0.25) inset;
 }
 
 .btn.active, .btn:active {
@@ -2727,7 +2727,7 @@ body {
 }
 
 .btn.active::after, .btn:active::after {
-    box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 0 2px 1px rgba(0, 0, 0, 0.2) inset;
 }
 
 .btn_outline::after {
@@ -2748,7 +2748,7 @@ body {
 }
 
 .btn_outline:active::after {
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2) inset;
 }
 
 .btn.btn_outline.btn_warning:focus::after, .btn.btn_outline.btn_warning:hover::after {
@@ -2841,12 +2841,12 @@ body {
     border: 1px solid rgb(197, 197, 197);
     border-radius: 0.25rem;
     -moz-appearance: none;
-    outline: 0px none;
+    outline: 0 none;
     color: rgb(85, 84, 89);
     width: 100%;
     max-width: 100%;
     font-family: Slack-Lato, appleLogo, sans-serif;
-    margin: 0px 0px 0.5rem;
+    margin: 0 0 0.5rem;
     transition: box-shadow 70ms ease-out 0s, border-color 70ms ease-out 0s;
     box-shadow: none;
     height: auto;
@@ -2858,9 +2858,9 @@ body {
 
 .focus, .plastic_select:active, .plastic_select:focus, input[type="url"]:active, input[type="url"]:focus, input[type="text"]:active, input[type="text"]:focus, input[type="number"]:active, input[type="number"]:focus, input[type="email"]:active, input[type="email"]:focus, input[type="password"]:active, input[type="password"]:focus, select:active, select:focus, textarea:active, textarea:focus {
     border-color: rgb(39, 128, 248);
-    box-shadow: 0px 0px 7px rgba(39, 128, 248, 0.15);
-    outline-offset: 0px;
-    outline: 0px none;
+    box-shadow: 0 0 7px rgba(39, 128, 248, 0.15);
+    outline-offset: 0;
+    outline: 0 none;
 }
 
 input.ts_icon_placeholder[type="text"]::-moz-placeholder {
@@ -2886,7 +2886,7 @@ input:disabled, input:disabled:active, select:disabled, textarea:disabled {
 
 label {
     font-weight: 700;
-    margin: 0px 0px 0.25rem;
+    margin: 0 0 0.25rem;
     display: block;
     font-size: 1rem;
     line-height: 1.5rem;
@@ -2974,7 +2974,7 @@ label .validation_message::before {
 }
 
 label.validation_count .validation_message::before {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 label.validation_error .validation_message, label.validation_error .validation_message::before {
@@ -3007,12 +3007,12 @@ label.validation_success .validation_message, label.validation_success .validati
 }
 
 .username_input_container .username_input ~ label[for] .validation_message::before {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 @media only screen and (max-width: 767px) {
     label .validation_message::before {
-        margin-left: 0px;
+        margin-left: 0;
     }
 }
 
@@ -3027,7 +3027,7 @@ label.validation_success .validation_message, label.validation_success .validati
 
 #generic_dialog.basic_share_dialog .lazy_filter_select .lfs_input_container .lfs_item .ts_icon:not(.presence_icon)::before, #share_dialog .lazy_filter_select .lfs_input_container .lfs_item .ts_icon:not(.presence_icon)::before {
     font-size: 1.25rem;
-    top: 0px;
+    top: 0;
 }
 
 #generic_dialog.basic_share_dialog .lazy_filter_select .lfs_input_container .lfs_item .ts_icon.ts_icon_channel:not(.presence_icon)::before, #share_dialog .lazy_filter_select .lfs_input_container .lfs_item .ts_icon.ts_icon_channel:not(.presence_icon)::before {
@@ -3118,7 +3118,7 @@ label.validation_success .validation_message, label.validation_success .validati
 .menu ul li.highlighted a, .menu:not(.keyboard_active) ul li:hover:not(.disabled) a {
     background: rgb(58, 163, 227) none repeat scroll 0% 0%;
     color: rgb(255, 255, 255);
-    text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
 .menu ul li.highlighted a .prefix, .menu ul li.highlighted a i, .menu ul li.highlighted a.delete_link, .menu:not(.keyboard_active) ul li:hover:not(.disabled) a .prefix, .menu:not(.keyboard_active) ul li:hover:not(.disabled) a i, .menu:not(.keyboard_active) ul li:hover:not(.disabled) a.delete_link {
@@ -3138,7 +3138,7 @@ label.validation_success .validation_message, label.validation_success .validati
 }
 
 #emoji_menu #emoji_menu.key_mode .emoji_li:not(.key_selection) a:hover {
-    background: transparent none repeat scroll 0px 0px ! important;
+    background: transparent none repeat scroll 0 0 ! important;
 }
 
 .popover_menu .arrow::after, .popover_menu .arrow_shadow::after {
@@ -3153,7 +3153,7 @@ label.validation_success .validation_message, label.validation_success .validati
 
 .popover_menu .arrow_shadow::after {
     z-index: -1;
-    box-shadow: -1px -1px 0px 0px rgb(224, 224, 224), -1px -1px 2px rgba(0, 0, 0, 0.08);
+    box-shadow: -1px -1px 0 0 rgb(224, 224, 224), -1px -1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .popover_menu.showing_header .arrow::after, .popover_menu.showing_header .arrow_shadow::after {
@@ -3463,7 +3463,7 @@ html:not(.supports_flexbox) #channel_browser .channel_browser_sort_container {
 }
 
 #im_browser #im_list_container.not_scrolling:not(.keyboard_active) .im_browser_row:hover, #im_browser .im_browser_row.highlighted {
-    background: rgb(237, 247, 253) none repeat scroll 0% 0%;
+    background: rgb(237, 247, 253) none repeat scroll 0 0;
     border: 1px solid rgb(211, 236, 250);
     border-radius: 6px;
 }
@@ -3629,7 +3629,7 @@ label.select[data-lazy-filter-select]::after, label[data-lazy-filter-select] sel
 }
 
 img#slack_logo {
-    background: transparent none repeat scroll 0px 0px;
+    background: transparent none repeat scroll 0 0;
 }
 
 .logo_link {
@@ -3640,10 +3640,10 @@ img#slack_logo {
     position: absolute;
     overflow: hidden;
     width: 100%;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     background-color: #fff;
     transition: background-color 0.2s ease-out 0s;
 }
@@ -3660,7 +3660,7 @@ img#slack_logo {
 }
 
 .fs_split .header_error_message {
-    margin: 0px 11%;
+    margin: 0 11%;
     padding: 1rem 2rem;
     background: rgb(255, 241, 225) none repeat scroll 0% 0%;
     border: medium none -moz-use-text-color;
@@ -3674,7 +3674,7 @@ img#slack_logo {
 }
 
 .fs_split .header_error_message h3 {
-    margin: 0px;
+    margin: 0;
 }
 
 .fs_split .error_message {
@@ -3704,7 +3704,7 @@ img#slack_logo {
 }
 
 .fs_split_pane .fs_split_body {
-    padding: 0px 12%;
+    padding: 0 12%;
     position: relative;
     align-self: center;
     max-width: 100%;
@@ -3721,7 +3721,7 @@ img#slack_logo {
 
 .fs_split_pane .fs_split_footer {
     padding: 0.5rem 12%;
-    margin: 0px auto;
+    margin: 0 auto;
     text-align: center;
     align-self: flex-end;
     max-width: 100%;
@@ -3810,7 +3810,7 @@ img#slack_logo {
     }
 
     .fs_split .fs_split_pane .fs_split_flex_wrapper .fs_split_body {
-        padding: 0px 1rem 3rem;
+        padding: 0 1rem 3rem;
     }
 
     .fs_split .fs_split_pane .fs_split_flex_wrapper .fs_split_footer {
@@ -3950,7 +3950,7 @@ img#slack_logo {
 
 #submit .ts_icon_arrow_right {
     font-size: 2rem;
-    margin: 0px -0.5rem 0px 0px;
+    margin: 0 -0.5rem 0 0;
     padding-left: 0.25rem;
 }
 
@@ -4080,7 +4080,7 @@ img#slack_logo {
 }
 
 .no_top_padding {
-    padding-top: 0px !important;
+    padding-top: 0 !important;
 }
 
 * {
@@ -4112,12 +4112,12 @@ img#slack_logo {
 .col {
     display: block;
     float: left;
-    margin: 0px 0px 2%;
-    padding-right: 2%;
+    margin: 0 0 2%;
+    padding-right: 2px;
 }
 
 .no_padding {
-    padding: 0px !important;
+    padding: 0 !important;
 }
 
 .fs_split_pane_full_width #invite_form_body {
@@ -4165,7 +4165,6 @@ img#slack_logo {
     height: 1.75rem;
     pointer-events: none;
     border-left: 1px solid transparent;
-    border-color: transparent;
 }
 
 .seafoam_green {
@@ -4177,7 +4176,7 @@ img#slack_logo {
 }
 
 .no_bottom_margin {
-    margin-bottom: 0px !important;
+    margin-bottom: 0 !important;
 }
 
 .float_right {
@@ -4197,11 +4196,11 @@ img#slack_logo {
 
 #client-ui .file_list_item.email, #client-ui .file_list_item.post, #client-ui .file_list_item.snippet, #client-ui .file_list_item.space, #files_list .file_list_item.email, #files_list .file_list_item.post, #files_list .file_list_item.snippet, #files_list .file_list_item.space {
     padding: 0.25rem;
-    min-height: 0px;
+    min-height: 0;
 }
 
 #client-ui .file_list_item, #files_list .file_list_item {
-    min-height: 0px;
+    min-height: 0;
 }
 
 .tab_container .file_list_item {
@@ -4223,7 +4222,7 @@ img#slack_logo {
 .file_list_item.email, .file_list_item.post, .file_list_item.snippet, .file_list_item.space {
     padding: 0.4rem 0.5rem 0.5rem 2rem;
     display: block;
-    min-height: 0px;
+    min-height: 0;
 }
 
 .file_list_item {
@@ -4264,16 +4263,16 @@ a {
 .menu ul li a {
     display: block;
     text-decoration: none;
-    padding: 0px 1rem 0px 0.5rem;
-    margin: 0px 0.9375rem;
+    padding: 0 1rem 0 0.5rem;
+    margin: 0 0.9375rem;
     border-radius: 0.25rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    outline: 0px none;
+    outline: 0 none;
     font-size: 0.9375rem;
     line-height: 1.5625rem;
-    background: transparent none repeat scroll 0px 0px;
+    background: transparent none repeat scroll 0 0;
     color: rgb(44, 45, 48);
 }
 
@@ -4291,10 +4290,10 @@ a {
 
 .file_list_item .actions {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     padding: 0.375rem;
-    border-radius: 1rem 0px 0px 1rem;
+    border-radius: 1rem 0 0 1rem;
     background-clip: padding-box;
     width: 2.625rem;
     opacity: 0;
@@ -4309,7 +4308,7 @@ a {
     background-size: cover !important;
     background: rgb(243, 243, 243) no-repeat center center;
     border-radius: 0.25rem;
-    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1) inset;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset;
 }
 
 .tab_container .file_list_item.has_image .contents {
@@ -4321,7 +4320,7 @@ a {
 .tab_container .file_list_item.has_image .contents {
     margin-left: 4.3125rem;
     min-height: 3.75rem;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 #client-ui .file_list_item .filetype_icon, #files_list .file_list_item .filetype_icon {
@@ -4329,8 +4328,8 @@ a {
 }
 
 .tab_container .file_list_item.has_icon .filetype_icon {
-    margin-top: 0px;
-    margin-left: 0px;
+    margin-top: 0;
+    margin-left: 0;
 }
 
 .tab_container .file_list_item .filetype_icon {
@@ -4352,7 +4351,7 @@ a {
 }
 
 .tab_container .file_list_item.has_icon .contents {
-    padding-left: 0px;
+    padding-left: 0;
     margin-left: 3.0625rem;
     min-height: 2.9375rem;
 }
@@ -4364,7 +4363,7 @@ a {
 
 .file_list_item.email .contents, .file_list_item.post .contents, .file_list_item.snippet .contents, .file_list_item.space .contents {
     padding-left: 8px;
-    margin-top: 0px;
+    margin-top: 0;
 }
 
 .file_list_item .contents {
@@ -4386,20 +4385,20 @@ a {
 .btn_icon {
     width: 2rem;
     height: 1.875rem;
-    padding: 0px;
+    padding: 0;
 }
 
 #client-ui .file_list_item .actions .star_file, #files_list .file_list_item .actions .star_file {
-    margin-top: 0px;
+    margin-top: 0;
     background-color: transparent;
 }
 
 .tab_container .file_comment_item .actions .star, .tab_container .file_list_item .actions .star, .tab_container .star_item .message .actions .star, .tab_container .star_item ts-message .actions .star {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     z-index: 1;
-    border: 0px none;
+    border: 0 none;
     width: 1.875rem;
     height: 1.75rem;
 }
@@ -4417,7 +4416,7 @@ a {
     display: inline-block;
     width: 1.625rem;
     height: 1.625rem;
-    margin: 0px 0px 0.2rem;
+    margin: 0 0 0.2rem;
     line-height: 1.5625rem;
     text-align: center;
 }
@@ -4446,7 +4445,7 @@ a {
 }
 
 .tab_container .file_list_item .contents .title {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     line-height: 1.3125rem;
 }
 

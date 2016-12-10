@@ -779,7 +779,13 @@ a:not([href]) {
     color: rgb(85, 84, 89);
 }
 
-a, a.btn{
+a, a.btn {
     color: #fff;
+    text-decoration: none;
+}
+
+.plastic_row:hover {
+    background: #fbfbfa;
+    border-color: #e8e8e8;
     text-decoration: none;
 }
