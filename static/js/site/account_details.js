@@ -2,8 +2,8 @@
  * Created by julio on 14/11/16.
  */
 var userFileActive = null,
-    apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
-    hostUrl = window.location.protocol + '//' + window.location.host;
+    apiUrl = "https:" + '//' + window.location.host + '/api/',
+    hostUrl = "https:" + '//' + window.location.host;
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';
 $('body').prepend(itemLoad);

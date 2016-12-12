@@ -8,11 +8,10 @@ https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
 """
 
 import os
+from django.core.management import execute_from_command_line
+from conf.settings.base import SITE_ROOT
 
-from django.core.wsgi import get_wsgi_application
-from django.core import management
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conf.settings.base")
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "plataforma.settings")
-
-management.call_command('runserver_socketio', interactive=False)
+execute_from_command_line([SITE_ROOT + 'manage.py', 'runserver_socketio'])
 # application = get_wsgi_application()

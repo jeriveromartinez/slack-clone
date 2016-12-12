@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     window.history.replaceState("slack call ", "slack call ", "/call/" + roomname);
     console.log("server", document.domain);
-    var socket = new io.Socket(document.domain, {reconnection: true});
+    var socket = new io.Socket(document.domain, {reconnection: true, secure: true});
 
     window.room = {
         localStream: null,
@@ -25,7 +25,7 @@ $(document).ready(function () {
     };
 
     initUserList();
-    initStream(room.cons.camera);
+    initStream(room.cons.audioOnly);
     userAuteticated();
     initView();
 
@@ -60,8 +60,7 @@ $(document).ready(function () {
             case "user_list":
                 users = JSON.parse(msg.users);
                 initUserList();
-                initStream(room.cons.camera);
-
+                initStream(room.cons.audioOnly);
                 break;
             case "join":
                 userAdd(msg.user_from);
@@ -91,24 +90,34 @@ $(document).ready(function () {
     function handleOffer(data) {
         members(users);
         var from = data.user_from;
-        console.log('call', 'Call received: ' + from + room.users[from].pc);
+        console.log('call', 'Call received: ' + from + JSON.stringify(data.offer));
         if (!room.status.muted)
             room.users[from].pc.addStream(room.localStream);
+
         room.users[from].pc.setRemoteDescription(new RTCSessionDescription(data.offer), function () {
             room.users[from].pc.createAnswer(function (answer) {
                 room.users[from].pc.setLocalDescription(answer);
-                socket.send({action: 'answer', room: roomname, user_to: from, anwer: answer});
+                console.log("anwer to", from);
+                socket.send({
+                    action: 'answer',
+                    room: roomname,
+                    user_from: userlogged,
+                    user_to: from,
+                    answer: answer
+                });
             }, function (err) {
                 console.log('error', err);
             }, {});
         });
+
+
     };
 
 
     function handleAnswer(data) {
         members(users);
         var from = data.user_from;
-        console.log('call', 'Response received: ' + data);
+        console.log('call', 'Response received: ' + room.users[from].pc);
         room.users[from].pc.setRemoteDescription(new RTCSessionDescription(data.answer));
 
     };
@@ -117,9 +126,7 @@ $(document).ready(function () {
     function handleCandidate(data) {
 
         var from = data.user_from;
-
-
-        if (data)
+        if (data.candidate)
             room.users[from].pc.addIceCandidate(new RTCIceCandidate(data.candidate));
 
     };
@@ -189,13 +196,17 @@ $(document).ready(function () {
         room.localStream = stream;
         console.log(" room.localStream", room.localStream)
         for (var user in room.users) {
-            if (room.users[user].pc === '')
-                userAdd(user);
-            if (oldStream)
-                room.users[user].pc.removeStream(oldStream);
-            if (!room.status.muted)
-                room.users[user].pc.addStream(room.localStream);
-            call(user);
+            if (user != userlogged) {
+                console.log("adicionar usuario", user);
+                if (room.users[user].pc === '')
+                    userAdd(user);
+                if (oldStream)
+                    room.users[user].pc.removeStream(oldStream);
+                if (!room.status.muted)
+                    room.users[user].pc.addStream(room.localStream);
+
+                call(user);
+            }
         }
         if (oldStream != null) {
             console.log("oldStream", oldStream)
@@ -209,19 +220,16 @@ $(document).ready(function () {
     };
 
     function userAdd(user) {
+        console.log("usario adicionar", user)
         if (user) {
             if (!room.users[user])
                 room.users[user] = {'pc': '', 'streams': [], 'dc': {}, 'stats': {}, 'status': {'muted': false}};
 
-            if (navigator.webkitGetUserMedia) {
 
-                room.users[user].pc = new webkitRTCPeerConnection({iceServers: [{url: "stun:stun.l.google.com:19302"}]}, {optional: [{RtpDataChannels: true}]});
-                console.log('Peer', user + " " + room.users[user].pc)
-            }
-            else {
-                room.users[user].pc = new RTCPeerConnection({iceServers: [{url: "stun:stun.l.google.com:19302"}]}, {optional: [{RtpDataChannels: true}]});
-                console.log('Peer', user + " " + room.users[user].pc)
-            }
+            room.users[user].pc = new webkitRTCPeerConnection({iceServers: [{url: "stun:stun.l.google.com:19302"}]}, {optional: [{RtpDataChannels: true}]});
+            console.log('Peer', user + " " + room.users[user].pc)
+
+
             room.users[user].pc.onconnecting = function (message) {
                 console.log('call', 'Connecting..');
             };
@@ -229,28 +237,37 @@ $(document).ready(function () {
                 console.log('call', 'Call established.');
             };
             room.users[user].pc.ontrack = function (event) {
-                console.log('call', 'Stream coming from the other side.');
-                room.users[user].streams.push(event.stream);
+                console.log('call', 'Stream coming from the other side.' + event.streams);
+                room.users[user].streams.push(event.streams);
                 var url = room.users[user].streams.map(function (stream) {
-                    return URL.createObjectURL(stream)
+                    console.log("stream", stream);
+                    return window.URL.createObjectURL(stream);
                 });
                 $("#" + user).attr("src", url);
                 room.users[user].stats.catcher = setInterval(getBitrate(user), 5000);
             };
             room.users[user].pc.onremovestream = function (event) {
-                console.log('call', 'Stream removed from the other side');
-                room.users[user].streams.splice(room.users[user].streams.indexOf(event.stream), 1);
+                console.log('call', 'Stream removed from the other side' + event.streams);
+                room.users[user].streams.splice(room.users[user].streams.indexOf(event.streams), 1);
                 var url = room.users[user].streams.map(function (stream) {
-                    return URL.createObjectURL(stream)
+                    console.log("stream", stream);
+                    return window.URL.createObjectURL(stream);
                 });
                 $("#" + user).attr("src", url);
                 clearInterval(room.users[user].stats.catcher);
                 room.users[user].stats = {};
             };
+            console.log(" user", user)
             room.users[user].pc.onicecandidate = function (event) {
-
-
-                socket.send({action: 'candidate', room: roomname, user_to: user, candidate: event.candidate});
+                console.log("candidate user", user)
+                if (user != userlogged)
+                    socket.send({
+                        action: 'candidate',
+                        room: roomname,
+                        user_to: user,
+                        user_from: userlogged,
+                        candidate: event.candidate
+                    });
             };
             if (!room.status.muted)
                 console.log("stream", room.localStream);
@@ -271,13 +288,14 @@ $(document).ready(function () {
 
     };
     function call(user) {
+        console.log("call user", user);
         if (typeof(room.users[user]) !== 'undefined') {
             if (!room.users[user].dc.channel)
                 initDC(user, room.users[user].pc.createDataChannel('data'));
             room.users[user].pc.createOffer(function (offer) {
                 room.users[user].pc.setLocalDescription(offer);
                 socket.send({
-                    action: 'offer', room: roomname, user_to: user, offer: offer
+                    action: 'offer', room: roomname, user_to: user, user_from: userlogged, offer: offer
                 })
                 ;
             }, function (err) {
@@ -332,7 +350,7 @@ $(document).ready(function () {
                     var bytesNow = res.stat('bytesReceived');
                     if (room.users[user].stats.timestampPrev) {
                         var bitRate = Math.round((bytesNow - room.users[user].stats.bytesPrev) * 8 / (res.timestamp - room.users[user].stats.timestampPrev));
-                        console.log('stats', user + ': ' + bitRate + ' kbits/sec');
+                        log('stats', user + ': ' + bitRate + ' kbits/sec');
                         room.users[user].stats.bitRate = bitRate;
                     }
                     room.users[user].stats.bytesPrev = bytesNow;
@@ -341,6 +359,8 @@ $(document).ready(function () {
             });
         });
     };
+
+
     function userlistUpdate() {
         var region = $("#audioregion");
 

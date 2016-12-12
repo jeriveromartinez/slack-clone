@@ -48,13 +48,13 @@ def callaccept(request, socket, context, message):
     send(profile.socketsession,
          {"action": "user_list", "room": room.name, "user_from": request.user.username, "users": users})
     for item in room.users.all():
-        if item.user.username != request.user.username:
-            try:
-                print 'Sending begin to: ' + item.user.username + " " + item.socketsession
-                send(item.socketsession,
-                     {"action": "join", "room": room.name, "user_from": request.user.username, "users": users})
-            except NoSocket as e:
-                send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+
+        try:
+            print 'Sending begin to: ' + item.user.username + " " + item.socketsession
+            send(item.socketsession,
+                 {"action": "join", "room": room.name, "user_from": message["user_from"], "users": users})
+        except NoSocket as e:
+            send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
 
 
 def calldecline(request, socket, context, message):
@@ -67,14 +67,13 @@ def calldecline(request, socket, context, message):
 def offer(request, socket, context, message):
     room = RoomCall.objects.get(name=message['room'])
     profile = Profile.objects.get(user__username=message["user_to"])
-    print message['offer']
 
     try:
         print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
         send(profile.socketsession, {
             'action': "offer",
             'offer': message['offer'],
-            'user_from': profile.user.username,
+            'user_from': message["user_from"],
             "room": room.name,
 
         })
@@ -85,14 +84,13 @@ def offer(request, socket, context, message):
 def answer(request, socket, context, message):
     room = RoomCall.objects.get(name=message['room'])
     profile = Profile.objects.get(user__username=message["user_to"])
-    print message['answer']
 
     try:
         print 'Sending answer to: ' + profile.user.username + " " + profile.socketsession
         send(profile.socketsession, {
             'action': "answer",
             'answer': message['answer'],
-            'user_from': profile.user.username,
+            'user_from': message["user_from"],
             "room": room.name,
 
         })
@@ -103,14 +101,14 @@ def answer(request, socket, context, message):
 def candidate(request, socket, context, message):
     room = RoomCall.objects.get(name=message['room'])
     profile = Profile.objects.get(user__username=message["user_to"])
-    print message['candidate']
+    print 'candidate' + message["user_to"]
 
     try:
         print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
         send(profile.socketsession, {
             'action': "candidate",
             'candidate': message['candidate'],
-            'user_from': profile.user.username,
+            'user_from': message["user_from"],
             "room": room.name,
 
         })
