@@ -1,11 +1,8 @@
 $(document).ready(function () {
-
     //, secure: true
     var socket = new io.Socket(document.domain, {reconnection: true});
 
-
     socket.connect();
-
 
     socket.on('connect', function () {
         console.log(" connected")
@@ -23,13 +20,13 @@ $(document).ready(function () {
             var msg = $(this).val().trim();
             if (msg) {
                 var message = $(this).val();
-
                 socket.send({
                     action: "message",
                     user_to: activeChannel,
                     message: $(this).val().trim(),
                     user_from: userlogged
                 });
+
                 $("#message-input").val("");
                 e.preventDefault();
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
@@ -53,18 +50,12 @@ $(document).ready(function () {
                 var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
 
                 $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
             }
-
         }
-
     });
-
 });
 
-
 var messaged = function (data) {
-
     switch (data.action) {
         case 'error':
             console.log('error', data);
@@ -81,10 +72,8 @@ var messaged = function (data) {
         case 'call_join_request':
             console.log('call_join_request', data);
             openIncomingCall(data);
-
             break;
         case 'message':
-            console.log('message', data);
             var date = $(".day_container:last").find('ts-message:last').attr('data-date');
             var day = new Date(date).getDate();
             if (day == new Date().getDate()) {
@@ -92,8 +81,7 @@ var messaged = function (data) {
                 if (elemt.length) {
                     elemt.append(ts_message('ava_0022-48.png', data.user_from, data.message, data.date_pub));
                 }
-            }
-            else {
+            } else {
                 var day_container = $("<div class='day_container'></div>");
                 day_container.append(date_divider(new Date()));
                 var day_msgs = $("<div class='day_msgs'></div>");
@@ -103,10 +91,8 @@ var messaged = function (data) {
                 $("#msgs_div").append(day_container);
             }
 
-
             var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
             $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
             break;
         case 'system':
             console.log('message', data);
@@ -115,27 +101,20 @@ var messaged = function (data) {
 };
 
 var onDataLoaded = function (data) {
-
     if (data.length > 0) {
-
-
         var container = $("#msgs_div");
-
         var currentday = -1;
         var currentday_container = "";
         var date = $(".day_container:first").find('ts-message:first').attr('data-date');
+
         if (date) {
             currentday = new Date(date).getDate();
         }
 
-
         $.each(data, function (index, item) {
-
             var date = new Date(item.date_pub);
 
-
             if (date.getDate() != currentday) {
-
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
                 var day_msgs = $("<div class='day_msgs'></div>");
@@ -153,9 +132,7 @@ var onDataLoaded = function (data) {
 
                 container.prepend(currentday_container).fadeIn('slow');
 
-
             } else if (date.getDate() == currentday) {
-
                 var day_msgs = $("<div class='day_msgs'></div>");
                 day_msgs = $(".day_container:first").find('.day_msgs');
 
@@ -166,23 +143,14 @@ var onDataLoaded = function (data) {
                     case 'file_shared_event':
                         console.log('event');
                         break;
-
-                        break;
                 }
-
-
             }
             var date = $(".day_container:first").find('ts-message:first').attr('data-date');
-
             currentday = new Date(date).getDate();
-
-
         });
-
-
     }
-
 };
+
 var initScroll = function (name) {
     var url = "/api/messages/" + name + "/";
 
@@ -193,7 +161,6 @@ var initScroll = function (name) {
         onDataLoaded: onDataLoaded, // function (data)
         onDataError: null // function (page)
     });
-
 };
 
 var CheckReaded = function (channel) {
@@ -204,18 +171,16 @@ var CheckReaded = function (channel) {
     request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
+
 var Reload = function (name) {
     $("#msgs_div").empty();
 
     $.ajax({
         type: 'GET',
-        url: "/api/messages/" + name + "/" + 1,
+        url: "/api/messages/" + name + "/" + 1+'/',
         // data: {page: 1},
         success: function (data, status, object) {
-
             $.when(success(data)).then(initScroll(name));
-
-
         },
         error: function (data, status, object) {
             console.log(data.message);
@@ -225,12 +190,13 @@ var Reload = function (name) {
     var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
 
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
 };
+
 var success = function (data) {
     onDataLoaded(data.items)
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
-}
+};
+
 function openIncomingCall(data) {
     var room = data.room;
     var modal = $('#incoming_call');
@@ -242,7 +208,6 @@ function openIncomingCall(data) {
     var image = ' url(' + data.avatar + ')';
     var avatar = '<span  class="member_preview_link member_image thumb_512" style="background-image: ' + image + '" aria-hidden="true"></span>';
 
-
     init();
 
     accept.on("click", function (e) {
@@ -251,7 +216,6 @@ function openIncomingCall(data) {
         console.log("room", room);
         var urlapi = hostUrl + '/call/' + room;
         window.open(urlapi, '_blank');
-        
 
         _close();
     });
@@ -277,7 +241,5 @@ function openIncomingCall(data) {
         div_avatar.empty();
         div_name.empty();
     }
-
-
 }
 

@@ -104,6 +104,8 @@ $(document).ready(function () {
         $('#menu.menu').addClass('hidden');
     });
 
+    $();
+
     var copyToClipboard = function (str) {
         var $temp = $("<input>");
         $("body").append($temp);

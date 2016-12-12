@@ -386,26 +386,18 @@ var item_file_comment = function (username, userUrl, picture, dateCreate, commen
 
 var item_direct_message = function (data, pos) {
     var avatar = "url('/static/images/roosty@2x.png')";
-    var item = '<div data-img="' + data.image + '" data-member-id="' + data.user_from.username + '" class="im_browser_row" data-long-list-item="1"  style="position: absolute; top: 0px; transform: translateY(' + pos + 'px);" >' +
-
-        '<span class=" member_preview_link member_image thumb_36"  data-thumb-size="36" style="background-image: url(' + data.image + ')""> ' + '</span>' +
+    var item = '<div data-img="' + data.image + '" data-member-id="' + data.user.username + '" class="im_browser_row" style="position: absolute; top: 0; transform: translateY(' + pos + 'px);" >' +
+        '<span class=" member_preview_link member_image thumb_36"  style="background-image: url(' + data.image + ')""></span>' +
         '<div class="im_last_msg_time float_right cloud_silver small_left_margin">' +
         '<i class="ts_icon ts_icon_angle_arrow_up_left ts_icon_inherit">' +
-        '</i>' + moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +
-        '</div>' +
+        '</i><!--/*+ moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +--></div>'+ //TODO: put the time
         '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
         '<div class="overflow_ellipsis bold im_display_name_container">' +
-
-        '<span class="im_display_name">' + data.user_from.username + '</span>' +
-        ' <span class="im_presence"><span data-member-presence="USLACKBOT" class="presence active member_presence_USLACKBOT" title="active"><i aria-hidden="true" class="ts_icon ts_icon_heart presence_icon"></i></span></span>' +
-
-        '</div>' +
-        '  <div class="im_slackbot_greeting italic subtle_silver overflow_ellipsis">' + data.msg +
-
-        ' </div>' +
-        '</div>';
+        '<span class="im_display_name">' + data.user.username + '</span>' +
+        ' <span class="im_presence"><span class="presence active member_presence_USLACKBOT" title="active">' +
+        '<i aria-hidden="true" class="ts_icon ts_icon_heart presence_icon"></i></span></span></div>' +
+        '<div class="im_slackbot_greeting italic subtle_silver overflow_ellipsis"><!--data.msg--></div></div>'; //TODO: put the last message
     return item;
-
 };
 
 var item_direct_filter = function (data, pos) {

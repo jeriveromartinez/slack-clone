@@ -142,14 +142,13 @@ def users_by_company(request, company, search=None):
 
 @api_view(['POST'])
 def get_user_by_company(request):
-    name = Profile.objects.filter(user=request.user).values('company__name')
     if request.method == "POST":
-
         term = request.POST.get("term")
         if term:
-            users = Profile.objects.filter(company__name=name, user__username__icontains=term)
+            users = Profile.objects.filter(company__slug=request.user.user_profile.company.slug,
+                                           user__username__icontains=term)
         else:
-            users = Profile.objects.filter(company__name=name)
+            users = Profile.objects.filter(company__slug=request.user.user_profile.company.slug)
     serializer = ProfileSerializer(users, many=True)
     return Response(serializer.data)
 
@@ -228,7 +227,7 @@ def share_file(request, slug):
 
 @api_view(['GET'])
 def get_message_by_user_recent(request, username, page):
-    messages = MessageEvent.objects.all().filter(
+    messages = MessageEvent.objects.filter(
         ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
          (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
             filesharedevent__user_from__username=username)).order_by('-date_pub')
@@ -262,8 +261,25 @@ def get_message_by_user_recent(request, username, page):
 
 
 @api_view(['GET'])
+def get_archived_msg(request, username, page):
+    msg = MessageEvent.objects.filter(
+        Q(user_to__username__exact=username) | Q(user_from__username__exact=username)).order_by('-date_pub')
+    paginator = Paginator(msg, 5)
+
+    if page is None:
+        page = 1
+    try:
+        data = paginator.page(page)
+    except Exception as e:
+        data = paginator.page(paginator.num_pages)
+        print e.message
+    serializer = MessageEventSerializer(data, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def get_comunicaton_me(request, username):
-    users = Communication.objects.all().filter(user_me__username=username)
+    users = Communication.objects.filter(user_me__username=username)
 
     serializer = CommunicationSerializer(users, many=True)
     return Response(serializer.data)
@@ -302,12 +318,11 @@ def get_recente_message_user(request, username):
         Q(filesharedevent__user_from__username=username),
 
         date_pub__gte=datetime.now() - timedelta(days=8)) \
-        .distinct().order_by('user_from__username', 'date_pub')
+        .order_by('user_from__username', 'date_pub').distinct()
 
     reponse = {}
     result = []
     for inst in messages:
-
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSerializer(inst.messageinstevent)
             result.append(serializer.data)
@@ -320,9 +335,7 @@ def get_recente_message_user(request, username):
         profile = Profile.objects.get(user__username=inst.user_from.username)
 
         result[(len(result) - 1)]['image'] = profile.image.url
-
         reponse['items'] = result
-
     return Response(reponse)
 
 

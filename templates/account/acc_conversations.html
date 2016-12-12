@@ -11,6 +11,10 @@
     <script type="text/javascript" src="{% static 'js/site/file_components.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
 {% endblock %}
+{% block js %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/site/archive_msg.js' %}"></script>
+{% endblock %}
 {% block main_container %}
     {% include 'account/conversation/list.html' %}
 {% endblock %}

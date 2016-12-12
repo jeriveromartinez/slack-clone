@@ -41,14 +41,17 @@ urlpatterns = [
     url(r'^snippet/languages/$', 'rest_service.views.snippet_languages', name='create_snippet'),
     url(r'^snippet/create/$', 'rest_service.views.snippet_create', name='create_snippet'),
 
-    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)$', 'rest_service.views.get_message_by_user_recent',
+    url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$', 'rest_service.views.get_message_by_user_recent',
         name='api-message'),
-    url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)$', 'rest_service.views.get_comunicaton_me',
+    url(r'^messages-archived/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$',
+        'rest_service.views.get_archived_msg',
+        name='api_message_archived'),
+    url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
     url(r'^checkreaded$', 'rest_service.views.check_readed_me', name='api-checkread'),
     url(r'^resent/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_recente_message_user',
         name='api-recente_message_use'),
-    url(r'^usercomapny$', 'rest_service.views.get_user_by_company', name='api-usercomapny$')
+    url(r'^usercomapny/$', 'rest_service.views.get_user_by_company', name='api-usercomapny$')
     ,
 
 ]

@@ -151,17 +151,16 @@ def on_connect(request, socket, context):
 def message(request, socket, context, message):
     print message
     if message['action'] == "message":
-        user_to = User.objects.get(username=message["user_from"])
-        if request.user.is_authenticated and user_to:
-            profile = Profile.objects.get(user__username=message["user_to"])
-            msg = MessageInstEvent.objects.create(user_to=profile.user, user_from=request.user, msg=message["message"],
-                                                  type="message_int_event")
+        user_from = User.objects.get(username=message["user_from"])
+        if request.user.is_authenticated and user_from:
 
             try:
-
+                profile = Profile.objects.get(user__username=message["user_to"])
+                msg = MessageInstEvent.objects.create(user_to=profile.user, user_from=user_from, msg=message["message"],
+                                                      type="message_int_event")
                 message["action"] = "message"
                 message["user_to"] = profile.user.username
-                message["user_from"] = user_to.username
+                message["user_from"] = user_from.username
                 message["date_pub"] = str(msg.date_pub.isoformat())
                 send(profile.socketsession, message)
             except NoSocket as e:

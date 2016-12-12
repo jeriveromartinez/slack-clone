@@ -152,11 +152,15 @@ var sharedFile = function (item, date, userUrl) {
 			<span id="select_share_at_channel_list" class="modal_input_note indifferent_grey"></span></p></div>';
 };
 
-var msgArchiveComponent = function () {
-    return '<div class=" bottom_border"><div class="position_relative"><span class="avatar">\
+var msgArchiveComponent = function (date, avatar, username, style) {
+    style = (style != undefined) ? style : 'top_padding bottom_border';
+    //first (class="bottom_border")
+    //last (class="top_padding")
+    //other (class="top_padding bottom_border")
+    return '<div class="' + style + '"><div class="position_relative"><span class="avatar">\
                     <span class=" member_preview_link member_image thumb_48"\
-                          style="background-image: url()" aria-hidden="true"></span>\
-                </span></div><h4 class="no_bottom_margin"><a href="/archives/D2KQ7LY23" class="slate_blue"> jeriverom </a>\
+                          style="background-image: url(' + avatar + ')" aria-hidden="true"></span>\
+                </span></div><h4 class="no_bottom_margin"><a href="/archives/D2KQ7LY23" class="slate_blue">' + username + '</a>\
             </h4><div class="col span_4_of_6 subtle_silver"><p class="small no_bottom_margin"> Julio: ooe locols </p>\
             </div><div class="col span_2_of_6 subtle_silver hide_on_mobile">Dec 9th, 2016</div>\
             <div class="clear_both"></div></div>';

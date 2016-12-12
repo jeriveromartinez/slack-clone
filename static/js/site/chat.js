@@ -2,7 +2,8 @@
  * Created by julio on 14/10/16.
  */
 var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [];
-window.users_logged = 0, window.userFileStatus = false;
+window.users_logged = 0;
+window.userFileStatus = false;
 
 $('body').prepend(itemLoad);
 
@@ -78,6 +79,7 @@ $(document).ready(function () {
         $('#client-ui').removeClass('search_focused');
     });
 
+    //close flex panel
     $('.panel').on('click', '.close_flexpane', function () {
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
@@ -88,6 +90,7 @@ $(document).ready(function () {
         $('#client-ui').removeClass('flex_pane_showing');
     });
 
+    //flex panel go before action
     $('.panel').on('click', '#back_from_member_preview', function () {
         team_users();
     });
@@ -105,6 +108,7 @@ $(document).ready(function () {
         CheckReaded(activeChannel);
     });
 
+    //show user profile
     $('#member_account_item').on('click', function () {
         showProfile(this);
         $('#menu.menu').addClass('hidden');
@@ -116,6 +120,7 @@ $(document).ready(function () {
         showProfile($(this).attr('data-user'));
     });
 
+    //show user profile
     $('#active_members_list').on('click', '.member_preview_link', function () {
         showProfile(this);
     });
@@ -162,33 +167,41 @@ $(document).ready(function () {
         request(urlapi, 'GET', null, null, exc, null);
     };
 
-    var get_users = function () {
-        var exc = function (response) {
-            var list = $('#im-list').html('');
-            $('#dm_header_count').html(response.length);
-            $('span#active_members_count_value').html(response.length);
-            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
-            response.forEach(function (item) {
-                list.append(item_user_list(item.user.username));
-            });
-        };
+    /*var get_users = function () {
+     var exc = function (response) {
+     var list = $('#im-list').html('');
+     $('#dm_header_count').html(response.length);
+     $('span#active_members_count_value').html(response.length);
+     $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
+     response.forEach(function (item) {
+     list.append(item_user_list(item.user.username));
+     });
+     };
 
-        var urlapi = apiUrl + companyuser + '/users/';
-        $.when(users_online()).done(function () {
-            request(urlapi, 'GET', null, null, exc, null);
-        });
-    };
+     var urlapi = apiUrl + companyuser + '/users/';
+     $.when(users_online()).done(function () {
+     request(urlapi, 'GET', null, null, exc, null);
+     });
+     };*/
 
     window.get_comuncation_me = function () {
         var exc = function (response) {
             window.usercomunication = response;
 
-            var list = $('#im-list').html('');
+            var list = $('#im-list');
             $('#dm_header_count').html(response.length);
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
             response.forEach(function (item) {
-                list.append(item_user_list(item));
+                var exist = $(list).find('li[data-name="' + item.user_connect.username.toLowerCase() + '"]');
+                if (exist.length == 0)
+                    list.append(item_user_list(item));
+                else {
+                    var test = item_user_list(item);
+                    var div = document.createElement('div');
+                    div.innerHTML = test;
+                    console.log(exist[0].innerHTML = div.children[0].innerHTML);
+                }
             });
         };
 
@@ -385,7 +398,6 @@ $(document).ready(function () {
         if (!_selected_members)_selected_members = [];
 
         _$list_container.on("click", ".im_browser_row", function () {
-
             _selectRow($(this));
         });
 
@@ -408,11 +420,14 @@ $(document).ready(function () {
             _filterListView(input);
             _updateGo();
         });
+
         _$im_browser.on("click", ".im_browser_go", function () {
             active_chat(_selected_members[0], 'user');
             activeChannel = _selected_members[0];
             Reload(activeChannel);
+            var data = {user_connect: {username: _selected_members[0]}, un_reader_msg: 0};
             _selected_members.pop();
+            $('ul#im-list').append(item_user_list(data));
             _close();
         });
 
@@ -423,18 +438,14 @@ $(document).ready(function () {
                 list.empty();
 
                 $.each(data, function (index, item) {
-
                     var pos = 64 * index;
-
-                    if ($.inArray(item.user.username, _selected_members) == -1) {
+                    if ($.inArray(item.user.username, _selected_members) == -1)
                         list.append(item_direct_filter(item, parseInt(pos)));
-                    }
-                    else {
+                    else
                         pos -= 64 * index;
-                    }
                 });
             };
-            var urlapi = apiUrl + 'usercomapny';
+            var urlapi = apiUrl + 'usercomapny/';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });
@@ -443,12 +454,12 @@ $(document).ready(function () {
         function _startListView() {
             var exc = function (data) {
                 list.empty();
-                $.each(data.items, function (index, item) {
+                $.each(data, function (index, item) {
                     var pos = 64 * index;
                     list.append(item_direct_message(item, parseInt(pos)));
                 });
             };
-            var urlapi = apiUrl + 'resent/' + userlogged;
+            var urlapi = apiUrl + companyuser + '/users/';
 
             request(urlapi, 'GET', null, null, exc, null);
         };

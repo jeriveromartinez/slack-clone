@@ -97,6 +97,9 @@ class ImageUpSerializer(FilesUpSerializer):
 
 
 class MessageEventSerializer(serializers.ModelSerializer):
+    user_to = UserSerializer()
+    user_from = UserSerializer()
+
     class Meta:
         model = MessageEvent
         exclude = ('id',)
