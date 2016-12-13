@@ -160,8 +160,8 @@ var msgArchiveComponent = function (date, avatar, username, style) {
     return '<div class="' + style + '"><div class="position_relative"><span class="avatar">\
                     <span class=" member_preview_link member_image thumb_48"\
                           style="background-image: url(' + avatar + ')" aria-hidden="true"></span>\
-                </span></div><h4 class="no_bottom_margin"><a href="/archives/D2KQ7LY23" class="slate_blue">' + username + '</a>\
-            </h4><div class="col span_4_of_6 subtle_silver"><p class="small no_bottom_margin"> Julio: ooe locols </p>\
+                </span></div><h4 class="no_bottom_margin" style="padding-left: 4rem;"><a href="/archives/D2KQ7LY23" class="slate_blue">' + username + '</a>\
+            </h4><div class="col span_4_of_6 subtle_silver" style="padding-left: 4rem;"><p class="small no_bottom_margin"> Julio: ooe locols </p>\
             </div><div class="col span_2_of_6 subtle_silver hide_on_mobile">Dec 9th, 2016</div>\
             <div class="clear_both"></div></div>';
 };

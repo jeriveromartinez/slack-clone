@@ -789,3 +789,21 @@ a, a.btn {
     border-color: #e8e8e8;
     text-decoration: none;
 }
+
+.avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+}
+
+.span_4_of_6 {
+    width: 66.13%;
+}
+
+h5 {
+    font-size: .9rem;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

@@ -151,6 +151,13 @@ $(document).ready(function () {
 
     });
 
+    $('li button[data-qa="im_close"]').on('click.close_user_connect', function (e) {
+        e.preventDefault();
+        alert('close');
+        console.log($(this).parent('li'));
+        e.stopPropagation();
+    });
+
     //aux methods
     var get_chanel = function () {
         var exc = function (response) {

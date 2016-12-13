@@ -43,9 +43,8 @@ urlpatterns = [
 
     url(r'^messages/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$', 'rest_service.views.get_message_by_user_recent',
         name='api-message'),
-    url(r'^messages-archived/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$',
-        'rest_service.views.get_archived_msg',
-        name='api_message_archived'),
+    url(r'^messages-archived/(?P<type>[a-z]+)/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$',
+        'rest_service.views.get_archived_msg', name='api_message_archived'),
     url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
     url(r'^checkreaded$', 'rest_service.views.check_readed_me', name='api-checkread'),

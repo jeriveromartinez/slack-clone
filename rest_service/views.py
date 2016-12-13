@@ -261,9 +261,16 @@ def get_message_by_user_recent(request, username, page):
 
 
 @api_view(['GET'])
-def get_archived_msg(request, username, page):
-    msg = MessageEvent.objects.filter(
-        Q(user_to__username__exact=username) | Q(user_from__username__exact=username)).order_by('-date_pub')
+def get_archived_msg(request, type, username, page):
+    if type == "user":
+        msg = MessageEvent.objects.filter(
+            Q(user_to__username__exact=username) | Q(user_from__username__exact=username)).order_by('-date_pub')
+    else:
+        if username == "everyBody":
+            msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room).order_by('-date_pub')
+        else:
+            msg = MessageEvent.objects.filter(Q(room__in=request.user.user_profile.users_room) & Q(
+                user_from__comment_user__comment__contains=username)).order_by('-date_pub')
     paginator = Paginator(msg, 5)
 
     if page is None:

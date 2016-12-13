@@ -66,7 +66,6 @@ $(document).ready(function () {
 
 });
 
-
 var messaged = function (data) {
 
     switch (data.action) {
@@ -91,6 +90,7 @@ var messaged = function (data) {
             console.log('message', data);
             var date = $(".day_container:last").find('ts-message:last').attr('data-date');
             var day = new Date(date).getDate();
+
             if (day == new Date().getDate()) {
                 var elemt = $(".day_container:last").find('.day_msgs');
                 if (elemt.length) {
@@ -106,10 +106,8 @@ var messaged = function (data) {
                 $("#msgs_div").append(day_container);
             }
 
-
             var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
             $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
             break;
         case 'system':
             console.log('message', data);
@@ -186,6 +184,7 @@ var onDataLoaded = function (data) {
     }
 
 };
+
 var initScroll = function (name) {
     var url = "/api/messages/" + name + "/";
 
@@ -207,6 +206,7 @@ var CheckReaded = function (channel) {
     request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
+
 var Reload = function (name) {
     $("#msgs_div").empty();
 
@@ -230,10 +230,12 @@ var Reload = function (name) {
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 
 };
+
 var success = function (data) {
     onDataLoaded(data.items)
     $("#msgs_div").find("ts-message.message:first").attr('data-next', data.has_next);
-}
+};
+
 function openIncomingCall(data) {
     var room = data.room;
     var modal = $('#incoming_call');
