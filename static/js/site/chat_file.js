@@ -22,7 +22,7 @@ window.getArrayByObject = function (arrayObjects) {
     return ret;
 };
 
-var isCompany = true;
+var isCompany = true, collapsed = true;
 
 $(document).ready(function () {
     //menu more items options
@@ -49,16 +49,14 @@ $(document).ready(function () {
         detail_file(this.id);
     }).on('click.file_action', '.file_actions', function (event) {
         var options = {
-                copyLink: $(this).attr('data-file-url'),
-                opeNeWind: $(this).attr('data-file-url'),
-                comment: $(this).attr('data-file'),
-                edit: $(this).attr('data-file'),
-                delete: $(this).attr('data-file')
-            },
-            optionMenu = {height: '32%'};
-        positionMenu(this, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
-        if (userlogged != $(this).attr('data-owner'))
-            $($('#menu.menu').find('#element_delete')[0]).hide();
+            copyLink: $(this).attr('data-file-url'),
+            opeNeWind: $(this).attr('data-file-url'),
+            comment: $(this).attr('data-file'),
+            edit: $(this).attr('data-file'),
+            delete: $(this).attr('data-file')
+        };
+
+        optionsFiles(this, options);
         event.stopPropagation();
     });
 
@@ -251,16 +249,37 @@ $(document).ready(function () {
             $($('#menu.menu').find('#element_delete')[0]).hide();
     });
 
+    $('div[data-collapse]').on('click.collapse', function () {
+        if (collapsed) {
+            collapseFiles(sendTo.type, sendTo.to);
+            $(this).parent().addClass('expanded');
+            collapsed = false;
+        } else {
+            $(this).parent().removeClass('expanded');
+            collapsed = true;
+        }
+    });
+
+    $('#details_tab').on('click.menufiledetail', '.file_actions', function () {
+        var options = {
+            copyLink: $(this).attr('data-file-url'),
+            opeNeWind: $(this).attr('data-file-url'),
+            comment: $(this).attr('data-file'),
+            edit: $(this).attr('data-file'),
+            delete: $(this).attr('data-file')
+        };
+
+        optionsFiles(this, options);
+        event.stopPropagation();
+    });
+
     //AUX
     var user_files = function (username) {
         clean_user_files();
         $('.panel.active').removeClass('active');
         $('#files_tab').addClass('active');
         $('#file_list_toggle_user').addClass('active');
-
-        userFileActive = username = (username) ? username : userlogged;
-        var urlapi = apiUrl + 'files/' + username + '/get/all_files/';
-        request(urlapi, 'GET', null, null, user_files_exc, null);
+        getUserFiles(username, user_files_exc);
         $('#menu.menu').addClass('hidden');
     };
 
@@ -284,6 +303,21 @@ $(document).ready(function () {
             list.append(item_file(item.slug, author, date, item.title, item.count_comment, pathProfile, item));
         });
         $('[data-toggle="tooltip"]').tooltip({placement: "left", delay: {show: 500, hide: 150}});
+    };
+
+    var userFileDetails = function (to) {
+        var exc = function (response) {
+            response.forEach(function (item) {
+                var author = item.author.user.first_name + ' ' + item.author.user.last_name,
+                    date = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
+                    userUrl = '/account/profile/' + item.author.user.username + '/';
+                $(list).append(item_file(item.slug, author, date, item.title, item.count_comment, userUrl, item));
+            });
+        };
+        var list = $('div.section_content.bottom_margin')[0];
+        list.innerHTML = '';
+        var url = 'files/detail-conection/' + to + '/';
+        getUserFiles(to, exc, url);
     };
 
     var clean_user_files = function () {
@@ -480,5 +514,25 @@ $(document).ready(function () {
             function () {
                 CodeMirror.runMode(codeString, CodeMirror.type_map[type][0], document.getElementById('code_snippet_view'));
             }, 250);
+    };
+
+    var collapseFiles = function (type, to) {
+        if (type == "user")
+            userFileDetails(to);
+        else
+            user_all_files();
+    };
+
+    var getUserFiles = function (username, to_exc, url) {
+        userFileActive = username = (username) ? username : userlogged;
+        var urlapi = (url != undefined) ? apiUrl + url : apiUrl + 'files/' + username + '/get/all_files/';
+        request(urlapi, 'GET', null, null, to_exc, null);
+    };
+
+    var optionsFiles = function (instance, options) {
+        var optionMenu = {height: '12em'};
+        positionMenu(instance, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
+        if (userlogged != $(this).attr('data-owner'))
+            $($('#menu.menu').find('#element_delete')[0]).hide();
     };
 });

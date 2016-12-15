@@ -4,9 +4,7 @@
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/lato.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/slack/call.css' %}">
-
 {% endblock %}
-
 {% block body_style %}feature_channel_name_menu light_theme{% endblock %}
 {% block id_container %}client-ui{% endblock %}
 {% block class_container %}container-fluid sidebar_theme_default {% endblock %}
@@ -33,7 +31,7 @@
 {% endblock %}
 
 {% block js_libraries %}
-    <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
 {% endblock %}

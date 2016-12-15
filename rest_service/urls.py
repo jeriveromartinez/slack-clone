@@ -37,6 +37,8 @@ urlpatterns = [
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/(?P<type>[a-z_]+)/(?P<company>[0-9a-zA-Z_-]+)/$',
         'rest_service.views.get_files', name='api-files-company'),
     url(r'^files/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files', name='api-files-company'),
+    url(r'^files/detail-conection/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_files_user_details',
+        name='api_files_connection'),
 
     url(r'^snippet/languages/$', 'rest_service.views.snippet_languages', name='create_snippet'),
     url(r'^snippet/create/$', 'rest_service.views.snippet_create', name='create_snippet'),

@@ -39,13 +39,12 @@ $(document).ready(function () {
     //shows menu headers
     $('.channel_header_icon').on('click', function () {
         $('.channel_header_icon.active').removeClass('active');
-
         $(this).addClass('active');
 
         //aqui lo demas
         var obj = this.id;
         if (obj.indexOf('_toggle') !== -1) {
-            obj = obj.replace('_toggle', '');
+            obj = obj.replace('_toggle', ''); //TODO: arreglar la morzillera esta
 
             if (obj != 'flex_menu') {
                 var arr = (obj.split('_').length > 1) ? obj.split('_')[1] : obj.split('_')[0];
@@ -55,7 +54,7 @@ $(document).ready(function () {
             } else {
                 var value = $('#hiddenMenuFlexMenu').html();
                 var options = {style: 'menu flex_menu', height: '32%'};
-                positionMenu(this, value, 'left', options);//TODO: cuando sale el menu tomar las acciones por click
+                positionMenu(this, value, 'left', options);
             }
         }
     });
@@ -65,6 +64,7 @@ $(document).ready(function () {
         showProfile($(this).data('user'));
     });
 
+    //hidden menu
     $('#menu.menu').on('click', '#member_prefs_item', function () {
         $('#menu.menu').addClass('hidden');
     });
@@ -83,6 +83,7 @@ $(document).ready(function () {
     $('.panel').on('click', '.close_flexpane', function () {
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
+        $('.channel_header_icon.active').removeClass('active');
         var closure = $(this).data('pannel');
         if (closure != 'undefined' && closure != null) {
             $('#' + closure).addClass('hidden');
@@ -158,6 +159,15 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    $('#details_toggle').on('click.showDetail', function () {
+        $('.channel_header_icon.active').removeClass('active');
+        $(this).addClass('active');
+        $('.panel.active').removeClass('active');
+        $('#details_tab').addClass('active');
+        $('#client-ui').addClass('flex_pane_showing');
+        change_chat_size('65%');
+    });
+
     //aux methods
     var get_chanel = function () {
         var exc = function (response) {
@@ -207,7 +217,7 @@ $(document).ready(function () {
                     var test = item_user_list(item);
                     var div = document.createElement('div');
                     div.innerHTML = test;
-                    console.log(exist[0].innerHTML = div.children[0].innerHTML);
+                    exist[0].innerHTML = div.children[0].innerHTML;
                 }
             });
         };

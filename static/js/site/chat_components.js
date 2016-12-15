@@ -77,7 +77,7 @@ var item_user_profile = function (object, localtime) {
     if (object.user.username == userlogged) {
         item += '<div class="member_action_bar"><a href="/account/profile/edit/" target="_blank" class="btn btn_outline">Edit' +
             'Profile</a><a href="/account/settings/" target="_blank" class="btn btn_outline">AccountSettings</a>' +
-            '<a class="member_preview_menu_target btn btn_outline"><i class="ts_icon ts_icon_chevron_large_down"></i></a>' +
+            //'<a class="member_preview_menu_target btn btn_outline"><i class="ts_icon ts_icon_chevron_large_down"></i></a>' +
             '</div>';
     }
 

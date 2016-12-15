@@ -179,6 +179,19 @@ def get_files(request, username, type, company=None):
     return Response(data)
 
 
+@api_view(['GET'])
+def get_files_user_details(request, username):
+    user = User.objects.get(username__exact=username)
+    files = SlackFile.objects.filter(
+        (Q(author__user=user) & Q(shared_to__username__exact=request.user.username)) |
+        (Q(author__user=request.user) & Q(shared_to__username__exact=user.username))).order_by(
+        '-uploaded').distinct()
+    data = []
+    for file in files:
+        data.append(get_file_by_type(file))
+    return Response(data)
+
+
 @api_view(['GET', 'POST'])
 def get_details_file(request, file, user_post=None):
     _file = SlackFile.objects.filter(slug=file)[0]  # todo: see the way to get the last 10 comments
@@ -267,7 +280,8 @@ def get_archived_msg(request, type, username, page):
             Q(user_to__username__exact=username) | Q(user_from__username__exact=username)).order_by('-date_pub')
     else:
         if username == "everyBody":
-            msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room).order_by('-date_pub')
+            msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room).order_by(
+                '-date_pub')  # TODO: ver si esto funciona
         else:
             msg = MessageEvent.objects.filter(Q(room__in=request.user.user_profile.users_room) & Q(
                 user_from__comment_user__comment__contains=username)).order_by('-date_pub')

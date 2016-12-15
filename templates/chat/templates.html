@@ -1,5 +1,6 @@
 {% extends 'site_template/base.html' %}
 {% load staticfiles %}
+{% block title %}Chat{% endblock %}
 {% block styles %}
     {{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-client_core.css' %}">
@@ -39,13 +40,15 @@
 {% endblock %}
 
 {% block js_libraries %}
-    <script type="text/javascript" src="{% static 'js/libraries/jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
     {#  <script type="text/javascript" src="{% static 'js/libraries/socket.io.js' %}"></script>#}
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/libraries/jquery.redirect.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.redirect.js' %}"></script>
+{#    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.collapse_storage.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.collapse.js' %}"></script>#}
 
-    <script type="text/javascript" src="{% static 'js/libraries/jquery-infinite-scroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery-infinite-scroll.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror_load.js' %}"></script>
