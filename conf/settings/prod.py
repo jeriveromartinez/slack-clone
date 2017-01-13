@@ -6,19 +6,6 @@ from base import *
 DEBUG = False
 ########## END DEBUG CONFIGURATION
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plataforma',
-        'USER': 'julio',
-        'PASSWORD': 'ju1io',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-}
-########## END DATABASE CONFIGURATION
-
-
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {

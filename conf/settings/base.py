@@ -47,7 +47,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plataforma',
-        'USER': 'julio',
+        'USER': 'root',
         'PASSWORD': 'ju1io',
         'HOST': '127.0.0.1',
         'PORT': '3306',
@@ -270,7 +270,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.uci.cu'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'jerivero@uci.cu'
-EMAIL_HOST_PASSWORD = 'J3rm*91./'
+EMAIL_HOST_PASSWORD = 'Ju1io*91.'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ##SOCKETIO
