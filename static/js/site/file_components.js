@@ -58,6 +58,7 @@ var uploadComponent = function (options) {
 };
 
 var userTeamComponent = function (userUrl, avatar, email, names, username) {
+    avatar = (avatar == null) ? '/static/images/ava_0022-48.png' : avatar;
     return '<div class="team_list_item member_item cursor_pointer active expanded clearfix">\
                             <div class="member_details member_item_inset col span_5_of_12 no_bottom_margin">\
                                 <a href="' + userUrl + '" class="lazy member_preview_link member_image thumb_72"\

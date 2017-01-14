@@ -37,6 +37,7 @@ var item_user_list = function (data) {
 };
 
 var item_directory_list = function (username, name, imageUrl, currentUsername) {
+    imageUrl = (imageUrl == null) ? '/static/images/ava_0022-48.png' : imageUrl;
     var item = '<div class="team_list_item member_item cursor_pointer active tiny_top_margin">' +
         '<div class="member_details member_item_inset ">' +
         '<a onclick="showProfile(this)" data-user="' + username + '" class="lazy member_preview_link member_image thumb_72" ' +
@@ -54,7 +55,8 @@ var item_directory_list = function (username, name, imageUrl, currentUsername) {
 };
 
 var item_user_profile = function (object, localtime) {
-    var userUrl = '/account/profile/' + object.user.username + '/'
+    var userUrl = '/account/profile/' + object.user.username + '/',
+        image = (object.image) ? object.image : '/static/images/ava_0022-48.png';
     var item = '<div class="heading">' +
         '<a onclick="return false;" id="back_from_member_preview"><i class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>' +
         '<a class="close_flexpane" title="Close Flexpane" data-pannel="member_preview_container"><i class="ts_icon ts_icon_times"></i></a></div>' +
@@ -390,7 +392,7 @@ var item_direct_message = function (data, pos) {
         '<span class=" member_preview_link member_image thumb_36"  style="background-image: url(' + data.image + ')""></span>' +
         '<div class="im_last_msg_time float_right cloud_silver small_left_margin">' +
         '<i class="ts_icon ts_icon_angle_arrow_up_left ts_icon_inherit">' +
-        '</i><!--/*+ moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +--></div>'+ //TODO: put the time
+        '</i><!--/*+ moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +--></div>' + //TODO: put the time
         '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
         '<div class="overflow_ellipsis bold im_display_name_container">' +
         '<span class="im_display_name">' + data.user.username + '</span>' +
