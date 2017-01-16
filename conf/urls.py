@@ -5,12 +5,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from conf.settings.base import MEDIA_ROOT
+from socketio import sdjango
 
+sdjango.autodiscover()
 admin.autodiscover()
 
 urlpatterns = [
     # User management
-    url("", include("django_socketio.urls")),
+    url("^socket\.io", include(sdjango.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^account/', include('system_account.urls', namespace='account')),

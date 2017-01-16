@@ -7,10 +7,8 @@ django-model-utils==2.3.1
 django-suit==0.2.15
 djangorestframework==3.2.4
 django-polymorphic
-gevent==0.13.8
-gevent-socketio==0.2.1
-gevent-websocket
-django-socketio
+gevent-socketio==0.3.6
+gevent==1.1b4
 django-ipware
 django-user-agents
 pygithub3

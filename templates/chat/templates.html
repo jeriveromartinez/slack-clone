@@ -25,8 +25,8 @@
                 userImage = '{% if request.user.user_profile.image %}{{ request.user.user_profile.image.url }}{% endif %}',
                 userProfile = "{% url 'account:profile' username=request.user.username %}";
     </script>
-    {% load socketio_tags %}
-    {% socketio %}
+    {#    {% load socketio_tags %}#}
+    {#    {% socketio %}#}
     {% include 'chat/header.html' %}
     {% include 'chat/footer.html' %}
     {% include 'chat/body.html' %}
@@ -42,7 +42,7 @@
 {% block js_libraries %}
     <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/moment.js' %}"></script>
-    {#  <script type="text/javascript" src="{% static 'js/libraries/socket.io.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'js/libraries/socket.io.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap-client.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.redirect.js' %}"></script>
 {#    <script type="text/javascript" src="{% static 'js/libraries/jquery/jquery.collapse_storage.js' %}"></script>#}
