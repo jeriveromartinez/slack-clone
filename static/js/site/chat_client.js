@@ -1,19 +1,17 @@
 $(document).ready(function () {
 
-    //, secure: true
-    console.log("server", document.domain);
-    var url = "//" + document.domain + ':' + location.port;
-    // var socket = io.connect(url);
 
-    var socket = new io.Socket(document.domain, {});
+    var socket = io.connect("/chat");
+
+    // var socket = new io.Socket(document.domain, {});
 
 
-    socket.connect();
+    // socket.connect();
 
 
     socket.on('connect', function () {
         console.log(" connected")
-        // socket.send({"hola": "hola", action: 'start'});
+        socket.emit('join', {"user": userlogged}); 
     });
 
     socket.on('message', messaged);
@@ -28,7 +26,7 @@ $(document).ready(function () {
             if (msg) {
                 var message = $(this).val();
 
-                socket.send({
+                socket.emit('message', {
                     action: "message",
                     user_to: activeChannel,
                     message: $(this).val().trim(),
