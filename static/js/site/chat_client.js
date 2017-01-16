@@ -209,26 +209,20 @@ var CheckReaded = function (channel) {
 
 var Reload = function (name) {
     $("#msgs_div").empty();
-
     $.ajax({
         type: 'GET',
         url: "/api/messages/" + name + "/" + 1,
         // data: {page: 1},
         success: function (data, status, object) {
-
             $.when(success(data)).then(initScroll(name));
-
-
         },
         error: function (data, status, object) {
-            console.log(data.message);
+            //console.log(data.message);
         }
     });
 
     var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
-
     $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
 };
 
 var success = function (data) {

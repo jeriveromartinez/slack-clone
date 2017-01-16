@@ -121,7 +121,8 @@ $(document).ready(function () {
         var exc = function (request) {
             if (request.data == "save") {
                 var userUrl = '/account/profile/' + userlogged + '/',
-                    date = moment(new Date(), moment.ISO - 8601).format("MMM Do \\at h:mm a");
+                    date = moment(new Date(), moment.ISO - 8601).format("MMM Do \\at h:mm a"),
+                    userImage = (userImage != "") ? userImage : '/static/images/ava_0022-48.png';
                 $('#monkey_scroll_wrapper_for_file_preview_scroller').find('#file_preview_comments_section .comments')
                     .prepend(item_file_comment(userlogged, userUrl, userImage, date, comment.comment));
                 $('#file_comment').val('');
@@ -359,7 +360,7 @@ $(document).ready(function () {
                 $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
             };
             if (response.code != undefined) {
-                highlightCode(response.code, response.extension);
+                highlightCode(response.code, response.type);
             }
 
             var urlapi = apiUrl + 'files/comment/' + key;

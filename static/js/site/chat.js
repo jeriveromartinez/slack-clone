@@ -24,14 +24,14 @@ $(document).ready(function () {
     });
 
     //show menu user logged
-    $('#team_menu').on('click', function () {
+    $('#team_menu').on('click.team_menu', function () {
         var value = $('#hiddenMenuUser').html();
         positionMenu(this, value, 'right');
         $('#menu.menu').find('.member_preview_link.member_image.thumb_36')[0].href = userProfile;
     });
 
     //hide the menu
-    $('.popover_mask').on('click', function () {
+    $('.popover_mask').on('click.popover_mask', function () {
         $(this).parent().addClass('hidden');
         userFileStatus = false;
     });
@@ -138,13 +138,13 @@ $(document).ready(function () {
         openDirectBrowse();
     });
 
-    $(".new_channel_btn").on("click", function (e) {
+    $(".new_channel_btn").on("click.channel_btn", function (e) {
         e.stopPropagation();
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
 
-    $("button.voice_call").on("click", function (e) {
+    $("button.voice_call").on("click.voice_call", function (e) {
         e.stopPropagation();
 
         var urlapi = hostUrl + '/call/aa';
@@ -156,6 +156,14 @@ $(document).ready(function () {
         e.preventDefault();
         alert('close');
         console.log($(this).parent('li'));
+        e.stopPropagation();
+    });
+
+    $('ul#im-list').on('click.remove_chat_user', 'button[data-user]', function (e) {
+        console.log($(this).attr('data-user'));
+        var element = $('ul#im-list').find('li[data-name= ' + $(this).attr('data-user') + ']')[0];
+        element.parentNode.removeChild(element);
+        $('#msgs_div').html('');
         e.stopPropagation();
     });
 
@@ -208,7 +216,8 @@ $(document).ready(function () {
             var list = $('#im-list');
             $('#dm_header_count').html(response.length);
             $('span#active_members_count_value').html(response.length);
-            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
+            $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list ('
+                + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
             response.forEach(function (item) {
                 var exist = $(list).find('li[data-name="' + item.user_connect.username.toLowerCase() + '"]');
                 if (exist.length == 0)
@@ -414,37 +423,46 @@ $(document).ready(function () {
 
         if (!_selected_members)_selected_members = [];
 
-        _$list_container.on("click", ".im_browser_row", function () {
+        _$list_container.on("click.browser", ".im_browser_row", function () {
             _selectRow($(this));
         });
 
-        _$im_browser.on("input", "#im_browser_filter", function () {
+        _$im_browser.on("input.filter", "#im_browser_filter", function () {
             var input = $("#im_browser_filter").val();
             _filterListView(input);
         });
 
-        _$im_browser.on('click', '.member_token .remove_member_icon', function () {
+        _$im_browser.on('click.member', '.member_token .remove_member_icon', function () {
             var item = $(this).parent();
             var member = item.attr('data-member-id');
             var index = _selected_members.indexOf(member);
-            if (index > -1) {
+            if (index > -1)
                 _selected_members.splice(index, 1);
-            }
 
             item.remove();
-
             var input = $("#im_browser_filter").val();
             _filterListView(input);
             _updateGo();
         });
 
-        _$im_browser.on("click", ".im_browser_go", function () {
+        _$im_browser.on("click.push_user", ".im_browser_go", function () {
             active_chat(_selected_members[0], 'user');
             activeChannel = _selected_members[0];
             Reload(activeChannel);
-            var data = {user_connect: {username: _selected_members[0]}, un_reader_msg: 0};
-            _selected_members.pop();
-            $('ul#im-list').append(item_user_list(data));
+
+            _selected_members.forEach(function (item) {
+                var data = {user_connect: {username: item}, un_reader_msg: 0};
+                //_selected_members.pop();
+
+                if ($('ul#im-list').find('li[data-name= ' + data.user_connect.username + ']').length == 0)
+                    $('ul#im-list').append(item_user_list(data));
+            });
+            _selected_members = [];
+            /*var data = {user_connect: {username: _selected_members[0]}, un_reader_msg: 0};
+             _selected_members.pop();
+
+             if ($('ul#im-list').find('li[data-name= ' + data.user_connect.username + ']').length == 0)
+             $('ul#im-list').append(item_user_list(data));*/
             _close();
         });
 
@@ -466,7 +484,7 @@ $(document).ready(function () {
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });
-        };
+        }
 
         function _startListView() {
             var exc = function (data) {
@@ -479,7 +497,7 @@ $(document).ready(function () {
             var urlapi = apiUrl + companyuser + '/users/';
 
             request(urlapi, 'GET', null, null, exc, null);
-        };
+        }
 
         function _selectRow(row) {
             var member = row.attr('data-member-id');
@@ -507,44 +525,36 @@ $(document).ready(function () {
         }
 
         function _updateGo() {
-            if (_selected_members.length) {
-                _$im_browser.find(".im_browser_go").removeClass("disabled")
-            } else {
-                _$im_browser.find(".im_browser_go").addClass("disabled")
-            }
-            if (_selected_members.length >= _MAX) {
-                _$im_browser.addClass("reached_maximum")
-            } else {
-                _$im_browser.removeClass("reached_maximum")
-            }
-        };
+            if (_selected_members.length)
+                _$im_browser.find(".im_browser_go").removeClass("disabled");
+            else
+                _$im_browser.find(".im_browser_go").addClass("disabled");
+
+            if (_selected_members.length >= _MAX)
+                _$im_browser.addClass("reached_maximum");
+            else
+                _$im_browser.removeClass("reached_maximum");
+        }
 
         function _updateParticipantCountHint() {
-            var max = _MAX;
-            var remaining = Math.max(0, max - _selected_members.length
-                )
-                ;
+            var remaining = Math.max(0, _MAX - _selected_members.length);
             var $div = _$im_browser.find(".remaining_participant_hint");
-            if (remaining) {
-                if (remaining === 1) {
-                    $div.text("You can add 1 more person")
-                } else {
-                    $div.text("You can add " + remaining + " more people")
-                }
-            } else {
-                $div.text("You have reached the maximum number of participants")
-            }
-        };
+            if (remaining)
+                if (remaining === 1)
+                    $div.text("You can add 1 more person");
+                else
+                    $div.text("You can add " + remaining + " more people");
+            else
+                $div.text("You have reached the maximum number of participants");
+        }
 
         function _clear() {
-            var select = $('#im_browser_tokens').find("div.member_token")
-
+            var select = $('#im_browser_tokens').find("div.member_token");
             $.each(select, function (index, item) {
                 item.parentNode.removeChild(item);
-
             });
         }
-    };
+    }
 
     //Browse Channel Modal
     function openDirectBrowse() {
@@ -618,7 +628,7 @@ $(document).ready(function () {
             alert("channel");
             //ReloadChanel(channel);
         }
-    };
+    }
 
     //Create Channel Modal
     function openNewChannel(back) {
@@ -795,7 +805,7 @@ $(document).ready(function () {
                 $(".lfs_input").focus().val('').removeAttr('placeholder');
             }
         }
-    };
+    }
 
     var getUsersCompany = function () {
         var exc = function (response) {
