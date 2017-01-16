@@ -17,18 +17,16 @@ import json
 
 def message(self, message):
     room = get_object_or_404(Room, name=message["room"])
-    # if room:
-    #     MessageInstEvent.objects.create(room=room, user_from=message["user_from"], msg=message["message"],
-    #                                     date_pub=timezone.now())
-    #
-    #     message["message"] = strip_tags(message["message"])
-    #     message["name"] = message["user_from"]
-    #
-    #     socket.send_and_broadcast_channel(message)
-    #
-    #
-    #     # else:
-    #     # send(socket.session.session_id, {"error": "Room not exits"})
+    if room:
+        MessageInstEvent.objects.create(room=room, user_from=message["user_from"], msg=message["message"],
+                                        date_pub=timezone.now())
+
+        message["message"] = strip_tags(message["message"])
+        message["name"] = message["user_from"]
+        self.emit_to_room(self.room, 'message', message)
+    else:
+        profile = Profile.objects.get(user__username=message["user_from"])
+        self.sendMessage(profile.socketsession, 'message', {"error": "Room not exits"})
 
 
 def call(self, message):
@@ -153,15 +151,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         self.sendMessage(self.socket.sessid, 'connected', {"action": "connected", "message": profile.user.username})
         return True
 
-    # def on_nickname(self, nickname):
-    #     print("Creating the nickname: " + nickname)
-    #     self.log('Nickname: {0}'.format(nickname))
-    #     self.socket.session['nickname'] = nickname
-    #     self.nicknames.append(nickname)
-    #     self.broadcast_event('announcement', '%s has connected' % nickname)
-    #     self.broadcast_event('nicknames', self.nicknames)
-    #     return True, nickname
-
     def on_message(self, msg):
 
         if msg['action'] == "message":
@@ -185,23 +174,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         func = optionchannel.get(action, lambda: "nothing")
         func(self, message)
 
-        return True
-
-    # def recv_disconnect(self):
-    #     self.log('Disconnected')
-    #     nickname = self.socket.session['nickname']
-    #     print len(nickname)
-    #     self.nicknames.remove(nickname)
-    #     self.broadcast_event('announcement', '%s has disconnected' % nickname)
-    #     self.broadcast_event('nicknames', self.nicknames)
-    #     self.disconnect(silent=True)
-    #     return True
-
-    def on_user_message(self, msg):
-        self.log('User message: {0}'.format(msg))
-        # TODO: dig into the logic of emit_to_room
-        self.emit_to_room(self.room, 'msg_to_room',
-                          self.socket.session['nickname'], msg)
         return True
 
     def sendMessage(self, sessid, event, *args):
