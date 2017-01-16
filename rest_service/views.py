@@ -247,7 +247,7 @@ def get_message_by_user_recent(request, username, page):
 
     paginator = Paginator(messages, 5)
 
-    page = page
+    #page = page
 
     if not page:
         page = 1
@@ -256,8 +256,10 @@ def get_message_by_user_recent(request, username, page):
         data = paginator.page(page)
     except (EmptyPage, InvalidPage):
         data = paginator.page(paginator.num_pages)
+
     reponse = {}
     result = []
+
     for inst in data.object_list:
         if isinstance(inst, MessageInstEvent):
             serializer = MessageInstEventSerializer(inst.messageinstevent)

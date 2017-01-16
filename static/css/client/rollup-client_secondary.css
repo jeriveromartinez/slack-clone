@@ -3082,7 +3082,8 @@ body.sorting_mode .channels_list_holder ul {
 
 #archive_msgs_scroller_div, #msgs_scroller_div {
     overflow-y: auto;
-    outline: 0
+    outline: 0;
+    height: 100%;
 }
 
 .supports_custom_scrollbar #archive_msgs_scroller_div, .supports_custom_scrollbar #msgs_scroller_div {
@@ -22260,7 +22261,8 @@ html.is_electron_mac #client_header .channel_header {
 }
 
 #messages_container {
-    overflow-y: auto
+    overflow-y: auto;
+    height: calc(95vh - 5rem);
 }
 
 .unread_view_is_showing #messages_unread_status {

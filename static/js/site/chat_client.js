@@ -11,7 +11,7 @@ $(document).ready(function () {
 
     socket.on('connect', function () {
         console.log(" connected")
-        socket.emit('join', {"user": userlogged}); 
+        socket.emit('join', {"user": userlogged});
     });
 
     socket.on('message', messaged);
@@ -114,30 +114,22 @@ var messaged = function (data) {
 };
 
 var onDataLoaded = function (data) {
-
     if (data.length > 0) {
-
-
         var container = $("#msgs_div");
-
         var currentday = -1;
         var currentday_container = "";
         var date = $(".day_container:first").find('ts-message:first').attr('data-date');
-        if (date) {
+        if (date)
             currentday = new Date(date).getDate();
-        }
-
 
         $.each(data, function (index, item) {
-
             var date = new Date(item.date_pub);
 
-
             if (date.getDate() != currentday) {
-
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
                 var day_msgs = $("<div class='day_msgs'></div>");
+
                 switch (item.type) {
                     case 'message_int_event':
                         day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
@@ -145,17 +137,12 @@ var onDataLoaded = function (data) {
                     case 'file_shared_event':
                         console.log('event');
                         break;
-
-                        break;
                 }
+
                 currentday_container.append(day_msgs);
-
                 container.prepend(currentday_container).fadeIn('slow');
-
-
             } else if (date.getDate() == currentday) {
-
-                var day_msgs = $("<div class='day_msgs'></div>");
+                //var day_msgs = $("<div class='day_msgs'></div>");
                 day_msgs = $(".day_container:first").find('.day_msgs');
 
                 switch (item.type) {
@@ -165,22 +152,13 @@ var onDataLoaded = function (data) {
                     case 'file_shared_event':
                         console.log('event');
                         break;
-
-                        break;
                 }
-
-
             }
+
             var date = $(".day_container:first").find('ts-message:first').attr('data-date');
-
             currentday = new Date(date).getDate();
-
-
         });
-
-
     }
-
 };
 
 var initScroll = function (name) {
@@ -248,7 +226,7 @@ function openIncomingCall(data) {
         console.log("room", room);
         var urlapi = hostUrl + '/call/' + room;
         window.open(urlapi, '_blank');
-        
+
 
         _close();
     });
