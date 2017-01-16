@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     window.history.replaceState("slack call ", "slack call ", "/call/" + roomname);
     console.log("server", document.domain);
-    var socket = new io.Socket(document.domain, {reconnection: true, secure: true});
+
 
     window.room = {
         localStream: null,
@@ -29,18 +29,18 @@ $(document).ready(function () {
     userAuteticated();
     initView();
 
-    socket.connect();
+    var socket = io.connect("/chat");
 
     socket.on('connect', function () {
-
-        socket.subscribe(roomname);
+        socket.emit('join', {"user": userlogged});
+        
 
         if (action == "created") {
             // # TODO: verificar si ya esta en la sala
-            socket.send({action: "call", user_from: userlogged, user_to: usercall, room: roomname});
+            socket.emit("messagechanel", {action: "call", user_from: userlogged, user_to: usercall, room: roomname});
         }
         else if (action == "joined") {
-            socket.send({action: "callaccept", user_from: userlogged, room: roomname});
+            socket.emit("messagechanel", {action: "callaccept", user_from: userlogged, room: roomname});
         }
 
 
@@ -98,7 +98,7 @@ $(document).ready(function () {
             room.users[from].pc.createAnswer(function (answer) {
                 room.users[from].pc.setLocalDescription(answer);
                 console.log("anwer to", from);
-                socket.send({
+                socket.emit("messagechanel", {
                     action: 'answer',
                     room: roomname,
                     user_from: userlogged,
@@ -261,7 +261,7 @@ $(document).ready(function () {
             room.users[user].pc.onicecandidate = function (event) {
                 console.log("candidate user", user)
                 if (user != userlogged)
-                    socket.send({
+                    socket.emit("messagechanel", {
                         action: 'candidate',
                         room: roomname,
                         user_to: user,
@@ -294,7 +294,7 @@ $(document).ready(function () {
                 initDC(user, room.users[user].pc.createDataChannel('data'));
             room.users[user].pc.createOffer(function (offer) {
                 room.users[user].pc.setLocalDescription(offer);
-                socket.send({
+                socket.emit("messagechanel", {
                     action: 'offer', room: roomname, user_to: user, user_from: userlogged, offer: offer
                 })
                 ;

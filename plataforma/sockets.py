@@ -1,5 +1,6 @@
 import logging
 
+from plataforma.serializers import ProfileSerializer
 from socketio.namespace import BaseNamespace
 from socketio.mixins import RoomsMixin, BroadcastMixin
 from socketio.mixins import BroadcastMixin
@@ -22,12 +23,10 @@ def message(self, message):
 
         message["message"] = strip_tags(message["message"])
         message["name"] = message["user_from"]
-
-        socket.send_and_broadcast_channel(message)
-
-
-        # else:
-        # send(socket.session.session_id, {"error": "Room not exits"})
+        self.emit_to_room(self.room, 'message', message)
+    else:
+        profile = Profile.objects.get(user__username=message["user_from"])
+        self.sendMessage(profile.socketsession, 'message', {"error": "Room not exits"})
 
 
 def call(self, message):
@@ -35,12 +34,15 @@ def call(self, message):
     room = RoomCall.objects.get(name=message['room'])
 
     if profile:
-        send(profile.socketsession,
-             {"action": "call_join_request", "user_from": message["user_from"], "user_to": message["user_to"],
-              'avatar': profile.image.url, "room": room.name})
+        self.sendMessage(profile.socketsession, 'message',
+                         {"action": "call_join_request", "user_from": message["user_from"],
+                          "user_to": message["user_to"],
+                          'avatar': profile.image.url, "room": room.name})
+
     else:
-        send(socket.session.session_id,
-             {"action": "call_failed", "message": "No connected sockets exist"})
+        profile = Profile.objects.get(user__username=message["user_from"])
+        self.sendMessage(profile.socketsession, 'message',
+                         {"action": "call_failed", "message": "No connected sockets exist"})
 
 
 def callaccept(self, message):
@@ -48,57 +50,46 @@ def callaccept(self, message):
     serializer = ProfileSerializer(room.users.all(), many=True)
     users = json.dumps(serializer.data)
     profile = Profile.objects.get(user__username=message["user_from"])
-    send(profile.socketsession,
-         {"action": "user_list", "room": room.name, "user_from": request.user.username, "users": users})
+    self.sendMessage(profile.socketsession, 'message',
+                     {"action": "user_list", "room": room.name, "user_from": message["user_from"], "users": users})
     for item in room.users.all():
-
-        try:
-            print 'Sending begin to: ' + item.user.username + " " + item.socketsession
-            send(item.socketsession,
-                 {"action": "join", "room": room.name, "user_from": message["user_from"], "users": users})
-        except NoSocket as e:
-            send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+        print 'Sending begin to: ' + item.user.username + " " + item.socketsession
+        self.sendMessage(item.socketsession, 'message',
+                         {"action": "join", "room": room.name, "user_from": message["user_from"], "users": users})
 
 
 def calldecline(self, message):
     room = RoomCall.objects.get(name=message['room'])
 
-    socket.send_and_broadcast_channel(
-        {"action": "call_decline", "user_from": message["user_from"], "room": room.name})
+    self.broadcast_event('message', {"action": "call_decline", "user_from": message["user_from"], "room": room.name})
 
 
 def offer(self, message):
     room = RoomCall.objects.get(name=message['room'])
     profile = Profile.objects.get(user__username=message["user_to"])
 
-    try:
-        print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
-        send(profile.socketsession, {
-            'action': "offer",
-            'offer': message['offer'],
-            'user_from': message["user_from"],
-            "room": room.name,
+    print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
+    self.sendMessage(profile.socketsession, 'message', {
+        'action': "offer",
+        'offer': message['offer'],
+        'user_from': message["user_from"],
+        "room": room.name,
 
-        })
-    except NoSocket as e:
-        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+    })
 
 
 def answer(self, message):
     room = RoomCall.objects.get(name=message['room'])
     profile = Profile.objects.get(user__username=message["user_to"])
 
-    try:
-        print 'Sending answer to: ' + profile.user.username + " " + profile.socketsession
-        send(profile.socketsession, {
-            'action': "answer",
-            'answer': message['answer'],
-            'user_from': message["user_from"],
-            "room": room.name,
+    print 'Sending answer to: ' + profile.user.username + " " + profile.socketsession
+    self.sendMessage(profile.socketsession, 'message', {
+        'action': "answer",
+        'answer': message['answer'],
+        'user_from': message["user_from"],
+        "room": room.name,
 
-        })
-    except NoSocket as e:
-        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+    })
 
 
 def candidate(self, message):
@@ -106,24 +97,20 @@ def candidate(self, message):
     profile = Profile.objects.get(user__username=message["user_to"])
     print 'candidate' + message["user_to"]
 
-    try:
-        print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
-        send(profile.socketsession, {
-            'action': "candidate",
-            'candidate': message['candidate'],
-            'user_from': message["user_from"],
-            "room": room.name,
+    print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
+    self.sendMessage(profile.socketsession, 'message', {
+        'action': "candidate",
+        'candidate': message['candidate'],
+        'user_from': message["user_from"],
+        "room": room.name,
 
-        })
-    except NoSocket as e:
-        send(socket.session.session_id, {"action": "error", "message": "No connected sockets exist"})
+    })
 
 
 def leave(self, message):
-    socket.send_and_broadcast_channel({
+    self.broadcast_event('message', {
         'action': "leave",
-
-        'user_from': request.user.username
+        'user_from': message["user_from"]
 
     })
 
@@ -151,6 +138,11 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     def log(self, message):
         self.logger.info("[{0}] {1}".format(self.socket.sessid, message))
 
+    def subcribe(self, data):
+        self.room = data['room']
+        self.join(data['room'])
+        return True
+
     def on_join(self, data):
         user = data['user']
         profile = Profile.objects.get(user__username=user)
@@ -158,15 +150,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         profile.save()
         self.sendMessage(self.socket.sessid, 'connected', {"action": "connected", "message": profile.user.username})
         return True
-
-    # def on_nickname(self, nickname):
-    #     print("Creating the nickname: " + nickname)
-    #     self.log('Nickname: {0}'.format(nickname))
-    #     self.socket.session['nickname'] = nickname
-    #     self.nicknames.append(nickname)
-    #     self.broadcast_event('announcement', '%s has connected' % nickname)
-    #     self.broadcast_event('nicknames', self.nicknames)
-    #     return True, nickname
 
     def on_message(self, msg):
 
@@ -191,23 +174,6 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         func = optionchannel.get(action, lambda: "nothing")
         func(self, message)
 
-        return True
-
-    # def recv_disconnect(self):
-    #     self.log('Disconnected')
-    #     nickname = self.socket.session['nickname']
-    #     print len(nickname)
-    #     self.nicknames.remove(nickname)
-    #     self.broadcast_event('announcement', '%s has disconnected' % nickname)
-    #     self.broadcast_event('nicknames', self.nicknames)
-    #     self.disconnect(silent=True)
-    #     return True
-
-    def on_user_message(self, msg):
-        self.log('User message: {0}'.format(msg))
-        # TODO: dig into the logic of emit_to_room
-        self.emit_to_room(self.room, 'msg_to_room',
-                          self.socket.session['nickname'], msg)
         return True
 
     def sendMessage(self, sessid, event, *args):
