@@ -324,14 +324,19 @@ def add_un_reader(sender, instance=None, **kwargs):
         messages = MessageEvent.objects.all().filter(readed=False,
                                                      user_to__username=instance.messageevent_ptr.user_to.username) \
             .values("user_from__username").annotate(total=Count('readed')).order_by('user_to')
+        print messages[0]['total']
 
-        communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_from,
-                                                     user_connect=instance.messageevent_ptr.user_to).update(
+        communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to,
+                                                     # user_me=instance.messageevent_ptr.user_from
+                                                     user_connect=instance.messageevent_ptr.user_from).update(
+            # user_connect=instance.messageevent_ptr.user_to
             date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
 
         if not communication:
-            Communication.objects.create(user_me=instance.messageevent_ptr.user_from,
-                                         user_connect=instance.messageevent_ptr.user_to,
+            Communication.objects.create(user_me=instance.messageevent_ptr.user_to,
+                                         # user_me=instance.messageevent_ptr.user_from
+                                         user_connect=instance.messageevent_ptr.user_from,
+                                         # user_connect=instance.messageevent_ptr.user_to
                                          un_reader_msg=messages[0]['total'])
 
     except MessageEvent.DoesNotExist as e:

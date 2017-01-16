@@ -85,7 +85,6 @@ $(document).ready(function () {
     });
 
     $('button.space_btn_comments.comments_open').on('click', function () {
-
         get_comments();
         $('body.light_theme').addClass('comments_visible');
     });

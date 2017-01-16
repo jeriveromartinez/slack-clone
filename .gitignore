@@ -3,3 +3,5 @@ media/
 assets/
 plataforma/migrations/
 .idea/
+.crt
+.key

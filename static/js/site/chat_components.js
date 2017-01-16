@@ -33,10 +33,11 @@ var item_user_list = function (data) {
         '<span class="presence ' + active + ' " title="' + active + '">' +
         '<i class="ts_icon ts_icon_presence presence_icon"></i>' +
         '</span>' + data.user_connect.username + '</span></a>' +
-        '<button class="ts_icon ts_icon_times_circle im_close btn_unstyle" aria-label="Close Direct Message with jeriverom" data-qa="im_close"></button></li>';
+        '<button class="ts_icon ts_icon_times_circle im_close btn_unstyle" aria-label="Close Direct Message with ' + data.user_connect.username + '" data-qa="im_close" data-user="' + data.user_connect.username + '"></button></li>';
 };
 
 var item_directory_list = function (username, name, imageUrl, currentUsername) {
+    imageUrl = (imageUrl == null) ? '/static/images/ava_0022-48.png' : imageUrl;
     var item = '<div class="team_list_item member_item cursor_pointer active tiny_top_margin">' +
         '<div class="member_details member_item_inset ">' +
         '<a onclick="showProfile(this)" data-user="' + username + '" class="lazy member_preview_link member_image thumb_72" ' +
@@ -54,7 +55,8 @@ var item_directory_list = function (username, name, imageUrl, currentUsername) {
 };
 
 var item_user_profile = function (object, localtime) {
-    var userUrl = '/account/profile/' + object.user.username + '/'
+    var userUrl = '/account/profile/' + object.user.username + '/',
+        image = (object.image) ? object.image : '/static/images/ava_0022-48.png';
     var item = '<div class="heading">' +
         '<a onclick="return false;" id="back_from_member_preview"><i class="ts_icon ts_icon_chevron_medium_left back_icon"></i> Team Directory</a>' +
         '<a class="close_flexpane" title="Close Flexpane" data-pannel="member_preview_container"><i class="ts_icon ts_icon_times"></i></a></div>' +
@@ -220,12 +222,14 @@ var item_file = function (fileSlug, owner, dateCreate, title, comments, profileU
 };
 
 var item_file_detail = function (item) {
-    var userUrl = '/account/profile/' + item.author.user.username + '/', file = urlFile(item);
+    var userUrl = '/account/profile/' + item.author.user.username + '/',
+        file = urlFile(item),
+        image = (item.author.image != undefined) ? item.author.image : '/static/images/ava_0022-48.png';
     return '<div id="file_preview_head_section" data-file="' + item.slug + '">' + file[1] +
         '<div id="file_preview_comments_section" \
          ' + file[2] + '><div class="comments"></div></div><div class="comment_form">\
     <a href="' + userUrl + '" class="member_preview_link" target="_blank">\
-			<span class="member_image thumb_36" style="background-image: url(' + item.author.image + '), url(/static/images/ava_0022-48.png)"></span></a>\
+			<span class="member_image thumb_36" style="background-image: url(' + image + ');"></span></a>\
 	<textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short" autocorrect="off" \
 	autocomplete="off" spellcheck="true" style="overflow: hidden; height: 38px;" wrap="virtual;">\
 </textarea><button id="file_comment_submit_btn" class="btn btn_small float_right ladda-button" ><span \
@@ -233,9 +237,10 @@ class="ladda-label">Add Comment</span></button></div>';
 };
 
 var item_code_file_detail = function (username, userUrl, picture, filename, dateCreate, code, urlFile, slug) {
+    picture = (picture != null) ? picture : '/static/images/ava_0022-48.png';
     return '<div class="file_preview_title">\
 	<div id="file_title_container"><div class="flexpane_file_title">\
-		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + picture + '), url(/static/images/ava_0022-48.png);" class="member_image thumb_36 member_preview_link  "></a>\
+		<a href="' + userUrl + '" target="_blank" style="background-image: url(' + picture + ');" class="member_image thumb_36 member_preview_link  "></a>\
 		<span class="color_4bbe2e"><a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
 		<span class="title break_word"><a href="#/blackmambasoft.slack.com/files/jeriverom/F34T6SPPC/test.cs" class="">' + filename + '</a>\
 			<span class="no_wrap"></span></span>\
@@ -373,8 +378,9 @@ var item_post_file_detail = function () {
 };
 
 var item_file_comment = function (username, userUrl, picture, dateCreate, comment) {
+    picture = (picture != null) ? picture : '/static/images/ava_0022-48.png';
     return '<div class="comment"><span class="no_print"><a href="' + userUrl + '" target="_blank" ' +
-        'class=" member_preview_link member_image thumb_36" style="background-image: url(' + picture + '), url(/static/images/ava_0022-48.png);" \
+        'class=" member_preview_link member_image thumb_36" style="background-image: url(' + picture + ');" \
         aria-hidden="true"></a>\
 </span><p class="comment_meta"><span class="no_print"><a href="/account/profile/' + username + '/" target="_blank" ' +
         'class="message_sender color_4bbe2e member member_preview_link">' + username + '</a></span>\
@@ -386,11 +392,12 @@ var item_file_comment = function (username, userUrl, picture, dateCreate, commen
 
 var item_direct_message = function (data, pos) {
     var avatar = "url('/static/images/roosty@2x.png')";
+    var picture = (data.image != undefined) ? data.image : '/static/images/ava_0022-48.png';
     var item = '<div data-img="' + data.image + '" data-member-id="' + data.user.username + '" class="im_browser_row" style="position: absolute; top: 0; transform: translateY(' + pos + 'px);" >' +
-        '<span class=" member_preview_link member_image thumb_36"  style="background-image: url(' + data.image + ')""></span>' +
+        '<span class=" member_preview_link member_image thumb_36"  style="background-image: url(' + picture + ')""></span>' +
         '<div class="im_last_msg_time float_right cloud_silver small_left_margin">' +
         '<i class="ts_icon ts_icon_angle_arrow_up_left ts_icon_inherit">' +
-        '</i><!--/*+ moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +--></div>'+ //TODO: put the time
+        '</i><!--/*+ moment(data.date_pub, moment.ISO - 8601).format("hh:mm a") +--></div>' + //TODO: put the time
         '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
         '<div class="overflow_ellipsis bold im_display_name_container">' +
         '<span class="im_display_name">' + data.user.username + '</span>' +

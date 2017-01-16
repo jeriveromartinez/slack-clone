@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>{% endcomment %}
-    <div id="msgs_scroller_div" tabindex="-1" style="height: 500px;">
+    <div id="msgs_scroller_div" tabindex="-1">
         <div id="end_div" class="relative mini help" style="height: 224px;">
             <div id="end_display_onboarding" class="hidden onboarding">
                 <div id="onboarding_header">
@@ -133,34 +133,36 @@
                     </div>
                     <div id="im_meta" class="">
                         <div class="dm_badge display_flex align_items_center">
-                            <a href="/team/jeriverom" target="/team/jeriverom"
-                               class=" member_preview_link member_image thumb_72" data-member-id="U2KQ35L2Z"
-                               data-thumb-size="72"
-                               style="background-image: url('https://secure.gravatar.com/avatar/53efb3a0c90e50818529f825ff34f343.jpg?s=72&amp;d=https%3A%2F%2Fa.slack-edge.com%2F66f9%2Fimg%2Favatars%2Fava_0021-72.png')"
+                            <a href="/account/profile/{{ request.user.username }}" target="_blank"
+                               class="member_preview_link member_image thumb_72"
+                               style="background-image: {% if request.user.user_profile.image %}
+                                   url('{{ MEDIA_URL }}{{ request.user.user_profile.image }}')
+                               {% else %}
+                                   url('{% static 'images/ava_0022-48.png' %}')
+                               {% endif %}"
                                aria-hidden="true"></a>
 
-
                             <p class="dm_badge_meta">
-                                <span class="member_real_name bold">Julio Rivero</span>
-                                <span data-member-presence="U2KQ35L2Z" class="presence away member_presence_U2KQ35L2Z"
+                                <span class="member_real_name bold">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                                <span class="presence away {% comment %}member_presence_U2KQ35L2Z{% endcomment %}"
                                       title="away"><i aria-hidden="true"
                                                       class="ts_icon ts_icon_presence presence_icon"></i></span>
 
-                                <span class="color_U2KQ35L2Z color_4bbe2e">
-						<a href="/team/jeriverom" class="member_preview_link member_name" data-member-id="U2KQ35L2Z">@jeriverom</a>
-					</span>
-
+                                <span class="color_4bbe2e">
+                                    <a href="/account/profile/{{ request.user.username }}"
+                                       class="member_preview_link member_name">@{{ request.user.username }}</a>
+                                </span>
                                 <br>
                             </p>
                         </div>
 
-                        <p class="dm_explanation margin_auto align_left clear_both">
+                        {% comment %}<p class="dm_explanation margin_auto align_left clear_both">
                             This is <span class="not_limited_copy">the very beginning of</span> your direct message
                             history with
                             <strong>jeriverom</strong>.
 
                             Direct messages are private between the two of you.
-                        </p>
+                        </p>{% endcomment %}
                     </div>
 
                     <div class="is_limited_div is_limited_copy hidden mini">
