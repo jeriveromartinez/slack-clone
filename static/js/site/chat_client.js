@@ -3,12 +3,7 @@ $(document).ready(function () {
 
     var socket = io.connect("/chat");
 
-    // var socket = new io.Socket(document.domain, {});
-
-
-    // socket.connect();
-
-
+   
     socket.on('connect', function () {
         console.log(" connected")
         socket.emit('join', {"user": userlogged}); 
