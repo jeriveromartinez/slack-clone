@@ -15,3 +15,4 @@ pygithub3
 Pillow
 shortuuid
 uwsgi
+django-cors-headers

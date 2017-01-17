@@ -385,6 +385,7 @@ $(document).ready(function () {
                 contentType: false,
                 processData: false,
                 dataType: dataType,
+                crossDomain: true,
                 headers: {"X-CSRFToken": getCookie("csrftoken")},
                 success: doneFunction,
                 error: errorFunction,
@@ -604,7 +605,7 @@ $(document).ready(function () {
 
                 });
             };
-            var urlapi = apiUrl + 'usercomapny';
+            var urlapi = apiUrl + 'usercomapny/';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });

@@ -173,7 +173,7 @@ var CheckReaded = function (channel) {
     var exc = function (response) {
         window.get_comuncation_me();
     };
-    var urlapi = apiUrl + 'checkreaded';
+    var urlapi = apiUrl + 'checkreaded/';
     request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
@@ -182,7 +182,7 @@ var Reload = function (name) {
     $("#msgs_div").empty();
     $.ajax({
         type: 'GET',
-        url: "/api/messages/" + name + "/" + 1,
+        url: "/api/messages/" + name + "/" + 1 + '/',
         // data: {page: 1},
         success: function (data, status, object) {
             $.when(success(data)).then(initScroll(name));

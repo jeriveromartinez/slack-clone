@@ -188,7 +188,7 @@ $(document).ready(function () {
             });
         };
 
-        var urlapi = apiUrl + 'room_user_list/' + userlogged;
+        var urlapi = apiUrl + 'room_user_list/' + userlogged + '/';
         request(urlapi, 'GET', null, null, exc, null);
     };
 
@@ -231,9 +231,10 @@ $(document).ready(function () {
             });
         };
 
-        var urlapi = apiUrl + 'cummunication_me/' + userlogged;
+        var urlapi = apiUrl + 'cummunication_me/' + userlogged + '/';
+
         $.when(users_online()).done(function () {
-            request(urlapi, 'GET', null, null, exc, null);
+            request(urlapi, 'GET', 'jsonp', null, exc, null);
         });
     };
 
@@ -292,6 +293,7 @@ $(document).ready(function () {
                 cache: false,
                 contentType: false,
                 processData: false,
+                crossDomain: true,
                 dataType: dataType,
                 headers: {"X-CSRFToken": getCookie("csrftoken")},
                 success: doneFunction,
@@ -757,7 +759,7 @@ $(document).ready(function () {
                 });
             }
 
-            var urlapi = apiUrl + 'usercomapny';
+            var urlapi = apiUrl + 'usercomapny/';
             request(urlapi, 'POST', null, {term: input}, exc, null);
         }
 
@@ -838,7 +840,7 @@ $(document).ready(function () {
         $('.panel.active').removeClass('active');
         $('#team_list_container').addClass('hidden');
 
-        var urlapi = apiUrl + 'profile/' + id;
+        var urlapi = apiUrl + 'profile/' + id + '/';
         request(urlapi, 'GET', null, null, exc, null);
 
         $('#member_preview_container').removeClass('hidden');

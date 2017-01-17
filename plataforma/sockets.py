@@ -15,102 +15,103 @@ from django.utils import timezone
 import json
 
 
-def message(self, message):
-    room = get_object_or_404(Room, name=message["room"])
+def message(self, msg):
+    room = get_object_or_404(Room, name=msg["room"])
     if room:
-        MessageInstEvent.objects.create(room=room, user_from=message["user_from"], msg=message["message"],
+        MessageInstEvent.objects.create(room=room, user_from=msg["user_from"], msg=message["message"],
                                         date_pub=timezone.now())
 
-        message["message"] = strip_tags(message["message"])
-        message["name"] = message["user_from"]
-        self.emit_to_room(self.room, 'message', message)
+        msg["message"] = strip_tags(msg["message"])
+        msg["name"] = msg["user_from"]
+        self.emit_to_room(self.room, 'message', msg)
     else:
-        profile = Profile.objects.get(user__username=message["user_from"])
+        profile = Profile.objects.get(user__username=msg["user_from"])
         self.sendMessage(profile.socketsession, 'message', {"error": "Room not exits"})
 
 
-def call(self, message):
-    profile = Profile.objects.get(user__username=message["user_to"])
-    room = RoomCall.objects.get(name=message['room'])
+def call(self, msg):
+    profile = Profile.objects.get(user__username=msg["user_to"])
+    room = RoomCall.objects.get(name=msg['room'])
 
     if profile:
+
         self.sendMessage(profile.socketsession, 'message',
-                         {"action": "call_join_request", "user_from": message["user_from"],
-                          "user_to": message["user_to"],
+                         {"action": "call_join_request", "user_from": msg["user_from"],
+                          "user_to": msg["user_to"],
                           'avatar': profile.image.url, "room": room.name})
 
     else:
-        profile = Profile.objects.get(user__username=message["user_from"])
+        profile = Profile.objects.get(user__username=msg["user_from"])
         self.sendMessage(profile.socketsession, 'message',
                          {"action": "call_failed", "message": "No connected sockets exist"})
 
 
-def callaccept(self, message):
-    room = RoomCall.objects.get(name=message['room'])
+def callaccept(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
     serializer = ProfileSerializer(room.users.all(), many=True)
     users = json.dumps(serializer.data)
-    profile = Profile.objects.get(user__username=message["user_from"])
+    profile = Profile.objects.get(user__username=msg["user_from"])
     self.sendMessage(profile.socketsession, 'message',
-                     {"action": "user_list", "room": room.name, "user_from": message["user_from"], "users": users})
+                     {"action": "user_list", "room": room.name, "user_from": msg["user_from"], "users": users})
     for item in room.users.all():
         print 'Sending begin to: ' + item.user.username + " " + item.socketsession
         self.sendMessage(item.socketsession, 'message',
-                         {"action": "join", "room": room.name, "user_from": message["user_from"], "users": users})
+                         {"action": "join", "room": room.name, "user_from": msg["user_from"], "users": users})
 
 
-def calldecline(self, message):
-    room = RoomCall.objects.get(name=message['room'])
+def calldecline(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
 
-    self.broadcast_event('message', {"action": "call_decline", "user_from": message["user_from"], "room": room.name})
+    self.broadcast_event('message', {"action": "call_decline", "user_from": msg["user_from"], "room": room.name})
 
 
-def offer(self, message):
-    room = RoomCall.objects.get(name=message['room'])
-    profile = Profile.objects.get(user__username=message["user_to"])
+def offer(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+    profile = Profile.objects.get(user__username=msg["user_to"])
 
     print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
     self.sendMessage(profile.socketsession, 'message', {
         'action': "offer",
-        'offer': message['offer'],
-        'user_from': message["user_from"],
+        'offer': msg['offer'],
+        'user_from': msg["user_from"],
         "room": room.name,
 
     })
 
 
-def answer(self, message):
-    room = RoomCall.objects.get(name=message['room'])
-    profile = Profile.objects.get(user__username=message["user_to"])
+def answer(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+    profile = Profile.objects.get(user__username=msg["user_to"])
 
     print 'Sending answer to: ' + profile.user.username + " " + profile.socketsession
     self.sendMessage(profile.socketsession, 'message', {
         'action': "answer",
-        'answer': message['answer'],
-        'user_from': message["user_from"],
+        'answer': msg['answer'],
+        'user_from': msg["user_from"],
         "room": room.name,
 
     })
 
 
-def candidate(self, message):
-    room = RoomCall.objects.get(name=message['room'])
-    profile = Profile.objects.get(user__username=message["user_to"])
+def candidate(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+    profile = Profile.objects.get(user__username=msg["user_to"])
     print 'candidate' + message["user_to"]
 
     print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
     self.sendMessage(profile.socketsession, 'message', {
         'action': "candidate",
-        'candidate': message['candidate'],
-        'user_from': message["user_from"],
+        'candidate': msg['candidate'],
+        'user_from': msg["user_from"],
         "room": room.name,
 
     })
 
 
-def leave(self, message):
+def leave(self, msg):
     self.broadcast_event('message', {
         'action': "leave",
-        'user_from': message["user_from"]
+        'user_from': msg["user_from"]
 
     })
 
@@ -172,7 +173,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         print 'inchannel'
         action = msg['action']
         func = optionchannel.get(action, lambda: "nothing")
-        func(self, message)
+        func(self, msg)
 
         return True
 

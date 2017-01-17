@@ -59,7 +59,7 @@
             if (jQuery.isFunction(opts.onDataLoading)) {
                 opts.onDataLoading(currentScrollPage);
             }
-            $.get(opts.dataPath + currentScrollPage)
+            $.get(opts.dataPath + currentScrollPage + '/')
                 .always(onDataLoaded)
                 .fail(function () {
                     if (jQuery.isFunction(opts.onDataError)) {

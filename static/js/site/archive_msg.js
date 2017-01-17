@@ -27,6 +27,7 @@ window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunctio
             contentType: false,
             processData: false,
             dataType: dataType,
+            crossDomain: true,
             headers: {"X-CSRFToken": getCookie("csrftoken")},
             success: doneFunction,
             error: errorFunction,

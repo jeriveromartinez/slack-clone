@@ -163,6 +163,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+
 )
 ########## END MIDDLEWARE CONFIGURATION
 
@@ -188,6 +190,7 @@ DJANGO_APPS = (
 
     # Admin panel and documentation:
     'suit',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'socketio',
@@ -286,3 +289,11 @@ CACHES = {
 }
 
 USER_AGENTS_CACHE = 'default'
+
+CORS_ORIGIN_WHITELIST = (
+    '10.51.7.63:8001'
+    'django',
+
+)
+
+CORS_URLS_REGEX = r'^/api/.*$'
