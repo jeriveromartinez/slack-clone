@@ -531,6 +531,14 @@ div.CodeMirror-cursors {
     padding-right: .1px
 }
 
+.ts_icon:before, ts-icon:before {
+    font-family: Slack;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    display: inline-block;
+}
+
 @media print {
     .CodeMirror div.CodeMirror-cursors {
         visibility: hidden

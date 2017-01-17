@@ -154,6 +154,8 @@ var onDataLoaded = function (data) {
             currentday = new Date(date).getDate();
         });
     }
+    var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
+    $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
 };
 
 var initScroll = function (name) {
@@ -174,7 +176,7 @@ var CheckReaded = function (channel) {
         window.get_comuncation_me();
     };
     var urlapi = apiUrl + 'checkreaded/';
-    request(urlapi, 'POST', null, {channel: channel}, exc, null);
+    // request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
 
@@ -192,8 +194,7 @@ var Reload = function (name) {
         }
     });
 
-    var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
-    $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
+
 };
 
 var success = function (data) {

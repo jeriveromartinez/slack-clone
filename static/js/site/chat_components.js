@@ -619,3 +619,33 @@ var calls_emoji_panel = function () {
     return result;
 };
 
+var searchList = function (data) {
+    var dev = '<ol class="conversation_modifiers results modifiers" aria-label="conversation modifier">';
+    data.forEach(function (item) {
+        dev += '<li data-search-action="@' + item + '"><button class="result_item_btn btn_unstyle" type="button">\
+               <strong>@' + item + '</strong>\
+                <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true">\
+                 </ts-icon></button></li>';
+    });
+    dev += '<ol>';
+    return dev;
+};
+
+var optionsSearch = function () {
+    return '<ol class="conversation_modifiers results modifiers">\
+          <li data-replacement="from:"><button class="result_item_btn btn_unstyle" type="button">\
+          <strong>from: </strong><span class="muted_text">username</span>\
+          <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></button></li></ol>\
+          <ol class="time_modifiers results modifiers">\
+          <li data-replacement="after:"><button class="result_item_btn btn_unstyle" type="button">\
+          <strong>after: </strong><span class="muted_text">date</span>\
+          <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li>\
+          <li data-replacement="before:">\
+          <button class="result_item_btn btn_unstyle" type="button">\
+          <strong>before: </strong><span class="muted_text">date</span>\
+          <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li>\
+          <li data-replacement="on:"><button class="result_item_btn btn_unstyle" type="button">\
+          <strong>on: </strong><span class="muted_text">date, month or year</span>\
+          <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li></ol>';
+};
+
