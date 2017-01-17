@@ -245,7 +245,7 @@ def get_message_by_user_recent(request, username, page):
          (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
             filesharedevent__user_from__username=username)).order_by('-date_pub')
 
-    paginator = Paginator(messages, 5)
+    paginator = Paginator(messages, 20)
 
     #page = page
 
