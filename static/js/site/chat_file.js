@@ -274,6 +274,55 @@ $(document).ready(function () {
         event.stopPropagation();
     });
 
+    $('#autocomplete_menu').on('click.autocomplete', 'li[data-replacement]', function (e) {
+        var action = $(this).attr('data-replacement');
+        $('input#search_terms').val(action);
+        $('form[role="search"]').addClass('active');
+        switch (action) {
+            case 'from:':
+                $('.autocomplete_menu_scrollable').html(searchList(users));
+                break;
+            case 'in:':
+                break;
+            case 'has:':
+                break;
+            case 'after:':
+                $('[data-toggle="datepicker"]').datepicker({
+                    autoclose: true,
+                    endDate: new Date(),
+                });
+                $('[data-toggle="datepicker"]').datepicker("show");
+                break;
+            case 'before:':
+                break;
+            case 'on:':
+                break;
+        }
+
+        $('#search_autocomplete_popover').removeClass('hidden');
+        $('#client-ui').addClass('search_focused');
+        //$('#search_autocomplete_popover').trigger('focus');
+        e.stopPropagation();
+    });
+
+    //complete string search
+    $('.autocomplete_menu_scrollable').on('click.search_action', 'li[data-search-action]', function (e) {
+        $('input#search_terms').val(splitSearch($('input#search_terms').val()) + $(this).attr('data-search-action'));
+        blockSearch();
+    });
+
+    $('body').on('pick.datepicker', function (e) {
+        var search = $('input#search_terms');
+        $(search).val($(search).val() + moment(e.date, moment.ISO - 8601).format("YYYY-M-D"));
+        $('[data-toggle="datepicker"]').datepicker("hide");
+        blockSearch();
+    });
+
+    $('#search_clear').on('click.clear_search', function (e) {
+        $('input#search_terms').val('');
+        $('.autocomplete_menu_scrollable').html(optionsSearch());
+    });
+
     //AUX
     var user_files = function (username) {
         clean_user_files();
@@ -536,4 +585,17 @@ $(document).ready(function () {
         if (userlogged != $(this).attr('data-owner'))
             $($('#menu.menu').find('#element_delete')[0]).hide();
     };
+
+    var blockSearch = function () {
+        $('#search_autocomplete_popover').addClass('hidden');
+        $('#client-ui').removeClass('search_focused');
+        //$('input#search_terms').unbind('focus');
+    };
+
+    var splitSearch = function (str) {
+        var dev = str.split(':');
+        if (dev.length > 0)
+            return dev[0] + ':';
+        return;
+    }
 });

@@ -247,7 +247,7 @@ def get_message_by_user_recent(request, username, page):
 
     paginator = Paginator(messages, 20)
 
-    #page = page
+    # page = page
 
     if not page:
         page = 1

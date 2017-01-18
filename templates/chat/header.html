@@ -89,15 +89,19 @@
                                placeholder="Search" autocomplete="off" maxlength="250" type="text">
                         <div class="highlighter_underlay"><span class="ghost_text">&nbsp;&nbsp;</span></div>
                     </div>
-                    <a id="search_clear" class="search_clear_icon">
-                        <ts-icon class="ts_icon_times_circle"></ts-icon>
-                    </a>
+                    <div class="search_clear_icon_wrapper">
+                        <button type="button" id="search_clear" class="btn_unstyle search_clear_icon"
+                                aria-label="Clear search field">
+                            <ts-icon class="ts_icon_times_circle" aria-hidden="true"></ts-icon>
+                        </button>
+                    </div>
                     <div id="search_autocomplete_popover"
-                         class="popover_menu popover_search_menu showing_header hidden"><span class="arrow"></span>
+                         class="popover_menu popover_search_menu showing_header hidden">
+                        <span class="arrow"></span>
                         <span class="arrow_shadow"></span>
                         <div id="autocomplete_menu" class="content search_menu">
-                            <div class="autocomplete_calendar hidden">
-                                <div class="pickmeup pmu-view-days" style="position: relative; display: inline-block;">
+                            <div {% comment %}class="autocomplete_calendar"{% endcomment %} data-toggle="datepicker">
+                                {% comment %}<div class="pickmeup pmu-view-days" style="position: relative; display: inline-block;">
                                     <div class="pmu-instance">
                                         <nav>
                                             <div class="pmu-prev pmu-button" style="visibility: visible;">◀</div>
@@ -187,19 +191,19 @@
                                             <div class="pmu-not-in-month pmu-saturday pmu-disabled pmu-button">5</div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>{% endcomment %}
                             </div>
-                            <div id="" class="monkey_scroll_wrapper ">
-                                <div class="monkey_scroll_bar" style="margin-left: 340.5px; height: 227px;">
+
+                            <div class="monkey_scroll_wrapper ">
+                                {% comment %}<div class="monkey_scroll_bar" style="margin-left: 340.5px; height: 227px;">
                                     <div class="monkey_scroll_handle "
                                          style="left: -3px; height: 197.354px; top: 30px;">
-                                        <div class="monkey_scroll_handle_inner "></div>
+                                        <div class="monkey_scroll_handle_inner"></div>
                                     </div>
-                                </div>
-                                <div class="monkey_scroll_hider scrolling" style="width: 336px; margin-right: 17px;">
-                                    <div class="autocomplete_menu_scrollable monkey_scroller" style="width: 353px;">
-                                        <div style="max-height: 232.8px;">
-                                            {% comment %}<header>
+                                </div>{% endcomment %}
+                                <div class="autocomplete_menu_scrollable monkey_scroller"
+                                     style="width: 353px;max-height: 232.8px;overflow-y: auto;">
+                                    {% comment %}<header>
                                                 <span class="header_label">Narrow your search</span>
                                                 <a class="learn_more_link ts_icon ts_icon_info_circle ts_icon_inherit ts_tip ts_tip_left"
                                                    href="https://get.slack.help/hc/en-us/articles/202528808-Searching-in-Slack"
@@ -208,19 +212,18 @@
                                                 </a>
                                             </header>{% endcomment %}
 
-
-                                            <ol class="conversation_modifiers results modifiers"
-                                                aria-label="conversation modifier">
-                                                <li data-replacement="from:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>from: </strong>
-                                                        <span class="muted_text">username</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                                <li data-replacement="in:">
+                                    <ol class="conversation_modifiers results modifiers">
+                                        <li data-replacement="from:">
+                                            <button class="result_item_btn btn_unstyle" type="button">
+                                                <strong>from: </strong>
+                                                <span class="muted_text">username</span>
+                                                <ts-icon
+                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                        aria-hidden="true">
+                                                </ts-icon>
+                                            </button>
+                                        </li>
+                                        {% comment %}<li data-replacement="in:">
                                                     <button class="result_item_btn btn_unstyle" type="button">
                                                         <strong>in: </strong>
                                                         <span class="muted_text">channel or direct message</span>
@@ -237,43 +240,40 @@
                                                                 class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
                                                                 aria-hidden="true"></ts-icon>
                                                     </button>
-                                                </li>
-                                            </ol>
-
-                                            <ol class="time_modifiers results modifiers" aria-label="time modifier">
-                                                <li data-replacement="after:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>after: </strong>
-                                                        <span class="muted_text">date</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                                <li data-replacement="before:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>before: </strong>
-                                                        <span class="muted_text">date</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                                <li data-replacement="on:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>on: </strong>
-                                                        <span class="muted_text">date, month or year</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                            </ol>
-
-
-                                        </div>
-                                    </div>
+                                                </li>{% endcomment %}
+                                    </ol>
+                                    <ol class="time_modifiers results modifiers">
+                                        <li data-replacement="after:">
+                                            <button class="result_item_btn btn_unstyle" type="button">
+                                                <strong>after: </strong>
+                                                <span class="muted_text">date</span>
+                                                <ts-icon
+                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                        aria-hidden="true"></ts-icon>
+                                            </button>
+                                        </li>
+                                        <li data-replacement="before:">
+                                            <button class="result_item_btn btn_unstyle" type="button">
+                                                <strong>before: </strong>
+                                                <span class="muted_text">date</span>
+                                                <ts-icon
+                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                        aria-hidden="true"></ts-icon>
+                                            </button>
+                                        </li>
+                                        <li data-replacement="on:">
+                                            <button class="result_item_btn btn_unstyle" type="button">
+                                                <strong>on: </strong>
+                                                <span class="muted_text">date, month or year</span>
+                                                <ts-icon
+                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
+                                                        aria-hidden="true"></ts-icon>
+                                            </button>
+                                        </li>
+                                    </ol>
                                 </div>
+                                {% comment %}<div class="monkey_scroll_hider scrolling" style="width: 336px; margin-right: 17px;">
+                                </div>{% endcomment %}
                             </div>
                         </div>
                     </div>
