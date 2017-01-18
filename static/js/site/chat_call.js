@@ -24,8 +24,6 @@ $(document).ready(function () {
         }
     };
 
-    initUserList();
-    initStream(room.cons.audioOnly);
     userAuteticated();
     initView();
 
@@ -33,7 +31,7 @@ $(document).ready(function () {
 
     socket.on('connect', function () {
         socket.emit('join', {"user": userlogged});
-        
+
 
         if (action == "created") {
             // # TODO: verificar si ya esta en la sala
@@ -55,10 +53,9 @@ $(document).ready(function () {
 
     function onmessage(msg) {
 
-        console.log("Got message", msg);
         switch (msg.action) {
             case "user_list":
-                users = JSON.parse(msg.users);
+                room.list = JSON.parse(msg.users);
                 initUserList();
                 initStream(room.cons.audioOnly);
                 break;
@@ -89,10 +86,12 @@ $(document).ready(function () {
 
     function handleOffer(data) {
         members(users);
+
         var from = data.user_from;
-        console.log('call', 'Call received: ' + from + JSON.stringify(data.offer));
+
         if (!room.status.muted)
-            room.users[from].pc.addStream(room.localStream);
+            console.log('user offer', data.user_from + " " + room.users[from].pc);
+        room.users[from].pc.addStream(room.localStream);
 
         room.users[from].pc.setRemoteDescription(new RTCSessionDescription(data.offer), function () {
             room.users[from].pc.createAnswer(function (answer) {
@@ -154,20 +153,23 @@ $(document).ready(function () {
     };
     function initUserList() {
 
+        console.log("newusers", room.list);
+        $.each(room.list, function (index, item) {
 
-        $.each(users, function (index, item) {
-            console.log(item.user.username);
-            room.users[item.user.username] = {
-                'pc': '',
-                'streams': [],
-                'dc': {},
-                'stats': {},
-                'status': {'muted': false}
-            };
+            if (item.user.username != userlogged) {
+                room.users[item.user.username] = {
+                    'pc': '',
+                    'streams': [],
+                    'dc': {},
+                    'stats': {},
+                    'status': {'muted': false}
+                };
+            }
+
 
         });
 
-        members(users);
+        members(room.list);
 
 
     };
@@ -192,12 +194,11 @@ $(document).ready(function () {
     function onMediaSuccess(stream) {
         var oldStream = room.localStream;
 
-        console.log("stream", stream)
         room.localStream = stream;
-        console.log(" room.localStream", room.localStream)
+
         for (var user in room.users) {
+
             if (user != userlogged) {
-                console.log("adicionar usuario", user);
                 if (room.users[user].pc === '')
                     userAdd(user);
                 if (oldStream)
@@ -207,21 +208,25 @@ $(document).ready(function () {
 
                 call(user);
             }
+
         }
         if (oldStream != null) {
             console.log("oldStream", oldStream)
             var track = oldStream.getTracks()[0]
             track.stop();
         }
-        room.localAudio.src = window.URL.createObjectURL(stream);
+        var url = window.URL.createObjectURL(stream);
+        $("#localAudio").attr("src", url);
     };
     function onMediaError(error) {
         console.log("Error on getUserMedia: " + error);
     };
 
     function userAdd(user) {
-        console.log("usario adicionar", user)
-        if (user) {
+        console.log("usuario adicionar", user)
+        userlistUpdate();
+        if (user != userlogged) {
+
             if (!room.users[user])
                 room.users[user] = {'pc': '', 'streams': [], 'dc': {}, 'stats': {}, 'status': {'muted': false}};
 
@@ -236,28 +241,30 @@ $(document).ready(function () {
             room.users[user].pc.onopen = function (message) {
                 console.log('call', 'Call established.');
             };
-            room.users[user].pc.ontrack = function (event) {
-                console.log('call', 'Stream coming from the other side.' + event.streams);
-                room.users[user].streams.push(event.streams);
+            room.users[user].pc.onaddstream = function (event) {
+                console.log('call', 'Stream coming from the other side.' + event.stream);
+                room.users[user].streams.push(event.stream);
                 var url = room.users[user].streams.map(function (stream) {
                     console.log("stream", stream);
                     return window.URL.createObjectURL(stream);
                 });
+                console.log("url", url);
                 $("#" + user).attr("src", url);
                 room.users[user].stats.catcher = setInterval(getBitrate(user), 5000);
             };
             room.users[user].pc.onremovestream = function (event) {
-                console.log('call', 'Stream removed from the other side' + event.streams);
-                room.users[user].streams.splice(room.users[user].streams.indexOf(event.streams), 1);
+                console.log('call', 'Stream removed from the other side' + event.stream);
+                room.users[user].streams.splice(room.users[user].streams.indexOf(event.stream), 1);
                 var url = room.users[user].streams.map(function (stream) {
                     console.log("stream", stream);
                     return window.URL.createObjectURL(stream);
                 });
+                console.log("url", url);
                 $("#" + user).attr("src", url);
                 clearInterval(room.users[user].stats.catcher);
                 room.users[user].stats = {};
             };
-            console.log(" user", user)
+
             room.users[user].pc.onicecandidate = function (event) {
                 console.log("candidate user", user)
                 if (user != userlogged)
@@ -270,13 +277,13 @@ $(document).ready(function () {
                     });
             };
             if (!room.status.muted)
-                console.log("stream", room.localStream);
-            console.log("conection", room.users[user].pc);
+
+                console.log("conection", room.users[user].pc);
             room.users[user].pc.addStream(room.localStream);
             room.users[user].pc.ondatachannel = function (event) {
                 if (!room.users[user].dc.channel) initDC(user, event.channel);
             };
-            userlistUpdate();
+
         }
     };
     function userDel(user) {
@@ -294,6 +301,7 @@ $(document).ready(function () {
                 initDC(user, room.users[user].pc.createDataChannel('data'));
             room.users[user].pc.createOffer(function (offer) {
                 room.users[user].pc.setLocalDescription(offer);
+                console.log("offer");
                 socket.emit("messagechanel", {
                     action: 'offer', room: roomname, user_to: user, user_from: userlogged, offer: offer
                 })
@@ -364,10 +372,10 @@ $(document).ready(function () {
     function userlistUpdate() {
         var region = $("#audioregion");
 
-        for (var user in users) {
+        for (var user in room.list) {
 
-            if (!$("audio#" + users[user].user.username).length) {
-                region.append(' <audio id="' + users[user].user.username + '" autoplay></audio>');
+            if (!$("audio#" + room.list[user].user.username).length) {
+                region.append(' <audio id="' + room.list[user].user.username + '" autoplay></audio>');
             }
         }
 

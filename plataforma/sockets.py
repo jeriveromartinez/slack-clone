@@ -32,7 +32,11 @@ def message(self, msg):
 def call(self, msg):
     profile = Profile.objects.get(user__username=msg["user_to"])
     room = RoomCall.objects.get(name=msg['room'])
-
+    serializer = ProfileSerializer(room.users.all(), many=True)
+    users = json.dumps(serializer.data)
+    profile_from = Profile.objects.get(user__username=msg["user_from"])
+    self.sendMessage(profile_from.socketsession, 'message',
+                     {"action": "user_list", "room": room.name, "user_from": msg["user_from"], "users": users})
     if profile:
 
         self.sendMessage(profile.socketsession, 'message',
@@ -51,10 +55,10 @@ def callaccept(self, msg):
     serializer = ProfileSerializer(room.users.all(), many=True)
     users = json.dumps(serializer.data)
     profile = Profile.objects.get(user__username=msg["user_from"])
+
     self.sendMessage(profile.socketsession, 'message',
                      {"action": "user_list", "room": room.name, "user_from": msg["user_from"], "users": users})
     for item in room.users.all():
-        print 'Sending begin to: ' + item.user.username + " " + item.socketsession
         self.sendMessage(item.socketsession, 'message',
                          {"action": "join", "room": room.name, "user_from": msg["user_from"], "users": users})
 
@@ -96,7 +100,7 @@ def answer(self, msg):
 def candidate(self, msg):
     room = RoomCall.objects.get(name=msg['room'])
     profile = Profile.objects.get(user__username=msg["user_to"])
-    print 'candidate' + message["user_to"]
+    print 'candidate' + msg["user_to"]
 
     print 'Sending offer to: ' + profile.user.username + " " + profile.socketsession
     self.sendMessage(profile.socketsession, 'message', {
