@@ -643,9 +643,6 @@ var optionsSearch = function () {
           <li data-replacement="before:">\
           <button class="result_item_btn btn_unstyle" type="button">\
           <strong>before: </strong><span class="muted_text">date</span>\
-          <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li>\
-          <li data-replacement="on:"><button class="result_item_btn btn_unstyle" type="button">\
-          <strong>on: </strong><span class="muted_text">date, month or year</span>\
           <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li></ol>';
 };
 

@@ -129,7 +129,7 @@
 
 .datepicker-panel > ul > li:hover {
     background: #009BF3;
-    color: #fff;
+    color: #fff !important;
 }
 
 .datepicker-panel > ul > li.muted, .datepicker-panel > ul > li.muted:hover {
@@ -163,13 +163,15 @@
 
 .datepicker-panel > ul[data-view=years] > li, .datepicker-panel > ul[data-view=months] > li {
     line-height: 52.5px;
-    width: 52.5px;
-    height: 52.5px
+    width: 60px;
+    height: 60px;
+    margin: 5px;
 }
 
 .datepicker-panel > ul[data-view=week] > li, .datepicker-panel > ul[data-view=week] > li:hover {
     cursor: default;
-    background-color: #fff
+    background-color: #fff;
+    color: #000 !important;
 }
 
 .datepicker-hide {

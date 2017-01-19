@@ -69,19 +69,6 @@ $(document).ready(function () {
         $('#menu.menu').addClass('hidden');
     });
 
-    //search option
-    $('input#search_terms').on('focus', function () {
-        $('#search_autocomplete_popover').removeClass('hidden');
-        $('#client-ui').addClass('search_focused');
-        $('#search_autocomplete_popover').trigger('focus');
-    });
-
-    //search option
-    $('#search_autocomplete_popover').focusout(function () {
-        $('#search_autocomplete_popover').addClass('hidden');
-        $('#client-ui').removeClass('search_focused');
-    });
-
     //close flex panel
     $('.panel').on('click', '.close_flexpane', function () {
         change_chat_size('100%');
@@ -155,8 +142,8 @@ $(document).ready(function () {
 
     $('li button[data-qa="im_close"]').on('click.close_user_connect', function (e) {
         /*e.preventDefault();
-        alert('close');
-        console.log($(this).parent('li'));*/
+         alert('close');
+         console.log($(this).parent('li'));*/
         e.stopPropagation();
     });
 

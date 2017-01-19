@@ -100,7 +100,8 @@
                         <span class="arrow"></span>
                         <span class="arrow_shadow"></span>
                         <div id="autocomplete_menu" class="content search_menu">
-                            <div {% comment %}class="autocomplete_calendar"{% endcomment %} data-toggle="datepicker">
+                            <div {% comment %}class="autocomplete_calendar"{% endcomment %} data-toggle="datepicker"
+                                                                                            style="display: none">
                                 {% comment %}<div class="pickmeup pmu-view-days" style="position: relative; display: inline-block;">
                                     <div class="pmu-instance">
                                         <nav>
@@ -212,7 +213,7 @@
                                                 </a>
                                             </header>{% endcomment %}
 
-                                    <ol class="conversation_modifiers results modifiers">
+                                    {% comment %}<ol class="conversation_modifiers results modifiers">
                                         <li data-replacement="from:">
                                             <button class="result_item_btn btn_unstyle" type="button">
                                                 <strong>from: </strong>
@@ -223,7 +224,7 @@
                                                 </ts-icon>
                                             </button>
                                         </li>
-                                        {% comment %}<li data-replacement="in:">
+                                        <li data-replacement="in:">
                                                     <button class="result_item_btn btn_unstyle" type="button">
                                                         <strong>in: </strong>
                                                         <span class="muted_text">channel or direct message</span>
@@ -240,7 +241,7 @@
                                                                 class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
                                                                 aria-hidden="true"></ts-icon>
                                                     </button>
-                                                </li>{% endcomment %}
+                                                </li>
                                     </ol>
                                     <ol class="time_modifiers results modifiers">
                                         <li data-replacement="after:">
@@ -270,7 +271,7 @@
                                                         aria-hidden="true"></ts-icon>
                                             </button>
                                         </li>
-                                    </ol>
+                                    </ol>{% endcomment %}
                                 </div>
                                 {% comment %}<div class="monkey_scroll_hider scrolling" style="width: 336px; margin-right: 17px;">
                                 </div>{% endcomment %}
