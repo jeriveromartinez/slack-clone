@@ -47,12 +47,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'plataforma',
-        'USER': 'root',
+        'USER': 'julio',
         'PASSWORD': 'ju1io',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }
 }
+
 # END DATABASE CONFIGURATION
 
 

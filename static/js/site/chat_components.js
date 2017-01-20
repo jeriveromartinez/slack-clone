@@ -573,10 +573,10 @@ var calls_popover_invite = function () {
 };
 
 var filter_select_container = function () {
-    var result = '<div class="lfs_input_container empty"> ' +
+    var result = '<div id="filter-container" class="lfs_input_container empty"> ' +
         // '<ts-icon class="ts_icon_search ts_icon search_icon subtle_silver">' +
         '</ts-icon> <div class="lfs_value"></div> ' +
-        '<input type="text" class="lfs_input" size="1" placeholder="Invite people to this call" >' +
+        '<input type="text" id="im_browser_filter" class="lfs_input" size="1" placeholder="Invite people to this call" >' +
         '</div> <div class="lfs_list_container"> ' +
         '<div class="lfs_list"></div> ' +
         '</div> <div class="lfs_empty hidden"></div>';

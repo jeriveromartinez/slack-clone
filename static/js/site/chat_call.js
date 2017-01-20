@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var apiUrl = "https:" + '//' + window.location.host + '/api/';
 
     window.history.replaceState("slack call ", "slack call ", "/call/" + roomname);
     console.log("server", document.domain);
@@ -56,6 +57,7 @@ $(document).ready(function () {
         switch (msg.action) {
             case "user_list":
                 room.list = JSON.parse(msg.users);
+                console.log(room.list);
                 initUserList();
                 initStream(room.cons.audioOnly);
                 break;
@@ -534,7 +536,7 @@ $(document).ready(function () {
         var invite_users = [];
         var $input_container;
         var $lfs_value;
-        var i$input;
+        var $input;
         var $list_container;
         var $list;
         var $empty;
@@ -544,38 +546,60 @@ $(document).ready(function () {
 
             $invite_list_holder.append(filter_select_container());
             $input_container = $invite_list_holder.find(".lfs_input_container");
+
             $lfs_value = $invite_list_holder.find(".lfs_value");
-            i$input = $invite_list_holder.find(".lfs_input");
+            $input = $invite_list_holder.find(".lfs_input");
             $list_container = $invite_list_holder.find(".lfs_list_container");
+
             $list = $invite_list_holder.find(".lfs_list");
             $empty = $invite_list_holder.find(".lfs_empty");
             filterView('');
-            $list_container.on("input", "#lfs_input", function () {
-                var input = $("#lfs_input").val();
+            $list_container.on("input", "#im_browser_filter", function () {
+                var input = $("#im_browser_filter").val();
                 filterView(input);
+            });
+            $invite_list_holder.on('click.member', '.member_token .remove_member_icon', function () {
+                var item = $(this).parent();
+                var member = item.attr('data-member-id');
+                var index = invite_users.indexOf(member);
+                if (index > -1)
+                    invite_users.splice(index, 1);
+
+                item.remove();
+
+                var input = $("#im_browser_filter").val();
+                filterView(input);
+                _updateGo();
             });
             $list_container.on("click", ".calls_invite_member", function () {
                 _selectRow($(this))
 
             });
             $("#invite_button").on("click", function () {
+                if (invite_users.length) {
+                    $.each(invite_users, function (index, item) {
 
+                        socket.emit("messagechanel",
+                            {action: "call", user_from: userlogged, user_to: item, room: roomname});
 
+                    });
+                }
             });
             $(".invite_menu .open_share_ui_trigger").on("click", function () {
                 if (!$(".share_menu").length)
                     initSharePopover();
 
             });
+            _clear();
 
         };
 
         inviteMenu.prototype.close = function () {
-            $invite_list_holder.empty();
-            $list_container.unbind('input').off("input", "#lfs_input", function () {
+
+            $invite_list_holder.unbind('input').off("input", "#im_browser_filter", function () {
 
             });
-            $list_container.unbind('click').off("click", ".calls_invite_member", function () {
+            $invite_list_holder.unbind('click').off("click", ".calls_invite_member", function () {
 
 
             });
@@ -583,6 +607,11 @@ $(document).ready(function () {
 
 
             });
+            $invite_list_holder.off('click', '.member_token .remove_member_icon', function () {
+
+            });
+            $invite_list_holder.empty();
+
         };
 
         function _selectRow(row) {
@@ -593,6 +622,7 @@ $(document).ready(function () {
             $(".lfs_input_container .lfs_value ").append(item_member_token(member, avatar));
             $(".lfs_input_container .lfs_input").focus().val('').removeAttr('placeholder');
             var input = $("#lfs_input").val();
+            $('#invite_list_holder').addClass('active');
             filterView(input);
             _updateGo();
 
@@ -613,7 +643,7 @@ $(document).ready(function () {
 
                 });
             };
-            var urlapi = apiUrl + 'usercomapny/';
+            var urlapi = apiUrl + 'usercompany/';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });
@@ -627,6 +657,13 @@ $(document).ready(function () {
             }
 
         };
+
+        function _clear() {
+            var select = $('#filter-container').find("div.member_token");
+            $.each(select, function (index, item) {
+                item.parentNode.removeChild(item);
+            });
+        }
 
     };
     function initSharePopover() {

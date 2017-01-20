@@ -470,7 +470,7 @@ $(document).ready(function () {
                         pos -= 64 * index;
                 });
             };
-            var urlapi = apiUrl + 'usercomapny/';
+            var urlapi = apiUrl + 'usercompany/';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, exc, null);
             });
@@ -747,7 +747,7 @@ $(document).ready(function () {
                 });
             }
 
-            var urlapi = apiUrl + 'usercomapny/';
+            var urlapi = apiUrl + 'usercompany/';
             request(urlapi, 'POST', null, {term: input}, exc, null);
         }
 
