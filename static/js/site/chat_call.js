@@ -57,12 +57,17 @@ $(document).ready(function () {
         switch (msg.action) {
             case "user_list":
                 room.list = JSON.parse(msg.users);
-                console.log(room.list);
                 initUserList();
                 initStream(room.cons.audioOnly);
                 break;
             case "join":
+                room.list = JSON.parse(msg.users);
                 userAdd(msg.user_from);
+                members(room.list);
+                break;
+
+            case "speaking":
+                speak(msg);
                 break;
             case "leave":
                 userDel(msg.user_from);
@@ -87,7 +92,7 @@ $(document).ready(function () {
 
 
     function handleOffer(data) {
-        members(users);
+
 
         var from = data.user_from;
 
@@ -116,7 +121,7 @@ $(document).ready(function () {
 
 
     function handleAnswer(data) {
-        members(users);
+
         var from = data.user_from;
         console.log('call', 'Response received: ' + room.users[from].pc);
         room.users[from].pc.setRemoteDescription(new RTCSessionDescription(data.answer));
@@ -193,8 +198,24 @@ $(document).ready(function () {
 
 
     };
+
     function onMediaSuccess(stream) {
+        updateView();
         var oldStream = room.localStream;
+        var speechEvents = hark(stream);
+
+        speechEvents.on('speaking', function () {
+            socket.emit("messagechanel", {
+                action: 'speaking',
+                room: roomname,
+                user_from: userlogged,
+            });
+        });
+
+
+        speechEvents.on('stopped_speaking', function () {
+            console.log("stopped_speaking");
+        });
 
         room.localStream = stream;
 
@@ -295,6 +316,13 @@ $(document).ready(function () {
             $("audio#" + user).remove();
         }
 
+    };
+    function speak(msg) {
+        var active_participant_content = $('#active_participant_content');
+        var active_participant_avatar = $('#active_participant_avatar');
+        active_participant_avatar.empty();
+        active_participant_avatar.append(active_speak(msg));
+        active_participant_content.addClass('connected');
     };
     function call(user) {
         console.log("call user", user);
@@ -460,13 +488,16 @@ $(document).ready(function () {
 
 
     };
+    var invitemenu;
+    var clicked;
+
     function initView() {
-        var clicked, muted = false;
+        var muted = false;
         $("#calls_conference_content").append(calls_popover_invite());
         $("#calls_conference_content").append(calls_popover_settings());
         $("#calls_conference_content").append(calls_emoji_panel());
         $('#invite_icon').on('click', function () {
-            var invitemenu = new inviteMenu();
+            invitemenu = new inviteMenu();
             if (!clicked) {
                 $(this).addClass('active');
                 $('.invite_menu').addClass('show');
@@ -526,6 +557,10 @@ $(document).ready(function () {
                 muted = false;
 
             }
+            room.status.smuted = !room.status.smuted;
+            room.localStream.getAudioTracks().forEach(function (track) {
+                track.enabled = !room.status.smuted;
+            });
 
         });
 
@@ -578,11 +613,14 @@ $(document).ready(function () {
             $("#invite_button").on("click", function () {
                 if (invite_users.length) {
                     $.each(invite_users, function (index, item) {
-
                         socket.emit("messagechanel",
                             {action: "call", user_from: userlogged, user_to: item, room: roomname});
 
                     });
+                    $('#invite_icon').removeClass('active');
+                    $('.invite_menu').removeClass('show');
+                    clicked = false;
+                    invitemenu.close();
                 }
             });
             $(".invite_menu .open_share_ui_trigger").on("click", function () {

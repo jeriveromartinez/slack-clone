@@ -63,6 +63,15 @@ def callaccept(self, msg):
                          {"action": "join", "room": room.name, "user_from": msg["user_from"], "users": users})
 
 
+def speaking(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+
+    for item in room.users.all():
+        self.sendMessage(item.socketsession, 'message',
+                         {"action": "speaking", "room": room.name, "user_from": msg["user_from"],
+                          'avatar': item.image.url})
+
+
 def calldecline(self, msg):
     room = RoomCall.objects.get(name=msg['room'])
 
@@ -128,6 +137,7 @@ optionchannel = {'message': message,
                  'answer': answer,
                  'candidate': candidate,
                  'leave': leave,
+                 'speaking': speaking,
                  }
 
 
