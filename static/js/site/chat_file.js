@@ -31,7 +31,7 @@ Array.prototype.subString = function (parameter) {
     return dev;
 };
 
-var isCompany = true, collapsed = true;
+var isCompany = true, collapsed = true, searchResult = null;
 
 $(document).ready(function () {
     //menu more items options
@@ -49,8 +49,7 @@ $(document).ready(function () {
                 isCompany = false;
                 break;
         }
-        $('#client-ui').addClass('flex_pane_showing');
-        change_chat_size('65%');
+        showPannelLeft();
     });
 
     // get file details form user and company //show file's menu
@@ -294,6 +293,10 @@ $(document).ready(function () {
     $('.autocomplete_menu_scrollable').on('click.search_action', 'li[data-search-action]', function (e) {
         $('input#search_terms').val(splitSearch($('input#search_terms').val()) + $(this).attr('data-search-action'));
         blockSearch();
+
+        //push the data
+        console.log($('input#search_terms').val());
+        sendSearch($('input#search_terms').val());
     });
 
     $('body').on('pick.datepicker', function (e) {
@@ -301,6 +304,10 @@ $(document).ready(function () {
         $(search).val(splitSearch($(search).val()) + moment(e.date, moment.ISO - 8601).format("YYYY-M-D"));
         $('[data-toggle="datepicker"]').datepicker("hide");
         blockSearch();
+
+        //push the data
+        console.log($('input#search_terms').val());
+        sendSearch($('input#search_terms').val());
     });
 
     $('#search_clear').on('click.clear_search', function (e) {
@@ -342,6 +349,28 @@ $(document).ready(function () {
     $('#search_autocomplete_popover').focusout(function () {
         $('#search_autocomplete_popover').addClass('hidden');
         $('#client-ui').removeClass('search_focused');
+    });
+
+    //execute the search
+    $('form#header_search_form').on('submit.search', function (e) {
+        e.preventDefault();
+        console.log($('input#search_terms').val());
+        blockSearch();
+
+        //push the data
+        sendSearch($('input#search_terms').val());
+    });
+
+    $('#search_list_msg').on('click.search_msg', function (e) {
+        $('#search_list_files').removeClass('active');
+        $(this).addClass('active');
+        addMsgResult(searchResult.msg);
+    });
+
+    $('#search_list_files').on('click.search_msg', function (e) {
+        $('#search_list_msg').removeClass('active');
+        $(this).addClass('active');
+        addFileResult(searchResult.file)
     });
 
     //AUX
@@ -396,6 +425,11 @@ $(document).ready(function () {
         $('#file_list_toggle_user').removeClass('active');
     };
 
+    var showPannelLeft = function () {
+        $('#client-ui').addClass('flex_pane_showing');
+        change_chat_size('65%');
+    };
+
     var hide_menu_files = function () {
         $('#menu.menu').addClass('hidden');
     };
@@ -422,6 +456,10 @@ $(document).ready(function () {
 
     var detail_file = function (key) {
         var exc = function (response) {
+            $('.panel.active').removeClass('active');
+            $('#files_tab').addClass('active');
+            $('#file_list_toggle_user').addClass('active');
+
             $('#file_preview_container').removeClass('hidden');
             var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
             item.append(item_file_detail(response));
@@ -436,10 +474,6 @@ $(document).ready(function () {
             var urlapi = apiUrl + 'files/comment/' + key;
             request(urlapi, 'GET', null, null, comments, null);
         };
-
-        $('.panel.active').removeClass('active');
-        $('#files_tab').addClass('active');
-        $('#file_list_toggle_user').addClass('active');
 
         var urlapi = apiUrl + 'files/detail/' + key;
         request(urlapi, 'GET', null, null, exc, null);
@@ -658,5 +692,37 @@ $(document).ready(function () {
         $('form[role="search"]').addClass('active');
         $('#search_autocomplete_popover').removeClass('hidden');
         //$('#client-ui').addClass('search_focused');
+    };
+
+    var sendSearch = function (data) {
+        var exc = function (resp) {
+            clean_user_files();
+            showPannelLeft();
+            $('.panel.active').removeClass('active');
+            $('#search_tab').addClass('active');
+            searchResult = resp;
+            addMsgResult(resp.msg);
+        };
+
+        data = encodeURIComponent(data);
+        var urlapi = apiUrl + 'search/' + data + '/';
+        request(urlapi, 'GET', 'json', null, exc, null, null);
+    };
+
+    var addMsgResult = function (msg) {
+        $('#search_results_items').html('');
+        msg.forEach(function (item) {
+            $('#search_results_items').append(msgSearch(item));
+        });
+    };
+
+    var addFileResult = function (files) {
+        $('#search_results_items').html('');
+        files.forEach(function (item) {
+            var owner = item.author.user.first_name + ' ' + item.author.user.last_name,
+                dateCreate = moment(item.uploaded, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
+                pathProfile = getUserPath(item.author.user.username);
+            $('#search_results_items').append(item_file(item.slug, owner, dateCreate, item.title, '-', pathProfile, item));
+        });
     }
 });

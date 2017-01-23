@@ -173,10 +173,7 @@ def get_files(request, username, type, company=None):
     else:
         files = type_file_by_company(type=type, user=username)
 
-    data = []
-    for file in files:
-        data.append(get_file_by_type(file))
-    return Response(data)
+    return Response(get_generic_files(files))
 
 
 @api_view(['GET'])
@@ -247,8 +244,6 @@ def get_message_by_user_recent(request, username, page):
 
     paginator = Paginator(messages, 20)
 
-    # page = page
-
     if not page:
         page = 1
 
@@ -257,22 +252,8 @@ def get_message_by_user_recent(request, username, page):
     except (EmptyPage, InvalidPage):
         data = paginator.page(paginator.num_pages)
 
-    reponse = {}
-    result = []
-
-    for inst in data.object_list:
-        if isinstance(inst, MessageInstEvent):
-            serializer = MessageInstEventSerializer(inst.messageinstevent)
-            result.append(serializer.data)
-        if isinstance(inst, FileSharedEvent):
-            serializer = FileSharedEventSerializer(inst)
-            result.append(serializer.data)
-        if isinstance(inst, FileCommentEvent):
-            serializer = FileCommentEventSerializer(inst)
-            result.append(serializer.data)
-    reponse['items'] = result
-    reponse['has_next'] = data.has_next()
-    return Response(reponse)
+    response = {'items': get_generic_msg(data.object_list), 'has_next': data.has_next()}
+    return Response(response)
 
 
 @api_view(['GET'])
@@ -501,6 +482,37 @@ def snippet_create(request):
         return Response({'success': 'false'})
 
 
+@api_view(['GET'])
+def search_option(request, data):
+    info = data.split(':')
+    try:
+        from_user = info[1].replace('@', '')
+        user = Profile.objects.get(user__username__exact=from_user)
+        if info[0] == "from":
+            msg = MessageEvent.objects.filter(user_from__username__exact=from_user,
+                                              user_to__username__exact=request.user.username).order_by('-date_pub')[
+                  :10:1]
+            files = SlackFile.objects.filter(author__user__username__exact=from_user,
+                                             shared_to__username__exact=request.user.username).order_by('-uploaded')[
+                    :10:1]
+        elif info[0] == "after":
+            msg = MessageEvent.objects.filter(date_pub__lte=info[1],
+                                              user_to__username__exact=request.user.username).order_by('-date_pub')
+            files = SlackFile.objects.filter(uploaded__lte=info[1],
+                                             shared_to__username__exact=request.user.username).order_by('-uploaded')
+        elif info[0] == "before":
+            msg = MessageEvent.objects.filter(date_pub__gte=info[1],
+                                              user_to__username__exact=request.user.username).order_by('-date_pub')
+            files = SlackFile.objects.filter(uploaded__gte=info[1],
+                                             shared_to__username__exact=request.user.username).order_by('-uploaded')
+
+        data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
+                'user': ProfileSerializer(user, many=False).data}
+        return Response(data)
+    except Exception as e:
+        print e.message
+
+
 def type_file_by_user(type, me, user):
     files = None
     if type == "post":
@@ -582,3 +594,25 @@ def get_file_by_type(file):
         return ImageUpSerializer(file).data
     else:
         return SlackFileSerializer(file).data
+
+
+def get_generic_files(files):
+    data = []
+    for file in files:
+        data.append(get_file_by_type(file))
+    return data
+
+
+def get_generic_msg(msg):
+    result = []
+    for inst in msg:
+        if isinstance(inst, MessageInstEvent):
+            serializer = MessageInstEventSerializer(inst.messageinstevent)
+            result.append(serializer.data)
+        if isinstance(inst, FileSharedEvent):
+            serializer = FileSharedEventSerializer(inst)
+            result.append(serializer.data)
+        if isinstance(inst, FileCommentEvent):
+            serializer = FileCommentEventSerializer(inst)
+            result.append(serializer.data)
+    return result

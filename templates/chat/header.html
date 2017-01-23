@@ -52,17 +52,21 @@
                 <!-- calls button -->
                 <div id="channel_calls_container" class="channel_calls_container">
                     <button class="channel_header_icon channel_calls_button video_call  btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover hidden">
-		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
-			Only paid teams can start calls from channels.
-		</span></span>
+                        <span class="ts_tip_tip">
+                            <span class="ts_tip_multiline_inner">
+                                Only paid teams can start calls from channels.
+                            </span>
+                        </span>
                         {#                        call_window_offline#}
                         <ts-icon class="call_icon  ts_icon_video_camera"
                                  aria-hidden="true"></ts-icon>
                     </button>
                     <button class="channel_header_icon channel_calls_button voice_call btn_unstyle ts_tip ts_tip_bottom ts_tip_multiline ts_tip_delay_300 blue_hover">
-		<span class="ts_tip_tip"><span class="ts_tip_multiline_inner">
-			Only paid teams can start calls from channels.
-		</span></span>
+                        <span class="ts_tip_tip">
+                            <span class="ts_tip_multiline_inner">
+                                Only paid teams can start calls from channels.
+                            </span>
+                        </span>
                         <ts-icon class="call_icon  ts_icon_phone" aria-hidden="true"></ts-icon>
                     </button>
                 </div>
@@ -81,8 +85,7 @@
         </div>
         <div class="flex_header">
             <div id="search_container">
-                <form role="search" method="get" action="/search" id="header_search_form"
-                      class="search_form no_bottom_margin">
+                <form role="search" id="header_search_form" class="search_form no_bottom_margin">
                     <i class="ts_icon ts_icon_search icon_search"></i>
                     <div class="highlighter_wrapper">
                         <input id="search_terms" class="search_input search_input_highlighted"
@@ -100,181 +103,12 @@
                         <span class="arrow"></span>
                         <span class="arrow_shadow"></span>
                         <div id="autocomplete_menu" class="content search_menu">
-                            <div {% comment %}class="autocomplete_calendar"{% endcomment %} data-toggle="datepicker"
-                                                                                            style="display: none">
-                                {% comment %}<div class="pickmeup pmu-view-days" style="position: relative; display: inline-block;">
-                                    <div class="pmu-instance">
-                                        <nav>
-                                            <div class="pmu-prev pmu-button" style="visibility: visible;">◀</div>
-                                            <div class="pmu-month pmu-button">October 2016</div>
-                                            <div class="pmu-next pmu-button" style="visibility: hidden;">▶</div>
-                                        </nav>
-                                        <nav class="pmu-day-of-week">
-                                            <div>Su</div>
-                                            <div>Mo</div>
-                                            <div>Tu</div>
-                                            <div>We</div>
-                                            <div>Th</div>
-                                            <div>Fr</div>
-                                            <div>Sa</div>
-                                        </nav>
-                                        <div class="pmu-years">
-                                            <div class=" pmu-button">2010</div>
-                                            <div class=" pmu-button">2011</div>
-                                            <div class=" pmu-button">2012</div>
-                                            <div class=" pmu-button">2013</div>
-                                            <div class=" pmu-button">2014</div>
-                                            <div class=" pmu-button">2015</div>
-                                            <div class="pmu-selected pmu-button">2016</div>
-                                            <div class="pmu-disabled pmu-button">2017</div>
-                                            <div class="pmu-disabled pmu-button">2018</div>
-                                            <div class="pmu-disabled pmu-button">2019</div>
-                                            <div class="pmu-disabled pmu-button">2020</div>
-                                            <div class="pmu-disabled pmu-button">2021</div>
-                                        </div>
-                                        <div class="pmu-months">
-                                            <div class=" pmu-button">Jan</div>
-                                            <div class=" pmu-button">Feb</div>
-                                            <div class=" pmu-button">Mar</div>
-                                            <div class=" pmu-button">Apr</div>
-                                            <div class=" pmu-button">May</div>
-                                            <div class=" pmu-button">Jun</div>
-                                            <div class=" pmu-button">Jul</div>
-                                            <div class=" pmu-button">Aug</div>
-                                            <div class=" pmu-button">Sep</div>
-                                            <div class="pmu-selected pmu-button">Oct</div>
-                                            <div class="pmu-disabled pmu-button">Nov</div>
-                                            <div class="pmu-disabled pmu-button">Dec</div>
-                                        </div>
-                                        <div class="pmu-days">
-                                            <div class="pmu-not-in-month pmu-sunday pmu-button">25</div>
-                                            <div class="pmu-not-in-month pmu-button">26</div>
-                                            <div class="pmu-not-in-month pmu-button">27</div>
-                                            <div class="pmu-not-in-month pmu-button">28</div>
-                                            <div class="pmu-not-in-month pmu-button">29</div>
-                                            <div class="pmu-not-in-month pmu-button">30</div>
-                                            <div class="pmu-saturday pmu-button">1</div>
-                                            <div class="pmu-sunday pmu-button">2</div>
-                                            <div class=" pmu-button">3</div>
-                                            <div class=" pmu-button">4</div>
-                                            <div class=" pmu-button">5</div>
-                                            <div class=" pmu-button">6</div>
-                                            <div class=" pmu-button">7</div>
-                                            <div class="pmu-saturday pmu-button">8</div>
-                                            <div class="pmu-sunday pmu-button">9</div>
-                                            <div class=" pmu-button">10</div>
-                                            <div class=" pmu-button">11</div>
-                                            <div class=" pmu-button">12</div>
-                                            <div class=" pmu-button">13</div>
-                                            <div class="pmu-selected pmu-today pmu-button"><span
-                                                    class="pmu-today-border">14</span></div>
-                                            <div class="pmu-saturday pmu-disabled pmu-button">15</div>
-                                            <div class="pmu-sunday pmu-disabled pmu-button">16</div>
-                                            <div class="pmu-disabled pmu-button">17</div>
-                                            <div class="pmu-disabled pmu-button">18</div>
-                                            <div class="pmu-disabled pmu-button">19</div>
-                                            <div class="pmu-disabled pmu-button">20</div>
-                                            <div class="pmu-disabled pmu-button">21</div>
-                                            <div class="pmu-saturday pmu-disabled pmu-button">22</div>
-                                            <div class="pmu-sunday pmu-disabled pmu-button">23</div>
-                                            <div class="pmu-disabled pmu-button">24</div>
-                                            <div class="pmu-disabled pmu-button">25</div>
-                                            <div class="pmu-disabled pmu-button">26</div>
-                                            <div class="pmu-disabled pmu-button">27</div>
-                                            <div class="pmu-disabled pmu-button">28</div>
-                                            <div class="pmu-saturday pmu-disabled pmu-button">29</div>
-                                            <div class="pmu-sunday pmu-disabled pmu-button">30</div>
-                                            <div class="pmu-disabled pmu-button">31</div>
-                                            <div class="pmu-not-in-month pmu-disabled pmu-button">1</div>
-                                            <div class="pmu-not-in-month pmu-disabled pmu-button">2</div>
-                                            <div class="pmu-not-in-month pmu-disabled pmu-button">3</div>
-                                            <div class="pmu-not-in-month pmu-disabled pmu-button">4</div>
-                                            <div class="pmu-not-in-month pmu-saturday pmu-disabled pmu-button">5</div>
-                                        </div>
-                                    </div>
-                                </div>{% endcomment %}
+                            <div data-toggle="datepicker" style="display: none">
                             </div>
-
-                            <div class="monkey_scroll_wrapper ">
-                                {% comment %}<div class="monkey_scroll_bar" style="margin-left: 340.5px; height: 227px;">
-                                    <div class="monkey_scroll_handle "
-                                         style="left: -3px; height: 197.354px; top: 30px;">
-                                        <div class="monkey_scroll_handle_inner"></div>
-                                    </div>
-                                </div>{% endcomment %}
+                            <div class="monkey_scroll_wrapper">
                                 <div class="autocomplete_menu_scrollable monkey_scroller"
                                      style="width: 353px;max-height: 232.8px;overflow-y: auto;">
-                                    {% comment %}<header>
-                                                <span class="header_label">Narrow your search</span>
-                                                <a class="learn_more_link ts_icon ts_icon_info_circle ts_icon_inherit ts_tip ts_tip_left"
-                                                   href="https://get.slack.help/hc/en-us/articles/202528808-Searching-in-Slack"
-                                                   target="new_1476475885635">
-                                                    <span class="ts_tip_tip">Learn more</span>
-                                                </a>
-                                            </header>{% endcomment %}
-
-                                    {% comment %}<ol class="conversation_modifiers results modifiers">
-                                        <li data-replacement="from:">
-                                            <button class="result_item_btn btn_unstyle" type="button">
-                                                <strong>from: </strong>
-                                                <span class="muted_text">username</span>
-                                                <ts-icon
-                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                        aria-hidden="true">
-                                                </ts-icon>
-                                            </button>
-                                        </li>
-                                        <li data-replacement="in:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>in: </strong>
-                                                        <span class="muted_text">channel or direct message</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                                <li data-replacement="has:">
-                                                    <button class="result_item_btn btn_unstyle" type="button">
-                                                        <strong>has: </strong>
-                                                        <span class="muted_text">star, link, or reaction</span>
-                                                        <ts-icon
-                                                                class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                                aria-hidden="true"></ts-icon>
-                                                    </button>
-                                                </li>
-                                    </ol>
-                                    <ol class="time_modifiers results modifiers">
-                                        <li data-replacement="after:">
-                                            <button class="result_item_btn btn_unstyle" type="button">
-                                                <strong>after: </strong>
-                                                <span class="muted_text">date</span>
-                                                <ts-icon
-                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                        aria-hidden="true"></ts-icon>
-                                            </button>
-                                        </li>
-                                        <li data-replacement="before:">
-                                            <button class="result_item_btn btn_unstyle" type="button">
-                                                <strong>before: </strong>
-                                                <span class="muted_text">date</span>
-                                                <ts-icon
-                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                        aria-hidden="true"></ts-icon>
-                                            </button>
-                                        </li>
-                                        <li data-replacement="on:">
-                                            <button class="result_item_btn btn_unstyle" type="button">
-                                                <strong>on: </strong>
-                                                <span class="muted_text">date, month or year</span>
-                                                <ts-icon
-                                                        class="ts_icon_plus_square_o ts_icon_inherit modifier_icon"
-                                                        aria-hidden="true"></ts-icon>
-                                            </button>
-                                        </li>
-                                    </ol>{% endcomment %}
                                 </div>
-                                {% comment %}<div class="monkey_scroll_hider scrolling" style="width: 336px; margin-right: 17px;">
-                                </div>{% endcomment %}
                             </div>
                         </div>
                     </div>

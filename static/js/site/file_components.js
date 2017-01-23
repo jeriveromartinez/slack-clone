@@ -167,6 +167,36 @@ var msgArchiveComponent = function (date, avatar, username, style) {
             <div class="clear_both"></div></div>';
 };
 
+var msgSearch = function (item) {
+    var image = null, time = moment(item.date_pub, moment.ISO - 8601).format("h:mm a");
+    return '<div class="search_message_result null_transform"><div class="search_message_result_text ">\
+            <div class="search_result_for_extra_context"><ts-message class="message feature_fix_files for_search_display standalone first">\
+            <span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
+            <a href="/team/vbuilvicente" target="_blank" class="member_preview_link member_image thumb_36" style="background-image: url(' + image + ')" aria-hidden="true"></a>\
+            </div><a href="/archives/chat/p1478548684000002" target="_blank" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">\
+            <i class="copy_only">[</i>2:58 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br>\
+            <span class="subtle_silver no_wrap">Nov 7th, 2016 at 2:58:04 PM</span></span></span></a><span class="message_star_holder"></span></div>\
+                 <div class="message_content feature_message_replies"><div class="message_content_header"><div class="message_content_header_left">\
+                 <a href="/team/vbuilvicente" target="_blank" class="message_sender color_9f69e7 member member_preview_link">vbuilvicente</a>\
+                  <a href="/archives/chat/p1478548684000002" target="_blank" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">\
+                  <i class="copy_only">[</i>2:58 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br>\
+                  <span class="subtle_silver no_wrap">Nov 7th, 2016 at 2:58:04 PM</span></span></span></a>\
+                  <span class="message_star_holder"></span></div></div>\
+                <span class="message_body"><span class="constrain_triple_clicks"></span>sdfds<span class="constrain_triple_clicks"></span></span>\
+                 <i class="copy_only"><br></i><span class="message_aria_label hidden"><strong>vbuilvicente</strong>.sdfds.NaN repliestwo fifty-eight PM.</span></div></ts-message></div>\
+                   <div class="search_result_with_extract">\
+                   <ts-message class="message feature_fix_files for_search_display standalone first" data-selectable="false"><span class="is_pinned_holder"></span>\
+                   <div class="message_gutter"><div class="message_icon"><a href="/team/vbuilvicente" target="_blank" class="member_preview_link member_image thumb_36" style="background-image: url(' + image + ')" aria-hidden="true"></a>\
+                    </div><span class="message_star_holder">\
+			        </span></div><div class="message_content feature_message_replies"><div class="message_content_header">\
+                  <div class="message_content_header_left"><a href="/team/jerivero" target="_blank" class="message_sender color_9f69e7 member member_preview_link">' + item.user_from.username + '</a>\
+                   <a class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>' + time + '\
+                   <i class="copy_only">]</i></a>\
+                    <span class="message_star_holder"></span></div></div>\
+                 <span class="message_body extract_content">'+item.msg+'</span><span class="message_body"><span class="constrain_triple_clicks"></span>wa<span class="constrain_triple_clicks"></span></span>\
+                  <i class="copy_only"><br></i><span class="message_aria_label hidden"><strong>vbuilvicente</strong>.wa.NaN repliestwo fifty-nine PM.</span></div></ts-message></div></div></div>';
+};
+
 var get_icon = function (obj, iconS) {
     var size = (iconS != undefined) ? iconS : 's30';
     var style = 'filetype_icon ' + size + ' ';

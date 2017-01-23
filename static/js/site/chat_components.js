@@ -600,15 +600,13 @@ var calls_popover_invite_error = function () {
 var calls_invitee = function (item) {
     var result = '<div class="calls_invite_member" data-member-id="' + item.user.username + '" data-img="' + item.image + '"> ' +
         '<span class=" member_preview_link member_image thumb_32" ' +
-
         ' style="background-image:url(' + item.image + ')"></span>' +
         ' <span class="name_container"> <span class="bold overflow_ellipsis"> ' +
         '' + item.user.first_name + item.user.last_name + ' ' +
         '<span class="not_in_token"> <span class="presence active " title="active"><i class="ts_icon ts_icon_presence presence_icon"></i></span></span> ' +
         '</span> ' +
-
         '<span class="subtle_silver not_in_token overflow_ellipsis">' +
-        '' + item.user.username + ' </span>  </span> ' +
+        '' + item.user.username + '</span></span>' +
         '</div>';
     return result;
 };
@@ -649,4 +647,3 @@ var optionsSearch = function () {
           <strong>before: </strong><span class="muted_text">date</span>\
           <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li></ol>';
 };
-
