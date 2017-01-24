@@ -167,8 +167,8 @@ var msgArchiveComponent = function (date, avatar, username, style) {
             <div class="clear_both"></div></div>';
 };
 
-var msgSearch = function (item) {
-    var image = null, time = moment(item.date_pub, moment.ISO - 8601).format("h:mm a");
+var msgSearch = function (item, image) {
+    var time = moment(item.date_pub, moment.ISO - 8601).format("h:mm a");
     return '<div class="search_message_result null_transform"><div class="search_message_result_text ">\
             <div class="search_result_for_extra_context"><ts-message class="message feature_fix_files for_search_display standalone first">\
             <span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
@@ -193,7 +193,7 @@ var msgSearch = function (item) {
                    <a class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"><i class="copy_only">[</i>' + time + '\
                    <i class="copy_only">]</i></a>\
                     <span class="message_star_holder"></span></div></div>\
-                 <span class="message_body extract_content">'+item.msg+'</span><span class="message_body"><span class="constrain_triple_clicks"></span>wa<span class="constrain_triple_clicks"></span></span>\
+                 <span class="message_body extract_content">' + item.msg + '</span><span class="message_body"><span class="constrain_triple_clicks"></span>wa<span class="constrain_triple_clicks"></span></span>\
                   <i class="copy_only"><br></i><span class="message_aria_label hidden"><strong>vbuilvicente</strong>.wa.NaN repliestwo fifty-nine PM.</span></div></ts-message></div></div></div>';
 };
 

@@ -571,10 +571,11 @@ var calls_popover_invite = function () {
         '</div> </div> </div> </div>';
     return result;
 };
+
 var active_speak = function (data) {
     var item = '<span class=" member_preview_link member_image thumb_192" data-member-id="U2KQ0HRD3" data-thumb-size="192" style="background-image:url(' + data.avatar + ') "></span>';
     return item;
-}
+};
 
 var filter_select_container = function () {
     var result = '<div id="filter-container" class="lfs_input_container empty"> ' +

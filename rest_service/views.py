@@ -122,8 +122,8 @@ def create_room_by_company(request):
 
 @api_view(['GET'])
 def profile_by_username(request, username):
-    room = Profile.objects.all().filter(user__username=username)
-    serializer = ProfileSerializer(room, many=True)
+    room = Profile.objects.get(user__username__exact=username)
+    serializer = ProfileSerializer(room, many=False)
     return Response(serializer.data)
 
 
@@ -486,28 +486,32 @@ def snippet_create(request):
 def search_option(request, data):
     info = data.split(':')
     try:
-        from_user = info[1].replace('@', '')
-        user = Profile.objects.get(user__username__exact=from_user)
         if info[0] == "from":
+            from_user = info[1].replace('@', '')
+            user = Profile.objects.get(user__username__exact=from_user)
             msg = MessageEvent.objects.filter(user_from__username__exact=from_user,
                                               user_to__username__exact=request.user.username).order_by('-date_pub')[
                   :10:1]
             files = SlackFile.objects.filter(author__user__username__exact=from_user,
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
                     :10:1]
-        elif info[0] == "after":
+            data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
+                    'user': ProfileSerializer(user, many=False).data}
+        elif info[0] == "before":
             msg = MessageEvent.objects.filter(date_pub__lte=info[1],
                                               user_to__username__exact=request.user.username).order_by('-date_pub')
             files = SlackFile.objects.filter(uploaded__lte=info[1],
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')
-        elif info[0] == "before":
+            data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
+                    'user': ProfileSerializer(request.user.user_profile, many=False).data}
+        elif info[0] == "after":
             msg = MessageEvent.objects.filter(date_pub__gte=info[1],
                                               user_to__username__exact=request.user.username).order_by('-date_pub')
             files = SlackFile.objects.filter(uploaded__gte=info[1],
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')
+            data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
+                    'user': ProfileSerializer(request.user.user_profile, many=False).data}
 
-        data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
-                'user': ProfileSerializer(user, many=False).data}
         return Response(data)
     except Exception as e:
         print e.message

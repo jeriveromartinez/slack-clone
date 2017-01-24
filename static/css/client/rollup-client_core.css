@@ -5845,8 +5845,12 @@ body:not(.loading) #team_menu.active #team_header_user_name, body:not(.loading) 
     border-radius: 0 6px 6px 0
 }
 
+#messages-input-container #message-input {
+    border: 1px solid #bbbdbf;
+}
+
 #messages-input-container #message-input:focus {
-    border-color: #bbbdbf
+    border: 1px solid #439fe0;
 }
 
 #messages-input-container #message-input::-webkit-input-placeholder {

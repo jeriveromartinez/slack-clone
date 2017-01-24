@@ -1,4 +1,4 @@
-<div class="panel" id="search_tab" style="height: 934px;">
+<div class="panel" id="search_tab" style="height: calc(100vh - 5rem);">
     <div id="search_results_container">
         <div class="heading" tabindex="-1">
             <a id="file_list_clear_filter" class="menu_icon hidden">
@@ -26,29 +26,30 @@
             </p>
         </div>{% endcomment %}
         <div id="search_results" class="flex_content_scroller">
-            <div id="search_results_team">
-                {% comment %}<p class="team_results_heading">We found <strong> 1 team member </strong> matching your query:</p>{% endcomment %}
+            {% comment %}<div id="search_results_team">
+                <p class="team_results_heading">We found <strong> 1 team member </strong> matching your query:</p>
                 <div id="team_results_container">
                     <p class="team_result">
-                        <a href="/cambiar" target="_blank" class=" member_preview_link member_image thumb_32"
-                           style="background-image: url('cambiar')"
-                           aria-hidden="true"></a>
-                        <a href="/cambiar" target="_blank" class="black member_preview_link member_name">cambiar</a>
+                        <a href="/cambiar" target="_blank"
+                           class=" member_preview_link member_image thumb_32"
+                           aria-hidden="true" data-search="image"></a>
+                        <a href="/cambiar" target="_blank" class="black member_preview_link member_name"
+                           data-search="username">username</a>
                         <span>
                             <span class="presence away" title="away">
                                 <i aria-hidden="true" class="ts_icon ts_icon_presence presence_icon"></i>
                             </span>
                         </span>
-                        <span class="indifferent_grey bold">Poner Nombre</span><br>
+                        <span class="indifferent_grey bold" data-search="name">Name</span><br>
                         <a href="/cambiar" target="_blank" class="internal_im_link team_list_dm_link">
                             Send direct message
                         </a>
                     </p>
                 </div>
-            </div>
-            <div id="search_results_items" style="overflow-y: auto;height: calc(95vh - 14rem);">
-                <div id="search_message_results">
-                    {% comment %}<div class="search_message_result null_transform">
+            </div>{% endcomment %}
+            <div id="search_results_items" style="overflow-y: auto;height: 82vh;">
+                {% comment %}<div id="search_message_results">
+                    <div class="search_message_result null_transform">
                         <div class="search_message_result_meta display_flex black indifferent_grey align_items_end">
                             <div class="small_right_margin">
                                 <strong class="overflow_ellipsis">
@@ -6659,9 +6660,9 @@
                             </div>
                         </div>
 
-                    </div>{% endcomment %}
-                    {% comment %}<div class="search_paging"><span class="page_text">page 1 of 1</span></div>{% endcomment %}
-                </div>
+                    </div>
+                    <div class="search_paging"><span class="page_text">page 1 of 1</span></div>
+                </div>{% endcomment %}
             </div>
         </div>
     </div>

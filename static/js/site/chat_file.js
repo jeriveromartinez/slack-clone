@@ -319,17 +319,18 @@ $(document).ready(function () {
     });
 
     //search option
-    $('input#search_terms').on('focus', function () {
-        $('#search_autocomplete_popover').removeClass('hidden');
-        $('#search_autocomplete_popover').trigger('focus');
-        $('#client-ui').addClass('search_focused');
+    $('input#search_terms').on('focus', function (e) {
         var search = $('input#search_terms').val().split(':');
-
         if (search.length == 1)
             $('.autocomplete_menu_scrollable').html(optionsSearch());
         else
             searchOptions(search[0] + ':');
 
+        var search = $('#search_autocomplete_popover');
+        $(search).removeClass('hidden');
+        $(search).trigger('focus');
+        $('#client-ui').addClass('search_focused');
+        e.stopPropagation();
     }).on('keyup.verify', function (e) {
         var items = $(this).val().split(':');
         if (items[0] == '' || items.length == 1) {
@@ -342,7 +343,6 @@ $(document).ready(function () {
                 $('.autocomplete_menu_scrollable').html(searchList(users.subString(items[1])));
             }
         }
-        e.stopPropagation();
     });
 
     //search option close
@@ -354,9 +354,7 @@ $(document).ready(function () {
     //execute the search
     $('form#header_search_form').on('submit.search', function (e) {
         e.preventDefault();
-        console.log($('input#search_terms').val());
         blockSearch();
-
         //push the data
         sendSearch($('input#search_terms').val());
     });
@@ -364,13 +362,24 @@ $(document).ready(function () {
     $('#search_list_msg').on('click.search_msg', function (e) {
         $('#search_list_files').removeClass('active');
         $(this).addClass('active');
-        addMsgResult(searchResult.msg);
+        var image = (searchResult.image != null) ? searchResult.image : '/static/images/ava_0022-48.png';
+        addMsgResult(searchResult.msg, image);
+        addUserResult(searchResult.user);
     });
 
     $('#search_list_files').on('click.search_msg', function (e) {
         $('#search_list_msg').removeClass('active');
         $(this).addClass('active');
-        addFileResult(searchResult.file)
+        addFileResult(searchResult.file);
+        addUserResult(searchResult.user);
+    });
+
+    $('textarea#message-input').on('keyup paste cut mouseup', function () {
+        var text = $(this).val(),
+            open = /[@][a-z][a-z0-9_]/.test(text),
+            closed = /\s+/.test(text),
+            pos = $(this).textareaHelper('caretPos');
+        console.log(pos);
     });
 
     //AUX
@@ -644,7 +653,6 @@ $(document).ready(function () {
     var blockSearch = function () {
         $('#search_autocomplete_popover').addClass('hidden');
         $('#client-ui').removeClass('search_focused');
-        //$('input#search_terms').unbind('focus');
     };
 
     var splitSearch = function (str) {
@@ -663,7 +671,6 @@ $(document).ready(function () {
         });
         $(picker).datepicker("show");
         $(complete).html('');
-        // $('[data-toggle="datepicker"]').html('');
         $('.datepicker-container.datepicker-dropdown.datepicker-top-left').css({
             'left': offset.left + 'px',
             'top': (offset.top + 40) + 'px'
@@ -696,12 +703,22 @@ $(document).ready(function () {
 
     var sendSearch = function (data) {
         var exc = function (resp) {
+            var dataUser = function (response) {
+                searchResult = resp;
+                var image = (response.image != null) ? response.image : '/static/images/ava_0022-48.png';
+                addMsgResult(resp.msg, image);
+                addUserResult(response);
+                searchResult.user = response;
+            };
+
+            var userSearch = (resp.msg.length > 0) ? resp.msg[0].user_from.username : userlogged,
+                urlapi = apiUrl + 'profile/' + userSearch + '/';
+            request(urlapi, 'GET', 'json', null, dataUser, null, null);
+
             clean_user_files();
             showPannelLeft();
             $('.panel.active').removeClass('active');
             $('#search_tab').addClass('active');
-            searchResult = resp;
-            addMsgResult(resp.msg);
         };
 
         data = encodeURIComponent(data);
@@ -709,10 +726,10 @@ $(document).ready(function () {
         request(urlapi, 'GET', 'json', null, exc, null, null);
     };
 
-    var addMsgResult = function (msg) {
+    var addMsgResult = function (msg, image) {
         $('#search_results_items').html('');
         msg.forEach(function (item) {
-            $('#search_results_items').append(msgSearch(item));
+            $('#search_results_items').append(msgSearch(item, image));
         });
     };
 
@@ -724,5 +741,12 @@ $(document).ready(function () {
                 pathProfile = getUserPath(item.author.user.username);
             $('#search_results_items').append(item_file(item.slug, owner, dateCreate, item.title, '-', pathProfile, item));
         });
+    };
+
+    var addUserResult = function (user) {
+        var image = (user.image != null) ? user.image : '/static/images/ava_0022-48.png';
+        var test = $('[data-search="image"]').css('background-image', 'url(' + image + ')');
+        $('[data-search="username"]').html(user.user.username);
+        $('[data-search="name"]').html(user.user.first_name + ' ' + user.user.last_name);
     }
 });

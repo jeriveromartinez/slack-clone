@@ -621,8 +621,12 @@ li.member.cursor_pointer {
     cursor: pointer;
 }
 
+#messages-input-container.offline:not(.recent-incremental-boot) #primary_file_button {
+    border: 1px solid #bbbdbf;
+}
+
 #messages-input-container.offline:not(.recent-incremental-boot) #primary_file_button:hover {
-    border-color: #56B68B;
+    border: 1px solid #56B68B;
     background: #56B68B !important;
 }
 

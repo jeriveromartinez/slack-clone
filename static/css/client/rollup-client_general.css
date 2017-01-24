@@ -5808,7 +5808,7 @@ body.winssb #emoji_menu {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%
+    height: 100vh;
 }
 
 .menu.file_menu {

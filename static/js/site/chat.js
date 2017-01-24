@@ -65,12 +65,12 @@ $(document).ready(function () {
     });
 
     //hidden menu
-    $('#menu.menu').on('click', '#member_prefs_item', function () {
+    $('#menu.menu').on('click.hide_menu', '#member_prefs_item', function () {
         $('#menu.menu').addClass('hidden');
     });
 
     //close flex panel
-    $('.panel').on('click', '.close_flexpane', function () {
+    $('.panel').on('click.close_panel', '.close_flexpane', function () {
         change_chat_size('100%');
         $('.panel.active').removeClass('active');
         $('.channel_header_icon.active').removeClass('active');
@@ -79,10 +79,11 @@ $(document).ready(function () {
             $('#' + closure).addClass('hidden');
         }
         $('#client-ui').removeClass('flex_pane_showing');
+        $('input#search_terms').val('');
     });
 
     //flex panel go before action
-    $('.panel').on('click', '#back_from_member_preview', function () {
+    $('.panel').on('click.option_back', '#back_from_member_preview', function () {
         team_users();
     });
 
@@ -92,7 +93,7 @@ $(document).ready(function () {
         Reload(activeChannel);
     });
 
-    $('#im-list').on('click', '.member', function () {
+    $('#im-list').on('click.select_member', '.member', function () {
         active_chat($(this).attr('data-name'), 'user');
         activeChannel = $(this).attr("data-name");
         Reload(activeChannel);
@@ -100,29 +101,29 @@ $(document).ready(function () {
     });
 
     //show user profile
-    $('#member_account_item').on('click', function () {
+    $('#member_account_item').on('click.show_profile', function () {
         showProfile(this);
         $('#menu.menu').addClass('hidden');
         change_chat_size('65%');
     });
 
     //show user detail
-    $('#active_members_list').on('click', '[data-user]', function () {
+    $('#active_members_list').on('click.user_details', '[data-user]', function () {
         showProfile($(this).attr('data-user'));
     });
 
     //show user profile
-    $('#active_members_list').on('click', '.member_preview_link', function () {
+    $('#active_members_list').on('click.user_profile', '.member_preview_link', function () {
         showProfile(this);
     });
 
-    $("#direct_messages_header, .new_dm_btn").on("click", function (e) {
+    $("#direct_messages_header, .new_dm_btn").on("click.direct_msg", function (e) {
         e.stopPropagation();
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
         openDirectModal();
     });
 
-    $("#channels_header").on("click", function (e) {
+    $("#channels_header").on("click.channel_header", function (e) {
         e.stopPropagation();
         $("#channels_header").find(".channel_list_header_label").tooltip("hide");
         openDirectBrowse();

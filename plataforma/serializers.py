@@ -11,6 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    owner = UserSerializer()
+
     class Meta:
         model = Company
         exclude = ('id',)
