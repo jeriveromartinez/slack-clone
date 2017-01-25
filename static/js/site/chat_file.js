@@ -374,12 +374,23 @@ $(document).ready(function () {
         addUserResult(searchResult.user);
     });
 
-    $('textarea#message-input').on('keyup paste cut mouseup', function () {
+    $('textarea#message-input').on('keyup', function (e) {
         var text = $(this).val(),
-            open = /[@][a-z][a-z0-9_]/.test(text),
-            closed = /\s+/.test(text),
+            lastWord = text.split(' ').splice(-1)[0],
+            open = /[@][a-z0-9_]/.test(lastWord),
+            closed = /\s+$/.test(text) || text == null,
             pos = $(this).textareaHelper('caretPos');
-        console.log(pos);
+
+        //console.log('open: ' + open + ', closed: ' + closed + ', positionCursor: ' + pos.top + '-' + pos.left);
+
+        if (open) {
+            var item = lastWord.replace('@', '');
+            var menuBody = searchList(users.subString(item));
+            var OMenu = {style: 'menu flex_menu', height: '32%', bottom: true, left: pos.left};
+            positionMenu(this, menuBody, 'right', OMenu);
+        } else if (closed || e.which == 13) {
+            $('#menu.menu').addClass('hidden');
+        }
     });
 
     //AUX

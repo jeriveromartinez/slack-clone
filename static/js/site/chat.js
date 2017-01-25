@@ -34,6 +34,7 @@ $(document).ready(function () {
     $('.popover_mask').on('click.popover_mask', function () {
         $(this).parent().addClass('hidden');
         userFileStatus = false;
+        $('#client-ui').removeClass('search_focused');
     });
 
     //shows menu headers
@@ -337,26 +338,30 @@ $(document).ready(function () {
 
     window.positionMenu = function (instance, items, positionSide, options) {
         var menu = $('#menu.menu');
+        var body = $('#menu .menu_body');
+        $(body).html(items);
+        $(menu).removeClass('hidden');
         var position = $(instance).offset();
-        var height = $(instance).outerHeight();
+        var heightInst = $(instance).height(), heightMenu = $(body).height();
+
+
+        var values = {
+            position: "absolute",
+            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
+            top: ((position.top + heightInst) < $(window).height()) ? (position.top + heightInst) + "px" : $(window).height() + "px",//471px
+            'max-height': (options != undefined && options.height != undefined) ? options.height : '46%'
+        };
+
+        if (options != undefined && options.bottom == true)
+            values['top'] = (position.top - heightMenu - heightInst) + "px";
+        if (options != undefined && options.left != undefined)
+            values['left'] = (Number(values.left.split('px')[0]) + Number(options.left)) + 'px';
         if (options != undefined && options.style != undefined) {
             $(menu).removeClass();
             $(menu).addClass(options.style);
         }
 
-        var values = {
-            position: "absolute",
-            left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
-            top: ((position.top + height) < 471) ? (position.top + height) + "px" : 471 + "px",//471px
-            'max-height': (options != undefined && options.height != undefined) ? options.height : '46%'
-        };
-
-        if (options != undefined && options.bottom == true)
-            values['top'] = (position.top - 200) + "px";
-
         $(menu).css(values);
-        $('#menu .menu_body').html(items);
-        $(menu).removeClass('hidden');
     };
 
     window.copyToClipboard = function (str) {

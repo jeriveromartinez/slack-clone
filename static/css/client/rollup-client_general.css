@@ -4668,7 +4668,7 @@ a.btn {
     background: #fff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, .12);
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, .15)
+    border: 1px solid #a0a0a2;
 }
 
 .menu .menu_content {
