@@ -842,4 +842,20 @@ $(document).ready(function () {
         $('#team_tab').addClass('active');
         $('#menu.menu').addClass('hidden');
     };
+
+    window.getCaretPosition = function (ctrl) {
+        var start, end;
+        if (ctrl.setSelectionRange) {
+            start = ctrl.selectionStart;
+            end = ctrl.selectionEnd;
+        } else if (document.selection && document.selection.createRange) {
+            var range = document.selection.createRange();
+            start = 0 - range.duplicate().moveStart('character', -100000);
+            end = start + range.text.length;
+        }
+        return {
+            start: start,
+            end: end
+        }
+    }
 });

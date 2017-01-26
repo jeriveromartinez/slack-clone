@@ -812,3 +812,8 @@ h5 {
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+.menu_body li[data-search-action] {
+    padding: 5px 0 0 0;
+    margin: 0;
+}

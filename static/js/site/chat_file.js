@@ -375,22 +375,34 @@ $(document).ready(function () {
     });
 
     $('textarea#message-input').on('keyup', function (e) {
-        var text = $(this).val(),
-            lastWord = text.split(' ').splice(-1)[0],
-            open = /[@][a-z0-9_]/.test(lastWord),
-            closed = /\s+$/.test(text) || text == null,
-            pos = $(this).textareaHelper('caretPos');
-
-        //console.log('open: ' + open + ', closed: ' + closed + ', positionCursor: ' + pos.top + '-' + pos.left);
+        var caret = window.getCaretPosition($(this)[0]);
+        var result = /\S+$/.exec($(this).val().slice(0, $(this).val().indexOf(' ', caret.end)));
+        var lastWord = result ? result[0] : null;
+        var open = /[@][a-z0-9_]/.test(lastWord);
+        var pos = $(this).textareaHelper('caretPos');
+        var closed = $(this).val().slice(caret.end - 1, caret.end) == ' ';
 
         if (open) {
             var item = lastWord.replace('@', '');
             var menuBody = searchList(users.subString(item));
             var OMenu = {style: 'menu flex_menu', height: '32%', bottom: true, left: pos.left};
             positionMenu(this, menuBody, 'right', OMenu);
-        } else if (closed || e.which == 13) {
+        }
+        if (closed || e.which == 13) {
             $('#menu.menu').addClass('hidden');
         }
+    });
+
+    $('#menu').on('click.complete_chat', 'li[data-search-action]', function (e) {
+        var input = $('textarea#message-input'),
+            text = $(input).val();
+        var caret = window.getCaretPosition($(input)[0]);
+        var index = /\S+$/.exec(text.slice(0, text.indexOf(' ', caret.end)));
+        var word = text.slice(index.index, caret.end);
+        var text = text.replace(word, $(this).attr('data-search-action'));
+        $(input).val(text);
+        $('#menu.menu').addClass('hidden');
+        $('textarea#message-input').trigger('focus');
     });
 
     //AUX
