@@ -3,8 +3,13 @@
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
+import dj_database_url
+from decouple import config
+
 # PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
+
+
 DJANGO_ROOT = dirname(dirname(abspath(__file__)))
 
 # Absolute filesystem path to the top-level project folder:
@@ -43,15 +48,11 @@ MANAGERS = ADMINS
 
 # DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
+# DEBUG = config('DEBUG', default=False, cast=bool)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plataforma',
-        'USER': 'root',
-        'PASSWORD': 'ju1io',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
 }
 
 # END DATABASE CONFIGURATION

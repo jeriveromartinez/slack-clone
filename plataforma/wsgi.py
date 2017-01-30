@@ -11,8 +11,11 @@ import os
 from django.core.management import execute_from_command_line
 from conf.settings.base import SITE_ROOT
 from django.core.wsgi import get_wsgi_application
+from whitenoise.django import DjangoWhiteNoise
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "conf.settings.base")
 
-# execute_from_command_line([SITE_ROOT + 'manage.py', 'runserver_socketio'])
-application = get_wsgi_application()
+execute_from_command_line([SITE_ROOT + 'manage.py', 'runserver_socketio'])
+#application = get_wsgi_application()
+#application = DjangoWhiteNoise(application)
+
