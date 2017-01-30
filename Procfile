@@ -1,1 +1,1 @@
-web: gunicorn plataforma.wsgi --log-file -
+web: gunicorn --worker-class socketio.sgunicorn.GeventSocketIOWorker plataforma.wsgi --log-file -
