@@ -36,4 +36,5 @@ vine==1.1.3
 whitenoise==3.3.0
 dj-database-url==0.4.2
 python-decouple==3.0.0
+psycopg2
 Pillow==4.0.0
