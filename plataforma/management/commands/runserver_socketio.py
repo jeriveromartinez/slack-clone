@@ -28,7 +28,7 @@ class Command(BaseCommand):
 
         if not addrport:
             self.addr = '0.0.0.0'
-            self.port = "8001"
+            self.port = os.environ['PORT']
         else:
             m = match(naiveip_re, addrport)
             if m is None:
