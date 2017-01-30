@@ -49,10 +49,20 @@ MANAGERS = ADMINS
 # DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 # DEBUG = config('DEBUG', default=False, cast=bool)
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL')
+#     )
+# }
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd5do51m0qg0sdl',
+        'USER': 'dfzisdazemrtoc',
+        'PASSWORD': 'da85d25b1279f71643cdf29de58a64802f28243566f3d2b3dd44cb520f3a6459',
+        'HOST': 'ec2-54-235-72-121.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
 }
 
 # END DATABASE CONFIGURATION
