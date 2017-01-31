@@ -54,14 +54,24 @@ MANAGERS = ADMINS
 #         default=config('DATABASE_URL')
 #     )
 # }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'd5do51m0qg0sdl',
+#         'USER': 'dfzisdazemrtoc',
+#         'PASSWORD': 'da85d25b1279f71643cdf29de58a64802f28243566f3d2b3dd44cb520f3a6459',
+#         'HOST': 'ec2-54-235-72-121.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd5do51m0qg0sdl',
-        'USER': 'dfzisdazemrtoc',
-        'PASSWORD': 'da85d25b1279f71643cdf29de58a64802f28243566f3d2b3dd44cb520f3a6459',
-        'HOST': 'ec2-54-235-72-121.compute-1.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'jeriveromartinez$test',
+        'USER': 'jeriveromartinez',
+        'PASSWORD': 'Ju1io*91.',
+        'HOST': 'jeriveromartinez.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 
