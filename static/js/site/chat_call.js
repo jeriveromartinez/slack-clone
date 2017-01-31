@@ -606,6 +606,7 @@ $(document).ready(function () {
            socket.emit("messagechanel", {
                     action: 'leave', room: roomname, user_from: userlogged
                 });
+            window.close();
         });
 
     };
