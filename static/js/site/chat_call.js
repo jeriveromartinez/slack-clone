@@ -342,6 +342,7 @@ $(document).ready(function () {
                     lastspeak.removeClass('user_selected');
                 }
                 participan.addClass('user_selected');
+                setTimeout(deleteSpeask(msg),100);
                 break;
             case "muted":                
                 participan.addClass('audio_muted');
@@ -352,6 +353,10 @@ $(document).ready(function () {
             default:
                 break;
         }
+    }
+    function deleteSpeask(msg) {
+         var participan = $("[data-participant-id='" + msg.user_from + "']");
+         participan.removeClass('user_selected');
     }
 
     function call(user) {
