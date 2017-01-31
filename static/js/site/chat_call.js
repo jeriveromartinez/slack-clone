@@ -24,7 +24,7 @@ $(document).ready(function () {
             streamType: 'camera',
         }
     };
-
+    var lastspeak = null;
     userAuteticated();
     initView();
 
@@ -65,11 +65,17 @@ $(document).ready(function () {
                 userAdd(msg.user_from);
                 members(room.list);
                 break;
-
             case "speaking":
                 speak(msg);
                 break;
+            case "muted":
+                updateParticipan(msg);
+                break;
+            case "unmuted":
+                updateParticipan(msg);
+                break;
             case "leave":
+                console.log("leave")
                 userDel(msg.user_from);
                 break;
             case "call_decline":
@@ -317,13 +323,37 @@ $(document).ready(function () {
         }
 
     };
+
     function speak(msg) {
         var active_participant_content = $('#active_participant_content');
         var active_participant_avatar = $('#active_participant_avatar');
         active_participant_avatar.empty();
         active_participant_avatar.append(active_speak(msg));
         active_participant_content.addClass('connected');
+        updateParticipan(msg);
     };
+
+    function updateParticipan(msg) {
+        var participan = $("[data-participant-id='" + msg.user_from + "']");
+        lastspeak = participan;
+        switch (msg.action) {
+            case "speaking":
+                if (lastspeak) {
+                    lastspeak.removeClass('user_selected');
+                }
+                participan.addClass('user_selected');
+                break;
+            case "muted":                
+                participan.addClass('audio_muted');
+                break;
+            case "unmuted":                
+                participan.removeClass('audio_muted');
+                break;
+            default:
+                break;
+        }
+    }
+
     function call(user) {
         console.log("call user", user);
         if (typeof(room.users[user]) !== 'undefined') {
@@ -544,24 +574,38 @@ $(document).ready(function () {
             }
 
         });
+        
         $('#mute_audio').on('click', function () {
 
             if (!muted) {
                 $(this).addClass('muted');
                 muted = true;
+                 socket.emit("messagechanel", {
+                    action: 'muted', room: roomname, user_from: userlogged
+                });
 
 
             }
             else {
                 $(this).removeClass('muted');
                 muted = false;
+                socket.emit("messagechanel", {
+                    action: 'unmuted', room: roomname, user_from: userlogged
+                });
 
             }
             room.status.smuted = !room.status.smuted;
             room.localStream.getAudioTracks().forEach(function (track) {
                 track.enabled = !room.status.smuted;
             });
+           
 
+        });
+
+        $('#end_call').on('click',function () {
+           socket.emit("messagechanel", {
+                    action: 'leave', room: roomname, user_from: userlogged
+                });
         });
 
     };

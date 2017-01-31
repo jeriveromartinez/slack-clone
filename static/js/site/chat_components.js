@@ -535,7 +535,7 @@ var urlFile = function (item) {
 var item_participan = function (image, name) {
     //audio_muted  screen_share poor_connection invite_cancel selected user_selected
     var result = '<div  data-participant-id="' + name + '"' +
-        'class="participant  connected selected  ts_tip ts_tip_bottom ts_tip_float ts_tip_multiline playing ts_tip_hidden">' +
+        'class="participant  connected   ts_tip ts_tip_bottom ts_tip_float ts_tip_multiline playing ts_tip_hidden">' +
         '<div class="reaction_container"></div>' +
         '<div class="calls_participant_">' +
         '<div class="boomer"' +
