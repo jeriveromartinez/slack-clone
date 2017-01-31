@@ -295,7 +295,7 @@ $(document).ready(function () {
         blockSearch();
 
         //push the data
-        console.log($('input#search_terms').val());
+        //console.log($('input#search_terms').val());
         sendSearch($('input#search_terms').val());
     });
 
@@ -306,7 +306,7 @@ $(document).ready(function () {
         blockSearch();
 
         //push the data
-        console.log($('input#search_terms').val());
+        //console.log($('input#search_terms').val());
         sendSearch($('input#search_terms').val());
     });
 
@@ -405,6 +405,15 @@ $(document).ready(function () {
         $('textarea#message-input').trigger('focus');
     });
 
+    /* $('#recent_mentions_toggle').on('click.show_mentions', function (e) {
+     clean_user_files();
+     showPannelLeft();
+     $('.panel.active').removeClass('active');
+     $('#mentions_tab').addClass('active');
+
+
+     });*/
+
     //AUX
     var user_files = function (username) {
         clean_user_files();
@@ -459,7 +468,7 @@ $(document).ready(function () {
 
     var showPannelLeft = function () {
         $('#client-ui').addClass('flex_pane_showing');
-        change_chat_size('65%');
+        //change_chat_size('65%');
     };
 
     var hide_menu_files = function () {
@@ -768,8 +777,8 @@ $(document).ready(function () {
 
     var addUserResult = function (user) {
         var image = (user.image != null) ? user.image : '/static/images/ava_0022-48.png';
-        var test = $('[data-search="image"]').css('background-image', 'url(' + image + ')');
+        $('[data-search="image"]').css('background-image', 'url(' + image + ')');
         $('[data-search="username"]').html(user.user.username);
         $('[data-search="name"]').html(user.user.first_name + ' ' + user.user.last_name);
-    }
+    };
 });

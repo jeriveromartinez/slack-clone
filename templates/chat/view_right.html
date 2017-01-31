@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="panel" id="mentions_tab" style="height: 615px;">
+        <div class="panel" id="mentions_tab" {% comment %}style="height: 615px;"{% endcomment %}>
             <div class="heading" tabindex="-1">
                 Mentions &amp; Reactions <span id="mentions_spinner"></span>
                 <a class="close_flexpane" title="Close Flexpane">
@@ -107,14 +107,14 @@
             </div>
         </div>
 
-        <div class="panel" id="files_tab" style="height: 615px;">
+        <div class="panel" id="files_tab">
             <div id="file_list_container">
                 <div class="heading" tabindex="-1">
                     <a id="file_list_clear_filter" class="menu_icon hidden">
                         <i class="ts_icon ts_icon_times_circle"></i>
                     </a>
                     <a id="file_list_heading" class="menu_heading"><span class="heading_label">All File Types</span>
-                       {% comment %} <i class="ts_icon ts_icon_caret_down"></i>{% endcomment %}
+                        {% comment %} <i class="ts_icon ts_icon_caret_down"></i>{% endcomment %}
                     </a>
                     <a class="close_flexpane" title="Close Flexpane">
                         <i class="ts_icon ts_icon_times"></i>
@@ -149,8 +149,8 @@
             </div>
         </div>
 
-        <div class="panel" id="team_tab" style="height: 615px;">
-            <div id="team_list_container" class="height: 615px;">
+        <div class="panel" id="team_tab">
+            <div id="team_list_container">
                 <div class="heading" tabindex="-1">
                     Team Directory
                     <a class="close_flexpane" title="Close Flexpane">
@@ -173,7 +173,7 @@
                 </div>
                 <div id="monkey_scroll_wrapper_for_team_list_scroller">
                     <div id="active_members_list" class="flex_content_scroller"
-                         style="overflow-y: auto; height: 30rem"></div>
+                         style="overflow-y: auto;height: calc(100vh - 11em);"></div>
                 </div>
             </div>
 

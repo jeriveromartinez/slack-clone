@@ -163,7 +163,13 @@ $(document).ready(function () {
         $('.panel.active').removeClass('active');
         $('#details_tab').addClass('active');
         $('#client-ui').addClass('flex_pane_showing');
-        change_chat_size('65%');
+
+    });
+
+    $("#channel_list_invites_link").on("click.user_invited", function (e) {
+        e.stopPropagation();
+        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
+        openNewChannel();
     });
 
     //aux methods
@@ -373,7 +379,7 @@ $(document).ready(function () {
     };
 
     //Direct message Modal
-    function openDirectModal() {
+    var openDirectModal = function () {
         var modal = $("#direct-message").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -550,10 +556,10 @@ $(document).ready(function () {
                 item.parentNode.removeChild(item);
             });
         }
-    }
+    };
 
     //Browse Channel Modal
-    function openDirectBrowse() {
+    var openDirectBrowse = function () {
         var modal = $("#browse-chanel").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -624,10 +630,10 @@ $(document).ready(function () {
             alert("channel");
             //ReloadChanel(channel);
         }
-    }
+    };
 
     //Create Channel Modal
-    function openNewChannel(back) {
+    var openNewChannel = function (back) {
         var modal = $("#create-channel").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -801,7 +807,7 @@ $(document).ready(function () {
                 $(".lfs_input").focus().val('').removeAttr('placeholder');
             }
         }
-    }
+    };
 
     var getUsersCompany = function () {
         var exc = function (response) {
@@ -841,6 +847,7 @@ $(document).ready(function () {
         $('#client-ui').addClass('flex_pane_showing');
         $('#team_tab').addClass('active');
         $('#menu.menu').addClass('hidden');
+        //resize('team_tab');
     };
 
     window.getCaretPosition = function (ctrl) {
@@ -857,5 +864,5 @@ $(document).ready(function () {
             start: start,
             end: end
         }
-    }
+    };
 });

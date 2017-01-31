@@ -22051,7 +22051,7 @@ html.is_electron_mac #client_header .channel_header {
     -webkit-flex: none;
     flex: none;
     visibility: hidden;
-    margin-left: -1.875rem;
+    margin-left: -3.875rem;
     margin-right: .625rem;
     position: relative;
     z-index: 2;
