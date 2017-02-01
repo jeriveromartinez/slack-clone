@@ -103,9 +103,9 @@ $(document).ready(function () {
 
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
-        showProfile(this);
+        showProfile($(this).attr('data-user'));
         $('#menu.menu').addClass('hidden');
-        change_chat_size('65%');
+        //change_chat_size('65%');
     });
 
     //show user detail
@@ -115,7 +115,7 @@ $(document).ready(function () {
 
     //show user profile
     $('#active_members_list').on('click.user_profile', '.member_preview_link', function () {
-        showProfile(this);
+        showProfile($(this).attr('data-user'));
     });
 
     $("#direct_messages_header, .new_dm_btn").on("click.direct_msg", function (e) {
