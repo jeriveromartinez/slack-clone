@@ -72,6 +72,24 @@ def speaking(self, msg):
                           'avatar': item.image.url})
 
 
+def muted(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+
+    for item in room.users.all():
+        self.sendMessage(item.socketsession, 'message',
+                         {"action": "muted", "room": room.name, "user_from": msg["user_from"]
+                          })
+
+
+def unmuted(self, msg):
+    room = RoomCall.objects.get(name=msg['room'])
+
+    for item in room.users.all():
+        self.sendMessage(item.socketsession, 'message',
+                         {"action": "unmuted", "room": room.name, "user_from": msg["user_from"]
+                          })
+
+
 def calldecline(self, msg):
     room = RoomCall.objects.get(name=msg['room'])
 
@@ -138,6 +156,8 @@ optionchannel = {'message': message,
                  'candidate': candidate,
                  'leave': leave,
                  'speaking': speaking,
+                 'muted': muted,
+                 'unmuted': unmuted,
                  }
 
 

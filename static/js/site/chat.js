@@ -135,6 +135,11 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
+     $("#channel_list_invites_link").on("click.user_invited", function (e) {
+        e.stopPropagation();
+        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
+        openNewChannel();
+    });
 
     $("button.voice_call").on("click.voice_call", function (e) {
         e.stopPropagation();
@@ -166,11 +171,7 @@ $(document).ready(function () {
 
     });
 
-    $("#channel_list_invites_link").on("click.user_invited", function (e) {
-        e.stopPropagation();
-        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
-        openNewChannel();
-    });
+
 
     //aux methods
     var get_chanel = function () {
