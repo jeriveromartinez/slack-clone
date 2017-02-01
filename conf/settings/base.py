@@ -169,6 +169,10 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.app_directories.load_template_source',
+)
+
 ########## END TEMPLATE CONFIGURATION
 
 
@@ -308,10 +312,9 @@ SOCKETIO_PORT = 8000
 
 USER_AGENTS_CACHE = 'default'
 
-CORS_ORIGIN_WHITELIST = (
-    '0.0.0.0:8000'
-    'django',
-
-)
+#CORS_ORIGIN_WHITELIST = (
+#    '0.0.0.0:8000'
+#    'django',
+#)
 
 CORS_URLS_REGEX = r'^/api/.*$'
