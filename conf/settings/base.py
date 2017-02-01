@@ -3,8 +3,6 @@
 from os.path import abspath, basename, dirname, join, normpath
 from sys import path
 
-
-
 # PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
 
@@ -65,12 +63,12 @@ DATABASES = {
 }
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'jeriveromartinez$test',
-#         'USER': 'jeriveromartinez',
-#         'PASSWORD': 'Ju1io*91.',
-#         'HOST': 'jeriveromartinez.mysql.pythonanywhere-services.com',
-#         'PORT': '3306',
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'plataforma',
+#         'USER': 'julio',
+#         'PASSWORD': 'ju1io',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
 #     }
 # }
 
@@ -298,21 +296,20 @@ EMAIL_HOST_PASSWORD = 'Ju1io*91.'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 ##SOCKETIO
-# SOCKETIO_HOST = "10.51.7.63"
 SOCKETIO_HOST = "0.0.0.0"
 SOCKETIO_PORT = 8000
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
 
 USER_AGENTS_CACHE = 'default'
 
 CORS_ORIGIN_WHITELIST = (
-    '10.51.7.63:8001'
+    '0.0.0.0:8000'
     'django',
 
 )

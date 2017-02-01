@@ -11,6 +11,8 @@ from django.core.management.commands.runserver import naiveip_re
 from django.utils.autoreload import code_changed, restart_with_reloader
 from socketio.server import SocketIOServer
 
+from conf.settings.base import SOCKETIO_PORT
+
 RELOAD = False
 
 
@@ -28,7 +30,7 @@ class Command(BaseCommand):
 
         if not addrport:
             self.addr = '0.0.0.0'
-            self.port = environ['PORT']
+            self.port = SOCKETIO_PORT
         else:
             m = match(naiveip_re, addrport)
             if m is None:
