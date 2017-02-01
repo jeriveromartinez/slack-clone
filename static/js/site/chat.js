@@ -834,7 +834,7 @@ $(document).ready(function () {
         var exc = function (response) {
             var list = $('#member_preview_container').html('');
             var date = moment(new Date(), moment.ISO - 8601).format("h:mm a");
-            list.append(item_user_profile(response[0], date));
+            list.append(item_user_profile(response, date));
         };
 
         $('.panel.active').removeClass('active');
