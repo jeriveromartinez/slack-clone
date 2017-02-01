@@ -676,9 +676,10 @@ $(document).ready(function () {
     };
 
     var optionsFiles = function (instance, options) {
-        var optionMenu = {height: '12em'};
+        var optionMenu = {height: '15rem'};
+        console.log(file_options_file($('#hiddenMenuFile').prop('innerHTML'), options));
         positionMenu(instance, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
-        if (userlogged != $(this).attr('data-owner'))
+        if (userlogged != $(instance).attr('data-owner'))
             $($('#menu.menu').find('#element_delete')[0]).hide();
     };
 

@@ -93,9 +93,13 @@ def create(request):
         return JsonResponse({'action': 'success'})
     else:
         email = request.GET.get("signup_email")
+        if email is None:
+            user = ''
+        else:
+            user = email.split("@")[0]
 
     return render_to_response('registro/register_steps.html',
-                              {'username': email.split("@")[0], 'email': email}, RequestContext(request))
+                              {'username': user, 'email': email}, RequestContext(request))
 
 
 @login_required(login_url='/login/')

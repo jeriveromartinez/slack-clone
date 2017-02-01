@@ -51,10 +51,10 @@ $(document).ready(function () {
                 var arr = (obj.split('_').length > 1) ? obj.split('_')[1] : obj.split('_')[0];
                 $('.panel.active').removeClass('active');
                 $('#' + arr + '_tab').addClass('active');
-                change_chat_size('65%');
+                //change_chat_size('65%');
             } else {
                 var value = $('#hiddenMenuFlexMenu').html();
-                var options = {style: 'menu flex_menu', height: '32%'};
+                var options = {style: 'menu flex_menu', height: '10rem'};
                 positionMenu(this, value, 'left', options);
             }
         }
@@ -72,7 +72,7 @@ $(document).ready(function () {
 
     //close flex panel
     $('.panel').on('click.close_panel', '.close_flexpane', function () {
-        change_chat_size('100%');
+        //change_chat_size('100%');
         $('.panel.active').removeClass('active');
         $('.channel_header_icon.active').removeClass('active');
         var closure = $(this).data('pannel');
@@ -170,8 +170,6 @@ $(document).ready(function () {
         $('#client-ui').addClass('flex_pane_showing');
 
     });
-
-
 
     //aux methods
     var get_chanel = function () {
@@ -351,12 +349,11 @@ $(document).ready(function () {
         var position = $(instance).offset();
         var heightInst = $(instance).height(), heightMenu = $(body).height();
 
-
         var values = {
             position: "absolute",
             left: (positionSide == 'right') ? (position.left + 15) + "px" : (position.left - 225) + "px",
             top: ((position.top + heightInst) < $(window).height()) ? (position.top + heightInst) + "px" : $(window).height() + "px",//471px
-            'max-height': (options != undefined && options.height != undefined) ? options.height : '46%'
+            'max-height': (options != undefined && options.height != undefined) ? options.height : '25rem'
         };
 
         if (options != undefined && options.bottom == true)
