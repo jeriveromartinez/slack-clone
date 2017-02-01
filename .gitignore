@@ -5,3 +5,4 @@ plataforma/migrations/
 .idea/
 .crt
 .key
+*.pyc

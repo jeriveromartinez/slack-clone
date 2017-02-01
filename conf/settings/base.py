@@ -51,26 +51,26 @@ MANAGERS = ADMINS
 #         default=config('DATABASE_URL')
 #     )
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd5do51m0qg0sdl',
-        'USER': 'dfzisdazemrtoc',
-        'PASSWORD': 'da85d25b1279f71643cdf29de58a64802f28243566f3d2b3dd44cb520f3a6459',
-        'HOST': 'ec2-54-235-72-121.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'plataforma',
-#         'USER': 'julio',
-#         'PASSWORD': 'ju1io',
-#         'HOST': 'localhost',
+#         'NAME': 'd5do51m0qg0sdl',
+#         'USER': 'dfzisdazemrtoc',
+#         'PASSWORD': 'da85d25b1279f71643cdf29de58a64802f28243566f3d2b3dd44cb520f3a6459',
+#         'HOST': 'ec2-54-235-72-121.compute-1.amazonaws.com',
 #         'PORT': '5432',
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'plataforma',
+        'USER': 'julio',
+        'PASSWORD': 'ju1io',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # END DATABASE CONFIGURATION
 
@@ -312,9 +312,9 @@ SOCKETIO_PORT = 8000
 
 USER_AGENTS_CACHE = 'default'
 
-#CORS_ORIGIN_WHITELIST = (
+# CORS_ORIGIN_WHITELIST = (
 #    '0.0.0.0:8000'
 #    'django',
-#)
+# )
 
 CORS_URLS_REGEX = r'^/api/.*$'
