@@ -851,6 +851,7 @@ $(document).ready(function () {
         //resize('team_tab');
     };
 
+    //get caret position
     window.getCaretPosition = function (ctrl) {
         var start, end;
         if (ctrl.setSelectionRange) {
