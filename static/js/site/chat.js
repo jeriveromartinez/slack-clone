@@ -1,7 +1,7 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [];
+var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [], countInvited = 2;
 window.users_logged = 0;
 window.userFileStatus = false;
 
@@ -135,10 +135,17 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
-     $("#channel_list_invites_link").on("click.user_invited", function (e) {
+
+    $("#channel_list_invites_link").on("click.user_invited", function (e) {
         e.stopPropagation();
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
-        openNewChannel();
+        $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
+        $('#fs_modal_bg').removeClass('hidden').addClass('active');
+    });
+
+    $('#channel_list_invites_link').on('click.closed_user_invited', '#fs_modal_close_btn', function () {
+        $('#channel_invite #fs_modal').removeClass('active').addClass('hidden');
+        $('#fs_modal_bg').removeClass('active').addClass('hidden');
     });
 
     $("button.voice_call").on("click.voice_call", function (e) {
@@ -169,6 +176,43 @@ $(document).ready(function () {
         $('#details_tab').addClass('active');
         $('#client-ui').addClass('flex_pane_showing');
 
+    });
+
+    //hide invited users
+    $('#channel_invite').on('click.user_invited', '#fs_modal_close_btn', function (e) {
+        $('#fs_modal.active').removeClass('active').addClass('hidden');
+        $('#fs_modal_bg').removeClass('active').addClass('hidden');
+    });
+
+    //hide all full screen menu
+    $(document).on('keyup', function (e) {
+        if (e.keyCode == 27) {
+            $('#fs_modal.active').removeClass('active').addClass('hidden');
+            $('#fs_modal_bg').removeClass('active').addClass('hidden');
+        }
+    });
+
+    //add new row invitations
+    $('a[data-action="admin_invites_add_row"]').on('click.add_user_invite', function (e) {
+        var item = $($('#invite_rows').find('.admin_invite_row.clearfix:last')).clone().find("input:text").val("").end();
+        var num = parseInt(item.prop("id").match(/\d+/g), 10) + 1;
+        item.prop('id', 'invite_' + num);
+        $(item).find('a.delete_row').prop('id', 'invite_' + num);
+        $('#invite_rows').append(item);
+        $('#individual_invites span.ladda-label').html('Invite ' + countInvited++ + ' Person');
+        showDeleteInvitations();
+    });
+
+    //send invitations to server
+    $('#individual_invites').submit(function () {
+        var inputs = $('#individual_invites :input');
+        console.log(inputs.serializeArray());
+        return false;
+    });
+
+    $('#individual_invites').on('click.delete_invitaion_row', 'a.delete_row', function () {
+        var item = $('div#' + this.id).remove();
+        showDeleteInvitations();
     });
 
     //aux methods
@@ -864,4 +908,14 @@ $(document).ready(function () {
             end: end
         }
     };
+
+    var showDeleteInvitations = function () {
+        var count = $('#invite_rows').find('.admin_invite_row.clearfix').length;
+        if (count > 1)
+            $('.delete_row.hidden').each(function (key, item) {
+                $(item).removeClass('hidden');
+            });
+        else
+            $('.delete_row').addClass('hidden');
+    }
 });
