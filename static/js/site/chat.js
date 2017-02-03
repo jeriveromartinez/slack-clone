@@ -88,19 +88,7 @@ $(document).ready(function () {
         team_users();
     });
 
-    $('#channel-list').on('click', '.channel', function () {
-        active_chat(this.id, 'channel');
-        activeChannel = this.id;
-        Reload(activeChannel);
-    });
-
-    $('#im-list').on('click.select_member', '.member', function () {
-        active_chat($(this).attr('data-name'), 'user');
-        activeChannel = $(this).attr("data-name");
-        Reload(activeChannel);
-        CheckReaded(activeChannel);
-    });
-
+    
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
         showProfile($(this).attr('data-user'));
@@ -135,7 +123,8 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
-     $("#channel_list_invites_link").on("click.user_invited", function (e) {
+    
+    $("#channel_list_invites_link").on("click.user_invited", function (e) {
         e.stopPropagation();
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
         $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
