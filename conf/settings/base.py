@@ -71,13 +71,13 @@ DATABASES = {
 #         'PORT': '5432',
 #     }
 # }
-
+#
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
 #         'NAME': 'plataforma',
 #         'USER': 'root',
-#         'PASSWORD': 'ju1io',
+#         'PASSWORD': 'S0l0y0lol',
 #         'HOST': '127.0.0.1',
 #         'PORT': '3306',
 #     }
@@ -197,7 +197,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
 
 )
 ########## END MIDDLEWARE CONFIGURATION
@@ -224,7 +224,7 @@ DJANGO_APPS = (
 
     # Admin panel and documentation:
     'suit',
-    'corsheaders',
+    # 'corsheaders',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'socketio',
