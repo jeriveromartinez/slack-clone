@@ -1,7 +1,7 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [];
+var panel = null, channels = [], activeChannel = {name: "public", type: "room"}, users = [], typesL = [];
 window.users_logged = 0;
 window.userFileStatus = false;
 
@@ -9,7 +9,7 @@ $('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
-    var socket;
+
     $(function () {
         initView();
         get_chanel();
@@ -88,18 +88,6 @@ $(document).ready(function () {
         team_users();
     });
 
-    $('#channel-list').on('click', '.channel', function () {
-        active_chat(this.id, 'channel');
-        activeChannel = this.id;
-        Reload(activeChannel);
-    });
-
-    $('#im-list').on('click.select_member', '.member', function () {
-        active_chat($(this).attr('data-name'), 'user');
-        activeChannel = $(this).attr("data-name");
-        Reload(activeChannel);
-        CheckReaded(activeChannel);
-    });
 
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
@@ -135,7 +123,7 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
-     $("#channel_list_invites_link").on("click.user_invited", function (e) {
+    $("#channel_list_invites_link").on("click.user_invited", function (e) {
         e.stopPropagation();
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
         openNewChannel();
@@ -233,16 +221,6 @@ $(document).ready(function () {
         });
     };
 
-    var active_chat = function (search, type) {
-        sendTo.type = type;
-        if (type == "channel") {
-            $('#channel_title').html('#' + search);
-            sendTo.to = search;
-        } else {
-            $('#channel_title').html('@' + search);
-            sendTo.to = search;
-        }
-    };
 
     var users_online = function () {
         var exc = function (response) {
@@ -257,6 +235,18 @@ $(document).ready(function () {
     window.change_chat_size = function (size) {
         $('#msgs_scroller_div').css('width', size);
     };
+    
+    window.active_chat = function (search, type) {
+        sendTo.type = type;
+        if (type == "channel") {
+            $('#channel_title').html('#' + search);
+            sendTo.to = search;
+        } else {
+            $('#channel_title').html('@' + search);
+            sendTo.to = search;
+        }
+    };
+
 
     window.team_users = function () {
         var exc = function (response) {
@@ -447,8 +437,9 @@ $(document).ready(function () {
 
         _$im_browser.on("click.push_user", ".im_browser_go", function () {
             active_chat(_selected_members[0], 'user');
-            activeChannel = _selected_members[0];
-            Reload(activeChannel);
+            activeChannel.name = _selected_members[0];
+            activeChannel.type = "private";
+            Reload(activeChannel.name);
 
             _selected_members.forEach(function (item) {
                 var data = {user_connect: {username: item}, un_reader_msg: 0};
@@ -505,8 +496,9 @@ $(document).ready(function () {
 
             if (member == userlogged) {
                 active_chat(member, 'user');
-                activeChannel = member;
-                Reload(activeChannel);
+                activeChannel.name = member;
+                 activeChannel.type = "private";
+                Reload(activeChannel.name);
                 _selected_members.pop();
                 _close();
             }
@@ -712,11 +704,11 @@ $(document).ready(function () {
             purpose = $('#channel_purpose_input').val();
             var data = {title: title, purpose: purpose, visibility: visibility, invites: JSON.stringify(invites)};
 
-            function exc() {
+            function exc(data) {
                 alert(data.result);
             };
 
-            var urlapi = apiUrl + 'create_room';
+            var urlapi = apiUrl + 'create_room/';
             request(urlapi, 'POST', null, data, exc, null);
 
         });

@@ -97,7 +97,7 @@ def room_unsubcribe_user(request, roomname, username):
     return Response({"result": "ok"})
 
 
-@api_view(['POST'])  # TODO: falta notificar join y poner en url
+@api_view(['POST'])  # TODO: falta notificar join
 def create_room_by_company(request):
     if request.method == "POST":
         name = request.POST.get("title")
@@ -195,7 +195,8 @@ def get_details_file(request, file, user_post=None):
     if request.method == "GET":
         return Response(get_file_by_type(_file))
     if request.method == "POST":
-        user = User.objects.filter(username=user_post)[0]
+
+        user =Profile.objects.get(username=user_post)
         comment = request.POST['comment']
         FilesComment.objects.create(file_up=_file, comment=comment, user=user)
         return Response({'data': 'save'})
@@ -213,7 +214,7 @@ def share_file(request, slug):
     post = request.POST
     try:
         file = SlackFile.objects.get(slug=slug)
-
+        user_from = Profile.objects.get(username=request.user.username)
         cond, shrared_to = post['shared'].split('_')
         if cond == "channel":
             room = Room.objects.get(slug=shrared_to)
@@ -222,13 +223,13 @@ def share_file(request, slug):
             FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event', file_up=file)
             file.save()  # TODO: send notifications if user is connect
         else:
-            user = User.objects.get(username=shrared_to)
+            user = Profile.objects.get(username=shrared_to)
             file.shared_to.add(user)
-            FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event', file_up=file)
+            FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event', file_up=file)
             file.save()
 
         if post['comment']:
-            FilesComment.objects.create(file_up=file, comment=post['comment'], user=request.user)
+            FilesComment.objects.create(file_up=file, comment=post['comment'], user=user_from)
         return Response({'success': 'ok'})
     except Exception as e:
         print e.message
@@ -238,9 +239,28 @@ def share_file(request, slug):
 @api_view(['GET'])
 def get_message_by_user_recent(request, username, page):
     messages = MessageEvent.objects.filter(
-        ((Q(messageinstevent__user_to__username=username) & Q(messageinstevent__user_from__username=request.user)) |
-         (Q(messageinstevent__user_to__username=request.user) & Q(messageinstevent__user_from__username=username))) | Q(
-            filesharedevent__user_from__username=username)).order_by('-date_pub')
+        ((Q(messageinstevent__user_to__user__username=username) & Q(messageinstevent__user_from__user__username=request.user.username)) |
+         (Q(messageinstevent__user_to__user__username=request.user.username) & Q(messageinstevent__user_from__user__username=username))) | Q(
+            filesharedevent__user_from__user__username=username)).order_by('-date_pub')
+
+    paginator = Paginator(messages, 20)
+
+    if not page:
+        page = 1
+
+    try:
+        data = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        data = paginator.page(paginator.num_pages)
+
+    response = {'items': get_generic_msg(data.object_list), 'has_next': data.has_next()}
+    return Response(response)
+
+
+@api_view(['GET'])
+def get_message_by_room(request, room, page):
+    messages = MessageEvent.objects.filter(
+        Q(messageinstevent__room__name=room) | Q(filesharedevent__room__name=room)).order_by('-date_pub')
 
     paginator = Paginator(messages, 20)
 
@@ -260,7 +280,7 @@ def get_message_by_user_recent(request, username, page):
 def get_archived_msg(request, type, username, page):
     if type == "user":
         msg = MessageEvent.objects.filter(
-            Q(user_to__username__exact=username) | Q(user_from__username__exact=username)).order_by('-date_pub')
+            Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by('-date_pub')
     else:
         if username == "everyBody":
             msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room).order_by(
@@ -317,9 +337,9 @@ def get_recente_message_user(request, username):
     # .exclude(**{'user_from__username' + '__exact': username}) \
 
     messages = MessageEvent.objects.all().filter(
-        ((Q(messageinstevent__user_to__username=username) |
-          Q(messageinstevent__user_from__username=username))) |
-        Q(filesharedevent__user_from__username=username),
+        ((Q(messageinstevent__user_to__user__username=username) |
+          Q(messageinstevent__user_from__user__username=username))) |
+        Q(filesharedevent__user_from__user__username=username),
 
         date_pub__gte=datetime.now() - timedelta(days=8)) \
         .order_by('user_from__username', 'date_pub').distinct()
@@ -375,9 +395,10 @@ def save_files(request, from_user):
                                                file_up=create)  # TODO: enviar si esta logueado
                 create.save()
             else:
-                user = User.objects.get(username=channel)
+                user = Profile.objects.get(username=channel)
+                user_from = Profile.objects.get(username=request.user.username)
                 create.shared_to.add(user)
-                FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event',
+                FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event',
                                                file_up=create)
                 create.save()
 
@@ -457,7 +478,7 @@ def snippet_create(request):
         comment = request.POST['comment']
 
         create = Snippet.objects.create(title=title, type=type, code=code, author=author)
-
+        user_from = Profile.objects.get(username=request.user.username)
         if shared is not None and shared != "":
             cond, channel = shared.split('_')
             if cond == "channel":
@@ -465,13 +486,13 @@ def snippet_create(request):
                 create.shared_to.add(room)
                 for item in room.users.all():
                     create.shared_to.add(item.user)
-                FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
+                FileSharedEvent.objects.create(room=room, user_from=user_from, type='file_shared_event',
                                                file_up=create)  # TODO: enviar si esta logueado
                 create.save()
             else:
-                user = User.objects.get(username=channel)
+                user = Profile.objects.get(username=channel)
                 create.shared_to.add(user)
-                FileSharedEvent.objects.create(user_to=user, user_from=request.user, type='file_shared_event',
+                FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event',
                                                file_up=create)
                 create.save()
         if comment is not None and comment != "":
@@ -489,8 +510,8 @@ def search_option(request, data):
         if info[0] == "from":
             from_user = info[1].replace('@', '')
             user = Profile.objects.get(user__username__exact=from_user)
-            msg = MessageEvent.objects.filter(user_from__username__exact=from_user,
-                                              user_to__username__exact=request.user.username).order_by('-date_pub')[
+            msg = MessageEvent.objects.filter(user_from__user__username__exact=from_user,
+                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')[
                   :10:1]
             files = SlackFile.objects.filter(author__user__username__exact=from_user,
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
@@ -506,7 +527,7 @@ def search_option(request, data):
                     'user': ProfileSerializer(request.user.user_profile, many=False).data}
         elif info[0] == "after":
             msg = MessageEvent.objects.filter(date_pub__gte=info[1],
-                                              user_to__username__exact=request.user.username).order_by('-date_pub')
+                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')
             files = SlackFile.objects.filter(uploaded__gte=info[1],
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),

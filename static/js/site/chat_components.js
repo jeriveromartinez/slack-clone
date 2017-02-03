@@ -112,7 +112,7 @@ var date_divider = function (date) {
 };
 
 var ts_message = function (avatar, from, msg, date) {
-    var avatar = "url('/static/images/" + avatar + "')";
+    var avatar = "url('" + avatar + "')";
     var msg = '<ts-message id="msg_1475690976_000002" class="message feature_fix_files first" data-date=' + date + '>' +
         '<div class="action_hover_container"></div>' +
 

@@ -18,11 +18,13 @@ import json
 def message(self, msg):
     room = get_object_or_404(Room, name=msg["room"])
     if room:
-        MessageInstEvent.objects.create(room=room, user_from=msg["user_from"], msg=message["message"],
-                                        date_pub=timezone.now())
+        user_from = Profile.objects.get(user__username=msg["user_from"])
+        MessageInstEvent.objects.create(room=room, user_from=user_from, msg=msg["message"],
+                                        date_pub=timezone.now(), type="message_int_event")
 
         msg["message"] = strip_tags(msg["message"])
         msg["name"] = msg["user_from"]
+        msg["image"] = user_from.image.url
         self.emit_to_room(self.room, 'message', msg)
     else:
         profile = Profile.objects.get(user__username=msg["user_from"])
@@ -173,9 +175,13 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     def log(self, message):
         self.logger.info("[{0}] {1}".format(self.socket.sessid, message))
 
-    def subcribe(self, data):
+    def on_subcribe(self, data):
         self.room = data['room']
         self.join(data['room'])
+        return True
+
+    def on_unsubcribe(self, data):
+        self.leave(data['room'])
         return True
 
     def on_join(self, data):
@@ -189,7 +195,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
     def on_message(self, msg):
 
         if msg['action'] == "message":
-            user_from = User.objects.get(username=msg["user_from"])
+            user_from = Profile.objects.get(user__username=msg["user_from"])
             if user_from:
                 profile = Profile.objects.get(user__username=msg["user_to"])
                 message = MessageInstEvent.objects.create(user_to=profile.user, user_from=user_from,
@@ -198,6 +204,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                 msg["action"] = "message"
                 msg["user_to"] = profile.user.username
                 msg["user_from"] = user_from.username
+                msg["image"] = profile.image
                 msg["date_pub"] = str(message.date_pub.isoformat())
                 self.sendMessage(profile.socketsession, 'message', msg)
 

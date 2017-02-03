@@ -108,8 +108,8 @@ class MessageEventSerializer(serializers.ModelSerializer):
 
 
 class MessageInstEventSerializer(MessageEventSerializer):
-    user_to = UserSerializer()
-    user_from = UserSerializer()
+    user_to = ProfileSerializer()
+    user_from = ProfileSerializer()
 
     class Meta(MessageEventSerializer.Meta):
         model = MessageInstEvent

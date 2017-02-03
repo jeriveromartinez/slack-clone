@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     var socket = io.connect("/chat");
 
-   
+
     socket.on('connect', function () {
         console.log(" connected")
         socket.emit('join', {"user": userlogged});
@@ -13,6 +13,25 @@ $(document).ready(function () {
     socket.on('disconnect', function () {
         console.log(" disconnect")
     });
+    
+    $('#channel-list').on('click', '.channel', function () {
+        active_chat(this.id, 'channel');
+        activeChannel.name = this.id;
+        activeChannel.type = "room";
+        ReloadRoom( activeChannel.name);       
+        socket.emit('subcribe', {"room": activeChannel.name});
+    });
+
+    $('#im-list').on('click.select_member', '.member', function () {
+        active_chat($(this).attr('data-name'), 'user');
+        if(activeChannel.type=='room'){
+             socket.emit('unsubcribe', {"room": activeChannel.name});
+        }
+        activeChannel.name = $(this).attr("data-name");
+        activeChannel.type = "private";
+        Reload( activeChannel.name);
+        CheckReaded( activeChannel.name);
+    });
 
     //input
     $("#message-input").keypress(function (e) {
@@ -20,13 +39,23 @@ $(document).ready(function () {
             var msg = $(this).val().trim();
             if (msg) {
                 var message = $(this).val();
+                if (activeChannel.type == "private") {
+                    socket.emit('message', {
+                        action: "message",
+                        user_to: activeChannel.name,
+                        message: $(this).val().trim(),
+                        user_from: userlogged
+                    });
+                }
+                if (activeChannel.type == "room") {
+                    socket.emit('messagechanel', {
+                        action: "message",
+                        room: activeChannel.name,
+                        message: $(this).val().trim(),
+                        user_from: userlogged
+                    });
+                }
 
-                socket.emit('message', {
-                    action: "message",
-                    user_to: activeChannel,
-                    message: $(this).val().trim(),
-                    user_from: userlogged
-                });
                 $("#message-input").val("");
                 e.preventDefault();
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
@@ -34,14 +63,14 @@ $(document).ready(function () {
                 if (day == new Date().getDate()) {
                     var elemt = $(".day_container:last").find('.day_msgs');
                     if (elemt.length) {
-                        elemt.append(ts_message('ava_0022-48.png', userlogged, message, new Date().toISOString()));
+                        elemt.append(ts_message(userImage, userlogged, message, new Date().toISOString()));
                     }
                 }
                 else {
                     var day_container = $("<div class='day_container'></div>");
                     day_container.append(date_divider(new Date()));
                     var day_msgs = $("<div class='day_msgs'></div>");
-                    day_msgs.append(ts_message('ava_0022-48.png', userlogged, message, new Date().toISOString()));
+                    day_msgs.append(ts_message(userImage, userlogged, message, new Date().toISOString()));
                     day_container.append(day_msgs);
 
                     $("#msgs_div").append(day_container);
@@ -87,13 +116,13 @@ var messaged = function (data) {
             if (day == new Date().getDate()) {
                 var elemt = $(".day_container:last").find('.day_msgs');
                 if (elemt.length) {
-                    elemt.append(ts_message('ava_0022-48.png', data.user_from, data.message, data.date_pub));
+                    elemt.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
                 }
             } else {
                 var day_container = $("<div class='day_container'></div>");
                 day_container.append(date_divider(new Date()));
                 var day_msgs = $("<div class='day_msgs'></div>");
-                day_msgs.append(ts_message('ava_0022-48.png', data.user_from, data.message, data.date_pub));
+                day_msgs.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
                 day_container.append(day_msgs);
 
                 $("#msgs_div").append(day_container);
@@ -127,7 +156,7 @@ var onDataLoaded = function (data) {
 
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.append(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub));
+                        day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                         break;
                     case 'file_shared_event':
                         console.log('event');
@@ -142,7 +171,7 @@ var onDataLoaded = function (data) {
 
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.prepend(ts_message('ava_0022-48.png', item.user_from.username, item.msg, item.date_pub)).fadeIn('slow');
+                        day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub)).fadeIn('slow');
                         break;
                     case 'file_shared_event':
                         console.log('event');
@@ -185,6 +214,22 @@ var Reload = function (name) {
     $.ajax({
         type: 'GET',
         url: "/api/messages/" + name + "/" + 1 + '/',
+        // data: {page: 1},
+        success: function (data, status, object) {
+            $.when(success(data)).then(initScroll(name));
+        },
+        error: function (data, status, object) {
+            //console.log(data.message);
+        }
+    });
+
+
+};
+var ReloadRoom = function (name) {
+    $("#msgs_div").empty();
+    $.ajax({
+        type: 'GET',
+        url: "/api/messagesroom/" + name + "/" + 1 + '/',
         // data: {page: 1},
         success: function (data, status, object) {
             $.when(success(data)).then(initScroll(name));
