@@ -817,3 +817,18 @@ h5 {
     padding: 5px 0 0 0;
     margin: 0;
 }
+
+.fs_modal_btn {
+    float: right;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+}
+
+.fs_modal_btn i.ts_icon {
+    margin: auto;
+}
+
+a[data-action="admin_invites_add_row"]{
+    color: #3aa3e3;
+}

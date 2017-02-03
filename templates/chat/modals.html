@@ -1,5 +1,6 @@
 {% load staticfiles %}
-<div id="fs_modal_bg" class="hidden"></div>
+<div id="fs_modal_bg" class="hidden">
+</div>
 <div id="direct-message">
     <div id="fs_modal" class="fs_modal_internal_scroll hidden">
 
@@ -141,7 +142,6 @@
         </div>
     </div>
 </div>
-
 <div id="browse-chanel">
     <div id="fs_modal" class="fs_modal_internal_scroll hidden">
         <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
@@ -451,11 +451,8 @@
         </div>
     </div>
 </div>
-
-
 <div id="channel_invite">
-    <div id="fs_modal" class="">
-
+    <div id="fs_modal" class="hidden">
         <a id="fs_modal_back_btn" class="fs_modal_btn hidden">
             <i class="ts_icon ts_icon_arrow_large_left"></i>
             <span class="key_label">back</span>
@@ -465,49 +462,123 @@
             <span class="key_label">esc</span>
         </a>
 
-
         <div class="contents_container">
-
             <div class="contents">
-                <div id="channel_invite_modal" class="channel_modal_with_list channel_modal"><h1
-                        class="large_bottom_margin channel_modal_header"> Invite others to <i
-                        class="ts_icon ts_icon_lock"></i>{{ else }}<i class="ts_icon ts_icon_channel"></i>sadsa
-                </h1>
-                    <div id="private_channel_invite_step_one" class=""><p class="bold">Should new members be allowed to
-                        see the
-                        channel's message history?</p>
-                        <p><span class="bold">If Yes</span>, new members will be invited and will have access to this
-                            channel's entire
-                            message history.</p>
-                        <p><span class="bold">If No</span>, this channel will be renamed and archived. A new channel
-                            will be created
-                            with all current members plus the new ones you invite. You and other current members will
-                            see a link back to
-                            the original channel's archives. </p>
-                        <div>
-                            <button class="btn btn_info right_margin no_create_channel">No, start a new channel</button>
-                            <button class="btn btn_primary yes_show_history">Yes, show channel history</button>
-                        </div>
+                <div id="admin_invites_container">
+                    <h1 id="admin_invites_header" class="light align_center">
+                        <i class="ts_icon ts_icon_paper_plane blue_fill float_none small_right_margin hide_on_mobile"></i>
+                        Invite <span class="admin_invites_header_type normal">Full Members</span>
+                    </h1>
+                    <div id="admin_invites_workflow" class="top_margin">
+                        <form id="individual_invites">
+                            <p class="alert alert_info" id="invite_notice" style="display: none;"></p>
+                            <div id="invite_rows">
+                                <div id="invite_1" class="admin_invite_row clearfix">
+                                    <div class="col span_1_of_2">
+                                        <label class="email full_width">
+                                            Email Address<br>
+                                            <div class="full_width">
+                                                <input type="text" spellcheck="false" autocorrect="off"
+                                                       class="email_field small" name="email_address"
+                                                       placeholder="name@domain.com" required>
+                                            </div>
+                                        </label>
+                                        <p class="error_msg input_note hidden moscow_red no_bottom_margin"></p>
+                                    </div>
+
+                                    <div class="col span_1_of_2">
+                                        <div class="col span_1_of_2 mobile_col small_right_padding">
+                                            <label class="full_width">
+                                                First Name<br>
+                                                <input type="text" name="first_name" placeholder="Optional"
+                                                       class="small small_right_margin no_bottom_margin full_width"
+                                                       maxlength="200">
+                                            </label>
+                                        </div>
+                                        <div class="col span_1_of_2 mobile_col float_right">
+                                            <label class="full_width">
+                                                Last Name<br>
+                                                <input type="text" name="last_name" placeholder="Optional"
+                                                       class="small no_bottom_margin full_width" maxlength="200">
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <a class="delete_row hidden" id="invite_1"><i class="ts_icon ts_icon_times"></i></a>
+                                </div>
+                            </div>
+
+                            <p id="admin_invites_add_row" class="clear_both clearfix">
+                                <a data-action="admin_invites_add_row" class="float_left bold" tabindex="0">
+                                    <ts-icon class="ts_icon_plus_circle small_right_margin align_bottom"></ts-icon>
+                                    Add another invitation</a>
+                                {% comment %}<span id="btn_connect_contacts" class="float_right subtle_silver" aria-disabled="false">
+                                        <ts-icon class="ts_icon_google small_right_margin align_bottom"></ts-icon>
+                                        <span class="btn_connect_contacts_text">Connect your
+                                            <a tabindex="0">Google Contacts</a>
+                                        </span>
+                                </span>{% endcomment %}
+
+                            </p>
+
+                            <div class="invite_modal_options_container">
+
+                                <div class="admin_invites_custom_message_container">
+                                    <div class="admin_invites_show_custom_message hidden medium_bottom_margin">
+                                        <label for="admin_invite_custom_message">Custom Message</label>
+                                        <textarea id="admin_invite_custom_message" name="admin_invite_custom_message"
+                                                  maxlength="560"
+                                                  placeholder="Enter a custom message to attach to the invites"></textarea>
+                                        <a class="hide_custom_message"><i class="ts_icon ts_icon_times"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="invite_modal_options large_bottom_margin">
+                                    <div class="invite_modal_options_left">
+                                        {% comment %}<div class="small no_bottom_margin invite_modal_options_message medium_right_margin">
+                                            <span class="subtle_silver">Big team?</span><a
+                                                data-action="admin_invites_switch_view" data-view="bulk"
+                                                class="small_left_margin subtle_silver underline" data-clog-click="true"
+                                                data-clog-event="INVITEMODAL_ACTION"
+                                                data-clog-params="action=switch_view_to_bulk,trigger=click_cta_switch_view_to_bulk"
+                                                tabindex="0">Invite many people at once</a></div>
+                                        <div class="small no_bottom_margin invite_modal_options_message"></div>{% endcomment %}
+                                    </div>
+                                    <div class="invite_modal_options_right">
+                                        <button type="submit" id="admin_invites_submit_btn"
+                                                class="btn btn_large ladda-button ladda">
+                                            <span class="ladda-label">Invite 1 Person</span>
+                                            <span class="ladda-spinner"></span>
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </form>
+
+                        {% comment %} <form id="bulk_invites" class="hidden stacked top_margin">
+                            <p class="alert alert_warning hidden" id="bulk_notice"></p>
+                            <label class="full_width">
+                                Enter multiple email addresses
+                                <textarea wrap="virtual" name="emails" id="bulk_emails"
+                                          class="no_bottom_margin full_width"
+                                          style="overflow: hidden; height: 108px;"></textarea>
+                            </label>
+                            <button type="submit" class="btn small_right_margin ladda-button">Add Invitees</button>
+                            <a class="btn btn_outline">Cancel</a>
+                        </form>{% endcomment %}
                     </div>
 
-                    <div class="channel_invite_filter_container full_width hidden">
-                        <div class="float_right left_margin">
-                            <button class="btn btn_primary btn_large  preselected disabled invite_go ladda-button"
-                                    data-style="zoom-in"><span class="ladda-label">Invite</span></button>
-                            <div class="subtle_silver mini align_right tiny_right_margin return_hint">Return <i
-                                    class="ts_icon ts_icon_enter ts_icon_inherit"></i></div>
-                        </div>
-                    </div>
-                    <div id="filter_invite_empty"
-                         class="hidden align_center margin_auto display_flex align_items_center justify_content_center"><span
-                            class="filter_invite_empty_message"></span></div>
-
-                    <div id="channel_invite_container" class="page_needs_enterprise channel_modal_list
-             is_private hidden"></div>
+                    {% comment %}<div id="admin_invites_success" class="hidden">
+                        <h1 class="light align_center"> Your invitation has been sent! </h1>
+                        <p class="align_center large_bottom_margin"> You’ve invited undefined to blackmambasoft. </p>
+                        <p class="large_top_padding">
+                            <button class="btn btn_outline col span_1_of_2">Invite More People</button>
+                            <button class="btn btn_outline col span_1_of_2 dialog_cancel">Done</button>
+                        </p>
+                    </div>{% endcomment %}
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
