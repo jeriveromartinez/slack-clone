@@ -259,6 +259,8 @@ class UserLogger(models.Model):
 class UserInvited(models.Model):
     email = models.EmailField(max_length=255)
     company = models.ForeignKey(Company, related_name='invited_company')
+    name = models.CharField(blank=True, null=True, max_length=50)
+    last_name = models.CharField(blank=True, null=True, max_length=50)
     slug_activation = models.SlugField(null=True, blank=True)
 
 
