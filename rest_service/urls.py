@@ -56,4 +56,5 @@ urlpatterns = [
         name='api-recente_message_use'),
     url(r'^usercompany/$', 'rest_service.views.get_user_by_company', name='api-usercomapny$'),
     url(r'^search/(?P<data>.+)/$', 'rest_service.views.search_option', name='search_option'),
+    url(r'^email/send/$', 'rest_service.views.send_invitations', name='send_invitations'),
 ]

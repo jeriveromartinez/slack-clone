@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from plataforma.serializers import *
+from plataforma.utils import Email
 
 
 @api_view(['GET'])
@@ -536,6 +537,25 @@ def search_option(request, data):
         return Response(data)
     except Exception as e:
         print e.message
+
+
+@api_view(['POST'])
+def send_invitations(request):
+    if request.method == "POST":
+        ukeys = request.POST.get('invite')
+        invite = json.loads(ukeys)
+        site_info = {'protocol': request.is_secure() and 'https' or 'http'}
+        site_info['root'] = site_info['protocol'] + '://' + request.get_host()
+        try:
+            for element in invite:
+                slug = slugify(datetime.now().__str__() + element['email'])
+                UserInvited.objects.create(email=element['email'], company=request.user.user_profile.company,
+                                           name=element['fName'], last_name=element['lName'], slug_activation=slug)
+                invite_url = site_info['root'] + reverse('app:register_create', kwargs={'slug': slug})
+                Email.send(element, 'topic', invite_url)
+        except Exception as e:
+            print e
+    return Response({'response': 'ok'})
 
 
 def type_file_by_user(type, me, user):

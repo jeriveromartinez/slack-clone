@@ -1,7 +1,7 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = {name: "public", type: "room"}, users = [], typesL = [];
+var panel = null, channels = [], activeChannel = 'public', users = [], typesL = [], countInvited = 1;
 window.users_logged = 0;
 window.userFileStatus = false;
 
@@ -9,7 +9,7 @@ $('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
-
+    var socket;
     $(function () {
         initView();
         get_chanel();
@@ -135,7 +135,8 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
-     $("#channel_list_invites_link").on("click.user_invited", function (e) {
+
+    $("#channel_list_invites_link").on("click.user_invited", function (e) {
         e.stopPropagation();
         $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
         $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
@@ -150,7 +151,12 @@ $(document).ready(function () {
     $("button.voice_call").on("click.voice_call", function (e) {
         e.stopPropagation();
         var urlapi = hostUrl + '/call/aa';
-        $.redirect(urlapi, {usercall: activeChannel, csrfmiddlewaretoken: getCookie("csrftoken")}, 'POST', '_blank');
+        $.redirect(urlapi,
+            {
+                usercall: activeChannel,
+                csrfmiddlewaretoken: getCookie("csrftoken")
+            },
+            'POST', '_blank');
     });
 
     $('li button[data-qa="im_close"]').on('click.close_user_connect', function (e) {
@@ -198,19 +204,38 @@ $(document).ready(function () {
         item.prop('id', 'invite_' + num);
         $(item).find('a.delete_row').prop('id', 'invite_' + num);
         $('#invite_rows').append(item);
-        $('#individual_invites span.ladda-label').html('Invite ' + countInvited++ + ' Person');
+        $('#individual_invites span.ladda-label').html('Invite ' + ++countInvited + ' Person');
         showDeleteInvitations();
     });
 
     //send invitations to server
     $('#individual_invites').submit(function () {
         var inputs = $('#individual_invites :input');
-        console.log(inputs.serializeArray());
+        var array = inputs.serializeArray(),
+            send = [];
+
+        for (var i = 0; i < array.length - 3; i += 3) {
+            var object = {
+                email: array[i].value,
+                fName: array[i + 1].value,
+                lName: array[i + 2].value
+            };
+            send.push(object);
+        }
+
+        var exc = function (response) {
+            console.log(response);
+        };
+
+        var urlapi = apiUrl + 'email/send/';
+        request(urlapi, 'POST', 'json', {invite: JSON.stringify(send)}, exc, null);
         return false;
     });
 
+    //remove invitations
     $('#individual_invites').on('click.delete_invitaion_row', 'a.delete_row', function () {
         var item = $('div#' + this.id).remove();
+        $('#individual_invites span.ladda-label').html('Invite ' + --countInvited + ' Person');
         showDeleteInvitations();
     });
 
