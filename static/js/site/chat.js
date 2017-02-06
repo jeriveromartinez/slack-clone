@@ -9,7 +9,6 @@ $('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
-
     $(function () {
         initView();
         get_chanel();
@@ -88,7 +87,19 @@ $(document).ready(function () {
         team_users();
     });
 
-    
+    $('#channel-list').on('click', '.channel', function () {
+        active_chat(this.id, 'channel');
+        activeChannel = this.id;
+        Reload(activeChannel);
+    });
+
+    $('#im-list').on('click.select_member', '.member', function () {
+        active_chat($(this).attr('data-name'), 'user');
+        activeChannel = $(this).attr("data-name");
+        Reload(activeChannel);
+        CheckReaded(activeChannel);
+    });
+
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
         showProfile($(this).attr('data-user'));
@@ -123,12 +134,19 @@ $(document).ready(function () {
         $(".channels_list_new_btn").tooltip("hide");
         openNewChannel();
     });
-    
+
     $("#channel_list_invites_link").on("click.user_invited", function (e) {
         e.stopPropagation();
-        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
-        $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
-        $('#fs_modal_bg').removeClass('hidden').addClass('active');
+        /*$("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
+         $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
+         $('#fs_modal_bg').removeClass('hidden').addClass('active');*/
+        showInvitations();
+    });
+
+    $('#menu.menu').on('click.show_invitations_menu', '#team_invitations', function (e) {
+        e.stopPropagation();
+        hide_menu_files();
+        showInvitations();
     });
 
     $('#channel_list_invites_link').on('click.closed_user_invited', '#fs_modal_close_btn', function () {
@@ -139,7 +157,12 @@ $(document).ready(function () {
     $("button.voice_call").on("click.voice_call", function (e) {
         e.stopPropagation();
         var urlapi = hostUrl + '/call/aa';
-        $.redirect(urlapi, {usercall: activeChannel, csrfmiddlewaretoken: getCookie("csrftoken")}, 'POST', '_blank');
+        $.redirect(urlapi,
+            {
+                usercall: activeChannel,
+                csrfmiddlewaretoken: getCookie("csrftoken")
+            },
+            'POST', '_blank');
     });
 
     $('li button[data-qa="im_close"]').on('click.close_user_connect', function (e) {
@@ -167,7 +190,7 @@ $(document).ready(function () {
     });
 
     //hide invited users
-    $('#channel_invite').on('click.user_invited', '#fs_modal_close_btn', function (e) {
+    $('#channel_invite').on('click.user_invited', '#fs_modal_close_btn', function () {
         $('#fs_modal.active').removeClass('active').addClass('hidden');
         $('#fs_modal_bg').removeClass('active').addClass('hidden');
     });
@@ -181,25 +204,52 @@ $(document).ready(function () {
     });
 
     //add new row invitations
-    $('a[data-action="admin_invites_add_row"]').on('click.add_user_invite', function (e) {
+    $('a[data-action="admin_invites_add_row"]').on('click.add_user_invite', function () {
         var item = $($('#invite_rows').find('.admin_invite_row.clearfix:last')).clone().find("input:text").val("").end();
         var num = parseInt(item.prop("id").match(/\d+/g), 10) + 1;
         item.prop('id', 'invite_' + num);
         $(item).find('a.delete_row').prop('id', 'invite_' + num);
         $('#invite_rows').append(item);
-        $('#individual_invites span.ladda-label').html('Invite ' + countInvited++ + ' Person');
+        $('#individual_invites span.ladda-label').html('Invite ' + ++countInvited + ' Person');
         showDeleteInvitations();
     });
 
     //send invitations to server
     $('#individual_invites').submit(function () {
         var inputs = $('#individual_invites :input');
-        console.log(inputs.serializeArray());
+        var array = inputs.serializeArray(),
+            send = [];
+
+        for (var i = 0; i < array.length - 3; i += 3) {
+            var object = {
+                email: array[i].value,
+                fName: array[i + 1].value,
+                lName: array[i + 2].value
+            };
+            send.push(object);
+        }
+
+        var exc = function (response) {
+            console.log(response);
+            if (response.response == 'ok') {
+                $('#fs_modal.active').removeClass('active').addClass('hidden');
+                $('#fs_modal_bg').removeClass('active').addClass('hidden');
+                send = [];
+            } else {
+                $('#fs_modal.active').removeClass('active').addClass('hidden');
+                $('#fs_modal_bg').removeClass('active').addClass('hidden');
+            }
+        };
+
+        var urlapi = apiUrl + 'email/send/';
+        request(urlapi, 'POST', 'json', {invite: JSON.stringify(send)}, exc, null);
         return false;
     });
 
+    //remove invitations
     $('#individual_invites').on('click.delete_invitaion_row', 'a.delete_row', function () {
-        var item = $('div#' + this.id).remove();
+        $('div#' + this.id).remove();
+        $('#individual_invites span.ladda-label').html('Invite ' + --countInvited + ' Person');
         showDeleteInvitations();
     });
 
@@ -617,7 +667,7 @@ $(document).ready(function () {
 
         _$browse_chanel.on("click", ".new_channel", function () {
             _close();
-            $(".channels_list_new_btn").tooltip("hide")
+            $(".channels_list_new_btn").tooltip("hide");
             openNewChannel(true);
         });
 
@@ -638,14 +688,14 @@ $(document).ready(function () {
         function _startListView() {
             var urlapi = apiUrl + companyuser + '/room/all/';
             request(urlapi, 'GET', null, null, render, null);
-        };
+        }
 
         function _filterListView(input) {
             var urlapi = apiUrl + 'company_room';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, render, null);
             });
-        };
+        }
 
         function render(data) {
             list.empty();
@@ -653,7 +703,7 @@ $(document).ready(function () {
                 var pos = 100 * index;
                 list.append(item_channel_browse(item, parseInt(pos)));
             });
-        };
+        }
 
         function _selectRow(row) {
             var channel = row.attr('data-channel-id');
@@ -905,5 +955,15 @@ $(document).ready(function () {
             });
         else
             $('.delete_row').addClass('hidden');
-    }
+    };
+
+    var showInvitations = function () {
+        $("#direct_messages_header, .channels_list_new_btn").tooltip("hide");
+        $('#channel_invite #fs_modal').removeClass('hidden').addClass('active');
+        $('#fs_modal_bg').removeClass('hidden').addClass('active');
+    };
+
+    window.hide_menu_files = function () {
+        $('#menu.menu').addClass('hidden');
+    };
 });

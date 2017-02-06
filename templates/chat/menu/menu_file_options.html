@@ -57,7 +57,9 @@
             <span class="slack_menu_header_primary overflow_ellipsis">{{ request.user.user_profile.company.name }}</span>
         </h2>
         <ul class="menu_list">
-            <li id="team_invitations"><a href="{% url 'app:invite_user' %}">Invite people</a></li>
+            <li id="team_invitations">
+                <a>Invite people</a>
+            </li>
             <li id="logout" class="logout_url">
                 <a href="{% url 'app:logout' %}">Sign out of
                     <strong>{{ request.user.user_profile.company.name }}</strong></a>
