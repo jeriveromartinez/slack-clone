@@ -1,8 +1,5 @@
 $(document).ready(function () {
-
-
     var socket = io.connect("/chat");
-
 
     socket.on('connect', function () {
         console.log(" connected")
@@ -10,6 +7,7 @@ $(document).ready(function () {
     });
 
     socket.on('message', messaged);
+
     socket.on('disconnect', function () {
         console.log(" disconnect")
     });
@@ -85,7 +83,6 @@ $(document).ready(function () {
         }
 
     });
-
 });
 
 var messaged = function (data) {
@@ -225,6 +222,7 @@ var Reload = function (name) {
 
 
 };
+
 var ReloadRoom = function (name) {
     $("#msgs_div").empty();
     $.ajax({

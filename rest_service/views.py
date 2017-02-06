@@ -196,8 +196,7 @@ def get_details_file(request, file, user_post=None):
     if request.method == "GET":
         return Response(get_file_by_type(_file))
     if request.method == "POST":
-
-        user =Profile.objects.get(username=user_post)
+        user = Profile.objects.get(username=user_post)
         comment = request.POST['comment']
         FilesComment.objects.create(file_up=_file, comment=comment, user=user)
         return Response({'data': 'save'})
@@ -240,8 +239,10 @@ def share_file(request, slug):
 @api_view(['GET'])
 def get_message_by_user_recent(request, username, page):
     messages = MessageEvent.objects.filter(
-        ((Q(messageinstevent__user_to__user__username=username) & Q(messageinstevent__user_from__user__username=request.user.username)) |
-         (Q(messageinstevent__user_to__user__username=request.user.username) & Q(messageinstevent__user_from__user__username=username))) | Q(
+        ((Q(messageinstevent__user_to__user__username=username) & Q(
+            messageinstevent__user_from__user__username=request.user.username)) |
+         (Q(messageinstevent__user_to__user__username=request.user.username) & Q(
+             messageinstevent__user_from__user__username=username))) | Q(
             filesharedevent__user_from__user__username=username)).order_by('-date_pub')
 
     paginator = Paginator(messages, 20)
@@ -281,7 +282,8 @@ def get_message_by_room(request, room, page):
 def get_archived_msg(request, type, username, page):
     if type == "user":
         msg = MessageEvent.objects.filter(
-            Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by('-date_pub')
+            Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by(
+            '-date_pub')
     else:
         if username == "everyBody":
             msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room).order_by(
@@ -489,7 +491,7 @@ def snippet_create(request):
         comment = request.POST['comment']
 
         create = Snippet.objects.create(title=title, type=type, code=code, author=author)
-        user_from = Profile.objects.get(username=request.user.username)
+        user_from = Profile.objects.get(user__username__exact=request.user.username)
         if shared is not None and shared != "":
             cond, channel = shared.split('_')
             if cond == "channel":
@@ -522,7 +524,8 @@ def search_option(request, data):
             from_user = info[1].replace('@', '')
             user = Profile.objects.get(user__username__exact=from_user)
             msg = MessageEvent.objects.filter(user_from__user__username__exact=from_user,
-                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')[
+                                              user_to__user__username__exact=request.user.username).order_by(
+                '-date_pub')[
                   :10:1]
             files = SlackFile.objects.filter(author__user__username__exact=from_user,
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
@@ -538,7 +541,8 @@ def search_option(request, data):
                     'user': ProfileSerializer(request.user.user_profile, many=False).data}
         elif info[0] == "after":
             msg = MessageEvent.objects.filter(date_pub__gte=info[1],
-                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')
+                                              user_to__user__username__exact=request.user.username).order_by(
+                '-date_pub')
             files = SlackFile.objects.filter(uploaded__gte=info[1],
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
@@ -551,21 +555,24 @@ def search_option(request, data):
 
 @api_view(['POST'])
 def send_invitations(request):
-    if request.method == "POST":
-        ukeys = request.POST.get('invite')
-        invite = json.loads(ukeys)
-        site_info = {'protocol': request.is_secure() and 'https' or 'http'}
-        site_info['root'] = site_info['protocol'] + '://' + request.get_host()
-        try:
+    try:
+        if request.method == "POST":
+            ukeys = request.POST.get('invite')
+            invite = json.loads(ukeys)
+            site_info = {'protocol': request.is_secure() and 'https' or 'http'}
+            site_info['root'] = site_info['protocol'] + '://' + request.get_host()
+
             for element in invite:
                 slug = slugify(datetime.now().__str__() + element['email'])
                 UserInvited.objects.create(email=element['email'], company=request.user.user_profile.company,
                                            name=element['fName'], last_name=element['lName'], slug_activation=slug)
                 invite_url = site_info['root'] + reverse('app:register_create', kwargs={'slug': slug})
                 Email.send(element, 'topic', invite_url)
-        except Exception as e:
-            print e
-    return Response({'response': 'ok'})
+
+            return Response({'response': 'ok'})
+    except Exception as e:
+        return Response({'response': 'error'})
+        print e
 
 
 def type_file_by_user(type, me, user):

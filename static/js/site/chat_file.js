@@ -152,7 +152,7 @@ $(document).ready(function () {
     });
 
     //select files from pc
-    $('#menu.menu').unbind('click.upload_file').on('click.upload_file', '#create-file', function () {
+    $('#menu.menu').on('click.upload_file', '#create-file', function () {
         hide_menu_files();
         var instance = this;
         this.options = userListForModal(channels, users),
@@ -178,7 +178,7 @@ $(document).ready(function () {
             modal.show();
         });
 
-        $('#go.btn').unbind('click.file_send').unbind('click.share_send').on('click.file_send', function (e) {
+        $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.file_send', function (e) {
             e.preventDefault();
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
             instance.data.append('shared', $('.modal-body').find('#shared_to').val());
@@ -202,7 +202,7 @@ $(document).ready(function () {
     });
 
     //create snippet from chat
-    $('#menu.menu').unbind('click.snippet_create').on('click.snippet_create', '#create-snippet', function () {
+    $('#menu.menu').on('click.snippet_create', '#create-snippet', function () {
         hide_menu_files();
         var optionsType = '';
 
@@ -224,7 +224,8 @@ $(document).ready(function () {
 
         modal.show();
 
-        $('#go.btn').unbind('click.snippet_send').on('click.snippet_send', function () {
+        $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.snippet_send', function (e) {
+            e.preventDefault();
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
@@ -243,6 +244,7 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'snippet/create/';
             request(urlapi, 'POST', 'json', data, exc, null, 'file');
+            e.stopPropagation();
         });
     });
 
@@ -471,10 +473,6 @@ $(document).ready(function () {
         //change_chat_size('65%');
     };
 
-    var hide_menu_files = function () {
-        $('#menu.menu').addClass('hidden');
-    };
-
     var action = function (action, properties) {
         switch (action) {
             case 'copy':
@@ -677,7 +675,7 @@ $(document).ready(function () {
 
     var optionsFiles = function (instance, options) {
         var optionMenu = {height: '15rem'};
-        console.log(file_options_file($('#hiddenMenuFile').prop('innerHTML'), options));
+        //console.log(file_options_file($('#hiddenMenuFile').prop('innerHTML'), options));
         positionMenu(instance, file_options_file($('#hiddenMenuFile').prop('innerHTML'), options), 'left', optionMenu);
         if (userlogged != $(instance).attr('data-owner'))
             $($('#menu.menu').find('#element_delete')[0]).hide();
