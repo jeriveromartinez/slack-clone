@@ -322,10 +322,20 @@ def check_readed_me(request):
 
     return Response({"result": "ok"})
 
+@api_view(['POST'])
+def check_readed_room(request):
+    if request.method == "POST":
+        username = request.POST.get("channel")
+        MessageReaded.objects.filter(readed=False, user_to__username=request.user.username, user_from__username=username) \
+            .update(readed=True)
+
+
+    return Response({"result": "ok"})
+
 
 @api_view(['GET'])  # TODO: poner en url
 def delete_comunicaton_me(request, username):
-    user = Communication.objects.filter(user_connect__username=username)[0]
+    user = Communication.objects.get(user_connect__username=username)
     try:
         user.delete()
     except User.DoesNotExist as e:
