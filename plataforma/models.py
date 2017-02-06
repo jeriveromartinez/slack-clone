@@ -306,6 +306,13 @@ class Communication(models.Model):
     stared = models.BooleanField(default=False)
 
 
+class MessageReaded(models.Model):
+    user_read = models.ForeignKey(User, related_name='user_readed')
+    message = models.ForeignKey(MessageEvent, related_name="message")
+    date_read = models.DateTimeField(auto_now_add=True)
+    un_reader_msg = models.IntegerField()
+
+
 # Message EVENTS End
 @receiver(post_delete, sender=Profile)
 def delete_user_profile(sender, instance=None, **kwargs):  # no borrar nada de aqui
@@ -341,6 +348,7 @@ def add_un_reader(sender, instance=None, **kwargs):
                                              user_connect=instance.messageevent_ptr.user_from,
                                              # user_connect=instance.messageevent_ptr.user_to
                                              un_reader_msg=messages[0]['total'])
+
 
     except MessageEvent.DoesNotExist as e:
         print e  # SIGNAL
