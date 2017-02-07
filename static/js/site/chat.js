@@ -4,7 +4,6 @@
 var panel = null, channels = [], activeChannel = {name: "public", type: "room"}, users = [], typesL = [];
 window.users_logged = 0;
 window.userFileStatus = false;
-
 $('body').prepend(itemLoad);
 
 $(document).ready(function () {
