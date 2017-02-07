@@ -55,7 +55,7 @@ class Room(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     users = models.ManyToManyField(Profile, related_name='users_room')
     purpose = models.TextField(max_length=255, null=False)
-    visibility = models.BooleanField(default=True);
+    visibility = models.BooleanField(default=True)
 
     class Meta:
         ordering = ('created',)

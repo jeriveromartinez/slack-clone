@@ -87,18 +87,7 @@ $(document).ready(function () {
         team_users();
     });
 
-    $('#channel-list').on('click', '.channel', function () {
-        active_chat(this.id, 'channel');
-        activeChannel = this.id;
-        Reload(activeChannel);
-    });
-
-    $('#im-list').on('click.select_member', '.member', function () {
-        active_chat($(this).attr('data-name'), 'user');
-        activeChannel = $(this).attr("data-name");
-        Reload(activeChannel);
-        CheckReaded(activeChannel);
-    });
+    
 
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
