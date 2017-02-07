@@ -12,10 +12,10 @@ $(document).ready(function () {
     $(function () {
         initView();
         get_chanel();
-        window.get_comuncation_me();
+        get_comuncation_me();
 
         setInterval(function () {
-            window.get_comuncation_me();
+            get_comuncation_me();
         }, 10000);
         active_chat(userlogged, 'user');
         getUsersCompany();
@@ -289,6 +289,7 @@ $(document).ready(function () {
     window.get_comuncation_me = function () {
         var exc = function (response) {
             window.usercomunication = response;
+            console.log(response);
 
             var list = $('#im-list');
             $('#dm_header_count').html(response.length);
@@ -315,13 +316,24 @@ $(document).ready(function () {
         });
     };
 
-    var active_chat = function (search, type) {
+    window.active_chat = function (search, type) {
         sendTo.type = type;
         if (type == "channel") {
             $('#channel_title').html('#' + search);
             sendTo.to = search;
         } else {
             $('#channel_title').html('@' + search);
+            $('#im_meta a.member_preview_link.member_name').html('@' + search);
+            var exc = function (response) {
+                var name = response.user.first_name + ' ' + response.user.last_name;
+                name = (name != ' ') ? name : 'Unnamed';
+                $('span.member_real_name').html(name);
+                var image = (response.image != null) ? response.image : '/static/images/ava_0022-48.png';
+                $('#im_meta a.member_preview_link.member_image').css('background-image', 'url(' + image + ')');
+            };
+
+            var urlapi = apiUrl + 'profile/' + search + '/';
+            request(urlapi, 'GET', null, null, exc, null);
             sendTo.to = search;
         }
     };
@@ -585,22 +597,22 @@ $(document).ready(function () {
             var member = row.attr('data-member-id');
             var avatar = row.attr('data-img');
 
-            if (member == userlogged) {
-                active_chat(member, 'user');
-                activeChannel = member;
-                Reload(activeChannel);
-                _selected_members.pop();
-                _close();
+            /*if (member == userlogged) {
+             active_chat(member, 'user');
+             activeChannel = member;
+             Reload(activeChannel);
+             _selected_members.pop();
+             //_close();
+             }
+             else */
+            if ($.inArray(member, _selected_members) == -1) {
+                _selected_members.push(member);
+                var input = $("#im_browser_filter").val();
+                _filterListView(input);
+                $("#im_browser_tokens").prepend(item_member_token(member, avatar));
+                $("#im_browser_filter").focus().val('').removeAttr('placeholder');
             }
-            else {
-                if ($.inArray(member, _selected_members) == -1) {
-                    _selected_members.push(member);
-                    var input = $("#im_browser_filter").val();
-                    _filterListView(input);
-                    $("#im_browser_tokens").prepend(item_member_token(member, avatar));
-                    $("#im_browser_filter").focus().val('').removeAttr('placeholder');
-                }
-            }
+
             _updateGo();
 
             _updateParticipantCountHint();

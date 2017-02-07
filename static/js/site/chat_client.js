@@ -2,7 +2,7 @@ $(document).ready(function () {
     var socket = io.connect("/chat");
 
     socket.on('connect', function () {
-        console.log(" connected")
+        console.log(" connected");
         socket.emit('join', {"user": userlogged});
     });
 
@@ -11,24 +11,24 @@ $(document).ready(function () {
     socket.on('disconnect', function () {
         console.log(" disconnect")
     });
-    
+
     $('#channel-list').on('click', '.channel', function () {
         active_chat(this.id, 'channel');
         activeChannel.name = this.id;
         activeChannel.type = "room";
-        ReloadRoom( activeChannel.name);       
+        ReloadRoom(activeChannel.name);
         socket.emit('subcribe', {"room": activeChannel.name});
     });
 
     $('#im-list').on('click.select_member', '.member', function () {
         active_chat($(this).attr('data-name'), 'user');
-        if(activeChannel.type=='room'){
-             socket.emit('unsubcribe', {"room": activeChannel.name});
+        if (activeChannel.type == 'room') {
+            socket.emit('unsubcribe', {"room": activeChannel.name});
         }
         activeChannel.name = $(this).attr("data-name");
         activeChannel.type = "private";
-        Reload( activeChannel.name);
-        CheckReaded( activeChannel.name);
+        Reload(activeChannel.name);
+        CheckReaded(activeChannel.name);
     });
 
     //input
@@ -86,7 +86,6 @@ $(document).ready(function () {
 });
 
 var messaged = function (data) {
-
     switch (data.action) {
         case 'error':
             console.log('error', data);
@@ -103,7 +102,6 @@ var messaged = function (data) {
         case 'call_join_request':
             console.log('call_join_request', data);
             openIncomingCall(data);
-
             break;
         case 'message':
             console.log('message', data);
