@@ -18,6 +18,7 @@ $(document).ready(function () {
         activeChannel.type = "room";
         ReloadRoom( activeChannel.name);       
         socket.emit('subcribe', {"room": activeChannel.name});
+        CheckReadedRoom(activeChannel.name);
     });
 
     $('#im-list').on('click.select_member', '.member', function () {
@@ -107,6 +108,7 @@ var messaged = function (data) {
             break;
         case 'message':
             console.log('message', data);
+          
             var date = $(".day_container:last").find('ts-message:last').attr('data-date');
             var day = new Date(date).getDate();
 
@@ -203,6 +205,22 @@ var CheckReaded = function (channel) {
     };
     var urlapi = apiUrl + 'checkreaded/';
     // request(urlapi, 'POST', null, {channel: channel}, exc, null);
+
+};
+var CheckReaded = function (channel) {
+    var exc = function (response) {
+        window.get_comuncation_me();
+    };
+    var urlapi = apiUrl + 'checkreaded/';
+     request(urlapi, 'POST', null, {channel: channel}, exc, null);
+
+};
+var CheckReadedRoom = function (room) {
+    var exc = function (response) {
+        get_chanel();
+    };
+    var urlapi = apiUrl + 'checkreadedroom/';
+     request(urlapi, 'POST', null, {room: room}, exc, null);
 
 };
 

@@ -41,6 +41,7 @@ class Profile(models.Model):
     company = models.ForeignKey(Company, related_name='company')
     type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
     socketsession = models.CharField(max_length=255, null=True, blank=True)
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -306,13 +307,6 @@ class Communication(models.Model):
     stared = models.BooleanField(default=False)
 
 
-class MessageReaded(models.Model):
-    user_read = models.ForeignKey(User, related_name='user_readed')
-    message = models.ForeignKey(MessageEvent, related_name="message")
-    date_read = models.DateTimeField(auto_now_add=True)
-    un_reader_msg = models.IntegerField()
-
-
 # Message EVENTS End
 @receiver(post_delete, sender=Profile)
 def delete_user_profile(sender, instance=None, **kwargs):  # no borrar nada de aqui
@@ -332,20 +326,20 @@ def add_un_reader(sender, instance=None, **kwargs):
     try:
         if instance.messageevent_ptr.room is None:
             messages = MessageEvent.objects.all().filter(readed=False,
-                                                         user_to__username=instance.messageevent_ptr.user_to.username) \
-                .values("user_from__username").annotate(total=Count('readed')).order_by('user_to')
+                                                         user_to__user__username=instance.messageevent_ptr.user_to.user.username) \
+                .values("user_from__user__username").annotate(total=Count('readed')).order_by('user_to')
             print messages[0]['total']
 
-            communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to,
+            communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to.user,
                                                          # user_me=instance.messageevent_ptr.user_from
-                                                         user_connect=instance.messageevent_ptr.user_from).update(
+                                                         user_connect=instance.messageevent_ptr.user_from.user).update(
                 # user_connect=instance.messageevent_ptr.user_to
                 date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
 
             if not communication:
-                Communication.objects.create(user_me=instance.messageevent_ptr.user_to,
+                Communication.objects.create(user_me=instance.messageevent_ptr.user_to__user,
                                              # user_me=instance.messageevent_ptr.user_from
-                                             user_connect=instance.messageevent_ptr.user_from,
+                                             user_connect=instance.messageevent_ptr.user_from__user,
                                              # user_connect=instance.messageevent_ptr.user_to
                                              un_reader_msg=messages[0]['total'])
 

@@ -87,18 +87,6 @@ $(document).ready(function () {
         team_users();
     });
 
-    $('#channel-list').on('click', '.channel', function () {
-        active_chat(this.id, 'channel');
-        activeChannel = this.id;
-        Reload(activeChannel);
-    });
-
-    $('#im-list').on('click.select_member', '.member', function () {
-        active_chat($(this).attr('data-name'), 'user');
-        activeChannel = $(this).attr("data-name");
-        Reload(activeChannel);
-        CheckReaded(activeChannel);
-    });
 
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
@@ -159,7 +147,7 @@ $(document).ready(function () {
         var urlapi = hostUrl + '/call/aa';
         $.redirect(urlapi,
             {
-                usercall: activeChannel,
+                usercall: activeChannel.name,
                 csrfmiddlewaretoken: getCookie("csrftoken")
             },
             'POST', '_blank');
@@ -291,7 +279,15 @@ $(document).ready(function () {
             window.usercomunication = response;
 
             var list = $('#im-list');
+
             $('#dm_header_count').html(response.length);
+            if (response.length > 0) {
+
+                $('#header_count').removeClass("hidden");
+
+            } else {
+                $('#header_count').addClass("hidden");
+            }
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list ('
                 + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
@@ -315,16 +311,6 @@ $(document).ready(function () {
         });
     };
 
-    var active_chat = function (search, type) {
-        sendTo.type = type;
-        if (type == "channel") {
-            $('#channel_title').html('#' + search);
-            sendTo.to = search;
-        } else {
-            $('#channel_title').html('@' + search);
-            sendTo.to = search;
-        }
-    };
 
     var users_online = function () {
         var exc = function (response) {
@@ -529,8 +515,9 @@ $(document).ready(function () {
 
         _$im_browser.on("click.push_user", ".im_browser_go", function () {
             active_chat(_selected_members[0], 'user');
-            activeChannel = _selected_members[0];
-            Reload(activeChannel);
+            activeChannel.name = _selected_members[0];
+            activeChannel.type = "private";
+            Reload(activeChannel.name);
 
             _selected_members.forEach(function (item) {
                 var data = {user_connect: {username: item}, un_reader_msg: 0};
@@ -587,8 +574,9 @@ $(document).ready(function () {
 
             if (member == userlogged) {
                 active_chat(member, 'user');
-                activeChannel = member;
-                Reload(activeChannel);
+                activeChannel.name = member;
+                activeChannel.type = "private";
+                Reload(activeChannel.name);
                 _selected_members.pop();
                 _close();
             }
@@ -946,6 +934,30 @@ $(document).ready(function () {
             end: end
         }
     };
+    window.active_chat = function (search, type) {
+        sendTo.type = type;
+        if (type == "channel") {
+            $('#channel_title').html('#' + search);
+            sendTo.to = search;
+        } else {
+            $('#channel_title').html('@' + search);
+            sendTo.to = search;
+        }
+    };
+    window.get_chanel = function () {
+        var exc = function (response) {
+            var list = $('#channel-list').html('');
+            $('#channel_header_count').html(response.items.length);
+            response.items.forEach(function (item) {
+                var obj = {slug: item.slug, name: item.name};
+                channels.push(obj);
+                list.append(item_channel_list(item));
+            });
+        };
+
+        var urlapi = apiUrl + 'room_user_list/' + userlogged + '/';
+        request(urlapi, 'GET', null, null, exc, null);
+    };
 
     var showDeleteInvitations = function () {
         var count = $('#invite_rows').find('.admin_invite_row.clearfix').length;
@@ -966,4 +978,28 @@ $(document).ready(function () {
     window.hide_menu_files = function () {
         $('#menu.menu').addClass('hidden');
     };
+    var awayCallback = function () {
+
+        var urlapi = apiUrl + 'checkactive/';
+        request(urlapi, 'POST', null, {status: "False"}, null, null);
+    };
+    var awayBackCallback = function () {
+        var urlapi = apiUrl + 'checkactive/';
+        request(urlapi, 'POST', null, {status: "True"}, null, null);
+    };
+    var hiddenCallback = function () {
+        var urlapi = apiUrl + 'checkactive/';
+        request(urlapi, 'POST', null, {status: "False"}, null, null);
+    };
+    var visibleCallback = function () {
+        var urlapi = apiUrl + 'checkactive/';
+        request(urlapi, 'POST', null, {status: "True"}, null, null);
+    };
+    var idle = new Idle({
+        onHidden: hiddenCallback,
+        onVisible: visibleCallback,
+        onAway: awayCallback,
+        onAwayBack: awayBackCallback,
+        awayTimeout: '3000' //away with default value of the textbox300000
+    }).start();
 });

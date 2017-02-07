@@ -51,7 +51,8 @@ def room_by_user_list(request, username):
 
     if len(data) > 1:
         for key, room in enumerate(data):
-            messages = MessageEvent.objects.all().filter(readed=False, room__name=room["name"]). \
+            messages = MessageEvent.objects.all().filter(readed=False, room__name=room["name"],
+                                                         user_to__user__username=username). \
                 values("room__name") \
                 .annotate(
                 total=Count('readed')) \
@@ -63,7 +64,8 @@ def room_by_user_list(request, username):
 
     else:
         if len(data) == 1:
-            messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"]). \
+            messages = MessageEvent.objects.all().filter(readed=False, room__name=data[0]["name"],
+                                                         user_to__user__username=username). \
                 values("room__name") \
                 .annotate(
                 total=Count('readed')) \
@@ -316,7 +318,7 @@ def get_comunicaton_me(request, username):
 def check_readed_me(request):
     if request.method == "POST":
         username = request.POST.get("channel")
-        MessageEvent.objects.filter(readed=False, user_to__username=request.user.username, user_from__username=username) \
+        MessageEvent.objects.filter(readed=False, user_to__username=request.user.username, user_from__user__username=username) \
             .update(readed=True)
         communication = Communication.objects.all().filter(user_me__username=request.user.username,
                                                            user_connect__username=username) \
@@ -324,15 +326,27 @@ def check_readed_me(request):
 
     return Response({"result": "ok"})
 
+
 @api_view(['POST'])
 def check_readed_room(request):
     if request.method == "POST":
-        username = request.POST.get("channel")
-        MessageReaded.objects.filter(readed=False, user_to__username=request.user.username, user_from__username=username) \
+        room = request.POST.get("room")
+        MessageEvent.objects.filter(readed=False, user_to__user__username=request.user.username,
+                                    room__name=room) \
             .update(readed=True)
 
-
     return Response({"result": "ok"})
+
+
+@api_view(['POST'])
+def check_active(request):
+    if request.method == "POST":
+        room = True if request.POST.get("status") == "True" else False
+
+        Profile.objects.filter(user__username=request.user.username) \
+            .update(active=room)
+
+        return Response({"result": "ok"})
 
 
 @api_view(['GET'])  # TODO: poner en url

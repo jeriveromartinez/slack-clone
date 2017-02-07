@@ -26,6 +26,10 @@ def message(self, msg):
         msg["name"] = msg["user_from"]
         msg["image"] = user_from.image.url
         self.emit_to_room(self.room, 'message', msg)
+        for item in room.users.all():
+            read = True if item.active == True else False
+            MessageInstEvent.objects.create(room=room, user_from=user_from, user_to=item, msg=msg["message"],
+                                            date_pub=timezone.now(), type="message_int_event", readed=read)
     else:
         profile = Profile.objects.get(user__username=msg["user_from"])
         self.sendMessage(profile.socketsession, 'message', {"error": "Room not exits"})
@@ -198,13 +202,14 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
             user_from = Profile.objects.get(user__username=msg["user_from"])
             if user_from:
                 profile = Profile.objects.get(user__username=msg["user_to"])
-                message = MessageInstEvent.objects.create(user_to=profile.user, user_from=user_from,
+                read = True if profile.active == True else False
+                message = MessageInstEvent.objects.create(user_to=profile, user_from=user_from,
                                                           msg=msg["message"],
-                                                          type="message_int_event")
+                                                          type="message_int_event", readed=read)
                 msg["action"] = "message"
                 msg["user_to"] = profile.user.username
-                msg["user_from"] = user_from.username
-                msg["image"] = profile.image
+                msg["user_from"] = user_from.user.username
+                msg["image"] = user_from.image.url
                 msg["date_pub"] = str(message.date_pub.isoformat())
                 self.sendMessage(profile.socketsession, 'message', msg)
 
