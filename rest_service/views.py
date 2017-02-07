@@ -346,8 +346,9 @@ def check_active(request):
 
         Profile.objects.filter(user__username=request.user.username) \
             .update(active=room)
-        # Communication.objects.filter(user)
-
+        Communication.objects.filter(user_connect__username=request.user.username,
+                                     user_me__username=request.user.username)\
+            .update(active=room)
         return Response({"result": "ok"})
 
 

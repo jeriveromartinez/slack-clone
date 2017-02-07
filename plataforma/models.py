@@ -305,6 +305,7 @@ class Communication(models.Model):
     date_pub = models.DateTimeField(auto_now_add=True)
     un_reader_msg = models.IntegerField()
     stared = models.BooleanField(default=False)
+    active = models.BooleanField(default=False)
 
 
 # Message EVENTS End
