@@ -401,7 +401,7 @@ var item_direct_message = function (data, pos) {
         '<i class="ts_icon ts_icon_enter ts_icon_inherit enter_icon float_right sky_blue small_top_margin"></i>' +
         '<div class="overflow_ellipsis bold im_display_name_container">' +
         '<span class="im_display_name">' + data.user.username + '</span>' +
-        ' <span class="im_presence"><span class="presence active member_presence_USLACKBOT" title="active">' +
+        ' <span class="im_presence"><span class="presence active" title="active">' +
         '<i aria-hidden="true" class="ts_icon ts_icon_heart presence_icon"></i></span></span></div>' +
         '<div class="im_slackbot_greeting italic subtle_silver overflow_ellipsis"><!--data.msg--></div></div>'; //TODO: put the last message
     return item;

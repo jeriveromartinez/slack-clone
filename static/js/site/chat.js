@@ -12,10 +12,10 @@ $(document).ready(function () {
     $(function () {
         initView();
         get_chanel();
-        window.get_comuncation_me();
+        get_comuncation_me();
 
         setInterval(function () {
-            window.get_comuncation_me();
+            get_comuncation_me();
         }, 10000);
         active_chat(userlogged, 'user');
         getUsersCompany();
@@ -288,10 +288,12 @@ $(document).ready(function () {
 
     window.get_comuncation_me = function () {
         var exc = function (response) {
-            window.usercomunication = response;
-
             var list = $('#im-list');
             $('#dm_header_count').html(response.length);
+
+            if (response.length > 0)
+                $('#header_count').removeClass('hidden');
+
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list ('
                 + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
@@ -311,7 +313,7 @@ $(document).ready(function () {
         var urlapi = apiUrl + 'cummunication_me/' + userlogged + '/';
 
         $.when(users_online()).done(function () {
-            request(urlapi, 'GET', 'jsonp', null, exc, null);
+            request(urlapi, 'GET', 'json', null, exc, null);
         });
     };
 
@@ -597,22 +599,12 @@ $(document).ready(function () {
             var member = row.attr('data-member-id');
             var avatar = row.attr('data-img');
 
-            if (member == userlogged) {
-                active_chat(member, 'user');
-                activeChannel.name = member;
-                activeChannel.type = "private";
-                Reload(activeChannel.name);
-                _selected_members.pop();
-                _close();
-            }
-            else {
-                if ($.inArray(member, _selected_members) == -1) {
-                    _selected_members.push(member);
-                    var input = $("#im_browser_filter").val();
-                    _filterListView(input);
-                    $("#im_browser_tokens").prepend(item_member_token(member, avatar));
-                    $("#im_browser_filter").focus().val('').removeAttr('placeholder');
-                }
+            if ($.inArray(member, _selected_members) == -1) {
+                _selected_members.push(member);
+                var input = $("#im_browser_filter").val();
+                _filterListView(input);
+                $("#im_browser_tokens").prepend(item_member_token(member, avatar));
+                $("#im_browser_filter").focus().val('').removeAttr('placeholder');
             }
             _updateGo();
 
@@ -959,7 +951,18 @@ $(document).ready(function () {
             end: end
         }
     };
-    
+
+    window.active_chat = function (search, type) {
+        sendTo.type = type;
+        if (type == "channel") {
+            $('#channel_title').html('#' + search);
+            sendTo.to = search;
+        } else {
+            $('#channel_title').html('@' + search);
+            sendTo.to = search;
+        }
+    };
+
     window.get_chanel = function () {
         var exc = function (response) {
             var list = $('#channel-list').html('');
@@ -994,28 +997,33 @@ $(document).ready(function () {
     window.hide_menu_files = function () {
         $('#menu.menu').addClass('hidden');
     };
+
     var awayCallback = function () {
 
         var urlapi = apiUrl + 'checkactive/';
         request(urlapi, 'POST', null, {status: "False"}, null, null);
     };
+
     var awayBackCallback = function () {
         var urlapi = apiUrl + 'checkactive/';
         request(urlapi, 'POST', null, {status: "True"}, null, null);
     };
+
     var hiddenCallback = function () {
         var urlapi = apiUrl + 'checkactive/';
         request(urlapi, 'POST', null, {status: "False"}, null, null);
     };
+
     var visibleCallback = function () {
         var urlapi = apiUrl + 'checkactive/';
         request(urlapi, 'POST', null, {status: "True"}, null, null);
     };
+
     var idle = new Idle({
         onHidden: hiddenCallback,
         onVisible: visibleCallback,
         onAway: awayCallback,
         onAwayBack: awayBackCallback,
-        awayTimeout: '3000' //away with default value of the textbox300000
+        awayTimeout: '180000' //away with default value of the textbox300000
     }).start();
 });

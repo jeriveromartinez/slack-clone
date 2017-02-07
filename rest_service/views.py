@@ -318,7 +318,8 @@ def get_comunicaton_me(request, username):
 def check_readed_me(request):
     if request.method == "POST":
         username = request.POST.get("channel")
-        MessageEvent.objects.filter(readed=False, user_to__username=request.user.username, user_from__user__username=username) \
+        MessageEvent.objects.filter(readed=False, user_to__user__username=request.user.username,
+                                    user_from__user__username=username) \
             .update(readed=True)
         communication = Communication.objects.all().filter(user_me__username=request.user.username,
                                                            user_connect__username=username) \
@@ -345,6 +346,7 @@ def check_active(request):
 
         Profile.objects.filter(user__username=request.user.username) \
             .update(active=room)
+        # Communication.objects.filter(user)
 
         return Response({"result": "ok"})
 
