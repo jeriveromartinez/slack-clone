@@ -106,27 +106,30 @@ var messaged = function (data) {
             break;
         case 'message':
             console.log('message', data);
-          
-            var date = $(".day_container:last").find('ts-message:last').attr('data-date');
-            var day = new Date(date).getDate();
+            if ((data.room != undefined && data.room.name == activeChannel.name) || ( data.user_from == activeChannel.name)) {
 
-            if (day == new Date().getDate()) {
-                var elemt = $(".day_container:last").find('.day_msgs');
-                if (elemt.length) {
-                    elemt.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
+                var date = $(".day_container:last").find('ts-message:last').attr('data-date');
+                var day = new Date(date).getDate();
+
+                if (day == new Date().getDate()) {
+                    var elemt = $(".day_container:last").find('.day_msgs');
+                    if (elemt.length) {
+                        elemt.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
+                    }
+                } else {
+                    var day_container = $("<div class='day_container'></div>");
+                    day_container.append(date_divider(new Date()));
+                    var day_msgs = $("<div class='day_msgs'></div>");
+                    day_msgs.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
+                    day_container.append(day_msgs);
+
+                    $("#msgs_div").append(day_container);
                 }
-            } else {
-                var day_container = $("<div class='day_container'></div>");
-                day_container.append(date_divider(new Date()));
-                var day_msgs = $("<div class='day_msgs'></div>");
-                day_msgs.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
-                day_container.append(day_msgs);
 
-                $("#msgs_div").append(day_container);
+                var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
+                $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
             }
 
-            var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
-            $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
             break;
         case 'system':
             console.log('message', data);
@@ -210,7 +213,7 @@ var CheckReaded = function (channel) {
         window.get_comuncation_me();
     };
     var urlapi = apiUrl + 'checkreaded/';
-     request(urlapi, 'POST', null, {channel: channel}, exc, null);
+    request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
 var CheckReadedRoom = function (room) {
@@ -218,7 +221,7 @@ var CheckReadedRoom = function (room) {
         get_chanel();
     };
     var urlapi = apiUrl + 'checkreadedroom/';
-     request(urlapi, 'POST', null, {room: room}, exc, null);
+    request(urlapi, 'POST', null, {room: room}, exc, null);
 
 };
 

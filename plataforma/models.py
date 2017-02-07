@@ -337,9 +337,9 @@ def add_un_reader(sender, instance=None, **kwargs):
                 date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
 
             if not communication:
-                Communication.objects.create(user_me=instance.messageevent_ptr.user_to__user,
+                Communication.objects.create(user_me=instance.messageevent_ptr.user_to.user,
                                              # user_me=instance.messageevent_ptr.user_from
-                                             user_connect=instance.messageevent_ptr.user_from__user,
+                                             user_connect=instance.messageevent_ptr.user_from.user,
                                              # user_connect=instance.messageevent_ptr.user_to
                                              un_reader_msg=messages[0]['total'])
 
