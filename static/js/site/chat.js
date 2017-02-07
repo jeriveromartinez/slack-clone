@@ -87,6 +87,18 @@ $(document).ready(function () {
         team_users();
     });
 
+    $('#channel-list').on('click', '.channel', function () {
+        active_chat(this.id, 'channel');
+        activeChannel = this.id;
+        Reload(activeChannel);
+    });
+
+    $('#im-list').on('click.select_member', '.member', function () {
+        active_chat($(this).attr('data-name'), 'user');
+        activeChannel = $(this).attr("data-name");
+        Reload(activeChannel);
+        CheckReaded(activeChannel);
+    });
 
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
@@ -279,15 +291,7 @@ $(document).ready(function () {
             window.usercomunication = response;
 
             var list = $('#im-list');
-
             $('#dm_header_count').html(response.length);
-            if (response.length > 0) {
-
-                $('#header_count').removeClass("hidden");
-
-            } else {
-                $('#header_count').addClass("hidden");
-            }
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list ('
                 + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
@@ -311,6 +315,27 @@ $(document).ready(function () {
         });
     };
 
+    window.active_chat = function (search, type) {
+        sendTo.type = type;
+        if (type == "channel") {
+            $('#channel_title').html('#' + search);
+            sendTo.to = search;
+        } else {
+            $('#channel_title').html('@' + search);
+            $('#im_meta a.member_preview_link.member_name').html('@' + search);
+            var exc = function (response) {
+                var name = response.user.first_name + ' ' + response.user.last_name;
+                name = (name != ' ') ? name : 'Unnamed';
+                $('span.member_real_name').html(name);
+                var image = (response.image != null) ? response.image : '/static/images/ava_0022-48.png';
+                $('#im_meta a.member_preview_link.member_image').css('background-image', 'url(' + image + ')');
+            };
+
+            var urlapi = apiUrl + 'profile/' + search + '/';
+            request(urlapi, 'GET', null, null, exc, null);
+            sendTo.to = search;
+        }
+    };
 
     var users_online = function () {
         var exc = function (response) {
