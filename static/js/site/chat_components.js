@@ -17,13 +17,8 @@ var item_channel_list = function (data) {
 };
 
 var item_user_list = function (data) {
-    var minutes = 30 * 60 * 1000;
-    var now = new Date().getTime();
-    var old = new Date(data.date_pub).getTime()
-    var dif = now - old;
-    var date = dif > minutes;
     var un_reader_msg = (data.un_reader_msg > 0) ? 'active' : 'hidden';
-    var active = (date) ? 'away' : 'active';
+    var active = (!data.active) ? 'away' : 'active';
     return '<li id="' + name.toLowerCase() + '"  data-name="' + data.user_connect.username.toLowerCase() + '" class="member cursor_pointer">' +
         '<div class="hotness_icon hidden"><span class="emoji-outer emoji-sizer" style="background: url(/static/images/sheet_apple_64_indexed_256colors.png) 57.5% 65%;background-size:4100%"></span>' +
         '</div><a href="#' + data.user_connect.username + '" class="im_name nuc">' +
