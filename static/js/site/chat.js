@@ -959,16 +959,7 @@ $(document).ready(function () {
             end: end
         }
     };
-    window.active_chat = function (search, type) {
-        sendTo.type = type;
-        if (type == "channel") {
-            $('#channel_title').html('#' + search);
-            sendTo.to = search;
-        } else {
-            $('#channel_title').html('@' + search);
-            sendTo.to = search;
-        }
-    };
+    
     window.get_chanel = function () {
         var exc = function (response) {
             var list = $('#channel-list').html('');
