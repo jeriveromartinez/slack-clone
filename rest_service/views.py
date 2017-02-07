@@ -264,7 +264,8 @@ def get_message_by_user_recent(request, username, page):
 @api_view(['GET'])
 def get_message_by_room(request, room, page):
     messages = MessageEvent.objects.filter(
-        Q(messageinstevent__room__name=room) | Q(filesharedevent__room__name=room)).order_by('-date_pub')
+        (Q(messageinstevent__room__name=room) & Q(messageinstevent__user_to__user__username=request.user.username)) | Q(
+            filesharedevent__room__name=room)).order_by('-date_pub')
 
     paginator = Paginator(messages, 20)
 
@@ -347,14 +348,14 @@ def check_active(request):
         Profile.objects.filter(user__username=request.user.username) \
             .update(active=room)
         Communication.objects.filter(user_connect__username=request.user.username,
-                                     user_me__username=request.user.username)\
+                                     user_me__username=request.user.username) \
             .update(active=room)
         return Response({"result": "ok"})
 
 
-@api_view(['GET'])  # TODO: poner en url
+@api_view(['GET'])
 def delete_comunicaton_me(request, username):
-    user = Communication.objects.get(user_connect__username=username)
+    user = Communication.objects.get(user_me__username=request.user.username, user_connect__username=username)
     try:
         user.delete()
     except User.DoesNotExist as e:

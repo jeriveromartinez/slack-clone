@@ -329,20 +329,20 @@ def add_un_reader(sender, instance=None, **kwargs):
             messages = MessageEvent.objects.all().filter(readed=False,
                                                          user_to__user__username=instance.messageevent_ptr.user_to.user.username) \
                 .values("user_from__user__username").annotate(total=Count('readed')).order_by('user_to')
-            print messages[0]['total']
 
-            communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to.user,
-                                                         # user_me=instance.messageevent_ptr.user_from
-                                                         user_connect=instance.messageevent_ptr.user_from.user).update(
-                # user_connect=instance.messageevent_ptr.user_to
-                date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
+            if len(messages)>0:
+                communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to.user,
+                                                             # user_me=instance.messageevent_ptr.user_from
+                                                             user_connect=instance.messageevent_ptr.user_from.user).update(
+                    # user_connect=instance.messageevent_ptr.user_to
+                    date_pub=datetime.now(), un_reader_msg=messages[0]['total'])
 
-            if not communication:
-                Communication.objects.create(user_me=instance.messageevent_ptr.user_to.user,
-                                             # user_me=instance.messageevent_ptr.user_from
-                                             user_connect=instance.messageevent_ptr.user_from.user,
-                                             # user_connect=instance.messageevent_ptr.user_to
-                                             un_reader_msg=messages[0]['total'])
+                if not communication:
+                    Communication.objects.create(user_me=instance.messageevent_ptr.user_to.user,
+                                                 # user_me=instance.messageevent_ptr.user_from
+                                                 user_connect=instance.messageevent_ptr.user_from.user,
+                                                 # user_connect=instance.messageevent_ptr.user_to
+                                                 un_reader_msg=messages[0]['total'])
 
 
     except MessageEvent.DoesNotExist as e:

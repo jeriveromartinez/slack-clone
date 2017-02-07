@@ -106,7 +106,7 @@ var messaged = function (data) {
             break;
         case 'message':
             console.log('message', data);
-            if (( data.room.name == activeChannel.name) || ( data.user_from == activeChannel.name)) {
+            if (( data.room == activeChannel.name) || ( data.user_from == activeChannel.name)) {
 
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();

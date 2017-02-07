@@ -1,7 +1,7 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = {name: "public", type: "room"}, users = [], typesL = [];
+var panel = null, channels = [], activeChannel = {name: "public", type: "public"}, users = [], typesL = [];
 window.users_logged = 0;
 window.userFileStatus = false;
 
@@ -87,8 +87,6 @@ $(document).ready(function () {
         team_users();
     });
 
-    
-
     //show user profile
     $('#member_account_item').on('click.show_profile', function () {
         showProfile($(this).attr('data-user'));
@@ -155,17 +153,24 @@ $(document).ready(function () {
     });
 
     $('li button[data-qa="im_close"]').on('click.close_user_connect', function (e) {
-        /*e.preventDefault();
-         alert('close');
-         console.log($(this).parent('li'));*/
-        e.stopPropagation();
+
+        alert('close', this.attr('data-user'));
+
+
     });
 
     $('ul#im-list').on('click.remove_chat_user', 'button[data-user]', function (e) {
-        console.log($(this).attr('data-user'));
-        var element = $('ul#im-list').find('li[data-name= ' + $(this).attr('data-user') + ']')[0];
-        element.parentNode.removeChild(element);
-        $('#msgs_div').html('');
+        var user = $(this).attr('data-user');
+        var _this=this;
+        var exc = function (response) {
+            var element = $('ul#im-list').find('li[data-name= ' + $(_this).attr('data-user') + ']')[0];
+            element.parentNode.removeChild(element);
+            $('#msgs_div').html('');
+        };
+        var urlapi = apiUrl + 'deletecummunication/' + user + '/';
+        request(urlapi, 'GET', null, null, exc, null);
+
+
         e.stopPropagation();
     });
 
@@ -278,10 +283,10 @@ $(document).ready(function () {
     window.get_comuncation_me = function () {
         var exc = function (response) {
             var list = $('#im-list');
-            $('#dm_header_count').html(response.length);
+            $('#direct_messages_header #dm_header_count').html(response.length);
 
             if (response.length > 0)
-                $('#header_count').removeClass('hidden');
+                $('#direct_messages_header .header_count').removeClass('hidden');
 
             $('span#active_members_count_value').html(response.length);
             $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list ('

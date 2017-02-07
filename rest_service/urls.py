@@ -51,6 +51,8 @@ urlpatterns = [
         'rest_service.views.get_archived_msg', name='api_message_archived'),
     url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
+    url(r'^deletecummunication/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.delete_comunicaton_me',
+        name='api-deletecummunication'),
     url(r'^checkreaded/$', 'rest_service.views.check_readed_me', name='api-checkread'),
     url(r'^checkreadedroom/$', 'rest_service.views.check_readed_room', name='api-checkreadroom'),
     url(r'^checkactive/$', 'rest_service.views.check_active', name='api-checkreadroom'),
