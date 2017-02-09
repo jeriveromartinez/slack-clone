@@ -189,7 +189,7 @@ def get_file(request, slug):
 
 @login_required(login_url='/login/')
 def get_messages(request):
-    msg = MessageEvent.objects.filter(Q(user_to=request.user) | Q(user_from=request.user)).order_by(
+    msg = MessageEvent.objects.filter(Q(user_to__user=request.user) | Q(user_from__user=request.user)).order_by(
         'date_pub').distinct()[:10]
     return render_to_response('account/acc_conversations.html', {'msg': msg}, context_instance=RequestContext(request))
 
