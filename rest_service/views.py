@@ -148,10 +148,10 @@ def get_user_by_company(request):
     if request.method == "POST":
         term = request.POST.get("term")
         if term:
-            users = Profile.objects.filter(company__slug=request.user.get_profile().company.slug,
+            users = Profile.objects.filter(company__slug=request.user.user_profile.company.slug,
                                            user__username__icontains=term)
         else:
-            users = Profile.objects.filter(company__slug=request.user.get_profile().company.slug)
+            users = Profile.objects.filter(company__slug=request.user.user_profile.company.slug)
     serializer = ProfileSerializer(users, many=True)
     return Response(serializer.data)
 
@@ -290,10 +290,10 @@ def get_archived_msg(request, type, username, page):
     else:
         if username == "everyBody":
 
-            msg = MessageEvent.objects.filter(room__in=request.user.get_profile().users_room).order_by(
+            msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room.all()).order_by(
                 '-date_pub')  # TODO: ver si esto funciona
         else:
-            msg = MessageEvent.objects.filter(Q(room__in=request.user.get_profile().users_room) & Q(
+            msg = MessageEvent.objects.filter(Q(room__in=request.user.user_profile.users_room.all()) & Q(
                 user_from__comment_user__comment__contains=username)).order_by('-date_pub')
     paginator = Paginator(msg, 5)
 
@@ -304,8 +304,8 @@ def get_archived_msg(request, type, username, page):
     except Exception as e:
         data = paginator.page(paginator.num_pages)
         print e.message
-    serializer = MessageEventSerializer(data, many=True)
-    return Response(serializer.data)
+
+    return Response(get_generic_msg(data.object_list))
 
 
 @api_view(['GET'])
@@ -559,7 +559,7 @@ def search_option(request, data):
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
                     :10:1]
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
-                    'user': ProfileSerializer(request.user.get_profile(), many=False).data}
+                    'user': ProfileSerializer(request.user.user_profile, many=False).data}
         elif info[0] == "after":
             msg = MessageEvent.objects.filter(date_pub__gte=info[1],
                                               user_to__user__username__exact=request.user.username).order_by(
@@ -568,7 +568,7 @@ def search_option(request, data):
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
                     :10:1]
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
-                    'user': ProfileSerializer(request.user.get_profile(), many=False).data}
+                    'user': ProfileSerializer(request.user.user_profile, many=False).data}
 
         return Response(data)
     except Exception as e:
@@ -586,7 +586,7 @@ def send_invitations(request):
 
             for element in invite:
                 slug = slugify(datetime.now().__str__() + element['email'])
-                UserInvited.objects.create(email=element['email'], company=request.user.get_profile().company,
+                UserInvited.objects.create(email=element['email'], company=request.user.user_profile.company,
                                            name=element['fName'], last_name=element['lName'], slug_activation=slug)
                 invite_url = site_info['root'] + reverse('app:register_create', kwargs={'slug': slug})
                 Email.send(element, 'topic', invite_url)
