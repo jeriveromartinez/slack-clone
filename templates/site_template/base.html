@@ -1,35 +1,31 @@
-{% load staticfiles %}
-{% load dumper %}
+{% load staticfiles %} {% load dumper %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} | Slack</title>
     {% block styles %}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/slack/rollup-plastic.css' %}">
-    {% endblock %}
-    <link id="favicon" rel="shortcut icon" href="{% static 'images/favicon-32.png' %}"
-          sizes="16x16 32x32 48x48" type="image/png">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack/rollup-plastic.css' %}"> {% endblock %}
+    <link id="favicon" rel="shortcut icon" href="{% static 'images/favicon-32.png' %}" sizes="16x16 32x32 48x48" type="image/png">
     <link rel="icon" href="{% static 'images/app-256.png' %}" sizes="256x256" type="image/png">
     <script>
         var userlogged = '{{ request.user.username }}',
-                companyuser = '{{ request.user.user_profile.company.slug }}',
-                apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
-                hostUrl = window.location.protocol + '//' + window.location.host,
-                cdn_url = hostUrl + '/static';
+            companyuser = '{{ request.user.user_profile.company.slug }}',
+            apiUrl = window.location.protocol + '//' + window.location.host + '/api/',
+            hostUrl = window.location.protocol + '//' + window.location.host,
+            cdn_url = hostUrl + '/static';
     </script>
 </head>
+
 <body class="{% block body_style %}light_theme nav_close{% endblock %}">
-{% block body %}
-    {% block header %}{% endblock %}
-    {% block navbar %}{% endblock %}
+    {% block body %} {% block header %}{% endblock %} {% block navbar %}{% endblock %}
     <!--Nav Bar-->
     <div id="{% block id_container %}page{% endblock %}" class="{% block class_container %}{% endblock %}">
         {% block container %}{% endblock %}
     </div>
-    {% block footer %}{% endblock %}
-{% endblock %}
-{% block js_libraries %}{% endblock %}
-{% block js %}{% endblock %}
+    <!--Nav Bar-->
+    {% block footer %}{% endblock %} {% endblock %} {% block js_libraries %}{% endblock %} {% block js %}{% endblock %}
 </body>
+
 </html>
