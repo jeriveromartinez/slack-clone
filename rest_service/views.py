@@ -247,7 +247,7 @@ def get_message_by_user_recent(request, username, page):
              messageinstevent__user_from__user__username=username))) | Q(
             filesharedevent__user_from__user__username=username)).order_by('-date_pub')
 
-    paginator = Paginator(messages, 20)
+    paginator = Paginator(messages, 10)
 
     if not page:
         page = 1
@@ -543,8 +543,7 @@ def search_option(request, data):
             user = Profile.objects.get(user__username__exact=from_user)
             msg = MessageEvent.objects.filter(user_from__user__username__exact=from_user,
                                               user_to__user__username__exact=request.user.username).order_by(
-                '-date_pub')[
-                  :10:1]
+                '-date_pub')[:10:1]
             files = SlackFile.objects.filter(author__user__username__exact=from_user,
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
                     :10:1]
@@ -552,17 +551,20 @@ def search_option(request, data):
                     'user': ProfileSerializer(user, many=False).data}
         elif info[0] == "before":
             msg = MessageEvent.objects.filter(date_pub__lte=info[1],
-                                              user_to__username__exact=request.user.username).order_by('-date_pub')
+                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')[
+                  :10:1]
             files = SlackFile.objects.filter(uploaded__lte=info[1],
-                                             shared_to__username__exact=request.user.username).order_by('-uploaded')
+                                             shared_to__username__exact=request.user.username).order_by('-uploaded')[
+                    :10:1]
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
                     'user': ProfileSerializer(request.user.user_profile, many=False).data}
         elif info[0] == "after":
             msg = MessageEvent.objects.filter(date_pub__gte=info[1],
                                               user_to__user__username__exact=request.user.username).order_by(
-                '-date_pub')
+                '-date_pub')[:10:1]
             files = SlackFile.objects.filter(uploaded__gte=info[1],
-                                             shared_to__username__exact=request.user.username).order_by('-uploaded')
+                                             shared_to__username__exact=request.user.username).order_by('-uploaded')[
+                    :10:1]
             data = {'msg': get_generic_msg(msg), 'file': get_generic_files(files),
                     'user': ProfileSerializer(request.user.user_profile, many=False).data}
 

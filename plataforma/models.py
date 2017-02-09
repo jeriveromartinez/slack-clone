@@ -344,7 +344,6 @@ def add_un_reader(sender, instance=None, **kwargs):
                                                  # user_connect=instance.messageevent_ptr.user_to
                                                  un_reader_msg=messages[0]['total'])
 
-
     except MessageEvent.DoesNotExist as e:
         print e  # SIGNAL
 

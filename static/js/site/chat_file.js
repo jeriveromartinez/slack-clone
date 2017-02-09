@@ -740,9 +740,10 @@ $(document).ready(function () {
                 addMsgResult(resp.msg, image);
                 addUserResult(response);
                 searchResult.user = response;
+                searchResult.user.image = image;
             };
 
-            var userSearch = (resp.msg.length > 0) ? resp.msg[0].user_from.username : userlogged,
+            var userSearch = (resp.msg.length > 0) ? resp.msg[0].user_from.user.username : userlogged,
                 urlapi = apiUrl + 'profile/' + userSearch + '/';
             request(urlapi, 'GET', 'json', null, dataUser, null, null);
 

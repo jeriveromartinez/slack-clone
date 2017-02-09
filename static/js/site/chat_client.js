@@ -59,9 +59,15 @@ $(document).ready(function () {
                 e.preventDefault();
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();
+
                 if (day == new Date().getDate()) {
                     var elemt = $(".day_container:last").find('.day_msgs');
-                    if (elemt.length) {
+                    var content = $('span.message_body').parent('div.message_content:last');
+                    var lastUserMsg = $(content).parent('ts-message:last').attr('data-user');
+
+                    if (elemt.length && lastUserMsg == userlogged) {
+                        $(content).append('<span class="message_body">' + message + '</span>');
+                    } else {
                         elemt.append(ts_message(userImage, userlogged, message, new Date().toISOString()));
                     }
                 }
@@ -76,13 +82,9 @@ $(document).ready(function () {
                 }
 
                 var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
-
                 $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
-
             }
-
         }
-
     });
 });
 
@@ -107,14 +109,19 @@ var messaged = function (data) {
         case 'message':
             console.log('message', data);
             if (( data.room == activeChannel.name) || ( data.user_from == activeChannel.name)) {
-
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();
 
                 if (day == new Date().getDate()) {
-                    var elemt = $(".day_container:last").find('.day_msgs');
-                    if (elemt.length) {
-                        elemt.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
+                    var content = $('span.message_body').parent('div.message_content:last');
+                    var lastUserMsg = $(content).parent('ts-message:last').attr('data-user');
+
+                    if (lastUserMsg == data.user_from)
+                        $(content).append('<span class="message_body">' + data.message + '</span>');
+                    else {
+                        var elemt = $(".day_container:last").find('.day_msgs');
+                        if (elemt.length)
+                            elemt.append(ts_message(data.image, data.user_from, data.message, data.date_pub));
                     }
                 } else {
                     var day_container = $("<div class='day_container'></div>");
@@ -166,17 +173,23 @@ var onDataLoaded = function (data) {
                 currentday_container.append(day_msgs);
                 container.prepend(currentday_container).fadeIn('slow');
             } else if (date.getDate() == currentday) {
-                //var day_msgs = $("<div class='day_msgs'></div>");
                 day_msgs = $(".day_container:first").find('.day_msgs');
+                var content = $('span.message_body').parent('div.message_content:first');
+                var lastUserMsg = $(content).parent('ts-message:first').attr('data-user');
+                var msgBody = $(content).find('.message_body')[0];
 
-                switch (item.type) {
-                    case 'message_int_event':
-                        day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub)).fadeIn('slow');
-                        break;
-                    case 'file_shared_event':
-                        console.log('event');
-                        break;
-                }
+                if (lastUserMsg == item.user_from.user.username) {
+                    //$(content).append('<span class="message_body">' + item.msg + '</span>');
+                    $(msgBody).prepend('<span class="message_body">' + item.msg + '</span>');
+                } else
+                    switch (item.type) {
+                        case 'message_int_event':
+                            day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub)).fadeIn('slow');
+                            break;
+                        case 'file_shared_event':
+                            console.log('event');
+                            break;
+                    }
             }
 
             var date = $(".day_container:first").find('ts-message:first').attr('data-date');
@@ -188,26 +201,20 @@ var onDataLoaded = function (data) {
 };
 
 var initScroll = function (name) {
-    var url = "/api/messages/" + name + "/";
+    //var url = "/api/messages/" + name + "/";
+    var urlapi = apiUrl + 'messages/' + name + '/1/';
+    request(urlapi, 'GET', null, null, onDataLoaded, null);
 
-    $("#msgs_scroller_div").infiniteScroll({
-        dataPath: url,
-        itemSelector: 'ts-message.message:first',
-        onDataLoading: null,// function (page),
-        onDataLoaded: onDataLoaded, // function (data)
-        onDataError: null // function (page)
-    });
-
-};
-
-var CheckReaded = function (channel) {
-    var exc = function (response) {
-        window.get_comuncation_me();
-    };
-    var urlapi = apiUrl + 'checkreaded/';
-    // request(urlapi, 'POST', null, {channel: channel}, exc, null);
+    /*$("#msgs_scroller_div").infiniteScroll({
+     dataPath: url,
+     itemSelector: 'ts-message.message:first',
+     onDataLoading: null,// function (page),
+     onDataLoaded: onDataLoaded, // function (data)
+     onDataError: null // function (page)
+     });*/
 
 };
+
 var CheckReaded = function (channel) {
     var exc = function (response) {
         window.get_comuncation_me();
@@ -216,6 +223,7 @@ var CheckReaded = function (channel) {
     request(urlapi, 'POST', null, {channel: channel}, exc, null);
 
 };
+
 var CheckReadedRoom = function (room) {
     var exc = function (response) {
         get_chanel();
@@ -310,7 +318,4 @@ function openIncomingCall(data) {
         div_avatar.empty();
         div_name.empty();
     }
-
-
 }
-
