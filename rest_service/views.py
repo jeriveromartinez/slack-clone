@@ -284,14 +284,17 @@ def get_message_by_room(request, room, page):
 @api_view(['GET'])
 def get_archived_msg(request, type, username, page):
     if type == "user":
-        msg = MessageEvent.objects.filter(
-            Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by(
-            '-date_pub')
+        msg = MessageEvent.objects.all().filter((Q(messageinstevent__user_from__user__username=username)) |
+                                                Q(filesharedevent__user_from__user__username=username)) \
+            .order_by('user_from__user__username', '-date_pub').distinct()
+        # msg = MessageEvent.objects.filter(
+        #     Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by(
+        #     '-date_pub')
     else:
         if username == "everyBody":
 
             msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room.all()).order_by(
-                '-date_pub')  # TODO: ver si esto funciona
+                '-date_pub').distinct()  # TODO: ver si esto funciona
         else:
             msg = MessageEvent.objects.filter(Q(room__in=request.user.user_profile.users_room.all()) & Q(
                 user_from__comment_user__comment__contains=username)).order_by('-date_pub')
@@ -374,7 +377,7 @@ def get_recente_message_user(request, username):
         Q(filesharedevent__user_from__user__username=username),
 
         date_pub__gte=datetime.now() - timedelta(days=8)) \
-        .order_by('user_from__username', 'date_pub').distinct()
+        .order_by('user_from__user__username', 'date_pub').distinct()
 
     reponse = {}
     result = []
@@ -388,7 +391,7 @@ def get_recente_message_user(request, username):
         if isinstance(inst, FileCommentEvent):
             serializer = FileCommentEventSerializer(inst)
             result.append(serializer.data)
-        profile = Profile.objects.get(user__username=inst.user_from.username)
+        profile = Profile.objects.get(user__username=inst.user_from.user.username)
 
         result[(len(result) - 1)]['image'] = profile.image.url
         reponse['items'] = result

@@ -71,8 +71,8 @@ var loadPageUser = function (search) {
         $('#active_members_count_value').html(response.length);
         $.each(response, function (key, item) {
             var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
-                userUrl = '/account/profile/' + item.user_from.username + '/',
-                names = item.user_from.first_name + ' ' + item.user_from.last_name;
+                userUrl = '/account/profile/' + item.user_from.user.username + '/',
+                names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
             var style;
             if (key + 1 == response.length)
                 style = 'top_padding';
@@ -80,7 +80,7 @@ var loadPageUser = function (search) {
                 style = 'bottom_border';
             else
                 style = null;
-            $(list).append(msgArchiveComponent(date, null, item.user_from.username, style));
+            $(list).append(msgArchiveComponent(date, null, item.user_from.user.username, style));
         });
     };
 
@@ -96,8 +96,8 @@ var loadPageChannel = function (search) {
         $('#active_members_count_value').html(response.length);
         $.each(response, function (key, item) {
             var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
-                userUrl = '/account/profile/' + item.user_from.username + '/',
-                names = item.user_from.first_name + ' ' + item.user_from.last_name;
+                userUrl = '/account/profile/' + item.user_from.user.username + '/',
+                names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
             var style;
             if (key + 1 == response.length)
                 style = 'top_padding';
@@ -105,7 +105,7 @@ var loadPageChannel = function (search) {
                 style = 'bottom_border';
             else
                 style = null;
-            $(list).append(msgArchiveComponent(date, null, item.user_from.username, style));
+            $(list).append(msgArchiveComponent(date, null, item.user_from.user.username, style));
         });
     };
     search = (search != undefined) ? search : 'everyBody';
