@@ -1,5 +1,6 @@
+window.socket = io.connect("/chat");
 $(document).ready(function () {
-    var socket = io.connect("/chat");
+
 
     socket.on('connect', function () {
         console.log(" connected");
@@ -140,6 +141,9 @@ var messaged = function (data) {
             break;
         case 'system':
             console.log('message', data);
+            break;
+        case 'file':
+            console.log('file', data);
             break;
     }
 };

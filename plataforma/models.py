@@ -84,7 +84,7 @@ class SlackFile(PolymorphicModel):
     shared_to = models.ManyToManyField(User)
     shared_in = models.ManyToManyField(Room)
     uploaded = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(blank=False, null=False, editable=False)
+    slug = models.SlugField(blank=False, null=False, editable=False, unique=True)
     extension = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -94,7 +94,7 @@ class SlackFile(PolymorphicModel):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title + ' - ' + datetime.now().__str__())
         super(SlackFile, self).save(*args, **kwargs)
 
     @staticmethod
@@ -296,7 +296,7 @@ class FileSharedEvent(MessageEvent):
 
 
 class FileCommentEvent(MessageEvent):
-    file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
+    file_comment = models.ForeignKey(FilesComment, related_name='files_comments_event')
 
 
 class Communication(models.Model):
@@ -330,7 +330,7 @@ def add_un_reader(sender, instance=None, **kwargs):
                                                          user_to__user__username=instance.messageevent_ptr.user_to.user.username) \
                 .values("user_from__user__username").annotate(total=Count('readed')).order_by('user_to')
 
-            if len(messages)>0:
+            if len(messages) > 0:
                 communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to.user,
                                                              # user_me=instance.messageevent_ptr.user_from
                                                              user_connect=instance.messageevent_ptr.user_from.user).update(

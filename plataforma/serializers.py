@@ -67,7 +67,7 @@ class SlackFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SlackFile
-        fields = ('slug', 'title', 'uploaded', 'author', 'count_comment', 'extension')
+        fields = ('slug', 'title', 'uploaded', 'author', 'count_comment', 'extension', 'files_comments',)
 
 
 class TypeSerializer(serializers.Serializer):
@@ -99,8 +99,8 @@ class ImageUpSerializer(FilesUpSerializer):
 
 
 class MessageEventSerializer(serializers.ModelSerializer):
-    user_to = UserSerializer()
-    user_from = UserSerializer()
+    user_to = ProfileFileSerializer()
+    user_from = ProfileFileSerializer()
 
     class Meta:
         model = MessageEvent
@@ -118,7 +118,6 @@ class MessageInstEventSerializer(MessageEventSerializer):
 
 class FileSharedEventSerializer(MessageEventSerializer):
     file_up = SlackFileSerializer()
-    user_shared = UserSerializer()
 
     class Meta(MessageEventSerializer.Meta):
         model = FileSharedEvent
@@ -126,8 +125,7 @@ class FileSharedEventSerializer(MessageEventSerializer):
 
 
 class FileCommentEventSerializer(MessageEventSerializer):
-    file_up = SlackFileSerializer()
-    user_comment = UserSerializer()
+    file_comment = FileCommentsSerializer()
 
     class Meta(MessageEventSerializer.Meta):
         model = FileCommentEvent

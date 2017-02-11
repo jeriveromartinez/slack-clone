@@ -690,7 +690,7 @@ $(document).ready(function () {
         }
 
         function _filterListView(input) {
-            var urlapi = apiUrl + 'company_room';
+            var urlapi = apiUrl + 'company_room/';
             $.when(users_online()).done(function () {
                 request(urlapi, 'POST', null, {term: input}, render, null);
             });
@@ -795,9 +795,9 @@ $(document).ready(function () {
 
             function exc() {
                 alert(data.result);
-            };
+            }
 
-            var urlapi = apiUrl + 'create_room';
+            var urlapi = apiUrl + 'create_room/';
             request(urlapi, 'POST', null, data, exc, null);
 
         });

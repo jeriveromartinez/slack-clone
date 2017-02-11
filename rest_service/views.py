@@ -194,13 +194,13 @@ def get_files_user_details(request, username):
 
 @api_view(['GET', 'POST'])
 def get_details_file(request, file, user_post=None):
-    _file = SlackFile.objects.filter(slug=file)[0]  # todo: see the way to get the last 10 comments
+    _file = SlackFile.objects.get(slug=file)  # todo: see the way to get the last 10 comments
     if request.method == "GET":
         return Response(get_file_by_type(_file))
     if request.method == "POST":
-        user = Profile.objects.get(username=user_post)
+        profile = Profile.objects.get(user__username=user_post)
         comment = request.POST['comment']
-        FilesComment.objects.create(file_up=_file, comment=comment, user=user)
+        FilesComment.objects.create(file_up=_file, comment=comment, user=profile.user)
         return Response({'data': 'save'})
 
 
@@ -216,22 +216,22 @@ def share_file(request, slug):
     post = request.POST
     try:
         file = SlackFile.objects.get(slug=slug)
-        user_from = Profile.objects.get(username=request.user.username)
+        user_from = Profile.objects.get(user__username=request.user.username)
         cond, shrared_to = post['shared'].split('_')
         if cond == "channel":
             room = Room.objects.get(slug=shrared_to)
             for item in room.users.all():
                 file.shared_to.add(item.user)
-            FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event', file_up=file)
+            FileSharedEvent.objects.create(room=room, user_from=user_from, type='file_shared_event', file_up=file)
             file.save()  # TODO: send notifications if user is connect
         else:
-            user = Profile.objects.get(username=shrared_to)
-            file.shared_to.add(user)
-            FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event', file_up=file)
+            profile = Profile.objects.get(user__username=shrared_to)
+            file.shared_to.add(profile.user)
+            FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event', file_up=file)
             file.save()
 
         if post['comment']:
-            FilesComment.objects.create(file_up=file, comment=post['comment'], user=user_from)
+            FilesComment.objects.create(file_up=file, comment=post['comment'], user=user_from.user)
         return Response({'success': 'ok'})
     except Exception as e:
         print e.message
@@ -403,7 +403,7 @@ def get_url_user_path(request, username):
 @api_view(['POST', 'GET'])
 def save_files(request, from_user):
     try:
-        author = Profile.objects.filter(user__username=from_user)[0]
+        author = Profile.objects.get(user__username=from_user)
         post = request.POST
         file = request.FILES['file']
         title = file.name
@@ -422,14 +422,14 @@ def save_files(request, from_user):
                 create.shared_in.add(room)
                 for item in room.users.all():
                     create.shared_to.add(item.user)
-                FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
-                                               file_up=create)  # TODO: enviar si esta logueado
+                # FileSharedEvent.objects.create(room=room, user_from=request.user, type='file_shared_event',
+                #                                file_up=create)  # TODO: enviar si esta logueado
                 create.save()
             else:
-                user = Profile.objects.get(username=channel)
-                user_from = Profile.objects.get(username=request.user.username)
-                create.shared_to.add(user)
-                FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event',
+                profile = Profile.objects.get(user__username=channel)
+                user_from = Profile.objects.get(user__username=request.user.username)
+                create.shared_to.add(profile.user)
+                FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event',
                                                file_up=create)
                 create.save()
 
@@ -521,7 +521,7 @@ def snippet_create(request):
                                                file_up=create)  # TODO: enviar si esta logueado
                 create.save()
             else:
-                user = Profile.objects.get(username=channel)
+                user = Profile.objects.get(user__username=channel)
                 create.shared_to.add(user)
                 FileSharedEvent.objects.create(user_to=user, user_from=user_from, type='file_shared_event',
                                                file_up=create)
@@ -551,7 +551,8 @@ def search_option(request, data):
                     'user': ProfileSerializer(user, many=False).data}
         elif info[0] == "before":
             msg = MessageEvent.objects.filter(date_pub__lte=info[1],
-                                              user_to__user__username__exact=request.user.username).order_by('-date_pub')[
+                                              user_to__user__username__exact=request.user.username).order_by(
+                '-date_pub')[
                   :10:1]
             files = SlackFile.objects.filter(uploaded__lte=info[1],
                                              shared_to__username__exact=request.user.username).order_by('-uploaded')[
@@ -692,9 +693,10 @@ def get_generic_msg(msg):
             serializer = MessageInstEventSerializer(inst.messageinstevent)
             result.append(serializer.data)
         if isinstance(inst, FileSharedEvent):
-            serializer = FileSharedEventSerializer(inst)
+            serializer = FileSharedEventSerializer(inst.filesharedevent)
             result.append(serializer.data)
         if isinstance(inst, FileCommentEvent):
-            serializer = FileCommentEventSerializer(inst)
+            serializer = FileCommentEventSerializer(inst.filecommentevent)
             result.append(serializer.data)
+    print result
     return result

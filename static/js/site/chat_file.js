@@ -271,7 +271,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#details_tab').on('click.menufiledetail', '.file_actions', function () {
+    $('#details_tab').on('click.menu_file_detail', '.file_actions', function () {
         var options = {
             copyLink: $(this).attr('data-file-url'),
             opeNeWind: $(this).attr('data-file-url'),
@@ -301,7 +301,7 @@ $(document).ready(function () {
         sendSearch($('input#search_terms').val());
     });
 
-    $('body').on('pick.datepicker', function (e) {
+    $('body').on('pick.date_picker', function (e) {
         var search = $('input#search_terms');
         $(search).val(splitSearch($(search).val()) + moment(e.date, moment.ISO - 8601).format("YYYY-M-D"));
         $('[data-toggle="datepicker"]').datepicker("hide");
@@ -636,12 +636,19 @@ $(document).ready(function () {
 
         $('#go.btn').unbind('click.share_send').unbind('click.file_send').unbind('click.snippet_send').on('click.share_send', function (e) {
             e.preventDefault();
-            instance.data.append('shared', $('.modal-body').find('#shared_to').val());
+            var shared_to = $('.modal-body').find('#shared_to').val();
+            instance.data.append('shared', shared_to);
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
 
             var exc = function (response) {
                 if (response.success == "ok") {
                     modal.destroy();
+                    socket.emit('message', {
+                        action: "file",
+                        shared_to: shared_to,
+                        user_from: userlogged,
+                        file: $('.modal-body').find('#shared_to').val()
+                    });
                 }
             };
 
