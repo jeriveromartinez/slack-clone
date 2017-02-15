@@ -15,7 +15,7 @@ from polymorphic.models import PolymorphicModel
 
 class Company(models.Model):
     name = models.CharField(max_length=255, default="Company name", null=False)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.OneToOneField(User, related_name='owner')
 
@@ -36,7 +36,7 @@ class Profile(models.Model):
         (u'guest', u'Guest'),
     )
 
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True, max_length=255)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     company = models.ForeignKey(Company, related_name='company')
     type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
@@ -206,7 +206,7 @@ class GoogleDocs(SlackFile):
 
 
 class FilesUp(SlackFile):
-    file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True)
+    file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True, max_length=255)
     size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -219,7 +219,7 @@ class FilesUp(SlackFile):
 
 
 class ImageUp(SlackFile):
-    image_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
+    image_up = models.FileField(upload_to='upload/images/', blank=True, null=True, max_length=255)
     size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -262,7 +262,7 @@ class UserInvited(models.Model):
     company = models.ForeignKey(Company, related_name='invited_company')
     name = models.CharField(blank=True, null=True, max_length=50)
     last_name = models.CharField(blank=True, null=True, max_length=50)
-    slug_activation = models.SlugField(null=True, blank=True)
+    slug_activation = models.SlugField(null=True, blank=True, max_length=255)
 
 
 # Message EVENTS Begin
