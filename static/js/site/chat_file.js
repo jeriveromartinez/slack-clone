@@ -647,7 +647,7 @@ $(document).ready(function () {
                         action: "file",
                         shared_to: shared_to,
                         user_from: userlogged,
-                        file: $('.modal-body').find('#shared_to').val()
+                        file: slug
                     });
                 }
             };

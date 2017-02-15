@@ -229,16 +229,16 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                 msg["action"] = "message"
                 msg["user_to"] = profile.user.username
                 msg["user_from"] = user_from.user.username
-                msg["image"] = user_from.image.url
+                msg["image"] = user_from.image.url if user_from.image else ''
                 msg["date_pub"] = str(message.date_pub.isoformat())
                 self.sendMessage(profile.socketsession, 'message', msg)
         elif msg['action'] == "file":
             user_from = Profile.objects.get(user__username=msg["user_from"])
             file = SlackFile.objects.get(slug__exact=msg['file'])
             if user_from:
-                to = msg["shared_to"].split('_')
-                if to[0] == 'user':
-                    profile = Profile.objects.get(user__username=msg["user_to"])
+                to, user = msg["shared_to"].split('_')
+                if to == 'user':
+                    profile = Profile.objects.get(user__username=user)
                     read = True if profile.active == True else False
                     message = FileSharedEvent.objects.create(user_to=profile, user_from=user_from,
                                                              file_up=file, type="file_shared_event", readed=read)
@@ -246,7 +246,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                     msg["file"] = file.slug
                     msg["user_to"] = profile.user.username
                     msg["user_from"] = user_from.user.username
-                    msg["image"] = user_from.image.url
+                    msg["image"] = user_from.image.url if user_from.image else ''
                     msg["date_pub"] = str(message.date_pub.isoformat())
                     self.sendMessage(profile.socketsession, 'message', msg)
                 else:
@@ -254,7 +254,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                     msg["action"] = "file"
                     msg["file"] = file.slug
                     msg["user_from"] = msg["user_from"]
-                    msg["image"] = user_from.image.url
+                    msg["image"] = user_from.image.url if user_from.image else ''
                     self.emit_to_room(self.room, 'message', msg)
                     for item in room.users.all():
                         read = True if item.active == True else False

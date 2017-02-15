@@ -84,7 +84,7 @@ class SlackFile(PolymorphicModel):
     shared_to = models.ManyToManyField(User)
     shared_in = models.ManyToManyField(Room)
     uploaded = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(blank=False, null=False, editable=False, unique=True)
+    slug = models.SlugField(blank=False, null=False, editable=False, unique=True, max_length=255)
     extension = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -94,7 +94,7 @@ class SlackFile(PolymorphicModel):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + ' - ' + datetime.now().__str__())
+        self.slug = slugify(self.title + ' - ' + self.author.company.slug+' - ' + self.author.user.username)
         super(SlackFile, self).save(*args, **kwargs)
 
     @staticmethod
