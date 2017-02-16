@@ -243,14 +243,18 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                     message = FileSharedEvent.objects.create(user_to=profile, user_from=user_from,
                                                              file_up=file, type="file_shared_event", readed=read)
                     msg["action"] = "file"
-                    msg["file"] = file.slug
-                    msg["user_to"] = profile.user.username
+                    msg["title"] = file.title
                     msg["user_from"] = user_from.user.username
+                    msg["extension"] = file.extension
+                    msg["url"] = self.getFileUrl(file)
                     msg["image"] = user_from.image.url if user_from.image else ''
                     msg["date_pub"] = str(message.date_pub.isoformat())
+                    msg["type"] = self.typeFile(file)
+                    msg["data"] = self.getFileData(file)
+
                     self.sendMessage(profile.socketsession, 'message', msg)
                 else:
-                    room = Room.objects.get(slug__exact=to[1])
+                    room = Room.objects.get(slug__exact=to)
                     msg["action"] = "file"
                     msg["file"] = file.slug
                     msg["user_from"] = msg["user_from"]
@@ -275,3 +279,32 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
         if socket:
             pkt = dict(type="event", name=event, args=args, endpoint=self.ns_name)
             socket.send_packet(pkt)
+
+    @staticmethod
+    def typeFile(file):
+        if isinstance(file, Post):
+            return 'post_type'
+        elif isinstance(file, Snippet):
+            return 'snippet_type'
+        elif isinstance(file, FilesUp):
+            return 'file_type'
+        elif isinstance(file, ImageUp):
+            return 'image_type'
+
+    @staticmethod
+    def getFileUrl(file):
+        if isinstance(file, FilesUp):
+            return file.file_up.url
+        elif isinstance(file, ImageUp):
+            return file.image_up.url
+        else:
+            return ''
+
+    @staticmethod
+    def getFileData(file):
+        if isinstance(file, Post):
+            return file.text
+        elif isinstance(file, Snippet):
+            return file.code
+        else:
+            return ''

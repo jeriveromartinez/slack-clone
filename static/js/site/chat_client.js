@@ -108,7 +108,6 @@ var messaged = function (data) {
             openIncomingCall(data);
             break;
         case 'message':
-            console.log('message', data);
             if (( data.room == activeChannel.name) || ( data.user_from == activeChannel.name)) {
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();
@@ -137,13 +136,35 @@ var messaged = function (data) {
                 var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
                 $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
             }
-
             break;
         case 'system':
             console.log('message', data);
             break;
         case 'file':
             console.log('file', data);
+            if (( data.room == activeChannel.name) || ( data.user_from == activeChannel.name)) {
+                var date = $(".day_container:last").find('ts-message:last').attr('data-date');
+                var day = new Date(date).getDate();
+
+                if (day == new Date().getDate()) {
+                    var content = $('span.message_body').parent('div.message_content:last');
+                    var lastUserMsg = $(content).parent('ts-message:last').attr('data-user');
+                    var elemt = $(".day_container:last").find('.day_msgs');
+                    if (elemt.length)
+                        elemt.append(ts_message_shared(data.image, data.user_from, data.title, data.date_pub));
+                } else {
+                    var day_container = $("<div class='day_container'></div>");
+                    day_container.append(date_divider(new Date()));
+                    var day_msgs = $("<div class='day_msgs'></div>");
+                    day_msgs.append(ts_message_shared(data.image, data.user_from, data.title, data.date_pub));
+                    day_container.append(day_msgs);
+
+                    $("#msgs_div").append(day_container);
+                }
+
+                var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
+                $("#msgs_scroller_div").animate({scrollTop: heigth}, 200);
+            }
             break;
     }
 };
