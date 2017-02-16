@@ -47,8 +47,8 @@ urlpatterns = [
         name='api-message'),
     url(r'^messagesroom/(?P<room>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$', 'rest_service.views.get_message_by_room',
         name='api-message_room'),
-    url(r'^messages-archived/(?P<type>[a-z]+)/(?P<username>[0-9a-zA-Z_-]+)/(?P<page>[0-9]+)/$',
-        'rest_service.views.get_archived_msg', name='api_message_archived'),
+
+
     url(r'^cummunication_me/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.get_comunicaton_me',
         name='api-unread'),
     url(r'^deletecummunication/(?P<username>[0-9a-zA-Z_-]+)/$', 'rest_service.views.delete_comunicaton_me',
@@ -61,4 +61,7 @@ urlpatterns = [
     url(r'^usercompany/$', 'rest_service.views.get_user_by_company', name='api-usercomapny$'),
     url(r'^search/(?P<data>.+)/$', 'rest_service.views.search_option', name='search_option'),
     url(r'^email/send/$', 'rest_service.views.send_invitations', name='send_invitations'),
+    url(r'^roomhistory/$', 'rest_service.views.get_subcrite_room', name='roomhistory'),
+    url(r'^userhistory/$', 'rest_service.views.get_user_history',
+        name='api-get_user_history'),
 ]

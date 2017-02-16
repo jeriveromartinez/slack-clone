@@ -153,18 +153,39 @@ var sharedFile = function (item, date, userUrl) {
 			<span id="select_share_at_channel_list" class="modal_input_note indifferent_grey"></span></p></div>';
 };
 
-var msgArchiveComponent = function (date, avatar, username, style) {
+var msgArchiveComponent = function (date, item,style ) {
     style = (style != undefined) ? style : 'top_padding bottom_border';
-    //first (class="bottom_border")
-    //last (class="top_padding")
-    //other (class="top_padding bottom_border")
+    
     return '<div class="' + style + '"><div class="position_relative"><span class="avatar">\
                     <span class=" member_preview_link member_image thumb_48"\
-                          style="background-image: url(' + avatar + ')" aria-hidden="true"></span>\
-                </span></div><h4 class="no_bottom_margin" style="padding-left: 4rem;"><a href="/archives/D2KQ7LY23" class="slate_blue">' + username + '</a>\
-            </h4><div class="col span_4_of_6 subtle_silver" style="padding-left: 4rem;"><p class="small no_bottom_margin"> Julio: ooe locols </p>\
-            </div><div class="col span_2_of_6 subtle_silver hide_on_mobile">Dec 9th, 2016</div>\
+                          style="background-image: url(' + item.user_from.image + ')" aria-hidden="true"></span>\
+                </span></div><h4 class="no_bottom_margin" style="padding-left: 4rem;"><a href="/archivesuser/' + item.user_from.user.username  + '" class="slate_blue">' + item.user_from.user.username + '</a>\
+            </h4><div class="col span_4_of_6 subtle_silver" style="padding-left: 4rem;"><p class="small no_bottom_margin">' + item.user_from.user.username + ' : ' + item.msg + ' </p>\
+            </div><div class="col span_2_of_6 subtle_silver hide_on_mobile">' + date + '</div>\
             <div class="clear_both"></div></div>';
+};
+var msgChanelComponent = function (date, item, style) {
+    style = (style != undefined) ? style : 'top_padding bottom_border';
+
+    return '<div class="' + style + '">'+
+            '<h4 class="no_bottom_margin">'+
+                '<a href="/archiveschannel/' + item.room + '" class="slate_blue">'+
+                    '<ts-icon class="ts_icon_channel"></ts-icon>'+
+                    item.room+' </a>'+
+            '</h4>'+
+            '<div class="col span_4_of_6">'+
+                '<p class="subtle_silver no_bottom_margin emoji_replace_on_load">'+
+                    '<em>'+item.msg.msg+'</em>'+
+                '</p>'+
+            '</div>'+
+           ' <div class="col span_1_of_6 subtle_silver">'+
+                '<span class="show_on_mobile inline">Created by </span><a href="/team/jeriverom" class="member_name member subtle_silver" data-member-id="U2KQ35L2Z">'+item.creator+'</a>'+
+           ' </div>'+
+            '<div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">'+
+                '<i class="ts_icon ts_icon_user"></i>'+item.count+
+            '</div>'+
+            '<div class="clear_both"></div>'+
+        '</div>';
 };
 
 var msgSearch = function (item, image) {

@@ -288,7 +288,7 @@ class MessageInstEvent(MessageEvent):
     msg = models.TextField(blank=False, null=False)
 
     def __str__(self):
-        return self.user_from.username + ' <-> ' + self.user_to.username + ' -> ' + self.date_pub.__str__()
+        return self.user_from.user.username + ' <-> ' + self.user_to.user.username + ' -> ' + self.date_pub.__str__()
 
 
 class FileSharedEvent(MessageEvent):

@@ -14,6 +14,23 @@ $(document).ready(function () {
             $(this).val('');
         }
     });
+    $("[data-select]").click(function () {
+        var value = $(this).attr('data-select');
+        if (value == "user") {
+            $('[data-select="user"]').addClass('selected');
+            $('[data-select="channel"]').removeClass('selected');
+            $('[data-tab="direct-messages"]').addClass('selected');
+            $('[data-tab="channels"]').removeClass('selected');
+             loadPageUser('');
+        }
+        if (value == "channel") {
+            $('[data-select="channel"]').addClass('selected');
+            $('[data-select="user"]').removeClass('selected');
+            $('[data-tab="channels"]').addClass('selected');
+            $('[data-tab="direct-messages"]').removeClass('selected');
+            loadPageChannel('');
+        }
+    })
 });
 
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
@@ -69,10 +86,10 @@ var loadPageUser = function (search) {
         var list = $('#im_list');
         $(list).html('');
         $('#active_members_count_value').html(response.length);
-        $.each(response, function (key, item) {
-            var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
-                userUrl = '/account/profile/' + item.user_from.user.username + '/',
-                names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
+        $.each(response.items, function (key, item) {
+            var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+                // userUrl = '/account/profile/' + item.user_from.user.username + '/',
+                // names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
             var style;
             if (key + 1 == response.length)
                 style = 'top_padding';
@@ -80,24 +97,24 @@ var loadPageUser = function (search) {
                 style = 'bottom_border';
             else
                 style = null;
-            $(list).append(msgArchiveComponent(date, null, item.user_from.user.username, style));
+            $(list).append(msgArchiveComponent(date, item, style));
         });
     };
 
-    var urlapi = apiUrl + 'messages-archived/user/' + userlogged + '/1/';
+    var urlapi = apiUrl + 'userhistory/';
     (search != undefined && search != '') ? urlapi += search + '/' : '';
     request(urlapi, 'GET', null, null, exc, null);
 };
 
 var loadPageChannel = function (search) {
     var exc = function (response) {
-        var list = $('#im_list');
+        var list = $('#channel_list');
         $(list).html('');
         $('#active_members_count_value').html(response.length);
-        $.each(response, function (key, item) {
-            var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
-                userUrl = '/account/profile/' + item.user_from.user.username + '/',
-                names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
+        $.each(response.items, function (key, item) {
+            var date = moment(item.date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+            // userUrl = '/account/profile/' + item.user_from.user.username + '/',
+            // names = item.user_from.user.first_name + ' ' + item.user_from.user.last_name;
             var style;
             if (key + 1 == response.length)
                 style = 'top_padding';
@@ -105,10 +122,10 @@ var loadPageChannel = function (search) {
                 style = 'bottom_border';
             else
                 style = null;
-            $(list).append(msgArchiveComponent(date, null, item.user_from.user.username, style));
+            $(list).append(msgChanelComponent(date, item, style));
         });
     };
     search = (search != undefined) ? search : 'everyBody';
-    var urlapi = apiUrl + 'messages-archived/channel/' + search + '/1/';
+    var urlapi = apiUrl + 'roomhistory/';
     request(urlapi, 'GET', null, null, exc, null);
 };

@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from django.contrib.sessions.models import Session
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django.db.models import Q
+from django.db.models import Q, Max, Avg
 from django.utils import timezone
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -282,33 +282,33 @@ def get_message_by_room(request, room, page):
 
 
 @api_view(['GET'])
-def get_archived_msg(request, type, username, page):
-    if type == "user":
-        msg = MessageEvent.objects.all().filter((Q(messageinstevent__user_from__user__username=username)) |
-                                                Q(filesharedevent__user_from__user__username=username)) \
-            .order_by('user_from__user__username', '-date_pub').distinct()
-        # msg = MessageEvent.objects.filter(
-        #     Q(user_to__user__username__exact=username) | Q(user_from__user__username__exact=username)).order_by(
-        #     '-date_pub')
-    else:
-        if username == "everyBody":
+def get_subcrite_room(request):
+    reponse = {}
+    data = []
+    for item in request.user.user_profile.users_room.all():
+        msg = MessageEvent.objects.filter(Q(room=item)).order_by('-date_pub')[0]
+        data.append(
+            {'msg': get_msg(msg), 'room': item.name, 'date': msg.date_pub, 'creator': item.usercreator.user.username,
+             'count': item.users.count()})
+    reponse['items'] = data
+    return Response(reponse)
 
-            msg = MessageEvent.objects.filter(room__in=request.user.user_profile.users_room.all()).order_by(
-                '-date_pub').distinct()  # TODO: ver si esto funciona
-        else:
-            msg = MessageEvent.objects.filter(Q(room__in=request.user.user_profile.users_room.all()) & Q(
-                user_from__comment_user__comment__contains=username)).order_by('-date_pub')
-    paginator = Paginator(msg, 5)
 
-    if page is None:
-        page = 1
-    try:
-        data = paginator.page(page)
-    except Exception as e:
-        data = paginator.page(paginator.num_pages)
-        print e.message
-
-    return Response(get_generic_msg(data.object_list))
+@api_view(['GET'])
+def get_user_history(request):
+    reponse = {}
+    data = []
+    msg = MessageEvent.objects.filter(
+        Q(room=None) & (Q(user_to__user__username=request.user.username))
+    ).values("user_from") \
+        .annotate(
+        last=Max('date_pub')) \
+        .order_by('user_from')
+    for item in msg:
+        target = MessageEvent.objects.filter(user_from=item['user_from'], date_pub__exact=item['last'])[0]
+        data.append(get_msg(target))
+    reponse['items'] = data
+    return Response(reponse)
 
 
 @api_view(['GET'])
@@ -377,7 +377,7 @@ def get_recente_message_user(request, username):
         Q(filesharedevent__user_from__user__username=username),
 
         date_pub__gte=datetime.now() - timedelta(days=8)) \
-        .order_by('user_from__user__username', 'date_pub').distinct()
+        .order_by('user_from__user__username', '-date_pub').distinct()
 
     reponse = {}
     result = []
@@ -702,4 +702,18 @@ def get_generic_msg(msg):
         if isinstance(inst, FileCommentEvent):
             serializer = FileCommentEventSerializer(inst)
             result.append(serializer.data)
+    return result
+
+
+def get_msg(msg):
+    result = []
+    if isinstance(msg, MessageInstEvent):
+        serializer = MessageInstEventSerializer(msg)
+        result = serializer.data
+    if isinstance(msg, FileSharedEvent):
+        serializer = FileSharedEventSerializer(msg)
+        result = serializer.data
+    if isinstance(msg, FileCommentEvent):
+        serializer = FileCommentEventSerializer(msg)
+        result = serializer.data
     return result

@@ -3,16 +3,19 @@
 {% load staticfiles %}
 <h1><i class="ts_icon ts_icon_archive thrills_purple"></i> Message Archives</h1>
 <div id="channel_archives_tabs" class="tab_set on_neutral_grey">
-    <a class="archives_channel_tab " href="#archives" data-select="channel">Channels</a>
-    <a href="#direct-messages" class="selected" data-select="user">Direct Messages</a>
+    <a class="archives_channel_tab selected" href="#archives" data-select="channel">Channels</a>
+    <a href="#direct-messages" class="direct_channel_tab " data-select="user">Direct Messages</a>
     {% comment %}<a href="/archives/archived" class="secondary ">Archived Channels</a>{% endcomment %}
     <i class="tab_caret ts_icon ts_icon_caret_down"></i>
     <i class="tab_caret ts_icon ts_icon_caret_up"></i>
 </div>
 <div class="hide_on_mobile tab_actions clearfix">
-    {% comment %}<div class="subtle_silver col span_4_of_6 left_padding small_top_padding no_bottom_margin">You have 3 active
-        conversations
-    </div>{% endcomment %}
+{#    <div class="subtle_silver col span_4_of_6 left_padding small_top_padding no_bottom_margin">You have 3 active#}
+{#        conversations#}
+{#    </div>#}
+{#    <div class="number_of_channels subtle_silver col span_3_of_6 left_padding small_top_padding no_bottom_margin">5#}
+{#        channels#}
+{#    </div>#}
     <div id="im_filter" class="position_relative float_right">
         <i class="icon_search_input ts_icon ts_icon_search"></i>
         <a class="icon_search_close ts_icon ts_icon_times_circle hidden"></a>
@@ -20,7 +23,7 @@
     </div>
 </div>
 
-<section class="tab_pane selected" data-tab="direct-messages">
+<section class="tab_pane " data-tab="direct-messages">
     <div class="hide_on_mobile">
         <div class="col span_4_of_6"><h5>Name</h5></div>
         <div class="col span_2_of_6"><h5>Last active on</h5></div>
@@ -29,7 +32,7 @@
     <div id="im_list" class="no_margin"></div>
 </section>
 
-{% comment %}
+
 <section class="tab_pane selected" data-tab="channels">
 
 
@@ -50,112 +53,6 @@
 
     <div id="channel_list" class="no_margin">
 
-        <div class=" bottom_border">
-            <h4 class="no_bottom_margin">
-                <a href="/archives/github" class="slate_blue">
-                    <ts-icon class="ts_icon_channel"></ts-icon>
-                    github </a>
-            </h4>
-            <div class="col span_4_of_6">
-                <p class="subtle_silver no_bottom_margin emoji_replace_on_load">
-                    <em>test github</em>
-                </p>
-            </div>
-            <div class="col span_1_of_6 subtle_silver">
-                <span class="show_on_mobile inline">Created by </span><a href="/team/vbuilvicente"
-                                                                         class="member_name member subtle_silver"
-                                                                         data-member-id="U2KQ0HRD3">vbuilvicente</a>
-            </div>
-            <div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">
-                <i class="ts_icon ts_icon_user"></i> 2
-            </div>
-            <div class="clear_both"></div>
-        </div>
-        <div class="top_padding bottom_border">
-            <h4 class="no_bottom_margin">
-                <a href="/archives/julio" class="slate_blue">
-                    <ts-icon class="ts_icon_channel"></ts-icon>
-                    julio </a>
-            </h4>
-            <div class="col span_4_of_6">
-                <p class="subtle_silver no_bottom_margin emoji_replace_on_load">
-                    <em>cualquiera</em>
-                </p>
-            </div>
-            <div class="col span_1_of_6 subtle_silver">
-                <span class="show_on_mobile inline">Created by </span><a href="/team/jeriverom"
-                                                                         class="member_name member subtle_silver"
-                                                                         data-member-id="U2KQ35L2Z">jeriverom</a>
-            </div>
-            <div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">
-                <i class="ts_icon ts_icon_user"></i> 2
-            </div>
-            <div class="clear_both"></div>
-        </div>
-        <div class="top_padding bottom_border">
-            <h4 class="no_bottom_margin">
-                <a href="/archives/chat" class="slate_blue">
-                    <ts-icon class="ts_icon_lock_o"></ts-icon>
-                    chat </a>
-            </h4>
-            <div class="col span_4_of_6">
-                <p class="subtle_silver no_bottom_margin emoji_replace_on_load">
-                    Created on Oct 29, 2016.
-                </p>
-            </div>
-            <div class="col span_1_of_6 subtle_silver">
-                <span class="show_on_mobile inline">Created by </span><a href="/team/vbuilvicente"
-                                                                         class="member_name member subtle_silver"
-                                                                         data-member-id="U2KQ0HRD3">vbuilvicente</a>
-            </div>
-            <div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">
-                <i class="ts_icon ts_icon_user"></i> 2
-            </div>
-            <div class="clear_both"></div>
-        </div>
-        <div class="top_padding bottom_border">
-            <h4 class="no_bottom_margin">
-                <a href="/archives/announcements" class="slate_blue">
-                    <ts-icon class="ts_icon_channel"></ts-icon>
-                    announcements </a>
-            </h4>
-            <div class="col span_4_of_6">
-                <p class="subtle_silver no_bottom_margin emoji_replace_on_load">
-                    <em>This channel is for team-wide communication and announcements. All team members are in this
-                        channel.</em>
-                </p>
-            </div>
-            <div class="col span_1_of_6 subtle_silver">
-                <span class="show_on_mobile inline">Created by </span><a href="/team/vbuilvicente"
-                                                                         class="member_name member subtle_silver"
-                                                                         data-member-id="U2KQ0HRD3">vbuilvicente</a>
-            </div>
-            <div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">
-                <i class="ts_icon ts_icon_user"></i> 2
-            </div>
-            <div class="clear_both"></div>
-        </div>
-        <div class="top_padding ">
-            <h4 class="no_bottom_margin">
-                <a href="/archives/random" class="slate_blue">
-                    <ts-icon class="ts_icon_channel"></ts-icon>
-                    random </a>
-            </h4>
-            <div class="col span_4_of_6">
-                <p class="subtle_silver no_bottom_margin emoji_replace_on_load">
-                    <em>A place for non-work-related flimflam, faffing, hodge-podge or jibber-jabber you'd prefer to
-                        keep out of more focused work-related channels.</em>
-                </p>
-            </div>
-            <div class="col span_1_of_6 subtle_silver">
-                <span class="show_on_mobile inline">Created by </span><a href="/team/vbuilvicente"
-                                                                         class="member_name member subtle_silver"
-                                                                         data-member-id="U2KQ0HRD3">vbuilvicente</a>
-            </div>
-            <div class="col span_1_of_6 align_center subtle_silver hide_on_mobile">
-                <i class="ts_icon ts_icon_user"></i> 2
-            </div>
-            <div class="clear_both"></div>
-        </div>
+
     </div>
-</section>{% endcomment %}
+</section>
