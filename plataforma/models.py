@@ -15,7 +15,7 @@ from polymorphic.models import PolymorphicModel
 
 class Company(models.Model):
     name = models.CharField(max_length=255, default="Company name", null=False)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.OneToOneField(User, related_name='owner')
 
@@ -36,7 +36,7 @@ class Profile(models.Model):
         (u'guest', u'Guest'),
     )
 
-    image = models.ImageField(upload_to='images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True, max_length=255)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
     company = models.ForeignKey(Company, related_name='company')
     type = models.CharField(choices=CHOICE, blank=False, null=False, max_length=5)
@@ -84,7 +84,7 @@ class SlackFile(PolymorphicModel):
     shared_to = models.ManyToManyField(User)
     shared_in = models.ManyToManyField(Room)
     uploaded = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(blank=False, null=False, editable=False)
+    slug = models.SlugField(blank=False, null=False, editable=False, unique=True, max_length=255)
     extension = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
@@ -94,7 +94,7 @@ class SlackFile(PolymorphicModel):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title + ' - ' + self.author.company.slug+' - ' + self.author.user.username)
         super(SlackFile, self).save(*args, **kwargs)
 
     @staticmethod
@@ -206,7 +206,7 @@ class GoogleDocs(SlackFile):
 
 
 class FilesUp(SlackFile):
-    file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True)
+    file_up = models.FileField(upload_to='upload/docs/', blank=True, null=True, max_length=255)
     size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -219,7 +219,7 @@ class FilesUp(SlackFile):
 
 
 class ImageUp(SlackFile):
-    image_up = models.FileField(upload_to='upload/images/', blank=True, null=True)
+    image_up = models.FileField(upload_to='upload/images/', blank=True, null=True, max_length=255)
     size = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
@@ -262,7 +262,7 @@ class UserInvited(models.Model):
     company = models.ForeignKey(Company, related_name='invited_company')
     name = models.CharField(blank=True, null=True, max_length=50)
     last_name = models.CharField(blank=True, null=True, max_length=50)
-    slug_activation = models.SlugField(null=True, blank=True)
+    slug_activation = models.SlugField(null=True, blank=True, max_length=255)
 
 
 # Message EVENTS Begin
@@ -296,7 +296,7 @@ class FileSharedEvent(MessageEvent):
 
 
 class FileCommentEvent(MessageEvent):
-    file_up = models.ForeignKey(FilesComment, related_name='files_comments_event')
+    file_comment = models.ForeignKey(FilesComment, related_name='files_comments_event')
 
 
 class Communication(models.Model):
@@ -330,7 +330,7 @@ def add_un_reader(sender, instance=None, **kwargs):
                                                          user_to__user__username=instance.messageevent_ptr.user_to.user.username) \
                 .values("user_from__user__username").annotate(total=Count('readed')).order_by('user_to')
 
-            if len(messages)>0:
+            if len(messages) > 0:
                 communication = Communication.objects.filter(user_me=instance.messageevent_ptr.user_to.user,
                                                              # user_me=instance.messageevent_ptr.user_from
                                                              user_connect=instance.messageevent_ptr.user_from.user).update(

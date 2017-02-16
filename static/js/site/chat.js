@@ -795,7 +795,7 @@ $(document).ready(function () {
 
             function exc() {
                 alert(data.result);
-            };
+            }
 
             var urlapi = apiUrl + 'create_room/';
             request(urlapi, 'POST', null, data, exc, null);
