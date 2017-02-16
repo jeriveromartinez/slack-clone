@@ -52,16 +52,16 @@ MANAGERS = ADMINS
 #     )
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dc49at5g9oe0e6',
-#         'USER': 'ldtwmxhztkeagd',
-#         'PASSWORD': 'b1cf46fb4e46b15d376a230b0e79abdb10f43708cb601148f70029a76d5fc608',
-#         'HOST': 'ec2-54-235-247-224.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dc49at5g9oe0e6',
+        'USER': 'ldtwmxhztkeagd',
+        'PASSWORD': 'b1cf46fb4e46b15d376a230b0e79abdb10f43708cb601148f70029a76d5fc608',
+        'HOST': 'ec2-54-235-247-224.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -74,16 +74,16 @@ MANAGERS = ADMINS
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'plataforma',
-        'USER': 'root',
-        'PASSWORD': 'S0l0y0lol',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'plataforma',
+#         'USER': 'root',
+#         'PASSWORD': 'S0l0y0lol',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
 
 # END DATABASE CONFIGURATION
 

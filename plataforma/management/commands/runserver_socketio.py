@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         if not addrport:
             self.addr = '0.0.0.0'
-            self.port = SOCKETIO_PORT  # SOCKETIO_PORT  # environ['PORT'] todo: change before push
+            self.port = environ['PORT']  # SOCKETIO_PORT  # environ['PORT'] todo: change before push
         else:
             m = match(naiveip_re, addrport)
             if m is None:
