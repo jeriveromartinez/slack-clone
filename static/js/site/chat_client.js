@@ -1,7 +1,5 @@
 window.socket = io.connect("/chat");
 $(document).ready(function () {
-
-
     socket.on('connect', function () {
         console.log(" connected");
         socket.emit('join', {"user": userlogged});
@@ -151,12 +149,14 @@ var messaged = function (data) {
                     var lastUserMsg = $(content).parent('ts-message:last').attr('data-user');
                     var elemt = $(".day_container:last").find('.day_msgs');
                     if (elemt.length)
-                        elemt.append(ts_message_shared(data.image, data.user_from, data.title, data.date_pub));
+                    //elemt.append(ts_message_shared_file(data.image, data.user_from, data.title, data.date_pub));
+                        addFileMsg(elemt, data);
                 } else {
                     var day_container = $("<div class='day_container'></div>");
                     day_container.append(date_divider(new Date()));
                     var day_msgs = $("<div class='day_msgs'></div>");
-                    day_msgs.append(ts_message_shared(data.image, data.user_from, data.title, data.date_pub));
+                    //day_msgs.append(ts_message_shared_file(data.image, data.user_from, data.title, data.date_pub));
+                    addFileMsg(day_msgs, data);
                     day_container.append(day_msgs);
 
                     $("#msgs_div").append(day_container);
@@ -192,6 +192,8 @@ var onDataLoaded = function (data) {
                         break;
                     case 'file_shared_event':
                         console.log('event');
+                        //day_msgs.append(ts_message_shared_file(item.image, item.user_from.user.username, item.title, item.date_pub));
+                        addFileMsg(day_msgs, item);
                         break;
                 }
 
@@ -209,10 +211,11 @@ var onDataLoaded = function (data) {
                 } else
                     switch (item.type) {
                         case 'message_int_event':
-                            day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub)).fadeIn('slow');
+                            day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                             break;
                         case 'file_shared_event':
-                            console.log('event');
+                            //day_msgs.append(ts_message_shared_file(item.image, item.user_from.user.username, item.title, item.date_pub));
+                            addFileMsg(day_msgs, item);
                             break;
                     }
             }
@@ -344,3 +347,13 @@ function openIncomingCall(data) {
         div_name.empty();
     }
 }
+
+var addFileMsg = function (parent, item) {
+    var img = {'jpg': 'jpg', 'jpeg': 'jpeg', 'png': 'png', 'gif': 'gif', 'ico': 'ico'};
+    console.log(img[item.file_up.extension]);
+    if (img[item.file_up.extension] != undefined) {
+        parent.append(ts_message_shared_image(item.user_from.user.username, item.image, item.file_up, item.date_pub));
+    } else {
+        parent.append(ts_message_shared_file(item.image, item.user_from.user.username, item.file_up, item.date_pub));
+    }
+};

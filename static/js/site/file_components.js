@@ -254,6 +254,7 @@ var sharedFileType = function (type, item) {
     }
 };
 
+/*
 var icon = {
     'xlsx': 'xlsx',
     'xls': 'xlsx',
@@ -264,4 +265,4 @@ var icon = {
     'pdf': 'pdf',
     'txt': 'snippet',
     'mp3': 'mp3'
-};
+};*/

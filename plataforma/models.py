@@ -86,6 +86,7 @@ class SlackFile(PolymorphicModel):
     uploaded = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(blank=False, null=False, editable=False, unique=True, max_length=255)
     extension = models.CharField(max_length=20, blank=True, null=True)
+    url = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         ordering = ('-uploaded',)
@@ -94,7 +95,9 @@ class SlackFile(PolymorphicModel):
         return self.author.user.username + ' - ' + self.uploaded.__str__()
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + ' - ' + self.author.company.slug+' - ' + self.author.user.username)
+        self.slug = slugify(self.title + ' - ' + self.author.company.slug + ' - ' + self.author.user.username)
+        if self.url is None:
+            self.url = 'account/file/public/' + self.slug
         super(SlackFile, self).save(*args, **kwargs)
 
     @staticmethod
@@ -199,10 +202,14 @@ class Snippet(SlackFile):
 
 
 class GoogleDocs(SlackFile):
-    url = models.URLField(null=False, blank=False)
+    url_google = models.URLField(null=False, blank=False)
 
     def __str__(self):
         return 'google_docs - ' + self.uploaded.__str__()
+
+    def save(self, *args, **kwargs):
+        self.url = self.url_google
+        super(GoogleDocs, self).save(*args, **kwargs)
 
 
 class FilesUp(SlackFile):
@@ -215,6 +222,7 @@ class FilesUp(SlackFile):
     def save(self, *args, **kwargs):
         self.extension = self.file_up.name.lower().split('.')[-1]
         self.size = self.file_up.size
+        self.url = self.file_up.url
         super(FilesUp, self).save(*args, **kwargs)
 
 
@@ -228,6 +236,7 @@ class ImageUp(SlackFile):
     def save(self, *args, **kwargs):
         self.size = self.image_up.size
         self.extension = self.image_up.name.lower().split('.')[-1]
+        self.url = self.image_up.url
         super(ImageUp, self).save(*args, **kwargs)
 
 

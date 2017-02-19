@@ -5,6 +5,18 @@ var panel = null, channels = [], activeChannel = {name: "public", type: "public"
 window.users_logged = 0;
 window.userFileStatus = false;
 
+window.icon = {
+    'xlsx': 'xlsx',
+    'xls': 'xlsx',
+    'doc': 'docx',
+    'docx': 'docx',
+    'ppt': 'pptx',
+    'pptx': 'pptx',
+    'pdf': 'pdf',
+    'txt': 'snippet',
+    'mp3': 'mp3'
+};
+
 $('body').prepend(itemLoad);
 
 $(document).ready(function () {
@@ -161,7 +173,7 @@ $(document).ready(function () {
 
     $('ul#im-list').on('click.remove_chat_user', 'button[data-user]', function (e) {
         var user = $(this).attr('data-user');
-        var _this=this;
+        var _this = this;
         var exc = function (response) {
             var element = $('ul#im-list').find('li[data-name= ' + $(_this).attr('data-user') + ']')[0];
             element.parentNode.removeChild(element);
@@ -510,7 +522,7 @@ $(document).ready(function () {
 
         _clear();
 
-        if (!_selected_members)_selected_members = [];
+        if (!_selected_members) _selected_members = [];
 
         _$list_container.on("click.browser", ".im_browser_row", function () {
             _selectRow($(this));

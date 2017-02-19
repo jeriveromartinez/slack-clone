@@ -144,41 +144,51 @@ var ts_message = function (avatar, from, msg, date) {
     return msg;
 };
 
-var ts_message_shared = function (avatar, from, fileTitle, fileComments) {
-    var msg = '<ts-message class="message feature_fix_files first file_reference file_share">' +
-        '<div class="message_gutter"><div class="message_icon">' +
-        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="member_preview_link member_image thumb_36" style="background-image: url(' + avatar + ')" aria-hidden="true"></a>' +
-        '</div><a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">' +
-        '<i class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br>' +
-        '<span class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a></div><div class="message_content ">' +
-        '<a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="message_sender member member_preview_link color_9f69e7">' + from + '</a>' +
-        '<a href="#/blackmambasoft.slack.com/archives/D2KQ7LY23/p1475809819000002" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">' +
-        '<i class="copy_only">[</i>11:10 PM<i class="copy_only">]</i><span class="ts_tip_tip"><span class="ts_tip_multiline_inner">Open in archives<br>' +
-        '<span class="subtle_silver">Oct&nbsp;6th&nbsp;at&nbsp;11:10:19&nbsp;PM</span></span></span></a><span class="meta message_body  msg_inline_file_preview_toggler expanded">' +
-        '<a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" target="_blank">' +
-        'shared a post<span class="msg_inline_file_title_hider">:' +
-        '<span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">' + fileTitle + '</span>' +
-        '</span><ts-icon class="msg_inline_media_toggler"></ts-icon>' +
-        '</a></span><div class="file_container post_container"><div class="file_header post_header">' +
-        '<i class="file_header_icon post_header_icon ts_icon ts_icon_file_text_post"></i>' +
-        '<h4 class="file_header_title post_header_title overflow_ellipsis">' + fileTitle + '</h4>' +
-        '<p class="file_header_meta post_header_meta">' +
-        'Last edited <span class="file_time_ago">8 days ago</span>' +
-        '</p></div>';
-    // if (fileComments.length > 0)
-    //     msg += '<div class="file_body post_body">' + file_comments_msg(fileComments) + '</div>';
-    msg += '<div class="preview_actions">' +
-        '<a class="file_preview_action preview_show_less_header btn btn_outline btn_icon ts_icon ts_icon_collapse_vertical ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="Collapse"></a>' +
-        '<a class="file_preview_action file_new_window_link btn btn_outline btn_icon ts_icon ts_icon_external_link ts_tip ts_tip_top ts_tip_float ts_tip_delay_300 ts_tip_hidden" ' +
-        'href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf">' +
-        '<span class="ts_tip_tip">Open in new window</span></a>' +
-        '<a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="More actions"></a>' +
-        '<a href="#/blackmambasoft.slack.com/files/vbuilvicente/F2LG8KXR8/dsfdsf" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">' +
-        '<span>Add Comment</span></a></div><div class="preview_show preview_show_more"><div class="preview_show_center">' +
-        '<button class="preview_show_btn"><i class="ts_icon ts_icon_plus_small"></i>Click to expand inline</button></div></div>' +
-        '<div class="preview_show preview_show_less"><button class="preview_show_btn">Collapse<i class="ts_icon ts_icon_arrow_up_medium"></i></button>' +
-        '</div></div></div></ts-message>';
+var ts_message_shared_file = function (avatar, from, file, date) {
+    var avatar = (avatar != null) ? "url('" + avatar + "')" : "url('/static/images/ava_0022-48.png')",
+        userUrl = '/account/profile/' + from + '/',
+        date = moment(date, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+    var msg = '<ts-message class="message feature_fix_files first file_reference file_share"><div class="action_hover_container">\
+<a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Share file …"></a>\
+<a data-action="actions_menu" class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Show message actions"></a></div>\
+	<span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
+		<a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: ' + avatar + ';" aria-hidden="true"></a>\
+			</div><a href="' + file.url + '" target="_blank" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"></a>\
+			</div><div class="message_content"><div class="message_content_header"><div class="message_content_header_left">\
+						<a href="' + userUrl + '" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + from + '</a>\
+						<a href="' + file.url + '" target="_blank" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">\
+						<i class="copy_only">[</i>' + date + '<i class="copy_only">]</i></a>\
+					</div></div><div class="file_container generic_container">\
+	<a class="file_header generic_header file_ssb_download_link " href="' + file.url + '"><i class="file_header_icon generic_header_icon filetype_icon ' + icon[file.extension] + ' s48">\
+				<i class="ts_icon ts_icon_arrow_down ' + file.extension + '"></i></i><h4 class="file_header_title generic_header_title overflow_ellipsis">' + file.title + '</h4>\
+		<p class="file_header_meta generic_header_meta"><span class="meta_hover_placement"><span class="meta_type overflow_ellipsis">Excel Spreadsheet</span>\
+			<span class="meta_hover overflow_ellipsis">Click to download</span></span></p></a><div class="preview_actions">\
+                    <a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" target="_blank" title="Download"></a>\
+					<a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="More actions"></a>\
+					<a href="' + file.url + '" target="_blank" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">\
+						<span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div><i class="copy_only"><br></i></div></ts-message>';
     return msg;
+};
+
+var ts_message_shared_image = function (from, avatar, file, date) {
+    var avatar = (avatar != null) ? "url('" + avatar + "')" : "url('/static/images/ava_0022-48.png')",
+        userUrl = '/account/profile/' + from + '/',
+        date = moment(date, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+    return '<ts-message class="message feature_fix_files first file_reference file_share"><span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
+		<a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: ' + avatar + ';" aria-hidden="true"></a></div></div>\
+	<div class="message_content "><div class="message_content_header"><div class="message_content_header_left">\
+		<a href="#/blackmambasoft.slack.com/team/jeriverom" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + from + '</a>\
+		<a href="#/blackmambasoft.slack.com/archives/announcements/p1479611806000002" target="black" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300">\
+		<i class="copy_only">[</i>' + date + '<i class="copy_only">]</i><span class="ts_tip_tip"></span></a></div></div>\
+		<span class="meta message_body  msg_inline_file_preview_toggler expanded"><a href="' + file.url + '" target="_blank">\
+			<span class="file_preview_link no_jumbomoji file_force_flexpane bold msg_inline_file_preview_title">' + file.title + '</span>\
+				<ts-icon class="msg_inline_media_toggler"></ts-icon></a></span><div class="file_container image_container" style="width: 360px;">\
+                <a href="' + file.url + '" target="_blank" style="width: 360px;" class="file_body image_body image_jpg file_viewer_channel_link file_viewer_link">\
+		<div class="image_preserve_aspect_ratio"><figure class="image_bg" style="padding-top: calc(0.666667 * 100%); background-image: url(' + file.url + ');">\
+				<img class="image_hide" src="' + file.url + '"></figure></div></a><div class="preview_actions">\
+					<a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" download="' + file.title + '" title="Download"></a>\
+					<a href="' + file.url + '" target="_blank" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">\
+					    <span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div></div></ts-message>';
 };
 
 var file_comments_msg = function (comments) {

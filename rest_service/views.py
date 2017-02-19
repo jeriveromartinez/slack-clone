@@ -718,3 +718,7 @@ def get_msg(msg):
         serializer = FileCommentEventSerializer(msg)
         result = serializer.data
     return result
+
+
+def get_file(file):
+    pass
