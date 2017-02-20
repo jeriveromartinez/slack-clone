@@ -139,8 +139,8 @@ var messaged = function (data) {
             console.log('message', data);
             break;
         case 'file':
-            console.log('file', data);
-            if (( data.room == activeChannel.name) || ( data.user_from == activeChannel.name)) {
+             console.log(data);
+            if (( data.room == activeChannel.name) || ( data.user_from.user.username == activeChannel.name)) {
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();
 
@@ -180,11 +180,11 @@ var onDataLoaded = function (data) {
 
         $.each(data, function (index, item) {
             var date = new Date(item.date_pub);
-
+             var day_msgs;
             if (date.getDate() != currentday) {
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
-                var day_msgs = $("<div class='day_msgs'></div>");
+                 day_msgs = $("<div class='day_msgs'></div>");
 
                 switch (item.type) {
                     case 'message_int_event':
@@ -222,6 +222,7 @@ var onDataLoaded = function (data) {
 
             var date = $(".day_container:first").find('ts-message:first').attr('data-date');
             currentday = new Date(date).getDate();
+
         });
     }
     var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();

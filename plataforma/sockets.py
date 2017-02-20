@@ -10,7 +10,7 @@ from socketio.namespace import BaseNamespace
 from socketio.sdjango import namespace
 
 from plataforma.models import *
-from plataforma.serializers import ProfileSerializer
+from plataforma.serializers import ProfileSerializer, SlackFileSerializer
 
 
 def message(self, msg):
@@ -244,8 +244,9 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                                                              file_up=file, type="file_shared_event", readed=read)
                     msg["action"] = "file"
                     msg["title"] = file.title
-                    msg["user_from"] = user_from.user.username
+                    msg["user_from"] = ProfileSerializer(user_from).data
                     msg["extension"] = file.extension
+                    msg["file_up"] = SlackFileSerializer(file, many=False).data
                     msg["url"] = self.getFileUrl(file)
                     msg["image"] = user_from.image.url if user_from.image else ''
                     msg["date_pub"] = str(message.date_pub.isoformat())
@@ -256,7 +257,7 @@ class ChatNamespace(BaseNamespace, RoomsMixin, BroadcastMixin):
                 else:
                     room = Room.objects.get(slug__exact=to)
                     msg["action"] = "file"
-                    msg["file"] = file.slug
+                    msg["file_up"] = SlackFileSerializer(file,many=False).data
                     msg["user_from"] = msg["user_from"]
                     msg["image"] = user_from.image.url if user_from.image else ''
                     self.emit_to_room(self.room, 'message', msg)

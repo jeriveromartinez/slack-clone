@@ -144,11 +144,12 @@ var ts_message = function (avatar, from, msg, date) {
     return msg;
 };
 
-var ts_message_shared_file = function (avatar, from, file, date) {
+var ts_message_shared_file = function (avatar, from, file, date_pub) {
     var avatar = (avatar != null) ? "url('" + avatar + "')" : "url('/static/images/ava_0022-48.png')",
         userUrl = '/account/profile/' + from + '/',
-        date = moment(date, moment.ISO - 8601).format("MMM Do \\at h:mm a");
-    var msg = '<ts-message class="message feature_fix_files first file_reference file_share"><div class="action_hover_container">\
+        date = moment(date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
+        descriptionFile = (file.extension in detailExtFile) ? detailExtFile[file.extension] : detailExtFile['txt'];
+    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share"><div class="action_hover_container">\
 <a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Share file …"></a>\
 <a data-action="actions_menu" class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Show message actions"></a></div>\
 	<span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
@@ -161,20 +162,19 @@ var ts_message_shared_file = function (avatar, from, file, date) {
 					</div></div><div class="file_container generic_container">\
 	<a class="file_header generic_header file_ssb_download_link " href="' + file.url + '"><i class="file_header_icon generic_header_icon filetype_icon ' + icon[file.extension] + ' s48">\
 				<i class="ts_icon ts_icon_arrow_down ' + file.extension + '"></i></i><h4 class="file_header_title generic_header_title overflow_ellipsis">' + file.title + '</h4>\
-		<p class="file_header_meta generic_header_meta"><span class="meta_hover_placement"><span class="meta_type overflow_ellipsis">Excel Spreadsheet</span>\
+		<p class="file_header_meta generic_header_meta"><span class="meta_hover_placement"><span class="meta_type overflow_ellipsis">' + descriptionFile + '</span>\
 			<span class="meta_hover overflow_ellipsis">Click to download</span></span></p></a><div class="preview_actions">\
                     <a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" target="_blank" title="Download"></a>\
 					<a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="More actions"></a>\
 					<a href="' + file.url + '" target="_blank" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">\
 						<span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div><i class="copy_only"><br></i></div></ts-message>';
-    return msg;
 };
 
-var ts_message_shared_image = function (from, avatar, file, date) {
+var ts_message_shared_image = function (from, avatar, file, date_pub) {
     var avatar = (avatar != null) ? "url('" + avatar + "')" : "url('/static/images/ava_0022-48.png')",
         userUrl = '/account/profile/' + from + '/',
-        date = moment(date, moment.ISO - 8601).format("MMM Do \\at h:mm a");
-    return '<ts-message class="message feature_fix_files first file_reference file_share"><span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
+        date = moment(date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a");
+    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share"><span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
 		<a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: ' + avatar + ';" aria-hidden="true"></a></div></div>\
 	<div class="message_content "><div class="message_content_header"><div class="message_content_header_left">\
 		<a href="#/blackmambasoft.slack.com/team/jeriverom" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + from + '</a>\
@@ -652,4 +652,16 @@ var optionsSearch = function () {
           <button class="result_item_btn btn_unstyle" type="button">\
           <strong>before: </strong><span class="muted_text">date</span>\
           <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li></ol>';
+};
+
+var detailExtFile = {
+    'xlsx': 'Excel Spreadsheet',
+    'xls': 'Excel Spreadsheet',
+    'doc': 'Word Document',
+    'docx': 'Word Document',
+    'ppt': 'Power Point Presentation',
+    'pptx': 'Power Point Presentation',
+    'pdf': 'PDF Document',
+    'txt': 'Snippet Document',
+    'mp3': 'Audio MP3'
 };

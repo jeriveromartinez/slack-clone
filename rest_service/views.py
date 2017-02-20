@@ -222,12 +222,13 @@ def share_file(request, slug):
             room = Room.objects.get(slug=shrared_to)
             for item in room.users.all():
                 file.shared_to.add(item.user)
-            FileSharedEvent.objects.create(room=room, user_from=user_from, type='file_shared_event', file_up=file)
+            # FileSharedEvent.objects.create(room=room, user_from=user_from, type='file_shared_event', file_up=file)
             file.save()  # TODO: send notifications if user is connect
         else:
             profile = Profile.objects.get(user__username=shrared_to)
             file.shared_to.add(profile.user)
-            FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event', file_up=file)
+            # FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event',
+            # file_up=file)
             file.save()
 
         if post['comment']:
