@@ -85,6 +85,11 @@ $(document).ready(function () {
             }
         }
     });
+
+    $('#msgs_div').on('click.comment_chat', 'a[data-action="comment"]', function (e) {
+        showPannelLeft();
+        detail_file($(this).attr('data-url'));
+    });
 });
 
 var messaged = function (data) {
@@ -139,7 +144,7 @@ var messaged = function (data) {
             console.log('message', data);
             break;
         case 'file':
-             console.log(data);
+            console.log(data);
             if (( data.room == activeChannel.name) || ( data.user_from.user.username == activeChannel.name)) {
                 var date = $(".day_container:last").find('ts-message:last').attr('data-date');
                 var day = new Date(date).getDate();
@@ -180,19 +185,17 @@ var onDataLoaded = function (data) {
 
         $.each(data, function (index, item) {
             var date = new Date(item.date_pub);
-             var day_msgs;
+            var day_msgs;
             if (date.getDate() != currentday) {
                 currentday_container = $("<div class='day_container'></div>");
                 currentday_container.append(date_divider(item.date_pub));
-                 day_msgs = $("<div class='day_msgs'></div>");
+                day_msgs = $("<div class='day_msgs'></div>");
 
                 switch (item.type) {
                     case 'message_int_event':
                         day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                         break;
                     case 'file_shared_event':
-                        console.log('event');
-                        //day_msgs.append(ts_message_shared_file(item.image, item.user_from.user.username, item.title, item.date_pub));
                         addFileMsg(day_msgs, item);
                         break;
                 }
@@ -206,7 +209,6 @@ var onDataLoaded = function (data) {
                 var msgBody = $(content).find('.message_body')[0];
 
                 if (lastUserMsg == item.user_from.user.username) {
-                    //$(content).append('<span class="message_body">' + item.msg + '</span>');
                     $(msgBody).prepend('<span class="message_body">' + item.msg + '</span>');
                 } else
                     switch (item.type) {
@@ -214,7 +216,6 @@ var onDataLoaded = function (data) {
                             day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                             break;
                         case 'file_shared_event':
-                            //day_msgs.append(ts_message_shared_file(item.image, item.user_from.user.username, item.title, item.date_pub));
                             addFileMsg(day_msgs, item);
                             break;
                     }
@@ -222,7 +223,6 @@ var onDataLoaded = function (data) {
 
             var date = $(".day_container:first").find('ts-message:first').attr('data-date');
             currentday = new Date(date).getDate();
-
         });
     }
     var heigth = $("#msgs_scroller_div").offset().top + $("#msgs_div").height() + $('#end_div').height();
@@ -351,7 +351,6 @@ function openIncomingCall(data) {
 
 var addFileMsg = function (parent, item) {
     var img = {'jpg': 'jpg', 'jpeg': 'jpeg', 'png': 'png', 'gif': 'gif', 'ico': 'ico'};
-    console.log(img[item.file_up.extension]);
     if (img[item.file_up.extension] != undefined) {
         parent.append(ts_message_shared_image(item.user_from.user.username, item.image, item.file_up, item.date_pub));
     } else {

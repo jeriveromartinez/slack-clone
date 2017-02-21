@@ -440,7 +440,7 @@ def save_files(request, from_user):
 
         if post['comment']:
             FilesComment.objects.create(file_up=create, comment=post['comment'], user=author.user)
-        return Response({'success': 'ok'})
+        return Response({'success': 'ok', 'slug': create.slug})
     except Exception as e:
         print e
         return Response({'success': 'false'})
@@ -533,7 +533,7 @@ def snippet_create(request):
                 create.save()
         if comment is not None and comment != "":
             FilesComment.objects.create(file_up=create, comment=comment, user=author.user)
-        return Response({'success': 'ok'})
+        return Response({'success': 'ok', 'slug': create.slug})
     except Exception as e:
         print e
         return Response({'success': 'false'})

@@ -166,7 +166,7 @@ var ts_message_shared_file = function (avatar, from, file, date_pub) {
 			<span class="meta_hover overflow_ellipsis">Click to download</span></span></p></a><div class="preview_actions">\
                     <a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" target="_blank" title="Download"></a>\
 					<a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="More actions"></a>\
-					<a href="' + file.url + '" target="_blank" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">\
+					<a class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane" data-url="' + file.slug + '" data-action="comment">\
 						<span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div><i class="copy_only"><br></i></div></ts-message>';
 };
 
@@ -174,7 +174,8 @@ var ts_message_shared_image = function (from, avatar, file, date_pub) {
     var avatar = (avatar != null) ? "url('" + avatar + "')" : "url('/static/images/ava_0022-48.png')",
         userUrl = '/account/profile/' + from + '/',
         date = moment(date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a");
-    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share"><span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
+    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share">\
+    <span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
 		<a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: ' + avatar + ';" aria-hidden="true"></a></div></div>\
 	<div class="message_content "><div class="message_content_header"><div class="message_content_header_left">\
 		<a href="#/blackmambasoft.slack.com/team/jeriverom" target="_blank" class="message_sender color_4bbe2e member member_preview_link">' + from + '</a>\
@@ -187,7 +188,7 @@ var ts_message_shared_image = function (from, avatar, file, date_pub) {
 		<div class="image_preserve_aspect_ratio"><figure class="image_bg" style="padding-top: calc(0.666667 * 100%); background-image: url(' + file.url + ');">\
 				<img class="image_hide" src="' + file.url + '"></figure></div></a><div class="preview_actions">\
 					<a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" download="' + file.title + '" title="Download"></a>\
-					<a href="' + file.url + '" target="_blank" class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane">\
+					<a class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane" data-url="' + file.slug + '" data-action="comment">\
 					    <span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div></div></ts-message>';
 };
 

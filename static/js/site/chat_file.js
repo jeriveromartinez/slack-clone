@@ -180,8 +180,9 @@ $(document).ready(function () {
 
         $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.file_send', function (e) {
             e.preventDefault();
+            var shared_to = $('.modal-body').find('#shared_to').val();
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
-            instance.data.append('shared', $('.modal-body').find('#shared_to').val());
+            instance.data.append('shared', shared_to);
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
             instance.data.set('isShared', $('.modal-body').find('#share_cb')[0].checked);
 
@@ -192,6 +193,12 @@ $(document).ready(function () {
                         user_all_files();
                     if ($('#file_list_toggle_user.active').length > 0)
                         user_files(userFileActive);
+                    socket.emit('message', {
+                        action: "file",
+                        shared_to: shared_to,
+                        user_from: userlogged,
+                        file: response.slug
+                    });
                 }
             };
 
@@ -226,10 +233,11 @@ $(document).ready(function () {
 
         $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.snippet_send', function (e) {
             e.preventDefault();
+            var shared_to = $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#shared_to').val() : '';
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
             data.append('comment', $('#modal .modal-body').find('#file_comment_textarea').val());
-            data.append('shared', $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#shared_to').val() : '');
+            data.append('shared', shared_to);
             data.append('code', editor.getValue());
 
             var exc = function (response) {
@@ -239,6 +247,13 @@ $(document).ready(function () {
                         user_all_files();
                     if ($('#file_list_toggle_user.active').length > 0)
                         user_files(userFileActive);
+                    if ($('#modal .modal-body').find('#share_cb').is(':checked'))
+                        socket.emit('message', {
+                            action: "file",
+                            shared_to: shared_to,
+                            user_from: userlogged,
+                            file: response.slug
+                        });
                 }
             };
 
@@ -376,7 +391,7 @@ $(document).ready(function () {
         addUserResult(searchResult.user);
     });
 
-    $('textarea#message-input').on('keyup', function (e) {
+    $('textarea#message-input').on('keyup.send_msg', function (e) {
         var caret = window.getCaretPosition($(this)[0]);
         var result = /\S+$/.exec($(this).val().slice(0, $(this).val().indexOf(' ', caret.end)));
         var lastWord = result ? result[0] : null;
@@ -422,6 +437,10 @@ $(document).ready(function () {
         $('.panel.active').removeClass('active');
         $('#files_tab').addClass('active');
         $('#file_list_toggle_user').addClass('active');
+
+        var height = $(window).height() - $('header').height();
+        $('#files_tab').css('height', height);
+
         getUserFiles(username, user_files_exc);
         $('#menu.menu').addClass('hidden');
     };
@@ -431,6 +450,9 @@ $(document).ready(function () {
         $('.panel.active').removeClass('active');
         $('#files_tab').addClass('active');
         $('#file_list_toggle_all').addClass('active');
+
+        var height = $(window).height() - $('header').height();
+        $('#files_tab').css('height', height);
 
         var urlapi = apiUrl + 'files/' + userlogged + '/all_files/' + companyuser + '/';
         request(urlapi, 'GET', null, null, user_files_exc, null);
@@ -468,11 +490,6 @@ $(document).ready(function () {
         $('#file_list_toggle_user').removeClass('active');
     };
 
-    var showPannelLeft = function () {
-        $('#client-ui').addClass('flex_pane_showing');
-        //change_chat_size('65%');
-    };
-
     var action = function (action, properties) {
         switch (action) {
             case 'copy':
@@ -491,32 +508,6 @@ $(document).ready(function () {
                 share(properties.data)
                 break;
         }
-    };
-
-    var detail_file = function (key) {
-        var exc = function (response) {
-            $('.panel.active').removeClass('active');
-            $('#files_tab').addClass('active');
-            $('#file_list_toggle_user').addClass('active');
-
-            $('#file_preview_container').removeClass('hidden');
-            var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
-            item.append(item_file_detail(response));
-            var comments = function (response) {
-                var comm = file_comments_msg(response);
-                $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
-            };
-            if (response.code != undefined) {
-                highlightCode(response.code, response.type);
-            }
-
-            var urlapi = apiUrl + 'files/comment/' + key;
-            request(urlapi, 'GET', null, null, comments, null);
-        };
-
-        var urlapi = apiUrl + 'files/detail/' + key;
-        request(urlapi, 'GET', null, null, exc, null);
-        $('#file_list_container').addClass('hidden');
     };
 
     var delete_file = function (key) {

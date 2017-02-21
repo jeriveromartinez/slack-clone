@@ -613,7 +613,7 @@ li.member.cursor_pointer {
 .my-scroll {
     overflow-y: scroll;
     overflow-x: hidden;
-    max-height: 35rem;
+    max-height: 53em;
     padding-right: 5px;
 }
 
@@ -829,6 +829,6 @@ h5 {
     margin: auto;
 }
 
-a[data-action="admin_invites_add_row"]{
+a[data-action="admin_invites_add_row"] {
     color: #3aa3e3;
 }

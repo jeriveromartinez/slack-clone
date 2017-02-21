@@ -373,6 +373,9 @@ $(document).ready(function () {
         $('#team_list_container').removeClass('hidden');
         $('#member_preview_container').addClass('hidden');
 
+        var height = $(window).height() - $('header').height();
+        $('#team_tab').css('height', height);
+
         var urlapi = apiUrl + companyuser + '/users/';
         request(urlapi, 'GET', null, null, exc, null);
 
@@ -1033,3 +1036,46 @@ $(document).ready(function () {
         awayTimeout: '180000' //away with default value of the textbox300000
     }).start();
 });
+
+var showPannelLeft = function () {
+    $('#client-ui').addClass('flex_pane_showing');
+};
+
+var hidePannelLeft = function () {
+    $('.panel.active').removeClass('active');
+};
+
+var activeFilesTab = function () {
+    $('#files_tab').addClass('active');
+    var height = $(window).height() - $('header').height();
+    $('#files_tab').css('height', height);
+};
+
+var detail_file = function (key) {
+    var exc = function (response) {
+        hidePannelLeft();
+        activeFilesTab();
+        $('#file_list_toggle_user').addClass('active');
+        $('#file_preview_container').removeClass('hidden');
+
+        var height = $(window).height() - $('header').height();
+        $('#file_preview_container').css('height', height);
+
+        var item = $('#monkey_scroll_wrapper_for_file_preview_scroller').html('');
+        item.append(item_file_detail(response));
+        var comments = function (response) {
+            var comm = file_comments_msg(response);
+            $('#monkey_scroll_wrapper_for_file_preview_scroller').find('.comments').html(comm);
+        };
+        if (response.code != undefined) {
+            highlightCode(response.code, response.type);
+        }
+
+        var urlapi = apiUrl + 'files/comment/' + key;
+        request(urlapi, 'GET', null, null, comments, null);
+    };
+
+    var urlapi = apiUrl + 'files/detail/' + key;
+    request(urlapi, 'GET', null, null, exc, null);
+    $('#file_list_container').addClass('hidden');
+};
