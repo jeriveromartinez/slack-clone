@@ -1,6 +1,7 @@
 /**
  * Created by julio on 12/10/16.
  */
+
 $(document).ready(function () {
     $('.accordion_expand.btn.btn_outline').on('click', function () {
         showEdits(this.id);
@@ -68,9 +69,9 @@ $(document).ready(function () {
     $('a.bold[href="#username"]').on('click.mail', function () {
         showEdits($(this).attr('data-id'));
     });
+});
 
-
-    //AUX
+//AUX
     var defaultExpands = function () {
         $('.accordion_expand.hidden').removeClass('hidden');
         $('h4[id*="h-"].hidden').removeClass('hidden');
@@ -87,6 +88,3 @@ $(document).ready(function () {
         $('#accordion-' + toExc).css({display: 'initial'});
         $('#accordion-' + toExc).attr("data-active", 'activate');
     };
-
-
-});

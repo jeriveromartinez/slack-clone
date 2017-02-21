@@ -149,9 +149,7 @@ var ts_message_shared_file = function (avatar, from, file, date_pub) {
         userUrl = '/account/profile/' + from + '/',
         date = moment(date_pub, moment.ISO - 8601).format("MMM Do \\at h:mm a"),
         descriptionFile = (file.extension in detailExtFile) ? detailExtFile[file.extension] : detailExtFile['txt'];
-    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share"><div class="action_hover_container">\
-<a class="ts_icon ts_icon_share_action ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Share file …"></a>\
-<a data-action="actions_menu" class="ts_icon ts_icon_small_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_60" title="Show message actions"></a></div>\
+    return '<ts-message data-date= "' + date_pub + '" class="message feature_fix_files first file_reference file_share">\
 	<span class="is_pinned_holder"></span><div class="message_gutter"><div class="message_icon">\
 		<a href="' + userUrl + '" target="_blank" class=" member_preview_link member_image thumb_36" style="background-image: ' + avatar + ';" aria-hidden="true"></a>\
 			</div><a href="' + file.url + '" target="_blank" class="timestamp ts_tip ts_tip_top ts_tip_float ts_tip_hidden ts_tip_multiline ts_tip_delay_300"></a>\
@@ -165,7 +163,6 @@ var ts_message_shared_file = function (avatar, from, file, date_pub) {
 		<p class="file_header_meta generic_header_meta"><span class="meta_hover_placement"><span class="meta_type overflow_ellipsis">' + descriptionFile + '</span>\
 			<span class="meta_hover overflow_ellipsis">Click to download</span></span></p></a><div class="preview_actions">\
                     <a class="file_preview_action file_ssb_download_link btn btn_outline btn_icon ts_icon ts_icon_cloud_download ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" href="' + file.url + '" target="_blank" title="Download"></a>\
-					<a class="file_preview_action file_actions btn btn_outline btn_icon ts_icon ts_icon_ellipsis ts_tip ts_tip_top ts_tip_float ts_tip_delay_300" title="More actions"></a>\
 					<a class="file_preview_action btn btn_outline file_preview_link file_comment_link file_force_flexpane" data-url="' + file.slug + '" data-action="comment">\
 						<span>' + file.count_comment + ' Comment</span></a></div></div><div class="rxn_panel"></div><i class="copy_only"><br></i></div></ts-message>';
 };
@@ -653,16 +650,4 @@ var optionsSearch = function () {
           <button class="result_item_btn btn_unstyle" type="button">\
           <strong>before: </strong><span class="muted_text">date</span>\
           <ts-icon class="ts_icon_plus_square_o ts_icon_inherit modifier_icon" aria-hidden="true"></ts-icon></button></li></ol>';
-};
-
-var detailExtFile = {
-    'xlsx': 'Excel Spreadsheet',
-    'xls': 'Excel Spreadsheet',
-    'doc': 'Word Document',
-    'docx': 'Word Document',
-    'ppt': 'Power Point Presentation',
-    'pptx': 'Power Point Presentation',
-    'pdf': 'PDF Document',
-    'txt': 'Snippet Document',
-    'mp3': 'Audio MP3'
 };

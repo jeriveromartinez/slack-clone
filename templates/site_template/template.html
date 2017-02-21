@@ -12,6 +12,7 @@
     <script type="text/javascript" src="{% static 'js/libraries/bootstrap/bootstrap.js' %}"></script>
 {% endblock %}
 {% block js %}
+    <script type="text/javascript" src="{% static 'js/site/common.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/site/account.js' %}"></script>
 {% endblock %}
 {% block header %}
@@ -26,7 +27,3 @@
     </div>
     <div id="overlay"></div>
 {% endblock %}
-{% comment %}
-{% block footer %}
-    {% include 'site_template/footer.html' %}
-{% endblock %}{% endcomment %}

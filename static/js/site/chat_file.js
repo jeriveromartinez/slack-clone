@@ -2,37 +2,6 @@
  * Created by julio on 31/10/16.
  */
 
-File.prototype.convertToBase64 = function (callback) {
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        callback(e.target.result)
-    };
-    reader.onerror = function () {
-        callback(null);
-    };
-    reader.readAsDataURL(this);
-};
-
-window.getArrayByObject = function (arrayObjects) {
-    var ret = [];
-    arrayObjects.forEach(function (item) {
-        ret[item.key] = item.value;
-    });
-
-    return ret;
-};
-
-Array.prototype.subString = function (parameter) {
-    var dev = [];
-    this.forEach(function (item) {
-        if (item.indexOf(parameter) !== -1) dev.push(item);
-    });
-
-    return dev;
-};
-
-var isCompany = true, collapsed = true, searchResult = null;
-
 $(document).ready(function () {
     //menu more items options
     $('#menu').on('click.menu_items', 'li[role="menuitem"]', function () {

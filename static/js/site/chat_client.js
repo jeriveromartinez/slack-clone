@@ -92,6 +92,7 @@ $(document).ready(function () {
     });
 });
 
+//AUX
 var messaged = function (data) {
     switch (data.action) {
         case 'error':

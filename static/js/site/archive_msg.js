@@ -1,7 +1,9 @@
 /**
  * Created by julio on 11/12/16.
  */
+
 var typeSelect = 'channel';
+
 $(document).ready(function () {
     loadPageChannel();
 
@@ -33,54 +35,7 @@ $(document).ready(function () {
     })
 });
 
-window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
-    $('#convo_loading_indicator').show();
-    if (type == 'file') {
-        $.ajax({
-            type: typeRequest,
-            url: urlSend,
-            data: dataSend,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: dataType,
-            crossDomain: true,
-            headers: {"X-CSRFToken": getCookie("csrftoken")},
-            success: doneFunction,
-            error: errorFunction,
-            complete: function () {
-                $('#convo_loading_indicator').hide();
-            }
-        });
-    } else {
-        $.ajax({
-            type: typeRequest,
-            url: urlSend,
-            data: dataSend,
-            dataType: dataType,
-            headers: {"X-CSRFToken": getCookie("csrftoken")},
-            success: doneFunction,
-            error: errorFunction,
-            complete: function () {
-                $('#convo_loading_indicator').hide();
-            }
-        });
-    }
-};
-
-window.getCookie = function (c_name) {
-    if (document.cookie.length > 0) {
-        c_start = document.cookie.indexOf(c_name + "=");
-        if (c_start != -1) {
-            c_start = c_start + c_name.length + 1;
-            c_end = document.cookie.indexOf(";", c_start);
-            if (c_end == -1) c_end = document.cookie.length;
-            return unescape(document.cookie.substring(c_start, c_end));
-        }
-    }
-    return "";
-};
-
+//AUX
 var loadPageUser = function (search) {
     var exc = function (response) {
         var list = $('#im_list');

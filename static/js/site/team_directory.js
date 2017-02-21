@@ -1,6 +1,7 @@
 /**
  * Created by julio on 8/12/16.
  */
+
 $(document).ready(function () {
     loadPage();
 

@@ -164,6 +164,7 @@ var msgArchiveComponent = function (date, item,style ) {
             </div><div class="col span_2_of_6 subtle_silver hide_on_mobile">' + date + '</div>\
             <div class="clear_both"></div></div>';
 };
+
 var msgChanelComponent = function (date, item, style) {
     style = (style != undefined) ? style : 'top_padding bottom_border';
 
@@ -253,16 +254,3 @@ var sharedFileType = function (type, item) {
             <i class="' + get_icon(item, 's24') + '"></i>';
     }
 };
-
-/*
-var icon = {
-    'xlsx': 'xlsx',
-    'xls': 'xlsx',
-    'doc': 'docx',
-    'docx': 'docx',
-    'ppt': 'pptx',
-    'pptx': 'pptx',
-    'pdf': 'pdf',
-    'txt': 'snippet',
-    'mp3': 'mp3'
-};*/

@@ -1,6 +1,7 @@
 /**
  * Created by julio on 28/10/16.
  */
+
 var user = {email: '', username: '', firstName: '', lastName: '', company: '', step: 2, invite: []};
 var btnContinue = {
     2: 'Continue to Password',
@@ -8,16 +9,20 @@ var btnContinue = {
     4: 'Create Team',
     5: 'Send Invitations or Skip'
 };
+
+hostUrl = window.location.protocol + '//' + window.location.host;
+
 var btn = function (str) {
     return str + '<ts-icon class="ts_icon_arrow_right" aria-hidden="true"></ts-icon>';
 };
+
 var fieldInvitation = function () {
     return '<div class="invite_row"><div class="input_wrapper"><p class="seafoam_green hidden input_checkmark"><i class="ts_icon ts_icon_check_small_bold neutral_white_bg"></i></p><input class="no_bottom_margin" placeholder="name@domain.com" autocomplete="off" spellcheck="false" type="email"></div><p class="error_message"></p><a class="delete_row"><i class="ts_icon ts_icon_times"></i></a></div>';
 };
-hostUrl = window.location.protocol + '//' + window.location.host;
 
 var itemLoad = '<div id="convo_loading_indicator"></div>';
 $('body').prepend(itemLoad);
+
 var setPassword = function (step) {
     return '<div class="create_step_number_label">Step ' + step + ' of 5</div><h1>Set your password</h1><p class="subtle_silver">Choose a password for signing in to Slack.</p><label class="normal" for="password">Password</label><input id="signup_password" placeholder="Password" name="password" type="password" required><div style="position: relative; width: 100%; margin: 5px 0px 1rem;"><div style="height: 4px; background-color: rgb(232, 232, 232); width: 100%; position: absolute; left: 0px;"></div><div style="height: 4px; width: 0%; position: absolute; left: 0px; background-color: rgb(39, 179, 15);" id="password-strength-meter"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 25%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 50%;"></div><div style="height: 4px; width: 2px; background-color: rgb(255, 255, 255); position: absolute; left: 75%;"></div></div><p class="error_message" id="password_error_message"></p><p class="subtle_silver">Passwords must be at least 6 characters long, and can’t be things like <i>password</i>, <i>123456</i> or <i>abcdef</i>.</p>';
 };
@@ -30,7 +35,7 @@ var setInvitations = function (step) {
     return '<div class="create_step_number_label">Step ' + step + ' of 5</div><div><h1 class="small_bottom_margin">Send Invitations</h1><p class="desc">Your Slack team is ready to go. Know a few friends or coworkers who’d like to explore Slack with you?</p><label class="inline_block">Email address</label><a id="add_invitation" class="inline_block float_right bold">+ Add another invitation</a></div><div id="invite_rows">' + fieldInvitation() + '</div>';
 };
 
-function defineStep() {
+var defineStep = function () {
     $('span#step').html(user.step);
 };
 

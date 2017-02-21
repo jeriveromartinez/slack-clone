@@ -1,23 +1,6 @@
 /**
  * Created by julio on 14/10/16.
  */
-var panel = null, channels = [], activeChannel = {name: "public", type: "public"}, users = [], typesL = [];
-window.users_logged = 0;
-window.userFileStatus = false;
-
-window.icon = {
-    'xlsx': 'xlsx',
-    'xls': 'xlsx',
-    'doc': 'docx',
-    'docx': 'docx',
-    'ppt': 'pptx',
-    'pptx': 'pptx',
-    'pdf': 'pdf',
-    'txt': 'snippet',
-    'mp3': 'mp3'
-};
-
-$('body').prepend(itemLoad);
 
 $(document).ready(function () {
     //beginnings methods
