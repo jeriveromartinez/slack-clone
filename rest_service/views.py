@@ -434,8 +434,8 @@ def save_files(request, from_user):
                 profile = Profile.objects.get(user__username=channel)
                 user_from = Profile.objects.get(user__username=request.user.username)
                 create.shared_to.add(profile.user)
-                FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event',
-                                               file_up=create)
+                # FileSharedEvent.objects.create(user_to=profile, user_from=user_from, type='file_shared_event',
+                #                                file_up=create)
                 create.save()
 
         if post['comment']:
