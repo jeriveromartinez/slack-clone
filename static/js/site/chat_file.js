@@ -649,12 +649,12 @@ $(document).ready(function () {
         });
     };
 
-    var highlightCode = function (codeString, type) {
+    window.highlightCode = function (codeString, type) {
         var code = CodeMirror();
         CodeMirror.switchSlackMode(code, type);
         setTimeout(
             function () {
-                CodeMirror.runMode(codeString, CodeMirror.type_map[type][0], document.getElementById('code_snippet_view'));
+                CodeMirror.runMode(codeString, CodeMirror.type_map[type], document.getElementById('code_snippet_view'));
             }, 250);
     };
 
