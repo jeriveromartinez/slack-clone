@@ -1,6 +1,7 @@
 {% extends 'site_template/template.html' %}
 {% load staticfiles %}
 {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/client/rollup-spaces.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/client/index_file_detail.css' %}">
 {% endblock %}
 {% block body_style %}light_theme{% endblock %}
@@ -8,23 +9,24 @@
     <nav>
         <div class="space">
             {#            <button class="space_btn_star btn ts_icon ts_icon_star_o star star_file cloud_silver" type="button"></button>#}
-            <a class="space_btn_star cloud_silver" href="{% url 'account:file' %}"><img src="{% static 'images/favicon-32.png' %}"></a>
+            <a class="space_btn_star cloud_silver" href="{% url 'account:file' %}"><img
+                    src="{% static 'images/favicon-32.png' %}"></a>
             <div class="status_message">
                 <div id="space_status">{% now "P" %}</div>
             </div>
             <div id="edit_status" class="hidden">You can now edit this post.</div>
             <div class="space_buttons right">
 
-                <div class="space_btn_edit_container hidden float_left ts_tip ts_tip_btn ts_tip_bottom ts_tip_right ts_tip_multiline">
+                {% comment %}<div class="space_btn_edit_container hidden float_left ts_tip ts_tip_btn ts_tip_bottom ts_tip_right ts_tip_multiline">
                     <button class="space_btn_edit btn btn_small hidden ladda-button" type="button">
                         <span class="edit_button_text ladda-label">Edit</span>
                     </button>
                     <span class="ts_tip_tip ts_tip_multiline_inner edit_tooltip_text"></span>
-                </div>
+                </div>{% endcomment %}
 
                 <button class="space_btn_share btn btn_small float_left" type="button">Save</button>
 
-                <button class="space_btn_share btn btn_small float_left" type="button">Share</button>
+                {% comment %}<button class="space_btn_share btn btn_small float_left" type="button">Share</button>
 
                 <button class="space_btn_more btn btn_outline ts_icon ts_icon_ellipsis ts_tip ts_tip_tip ts_tip_bottom ts_tip_center float_left"
                         type="button">
@@ -37,13 +39,13 @@
                         <span class="notif"></span>
                         <span class="ts_tip_tip">View comments</span>
                     </button>
-                </div>
+                </div>{% endcomment %}
             </div>
         </div>
-        <div class="comments">
+        {% comment %}<div class="comments">
             <h1>Comments</h1>
             <a id="space_btn_comments_hide" class="comments_close ts_icon ts_icon_times"></a>
-        </div>
+        </div>{% endcomment %}
     </nav>
 {% endblock %}
 {% block main_container %}
@@ -52,8 +54,9 @@
         <div class="find_container">
             <input aria-label="Search for text in this post" placeholder="Find in post" id="space_find_input"
                    type="text">
-            <button aria-label="Find next occurence" id="space_find_next"><span
-                    class="ts_icon ts_icon_arrow_right"></span></button>
+            <button aria-label="Find next occurence" id="space_find_next">
+                <span class="ts_icon ts_icon_arrow_right"></span>
+            </button>
         </div>
         <a id="space_find_close" class="ts_icon ts_icon_times" aria-label="Close find bar"></a>
     </div>
@@ -88,7 +91,7 @@
                 <div>
                     <div class="text p first last tab0">
                         <div>
-                            <textarea class="selected user" style="resize: vertical">lol</textarea>
+                            <textarea class="selected user" style="resize: vertical"></textarea>
                             {% comment %}<p tabindex="-1" class="selected">
                                 <caret class="user" tabindex="0"></caret>
                             </p>
@@ -97,7 +100,7 @@
                     </div>
                 </div>
             </ts-rocket>
-            <div class="para_menu" style="display: block; left: 187.5px; top: 23.4px;">
+            {% comment %}<div class="para_menu" style="display: block; left: 187.5px; top: 23.4px;">
                 <div class="insert"><a class="trigger ob"><span></span></a>
                     <ul class="options">
                         <li><a class="file"><span></span></a>
@@ -135,7 +138,7 @@
                         </div>
                         <span class="bottom arrow"></span><span class="bottom arrow-shadow"></span></div>
                 </div>
-            </div>
+            </div>{% endcomment %}
         </div>
     </ts-space>
 
@@ -145,27 +148,22 @@
             <div class="col span_4_of_6 no_right_padding">
                 <div id="file_page_comments">
                 </div>
-                <form action="https://blackmambasoft.slack.com/files/vbuilvicente/F2Y6ZJEPK/-" id="file_comment_form"
+                <form action="#/blackmambasoft.slack.com/files/vbuilvicente/F2Y6ZJEPK/-" id="file_comment_form"
                       class="comment_form" method="post">
-                    <a href="https://blackmambasoft.slack.com/team/vbuilvicente" class="member_preview_link"
-                       data-member-id="U2KQ0HRD3">
+                    <a href="#/blackmambasoft.slack.com/team/vbuilvicente" class="member_preview_link">
                         <span class="member_image thumb_36"
-                              style="background-image: url('135ec4a27b5d481465d022a2497dadbd_001.jpg');"
-                              data-thumb-size="36" data-member-id="U2KQ0HRD3"></span>
+                              style="background-image: {% if request.user.user_profile.image %}url('{{ request.user.user_profile.image.url }}'),{% endif %} url('{% static 'images/ava_0022-48.png' %}');"></span>
                     </a>
-                    <input name="addcomment" value="1" type="hidden">
-                    <input name="crumb" value="s-1478395963-2a01273d3f-☃" type="hidden">
 
-                    <textarea id="file_comment" data-el-id-to-keep-in-view="file_comment_submit_btn"
-                              class="small comment_input small_bottom_margin autogrow-short" name="comment"
-                              style="overflow: hidden; height: 38px;" wrap="virtual"></textarea>
+                    <textarea id="file_comment" class="small comment_input small_bottom_margin autogrow-short"
+                              name="comment" style="overflow: hidden; height: 38px;" wrap="virtual"></textarea>
                     <span class="input_note float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
                     <button id="file_comment_submit_btn" type="submit" class="btn float_right btn_small ladda-button"
                             data-style="expand-right"><span class="ladda-label">Add Comment</span></button>
                 </form>
 
                 <form id="file_edit_comment_form" class="edit_comment_form hidden" method="post"
-                      action="https://blackmambasoft.slack.com/files/vbuilvicente/F2Y6ZJEPK/-">
+                      action="#/blackmambasoft.slack.com/files/vbuilvicente/F2Y6ZJEPK/-">
                     <textarea id="file_edit_comment" class="small comment_input small_bottom_margin" name="comment"
                               wrap="virtual"></textarea><br>
                     <span class="input_note float_left cloud_silver file_comment_tip">shift+enter to add a new line</span>
@@ -205,37 +203,49 @@
             class="arrow-shadow"></span>
         <div class="content">
             <ul>
-                <li><a data-toggle="tooltip" class="bold" data-which="bold" title="" data-original-title="Bold">
-                    <ts-icon class="ts_icon_bold"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="italic" data-which="italic" title="" data-original-title="Italic">
-                    <ts-icon class="ts_icon_italic"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="underline" data-which="underline" title=""
-                       data-original-title="Underline">
-                    <ts-icon class="ts_icon_underline"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="strikethrough" data-which="strikethrough" title=""
-                       data-original-title="Strikethrough">
-                    <ts-icon class="ts_icon_strikethrough"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="snippet" data-which="code" title=""
-                       data-original-title="Code block">
-                    <ts-icon class="ts_icon_code"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="link" data-which="link" title="" data-original-title="Link">
-                    <ts-icon class="ts_icon_link"></ts-icon>
-                </a></li>
-                <li><a data-toggle="tooltip" class="deformat" data-which="deformat" title=""
-                       data-original-title="Clear formatting">
-                    <ts-icon class="ts_icon_times"></ts-icon>
-                </a></li>
+                <li>
+                    <a class="bold">
+                        <ts-icon class="ts_icon_bold"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="italic">
+                        <ts-icon class="ts_icon_italic"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a lass="underline">
+                        <ts-icon class="ts_icon_underline"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="strikethrough">
+                        <ts-icon class="ts_icon_strikethrough"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="snippet">
+                        <ts-icon class="ts_icon_code"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="link">
+                        <ts-icon class="ts_icon_link"></ts-icon>
+                    </a>
+                </li>
+                <li>
+                    <a class="deformat">
+                        <ts-icon class="ts_icon_times"></ts-icon>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
-    <div class="textstyle_menu link hide"><span class="arrow"></span><span class="arrow-shadow"></span>
-        <div class="content">
-            <input placeholder="e.g. www.slack.com" value="" type="text">
+    <div class="textstyle_menu link hide">
+        <span class="arrow"></span>
+        <span class="arrow-shadow"></span>
+        {% comment %}<div class="content">
+            <input placeholder="e.g. www.slack.com" type="text">
             <a class="link tsm_edit_link" target="_blank"></a>
             <div class="buttons">
                 <a data-toggle="tooltip" class="item link_unfurl">
@@ -251,6 +261,6 @@
                     <ts-icon class="ts_icon_check_large"></ts-icon>
                 </a>
             </div>
-        </div>
+        </div>{% endcomment %}
     </div>
 {% endblock %}

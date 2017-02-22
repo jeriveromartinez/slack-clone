@@ -1,7 +1,7 @@
 <header id="client_header">
     {% comment %}<div id="active_channel_name_overlay" class="onboarding_overlay"></div>{% endcomment %}
     <div id="team_menu">
-        <button class="notifications_menu_btn ts_icon ts_icon_bell_o ts_tip ts_tip_bottom ts_tip_float btn_unstyle"
+        <button class="notifications_menu_btn ts_icon ts_icon_bell_o ts_tip ts_tip_bottom ts_tip_float btn_unstyle ts_tip_hide"
                 aria-label="Notifications Menu">
             <span class="notifications_menu_tip ts_tip_tip">Notifications</span>
         </button>
@@ -13,7 +13,7 @@
             <div class="overlay_mock_text seventy_percent_width"></div>
         </div>
         <div id="presence_container" class="no_wrap ts_tip ts_tip_bottom ts_tip_left">
-            <i id="presence" class="ts_icon ts_icon_presence connecting"></i>
+            <i id="presence" class="ts_icon ts_icon_presence active" style="opacity: 1;"></i>
             <span class="ts_tip_tip">connecting...</span>
         </div>
         <span id="team_header_user_name" class="current_user_name overflow_ellipsis">{{ request.user.username }}</span>
