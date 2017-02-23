@@ -131,7 +131,7 @@ $(document).ready(function () {
 
         $('#file-upload').click();
 
-        $('#file-upload').off('change.file').on('change.file', function () {
+        $('#file-upload').unbind('change.file').on('change.file', function () {
             var file = this.files[0];
 
             if (file.type.indexOf('image') !== -1)
@@ -147,8 +147,7 @@ $(document).ready(function () {
             modal.show();
         });
 
-        $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.file_send', function (e) {
-            e.preventDefault();
+        var upload = function () {
             var shared_to = $('.modal-body').find('#shared_to').val();
             instance.data.append('title', $('.modal-body').find('#upload_file_title').val());
             instance.data.append('shared', shared_to);
@@ -156,7 +155,6 @@ $(document).ready(function () {
             instance.data.set('isShared', $('.modal-body').find('#share_cb')[0].checked);
 
             var exc = function (response) {
-                modal.destroy();
                 if (response.success == "ok") {
                     if ($('#file_list_toggle_all.active').length > 0)
                         user_all_files();
@@ -173,8 +171,9 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'files/upload/' + userlogged + '/';
             request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
-            e.stopPropagation();
-        });
+        };
+
+        modal.exc(upload);
     });
 
     //create snippet from chat
@@ -200,8 +199,7 @@ $(document).ready(function () {
 
         modal.show();
 
-        $('#go.btn').unbind('click.file_send').unbind('click.snippet_send').on('click.snippet_send', function (e) {
-            e.preventDefault();
+        var snippet = function () {
             var shared_to = $('#modal .modal-body').find('#share_cb').is(':checked') ? $('#modal .modal-body').find('#shared_to').val() : '';
             data.append('title', $('#modal .modal-body').find('#client_file_snippet_title_input').val());
             data.append('type', $('#modal .modal-body').find('#client_file_snippet_select').val());
@@ -228,8 +226,9 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'snippet/create/';
             request(urlapi, 'POST', 'json', data, exc, null, 'file');
-            e.stopPropagation();
-        });
+        };
+
+        modal.exc(snippet);
     });
 
     //show menu in details files
@@ -480,19 +479,28 @@ $(document).ready(function () {
     };
 
     var delete_file = function (key) {
-        var exc = function (response) {
-            if (response.success == 'ok') {
-                $('#file_preview_container').addClass('hidden');
-                $('#file_list_container').removeClass('hidden');
-                if (userFileStatus)
-                    user_files(userFileActive);
-                else
-                    user_all_files();
-            }
+        var body = '<div class="modal-body c-modal_body--default">Are you sure you want to delete this file permanently?</div>';
+        var modal = new Modal('Delete file', 'Yes, delete this file', body, null);
+        modal.styleBtnGo('#eb4d5c');
+        modal.show();
+        var accept = function () {
+            var exc = function (response) {
+                if (response.success == 'ok') {
+                    $('#file_preview_container').addClass('hidden');
+                    $('#file_list_container').removeClass('hidden');
+
+                    if (userFileStatus)
+                        user_files(userFileActive);
+                    else
+                        user_all_files();
+                }
+            };
+
+            var urlapi = apiUrl + 'files/delete/' + key + '/';
+            request(urlapi, 'DELETE', null, null, exc, null);
         };
 
-        var urlapi = apiUrl + 'files/delete/' + key + '/';
-        request(urlapi, 'DELETE', null, null, exc, null);
+        modal.exc(accept);
     };
 
     var codeMirror = function (id) {
@@ -524,24 +532,22 @@ $(document).ready(function () {
 
     var Modal = function (title, btnGo, html, data) {
         this.modal = $('#modal');
+        var context = this,
+            btnGoAction = $(this.modal).find('#go.btn');
         $(this.modal).find('#modal-title').html(title);
         $(this.modal).find('.modal-body').html(html);
-        $(this.modal).find('#go.btn').html(btnGo);
+        $(btnGoAction).html(btnGo);
+        $(btnGoAction).css('background-color', '#2ab27b');
 
-        var context = this;
-        $(this.modal).on('click', 'button[data-dismiss="modal"]', function () {
+        $(this.modal).on('click.dismiss', 'button[data-dismiss="modal"]', function () {
             context.destroy();
         });
 
-        $(this.modal).on('click', '#cancel', function () {
+        $(this.modal).unbind('click.cancel_modal').on('click.cancel_modal', '#cancel', function () {
             context.destroy();
         });
 
-        this.show = function () {
-            $(this.modal).removeClass('hidden');
-        };
-
-        $('#modal').off('click.shared_option').on('click.shared_option', '#share_cb', function () {
+        $('#modal').unbind('click.shared_option').on('click.shared_option', '#share_cb', function () {
             data.set('isShared', this.checked);
             if (this.checked)
                 $("#client_chared_select").attr('disabled', false).trigger("liszt:updated");
@@ -558,7 +564,21 @@ $(document).ready(function () {
             data = new FormData();
             if ($(this.select).length > 0)
                 $(this.select).chosen('destroy');
-        }
+        };
+        this.show = function () {
+            $(this.modal).removeClass('hidden');
+        };
+        this.styleBtnGo = function (color) {
+            $(btnGoAction).css('background-color', color);
+        };
+        this.exc = function (exc) {
+            $('#go.btn').unbind('click.exc_go').on('click.exc_go', function (e) {
+                e.preventDefault();
+                exc();
+                context.destroy();
+                e.stopPropagation();
+            });
+        };
     };
 
     var userListForModal = function (listGroup, listUser) {
@@ -594,8 +614,7 @@ $(document).ready(function () {
         var urlapi = apiUrl + 'files/detail/' + slug + '/';
         request(urlapi, 'GET', 'json', null, exc, null, null);
 
-        $('#go.btn').unbind('click.share_send').unbind('click.file_send').unbind('click.snippet_send').on('click.share_send', function (e) {
-            e.preventDefault();
+        var share = function () {
             var shared_to = $('.modal-body').find('#shared_to').val();
             instance.data.append('shared', shared_to);
             instance.data.append('comment', $('.modal-body').find('#file_comment_textarea').val());
@@ -614,8 +633,9 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'files/share/' + $($('.modal-body [data-file-id]')).attr('id') + '/';
             request(urlapi, 'POST', 'json', instance.data, exc, null, 'file');
-            e.stopPropagation();
-        });
+        };
+
+        modal.exc(share);
     };
 
     window.highlightCode = function (codeString, type) {
