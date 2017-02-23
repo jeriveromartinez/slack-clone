@@ -3035,16 +3035,16 @@ nav#site_nav #footer_signature {
     transition: background-color 0.15s ease-out 0s;
 }
 
-header {
-    background: rgb(255, 255, 255) none repeat scroll 0 0;
-    height: 5rem;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-}
+/*header {*/
+    /*background: rgb(255, 255, 255) none repeat scroll 0 0;*/
+    /*height: 5rem;*/
+    /*box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);*/
+    /*position: fixed;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*z-index: 100;*/
+/*}*/
 
 header #menu_toggle {
     display: inline-block;
@@ -3344,9 +3344,9 @@ html.no_touch header .header_btns .btn_link:hover .label, html.no_touch header .
         padding: 6rem 2rem;
     }
 
-    header {
-        height: 4rem;
-    }
+    /*header {*/
+        /*height: 4rem;*/
+    /*}*/
 
     header #menu_toggle {
         height: 4rem;
@@ -4601,7 +4601,16 @@ html:not(.supports_flexbox) #channel_invite_tokens .member_token {
     src: local("Lucida Grande");
     unicode-range: U+F8FF;
 }
-
+.offscreen {
+    position: absolute;
+    overflow: hidden;
+    clip: rect(0px, 0px, 0px, 0px);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0px;
+    border: 0px none;
+}
 .lazy_filter_select.default_style .lfs_list_container .monkey_scroll_bar:not(.hidden) + .monkey_scroll_hider > .lfs_list {
     padding-right: 1.0625rem;
 }

@@ -43,7 +43,7 @@ ts-rocket div.text > div .shadow, ts-rocket.post_body div.text > div .shadow {
     z-index: 1;
     top: 0;
     width: 100%;
-    opacity: 0;
+    /*opacity: 0;*/
     pointer-events: auto;
     box-sizing: border-box
 }

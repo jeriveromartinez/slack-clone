@@ -65,7 +65,7 @@
         <header class="headroom headroom--top">
             <div class="owner_avatar">
                 <span class="member_image thumb_192"
-                      style="background-image:{% if request.user.user_profile.image %}url('{{ request.user.user_profile.image.url }}'),{% endif %} url('{% static 'images/ava_0022-48.png' %}');"></span>
+                      style="background-image:{% if request.user.user_profile.image %}url('{{ request.user.user_profile.image.url }}'){% else %}url('{% static 'images/ava_0022-48.png' %}'){% endif %} ;"></span>
             </div>
             <div class="owner_detail">
                 <small class="owner_name_and_share_info">
@@ -76,9 +76,9 @@
                     </ul>
                 </small>
                 <h1 class="file_title_header">
-                    {#                    <span class="file_title offscreen js_editable_text">Untitled</span>#}
-                    <textarea class="file_title offscreen js_editable_text{% comment %}inline-edit{% endcomment %}"
-                              rows="1" autocomplete="off" spellcheck="false" maxlength="100"
+                    <span class="file_title offscreen js_editable_text">Untitled</span>
+                    <textarea class="inline-edit"
+                              rows="1" autocomplete="off" spellcheck="false" maxlength="20"
                               aria-label="Edit title" placeholder="Untitled"
                               style="overflow: hidden; overflow-wrap: break-word; height: 43px;resize: none;"></textarea>
                 </h1>
@@ -89,13 +89,42 @@
         <div class="content">
             <ts-rocket rocket-id="002" tabindex="0" class="">
                 <div>
-                    <div class="text p first last tab0">
-                        <div>
-                            <textarea class="selected user" style="resize: vertical"></textarea>
-                            {% comment %}<p tabindex="-1" class="selected">
-                                <caret class="user" tabindex="0"></caret>
-                            </p>
-                            <p class="shadow" spellcheck="false" contenteditable="true"></p></div>{% endcomment %}
+                    <div>
+                        <div class="text h2 first last tab0">
+                            <div>
+                                <h2 tabindex="-1" class="selected">
+                                    <caret class="user" tabindex="0"></caret>
+                                    dsfsd
+                                </h2>
+                                <h2 class="shadow" spellcheck="false" contenteditable="true">dsfsd</h2></div>
+                        </div>
+                        <div class="text p first tab0">
+                            <div><p tabindex="-1" class="">dsf</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">dsf</p></div>
+                        </div>
+                        <div class="text p tab0">
+                            <div><p tabindex="-1" class="">ds</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">ds</p></div>
+                        </div>
+                        <div class="text p tab0">
+                            <div><p tabindex="-1" class="">f</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">f</p></div>
+                        </div>
+                        <div class="text p tab0">
+                            <div><p tabindex="-1" class="">fds</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">fds</p></div>
+                        </div>
+                        <div class="text p tab0">
+                            <div><p tabindex="-1" class="">ds</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">ds</p></div>
+                        </div>
+                        <div class="text p tab0">
+                            <div><p tabindex="-1" class="">f</p>
+                                <p class="shadow" spellcheck="false" contenteditable="true">f</p></div>
+                        </div>
+                        <div class="text p last tab0">
+                            <div><p tabindex="-1" class=""></p>
+                                <p class="shadow" spellcheck="false" contenteditable="true"></p></div>
                         </div>
                     </div>
                 </div>
