@@ -97,7 +97,7 @@ class SlackFile(PolymorphicModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title + ' - ' + self.author.company.slug + ' - ' + self.author.user.username)
         if self.url is None:
-            self.url = 'account/file/public/' + self.slug
+            self.url = '/account/file/public/' + self.slug
         super(SlackFile, self).save(*args, **kwargs)
 
     @staticmethod

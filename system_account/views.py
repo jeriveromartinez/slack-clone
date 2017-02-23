@@ -153,11 +153,79 @@ def delete_file(request, slug):
 
 
 def get_file(request, slug):
+    fileExt = (
+        (u'text', u'.txt'),
+        (u'applescript', u'.scpt'),
+        (u'boxnote', u'.bn'),  # este
+        (u'c', u'.c'),
+        (u'csharp', u'.cs'),
+        (u'cpp', u'.cpp'),
+        (u'css', u'.css'),
+        (u'csv', u'.csv'),
+        (u'clojure', u'.clj'),
+        (u'coffeescript', u'.coffee'),
+        (u'cfm', u'.cf'),
+        (u'crystal', u'.csp'),
+        (u'cypher', u'cy'),
+        (u'd', u'.d'),
+        (u'dart', u'.dart'),
+        (u'diff', u'.diff'),
+        (u'dockerfile', u'.dockerfile'),
+        (u'erlang', u'.hrl'),
+        (u'fsharp', u'.fs'),
+        (u'fortran', u'.f'),
+        (u'gherkin', u'Gherkin'),  # este
+        (u'go', u'.go'),
+        (u'groovy', u'.groovy'),
+        (u'html', u'.html'),
+        (u'handlebars', u'.hbs'),
+        (u'haskell', u'.hs'),
+        (u'haxe', u'.hx'),
+        (u'java', u'.java'),
+        (u'javascript', u'.js'),
+        (u'julia', u'.jl'),
+        (u'kotlin', u'.kt'),
+        (u'latex', u'.dtx'),
+        (u'lisp', u'.lsp'),
+        (u'lua', u'.lua'),
+        (u'matlab', u'.m'),
+        (u'mumps', u'.m'),  # a
+        (u'markdown', u'.md'),
+        (u'ocaml', u'.ml'),
+        (u'objc', u'.mm'),
+        (u'php', u'.php'),
+        (u'pascal', u'.dpr'),
+        (u'perl', u'.pl'),
+        (u'pig', u'.pig'),
+        (u'post', u'Post'),
+        (u'powershell', u'.ps1'),
+        (u'puppet', u'.pp'),
+        (u'python', u'.py'),
+        (u'r', u'.r'),
+        (u'ruby', u'.rb'),
+        (u'rust', u'.rs'),
+        (u'sql', u'.sql'),
+        (u'sass', u'.sass'),
+        (u'scala', u'.scala'),
+        (u'scheme', u'.ss'),
+        (u'shell', u'.ksh'),
+        (u'smalltalk', u'Smalltalk'),  # este
+        (u'swift', u'.swift'),
+        (u'tsv', u'.tsv'),
+        (u'vb', u'.vb'),
+        (u'vbscript', u'.vbscript'),
+        (u'velocity', u'.vtl'),
+        (u'verilog', u'.bsv'),
+        (u'xml', u'.xml'),
+        (u'yaml', u'.yaml'),
+    )
+
     item = get_object_or_404(SlackFile, slug=slug)
+    ext = dict(fileExt)
     if item is not None:
         if isinstance(item, Snippet):
             try:
-                name = item.title + ".txt"
+                name = item.title + ext[item.type]
                 temp = tempfile.TemporaryFile()
                 temp.write(item.code)
                 temp.flush()
@@ -183,7 +251,7 @@ def get_file(request, slug):
                 print(e)
 
         response = HttpResponse(wrapper, content_type='application/force-download')
-        response['Content-Disposition'] = 'attachment; filename=' + name
+        response['Content-Disposition'] = 'attachment; filename=\"' + name + '\"'
         return response
 
 
