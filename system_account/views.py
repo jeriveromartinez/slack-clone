@@ -12,6 +12,7 @@ from django.db.models import Q
 
 from plataforma.forms import SnippetForm, PostForm
 from plataforma.models import *
+from django.http import JsonResponse
 from system_account.forms import *
 from conf.settings.base import SITE_ROOT
 
@@ -86,24 +87,21 @@ def files_profile(request):
 def post(request, slug=None):
     post_inst = Post.objects.filter(slug=slug)
     if request.method == "POST":
-        if post_inst.__len__() > 0:
-            form = PostForm(data=request.POST or None, instance=post_inst[0] or None)
+        post_title = request.POST.get('post_title')
+        post_text = request.POST.get('post_text')
+        profile = Profile.objects.get(user__username__exact=request.user.username)
+        post = Post.objects.update_or_create(title=post_title, text=post_text, author=profile)
+        if post:
+            return JsonResponse({"success": True})
         else:
-            form = PostForm(data=request.POST or None)
-        if form.is_valid():
-            data = form.save(commit=False)
-            author = Profile.objects.filter(user__username=request.user.username)[0]
-            data.author = author
-            data.save()
-            return redirect('account:file')
-        else:
-            print(form.is_valid(), form.errors, type(form.errors))
+            return JsonResponse({"success": False})
     else:
-        if post_inst.__len__() > 0:
+        if len(post_inst) > 0:
             form = PostForm(instance=post_inst[0] or None)
         else:
             form = PostForm()
-    return render_to_response('account/files/post.html', {'form': form}, context_instance=RequestContext(request))
+    return render_to_response('account/files/post.html', {'form': form, 'referer': request.META['HTTP_REFERER']},
+                              context_instance=RequestContext(request))
 
 
 @csrf_protect
