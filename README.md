@@ -11,6 +11,4 @@ release: echo "from django.contrib.auth.models import User; User.objects.create_
 web: gunicorn --worker-class socketio.sgunicorn.GeventSocketIOWorker plataforma.wsgi --preload --workers 1
 
 less:
-1-delete file popup confirmation
-file:///media/julio/Datos/Documentos/slack/sitio/data/20161201223015/index.html
-2-save post files and redirect to last location
+1-save post files and redirect to last location

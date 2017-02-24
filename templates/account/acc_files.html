@@ -70,7 +70,7 @@
                     <option value="all" selected>Everyone</option>
                     <option value="{{ request.user.username }}">Just You</option>
                     {% for user in partners %}
-                        <option value="{{ user.user.username }}">{{ user.user.first_name }} {{ user.user.last_name }}</option>
+                        <option value="{{ user.user.username }}">@{{ user.user.username }}</option>
                     {% endfor %}
                 </select>
             </label>

@@ -12,12 +12,12 @@
     <script type="text/javascript" src="{% static 'js/codemirror/codemirror_load.js' %}"></script>
 {% endblock %}
 {% block js %}
+    {{ block.super }}
     <script>
-        var cdn_url = window.location.protocol + '//' + window.location.host + '/static';
-        var g_editor;
-
+        var g_editor,
+            wrap_long_lines = true;
         $(function () {
-            var wrap_long_lines = true;
+
 
             g_editor = CodeMirror.fromTextArea(document.getElementById("id_code"), {
                 lineNumbers: true,
@@ -27,18 +27,17 @@
                 enterMode: "keep",
                 tabMode: "shift",
                 viewportMargin: 10,
-                lineWrapping: wrap_long_lines,
+                lineWrapping: wrap_long_lines
             });
 
-            $('select#id_type').change(function (evt) {
+            $('select#id_type').change(function () {
                 CodeMirror.switchSlackMode(g_editor, $(this).val());
             }).change();
 
             // setup wrap checkbox
-            $('#file_create_wrap_cb').bind('change', function (e) {
+            $('#file_create_wrap_cb').bind('change', function () {
                 var wrap = $(this).is(":checked");
                 g_editor.setOption('lineWrapping', wrap);
-                {% comment %}TS.prefs.setPrefByAPI({name: 'snippet_editor_wrap_long_lines', value: wrap});{% endcomment %}
             });
         });
     </script>

@@ -62,7 +62,7 @@ var userTeamComponent = function (userUrl, avatar, email, names, username) {
     return '<div class="team_list_item member_item cursor_pointer active expanded clearfix">\
                             <div class="member_details member_item_inset col span_5_of_12 no_bottom_margin">\
                                 <a href="' + userUrl + '" class="lazy member_preview_link member_image thumb_72"\
-                                   style="background-size:contain;background: rgb(246, 246, 246) url(' + avatar + ');" aria-hidden="true"></a>\
+                                   style="background-size:contain;background: rgb(246, 246, 246) url(' + avatar + ') no-repeat;" aria-hidden="true"></a>\
                                 <div class="member_name_and_title"><div class="color_4bbe2e">\
                                         <a href="' + userUrl + '"\
                                            class="bold member_preview_link member_name no_bottom_margin">' + names + '</a>\
