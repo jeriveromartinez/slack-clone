@@ -1,4 +1,5 @@
 var accountapi = window.location.protocol + '//' + window.location.host + '/account/';
+
 $(document).ready(function () {
     $("#save").click(function () {
         if ($("#post_title").val().length > 0 && $("#post_text").val().length > 0) {
@@ -14,9 +15,9 @@ $(document).ready(function () {
                 post_text: $("#post_text").val()
             }, exc, null);
         }
-
     })
 });
+
 window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
     $('#convo_loading_indicator').show();
 

@@ -38,7 +38,7 @@ $(document).ready(function () {
     });
 
     //go from details to user select files
-    $('#back_from_file_preview').on('click', function () {
+    $('#back_from_file_preview').on('click.back_file_preview', function () {
         $('#file_preview_container').addClass('hidden');
         $('#file_list_container').removeClass('hidden');
         if (!isCompany)
@@ -48,13 +48,13 @@ $(document).ready(function () {
     });
 
     //get all files from company
-    $('#file_list_toggle_all').on('click', function () {
+    $('#file_list_toggle_all').on('click.user_all_files', function () {
         user_all_files();
         isCompany = true;
     });
 
     //list documents by user select in All Files Type
-    $('#file_list_toggle_user').on('click', function () {
+    $('#file_list_toggle_user').on('click.files_by_user_select', function () {
         var instance = this;
         if ($('#file_list_toggle_user').hasClass('active')) {
             if (!userFileStatus) {
@@ -87,9 +87,9 @@ $(document).ready(function () {
     });
 
     //launch files upload forms
-    $('#primary_file_button').on('click', function () {
+    $('#primary_file_button').on('click.for_upload_file', function () {
         var value = $('#hiddenMenuFileUpload').html();
-        var options = {style: 'menu file_menu menu_file_create', bottom: true, height: '26%'};
+        var options = {style: 'menu file_menu menu_file_create', bottom: true, height: '12em'};
         positionMenu(this, value, 'right', options);
     });
 

@@ -7,7 +7,7 @@ $('body').prepend(itemLoad);
 
 var panel = null, channels = [], activeChannel = {name: "public", type: "public"}, users = [], typesL = [],
     users_logged = 0, userFileStatus = false, isCompany = true, collapsed = true, searchResult = null,
-    menu = false, teams = false, userFileActive = null;
+    menu = false, teams = false, userFileActive = null, countInvited = 1;
 
 File.prototype.convertToBase64 = function (callback) {
     var reader = new FileReader();

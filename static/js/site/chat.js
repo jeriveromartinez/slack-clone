@@ -20,7 +20,8 @@ $(document).ready(function () {
     //show menu user logged
     $('#team_menu').on('click.team_menu', function () {
         var value = $('#hiddenMenuUser').html();
-        positionMenu(this, value, 'right');
+        var options = {height: '21rem'};
+        positionMenu(this, value, 'right', options);
         $('#menu.menu').find('.member_preview_link.member_image.thumb_36')[0].href = userProfile;
     });
 
@@ -185,7 +186,7 @@ $(document).ready(function () {
     });
 
     //hide all full screen menu
-    $(document).on('keyup', function (e) {
+    $(document).on('keyup.hide_modal', function (e) {
         if (e.keyCode == 27) {
             $('#fs_modal.active').removeClass('active').addClass('hidden');
             $('#fs_modal_bg').removeClass('active').addClass('hidden');
@@ -257,23 +258,6 @@ $(document).ready(function () {
         var urlapi = apiUrl + 'room_user_list/' + userlogged + '/';
         request(urlapi, 'GET', null, null, exc, null);
     };
-
-    /*var get_users = function () {
-     var exc = function (response) {
-     var list = $('#im-list').html('');
-     $('#dm_header_count').html(response.length);
-     $('span#active_members_count_value').html(response.length);
-     $('#channel_members_toggle_count.blue_hover').html(response.length + ' members<span class="ts_tip_tip">View member list (' + Number(window.users_logged - 1) + '/' + Number(response.length - 1) + ' online)</span>');
-     response.forEach(function (item) {
-     list.append(item_user_list(item.user.username));
-     });
-     };
-
-     var urlapi = apiUrl + companyuser + '/users/';
-     $.when(users_online()).done(function () {
-     request(urlapi, 'GET', null, null, exc, null);
-     });
-     };*/
 
     window.get_comuncation_me = function () {
         var exc = function (response) {
@@ -365,58 +349,58 @@ $(document).ready(function () {
         $('#menu.flex_menu').addClass('hidden');
     };
 
-    window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
-        $('#convo_loading_indicator').show();
-        if (type == 'file') {
-            $.ajax({
-                type: typeRequest,
-                url: urlSend,
-                data: dataSend,
-                cache: false,
-                contentType: false,
-                processData: false,
-                crossDomain: true,
-                dataType: dataType,
-                headers: {"X-CSRFToken": getCookie("csrftoken")},
-                success: doneFunction,
-                error: errorFunction,
-                complete: function () {
-                    $('#convo_loading_indicator').hide();
-                }
-            });
-        } else {
-            $.ajax({
-                type: typeRequest,
-                url: urlSend,
-                data: dataSend,
-                dataType: dataType,
-                headers: {"X-CSRFToken": getCookie("csrftoken")},
-                success: doneFunction,
-                error: errorFunction,
-                complete: function () {
-                    $('#convo_loading_indicator').hide();
-                }
-            });
-        }
-    };
+    /*window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
+     $('#convo_loading_indicator').show();
+     if (type == 'file') {
+     $.ajax({
+     type: typeRequest,
+     url: urlSend,
+     data: dataSend,
+     cache: false,
+     contentType: false,
+     processData: false,
+     crossDomain: true,
+     dataType: dataType,
+     headers: {"X-CSRFToken": getCookie("csrftoken")},
+     success: doneFunction,
+     error: errorFunction,
+     complete: function () {
+     $('#convo_loading_indicator').hide();
+     }
+     });
+     } else {
+     $.ajax({
+     type: typeRequest,
+     url: urlSend,
+     data: dataSend,
+     dataType: dataType,
+     headers: {"X-CSRFToken": getCookie("csrftoken")},
+     success: doneFunction,
+     error: errorFunction,
+     complete: function () {
+     $('#convo_loading_indicator').hide();
+     }
+     });
+     }
+     };*/
 
     window.getUserPath = function (username) {
         var urlapi = apiUrl + 'profile/' + username + '/path/';
         return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
     };
 
-    window.getCookie = function (c_name) {
-        if (document.cookie.length > 0) {
-            c_start = document.cookie.indexOf(c_name + "=");
-            if (c_start != -1) {
-                c_start = c_start + c_name.length + 1;
-                c_end = document.cookie.indexOf(";", c_start);
-                if (c_end == -1) c_end = document.cookie.length;
-                return unescape(document.cookie.substring(c_start, c_end));
-            }
-        }
-        return "";
-    };
+    /*window.getCookie = function (c_name) {
+     if (document.cookie.length > 0) {
+     c_start = document.cookie.indexOf(c_name + "=");
+     if (c_start != -1) {
+     c_start = c_start + c_name.length + 1;
+     c_end = document.cookie.indexOf(";", c_start);
+     if (c_end == -1) c_end = document.cookie.length;
+     return unescape(document.cookie.substring(c_start, c_end));
+     }
+     }
+     return "";
+     };*/
 
     var initView = function () {
         $("a.clear_unread_messages").tooltip({placement: "bottom", delay: {show: 500, hide: 150}});
@@ -442,9 +426,10 @@ $(document).ready(function () {
             top: ((position.top + heightInst) < $(window).height()) ? (position.top + heightInst) + "px" : $(window).height() + "px",//471px
             'max-height': (options != undefined && options.height != undefined) ? options.height : '25rem'
         };
+        //console.log(parseFloat(getComputedStyle(parentElement).height));
 
         if (options != undefined && options.bottom == true)
-            values['top'] = (position.top - heightMenu - heightInst) + "px";
+            values['top'] = (position.top - heightMenu - heightInst - 20) + "px";
         if (options != undefined && options.left != undefined)
             values['left'] = (Number(values.left.split('px')[0]) + Number(options.left)) + 'px';
         if (options != undefined && options.style != undefined) {
@@ -747,7 +732,6 @@ $(document).ready(function () {
 
         _$create_chanel.on("click", "#fs_modal_close_btn", function () {
             _close();
-
         });
 
         _$create_chanel.on("input", "#channel_create_title", function () {
@@ -791,8 +775,10 @@ $(document).ready(function () {
             purpose = $('#channel_purpose_input').val();
             var data = {title: title, purpose: purpose, visibility: visibility, invites: JSON.stringify(invites)};
 
-            function exc() {
-                alert(data.result);
+            function exc(response) {
+                var data = {un_reader_msg: 0, name: response.result};
+                $('#channel-list').append(item_channel_list(data));
+                _close();
             }
 
             var urlapi = apiUrl + 'create_room/';

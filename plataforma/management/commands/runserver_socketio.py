@@ -26,16 +26,17 @@ def reload_watcher():
 
 
 class Command(BaseCommand):
-    def handle(self, addrport="", *args, **options):
+    def handle(self, addPort="", *args, **options):
 
-        if not addrport:
+        if not addPort:
             self.addr = '0.0.0.0'
-            self.port = environ['PORT']  # SOCKETIO_PORT  # environ['PORT'] todo: change before push
+            self.port = environ['PORT']
+            # self.port = SOCKETIO_PORT  # todo: change before push
         else:
-            m = match(naiveip_re, addrport)
+            m = match(naiveip_re, addPort)
             if m is None:
                 raise CommandError('"%s" is not a valid port number '
-                                   'or address:port pair.' % addrport)
+                                   'or address:port pair.' % addPort)
             self.addr, _, _, _, self.port = m.groups()
 
         # Make the port available here for the path:
