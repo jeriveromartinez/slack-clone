@@ -6,3 +6,5 @@ plataforma/migrations/
 .crt
 .key
 *.pyc
+Procfile
+runtime.txt

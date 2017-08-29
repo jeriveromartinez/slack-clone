@@ -481,7 +481,7 @@ var file_options_file = function (str, options) {
         '#URL_LINK#': options.copyLink,
         '#NEW_WINDOW_OPEN_FILE#': options.opeNeWind,
         '#COMMENT#': options.comment,
-        '#EDIT_FILE#': options.edit,
+        //'#EDIT_FILE#': options.edit,
         '#URL_DELETE#': options.delete
     };
     str = str.replace(/#URL_LINK#|#NEW_WINDOW_OPEN_FILE#|#EDIT_FILE#|#URL_DELETE#|#COMMENT#/gi, function (matched) {

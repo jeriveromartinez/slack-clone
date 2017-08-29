@@ -29,7 +29,7 @@ $(document).ready(function () {
             copyLink: $(this).attr('data-file-url'),
             opeNeWind: $(this).attr('data-file-url'),
             comment: $(this).attr('data-file'),
-            edit: $(this).attr('data-file'),
+            //edit: $(this).attr('data-file'),
             delete: $(this).attr('data-file')
         };
 

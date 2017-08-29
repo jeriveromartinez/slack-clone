@@ -33,20 +33,18 @@ $(document).ready(function () {
     });
 
     //shows menu headers
-    $('.channel_header_icon').on('click', function () {
+    $('.channel_header_icon').on('click.channel_header', function () {
         $('.channel_header_icon.active').removeClass('active');
         $(this).addClass('active');
 
-        //aqui lo demas
         var obj = this.id;
         if (obj.indexOf('_toggle') !== -1) {
-            obj = obj.replace('_toggle', ''); //TODO: arreglar la morzillera esta
+            obj = obj.replace('_toggle', '');
 
             if (obj != 'flex_menu') {
                 var arr = (obj.split('_').length > 1) ? obj.split('_')[1] : obj.split('_')[0];
                 $('.panel.active').removeClass('active');
                 $('#' + arr + '_tab').addClass('active');
-                //change_chat_size('65%');
             } else {
                 var value = $('#hiddenMenuFlexMenu').html();
                 var options = {style: 'menu flex_menu', height: '10rem'};
@@ -349,58 +347,10 @@ $(document).ready(function () {
         $('#menu.flex_menu').addClass('hidden');
     };
 
-    /*window.request = function (urlSend, typeRequest, dataType, dataSend, doneFunction, errorFunction, type) {
-     $('#convo_loading_indicator').show();
-     if (type == 'file') {
-     $.ajax({
-     type: typeRequest,
-     url: urlSend,
-     data: dataSend,
-     cache: false,
-     contentType: false,
-     processData: false,
-     crossDomain: true,
-     dataType: dataType,
-     headers: {"X-CSRFToken": getCookie("csrftoken")},
-     success: doneFunction,
-     error: errorFunction,
-     complete: function () {
-     $('#convo_loading_indicator').hide();
-     }
-     });
-     } else {
-     $.ajax({
-     type: typeRequest,
-     url: urlSend,
-     data: dataSend,
-     dataType: dataType,
-     headers: {"X-CSRFToken": getCookie("csrftoken")},
-     success: doneFunction,
-     error: errorFunction,
-     complete: function () {
-     $('#convo_loading_indicator').hide();
-     }
-     });
-     }
-     };*/
-
     window.getUserPath = function (username) {
         var urlapi = apiUrl + 'profile/' + username + '/path/';
         return $.ajax({type: "GET", url: urlapi, async: false}).responseJSON.url;
     };
-
-    /*window.getCookie = function (c_name) {
-     if (document.cookie.length > 0) {
-     c_start = document.cookie.indexOf(c_name + "=");
-     if (c_start != -1) {
-     c_start = c_start + c_name.length + 1;
-     c_end = document.cookie.indexOf(";", c_start);
-     if (c_end == -1) c_end = document.cookie.length;
-     return unescape(document.cookie.substring(c_start, c_end));
-     }
-     }
-     return "";
-     };*/
 
     var initView = function () {
         $("a.clear_unread_messages").tooltip({placement: "bottom", delay: {show: 500, hide: 150}});
@@ -621,7 +571,7 @@ $(document).ready(function () {
     };
 
     //Browse Channel Modal
-    var openDirectBrowse = function () {
+    var openDirectBrowse = function () { //todo: add channel selected to list
         var modal = $("#browse-chanel").find("#fs_modal");
         var modal_bg = $("#fs_modal_bg");
         modal_bg.removeClass("hidden");
@@ -689,8 +639,8 @@ $(document).ready(function () {
 
         function _selectRow(row) {
             var channel = row.attr('data-channel-id');
-            alert("channel");
-            //ReloadChanel(channel);
+
+            _close();
         }
     };
 
@@ -758,14 +708,13 @@ $(document).ready(function () {
             var member = item.attr('data-member-id');
             var index = invites.indexOf(member);
 
-            if (index > -1) {
+            if (index > -1)
                 invites.splice(index, 1);
-            }
 
             item.remove();
-
             var input = $(".lfs_input").val();
             _filter(input);
+
             $(".lfs_item").removeClass('lfs_token selected');
             $('.lfs_input_container').addClass('empty');
             $(".lfs_input").focus().val('').attr('placeholder', "Search by name");
@@ -783,7 +732,6 @@ $(document).ready(function () {
 
             var urlapi = apiUrl + 'create_room/';
             request(urlapi, 'POST', null, data, exc, null);
-
         });
         btn_back.click(function () {
             _close();

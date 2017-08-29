@@ -52,27 +52,27 @@ MANAGERS = ADMINS
 #     )
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dc49at5g9oe0e6',
-        'USER': 'ldtwmxhztkeagd',
-        'PASSWORD': 'b1cf46fb4e46b15d376a230b0e79abdb10f43708cb601148f70029a76d5fc608',
-        'HOST': 'ec2-54-235-247-224.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'plataforma',
-#         'USER': 'julio',
-#         'PASSWORD': 'ju1io',
-#         'HOST': 'localhost',
+#         'NAME': 'dc49at5g9oe0e6',
+#         'USER': 'ldtwmxhztkeagd',
+#         'PASSWORD': 'b1cf46fb4e46b15d376a230b0e79abdb10f43708cb601148f70029a76d5fc608',
+#         'HOST': 'ec2-54-235-247-224.compute-1.amazonaws.com',
 #         'PORT': '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'plataforma',
+        'USER': 'julio',
+        'PASSWORD': 'ju1io',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # DATABASES = {
 #     'default': {

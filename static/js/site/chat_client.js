@@ -1,4 +1,5 @@
 window.socket = io.connect("/chat");
+
 $(document).ready(function () {
     socket.on('connect', function () {
         console.log(" connected");
@@ -194,7 +195,7 @@ var onDataLoaded = function (data) {
 
                 switch (item.type) {
                     case 'message_int_event':
-                        day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
+                        day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                         break;
                     case 'file_shared_event':
                         addFileMsg(day_msgs, item);
@@ -214,7 +215,7 @@ var onDataLoaded = function (data) {
                 } else
                     switch (item.type) {
                         case 'message_int_event':
-                            day_msgs.append(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
+                            day_msgs.prepend(ts_message(item.user_from.image, item.user_from.user.username, item.msg, item.date_pub));
                             break;
                         case 'file_shared_event':
                             addFileMsg(day_msgs, item);
@@ -293,8 +294,6 @@ var ReloadRoom = function (name) {
             //console.log(data.message);
         }
     });
-
-
 };
 
 var success = function (data) {
@@ -353,8 +352,8 @@ function openIncomingCall(data) {
 var addFileMsg = function (parent, item) {
     var img = {'jpg': 'jpg', 'jpeg': 'jpeg', 'png': 'png', 'gif': 'gif', 'ico': 'ico'};
     if (img[item.file_up.extension] != undefined) {
-        parent.append(ts_message_shared_image(item.user_from.user.username, item.image, item.file_up, item.date_pub));
+        parent.prepend(ts_message_shared_image(item.user_from.user.username, item.image, item.file_up, item.date_pub));
     } else {
-        parent.append(ts_message_shared_file(item.image, item.user_from.user.username, item.file_up, item.date_pub));
+        parent.prepend(ts_message_shared_file(item.image, item.user_from.user.username, item.file_up, item.date_pub));
     }
 };

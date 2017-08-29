@@ -30,8 +30,8 @@ class Command(BaseCommand):
 
         if not addPort:
             self.addr = '0.0.0.0'
-            self.port = environ['PORT']
-            # self.port = SOCKETIO_PORT  # todo: change before push
+            # self.port = environ['PORT']
+            self.port = SOCKETIO_PORT  # todo: change before push
         else:
             m = match(naiveip_re, addPort)
             if m is None:

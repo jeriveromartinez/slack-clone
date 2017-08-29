@@ -86,8 +86,10 @@ def room_subcribe_user(request, roomname, username):
     profile = Profile.objects.filter(user__username=username)[0]
     room.users.add(profile)
     room.save()
-
-    return Response({"result": "ok"})
+    if room is not None:
+        return Response({'slug': room.slug, 'name': room.name})
+    else:
+        return Response({"result": "ok"})
 
 
 @api_view(['GET'])  # TODO: Agregar a url

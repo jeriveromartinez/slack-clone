@@ -1,5 +1,5 @@
 from django.conf.urls import url
-
+# change all fucking urls and organized
 urlpatterns = [
     url(r'^(?P<company>[0-9a-zA-Z_-]+)/room/(?P<room_name>[0-9a-zA-Z_-]+)/$', 'rest_service.views.room_by_company',
         name='api-room'),
