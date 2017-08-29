@@ -1,7 +1,7 @@
-##Install
+# Install
 sudo apt-get install libevent-dev python-dev
 
-##heroku deploy
+## heroku deploy
 release: python manage.py migrate auth
 release: python manage.py migrate
 
