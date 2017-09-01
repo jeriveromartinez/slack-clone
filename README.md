@@ -1,3 +1,4 @@
+Example of the operation of the slack site, should only be used as study material, we are not responsible for its misuse.
 # Install
 sudo apt-get install libevent-dev python-dev
 
